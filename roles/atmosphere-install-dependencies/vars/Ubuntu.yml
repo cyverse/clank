@@ -26,6 +26,7 @@ DEV_PACKAGES:
     - nodejs
     - ruby1.9.1
     - python-pip
+    - python-setuptools
   state: latest
 
 LIB_PACKAGES:

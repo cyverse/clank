@@ -42,3 +42,4 @@
   with_items:
     - virtualenv
     - wheel
+    - setuptools

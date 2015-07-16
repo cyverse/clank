@@ -1,0 +1,30 @@
+- name: gather variables
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+    - "{{ ansible_distribution }}.yml"
+    - "{{ ansible_os_family }}.yml"
+    - "main.yml"
+  tags: 
+    - vars
+    - postgres
+
+- name: PostgreSQL | Ensure PostgreSQL is running
+  service:
+    name: postgresql
+    state: started
+  tags:
+    - postgres
+
+- name: database is created
+  postgresql_db: name={{ DBNAME }} state=present login_user=postgres 
+  sudo: yes
+  sudo_user: postgres
+  tags: 
+    - postgres
+
+- name: ensure user has access to database
+  sudo_user: postgres
+  postgresql_user: db={{ DBNAME }} name={{ DBUSER }} password={{ DBPASSWORD }} priv=ALL
+  tags:
+    - postgres
