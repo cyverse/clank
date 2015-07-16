@@ -12,6 +12,7 @@ DEV_PACKAGES:
     - make
     - postgresql
     - postgresql-contrib
+    - python-psycopg2
     - postgresql-server-dev-all
     - libpq-dev
     - python-dev
