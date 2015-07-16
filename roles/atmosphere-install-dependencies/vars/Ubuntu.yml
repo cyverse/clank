@@ -1,0 +1,43 @@
+INITIAL_PACKAGES:
+  packages:
+    - software-properties-common
+    - python-software-properties
+  state: latest
+
+DEV_PACKAGES:
+  packages:
+    - libffi-dev
+    - python
+    - g++
+    - make
+    - postgresql
+    - postgresql-contrib
+    - postgresql-server-dev-all
+    - libpq-dev
+    - python-dev
+    - libldap2-dev
+    - libsasl2-dev
+    - python-m2crypto
+    - swig
+    - redis-server
+    - libssl-dev
+    - git
+    - nodejs
+    - ruby1.9.1
+  state: latest
+
+LIB_PACKAGES:
+  packages:
+    - libxml2-dev
+    - libxslt1-dev
+    - python-tk
+    - zlib1g-dev
+  state: latest
+
+APACHE_PACKAGES:
+  packages:
+    - apache2 
+    - libapache2-mod-auth-cas 
+    - libapache2-mod-wsgi 
+    - libapache2-mod-macro
+  state: latest

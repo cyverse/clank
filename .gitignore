@@ -57,3 +57,5 @@ target/
 *~
 \#*\#
 *.swp
+
+ansible.cfg

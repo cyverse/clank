@@ -1,0 +1,38 @@
+# tasks file for atmosphere-install-dependencies
+
+- name: gather os specific variables
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+    - "{{ ansible_distribution }}.yml"
+    - "{{ ansible_os_family }}.yml"
+    - "defaults.yml"
+  tags: vars
+
+- name: install initial packages packages
+  action: >
+    {{ ansible_pkg_mgr }} name={{ item }} state={{ INITIAL_PACKAGES.state }} update_cache=yes
+  with_items: INITIAL_PACKAGES.packages
+  tags: install
+
+## NOTE: OS BRANCH OUT
+- include: Ubuntu.yml
+  when: ansible_distribution  == "Ubuntu" 
+
+- name: install dev packages packages
+  action: >
+    {{ ansible_pkg_mgr }} name={{ item }} state={{ DEV_PACKAGES.state }}
+  with_items: DEV_PACKAGES.packages
+  tags: install
+
+- name: install lib packages packages
+  action: >
+    {{ ansible_pkg_mgr }} name={{ item }} state={{ LIB_PACKAGES.state }}
+  with_items: LIB_PACKAGES.packages
+  tags: install
+
+- name: install apache packages packages
+  action: >
+    {{ ansible_pkg_mgr }} name={{ item }} state={{ APACHE_PACKAGES.state }}
+  with_items: APACHE_PACKAGES.packages
+  tags: install

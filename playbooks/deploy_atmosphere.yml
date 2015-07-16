@@ -1,0 +1,5 @@
+---
+- name: Playbook to install and configure atmosphere
+  hosts: all
+  roles:
+    - atmosphere-install-dependencies

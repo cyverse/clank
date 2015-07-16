@@ -1,0 +1,10 @@
+# Add apt repositories
+
+- name: add node repository
+  apt_repository: repo='ppa:chris-lea/node.js'
+
+- name: add redis repository
+  apt_repository: repo='ppa:rwky/redis'
+
+- name: update cache as a separate step
+  apt: update_cache=yes
