@@ -36,3 +36,9 @@
     {{ ansible_pkg_mgr }} name={{ item }} state={{ APACHE_PACKAGES.state }}
   with_items: APACHE_PACKAGES.packages
   tags: install
+
+- name: pip install python packages
+  pip: name={{ item }}
+  with_items:
+    - virtualenv
+    - wheel
