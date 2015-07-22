@@ -1,9 +1,5 @@
-#- name: create virtualenv
-#  pip: name=bottle virtualenv={{ VIRTUAL_ENV_ATMOSPHERE  }} virtualenv_command=virtualenv-2.7
-#  tags: atmo_virtual_env
-
 - name: create directory
-  command: mkdir -p {{ VIRTUAL_ENV_DIR }}
+  command: mkdir -p "{{ VIRTUAL_ENV_DIR }}"
 
 - name: Manually create the initial virtualenv
-  command: virtualenv {{ VIRTUAL_ENV_ATMOSPHERE  }} creates={{ VIRTUAL_ENV_ATMOSPHERE  }} virtualenv_command=virtualenv-2.7
+  command: virtualenv {{ VIRTUAL_ENV_ATMOSPHERE  }} creates="{{ VIRTUAL_ENV_ATMOSPHERE }}"
