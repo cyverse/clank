@@ -29,6 +29,26 @@
   tags:
     - postgres
 
+- name: add atmosphere user connect privileges
+  sudo_user: postgres
+  postgresql_user: db={{ DBNAME }} name={{ DBUSER }} role_attr_flags=CREATEDB,NOSUPERUSER,CREATEROLE
+  tags:
+    - postgres
+
+- name: remove public connect privileges
+  sudo_user: postgres
+  command: psql -c "REVOKE connect ON DATABASE {{ DBNAME }} FROM PUBLIC;"
+  tags:
+    - postgres
+
+- name: add atmo user connect privileges
+  sudo_user: postgres
+  command: psql -c "GRANT connect ON DATABASE {{ DBNAME }} TO {{ DBUSER }};"
+  tags:
+    - postgres
+
+
+
 - name: update postgres db configuration
   template: src=pg_hba.conf.j2 dest=/etc/postgresql/{{ DB_VERSION }}/main/pg_hba.conf
   notify:
