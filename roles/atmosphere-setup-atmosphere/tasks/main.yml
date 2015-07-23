@@ -1,0 +1,5 @@
+- name: pip install requirements
+  pip: requirements={{ ATMOSPHERE_LOCATION  }}/requirements.txt virtualenv={{ VIRTUAL_ENV_ATMOSPHERE }}
+
+- name: wheel install requirements
+  command: "{{ VIRTUAL_ENV_ATMOSPHERE }}/bin/wheel install-scripts celery"

@@ -6,3 +6,4 @@
     - atmosphere-setup-postgres
     - atmosphere-setup-virtualenv
     - atmosphere-clone-repo
+    - atmosphere-setup-atmosphere
