@@ -28,3 +28,8 @@
   postgresql_user: db={{ DBNAME }} name={{ DBUSER }} password={{ DBPASSWORD }} priv=ALL
   tags:
     - postgres
+
+- name: update postgres db configuration
+  template: src=pg_hba.conf.j2 dest=/etc/postgresql/{{ DB_VERSION }}/main/pg_hba.conf
+  notify:
+    - restart postgresql

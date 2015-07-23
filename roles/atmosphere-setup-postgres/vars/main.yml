@@ -1,3 +1,4 @@
 DBNAME: atmo_prod
 DBUSER: atmo_app
 DBPASSWORD: atmosphere
+DB_VERSION: 9.3
