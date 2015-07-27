@@ -3,6 +3,7 @@
        dest={{ ATMOSPHERE_LOCATION }}
        clone=no
        update=yes
+       force=yes
        version="master"
   when: ATMOSPHERE_BRANCH |length == 0
 
@@ -11,5 +12,6 @@
        dest={{ ATMOSPHERE_LOCATION }}
        clone=no
        update=yes
+       force=yes
        version={{ ATMOSPHERE_BRANCH | default("master") }}
   when: ATMOSPHERE_BRANCH |length > 0
