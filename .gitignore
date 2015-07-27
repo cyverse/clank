@@ -59,3 +59,5 @@ target/
 *.swp
 
 ansible.cfg
+#Keep secrets from getting commited
+vars/*
