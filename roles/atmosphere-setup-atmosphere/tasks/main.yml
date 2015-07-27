@@ -30,3 +30,6 @@
 
 - name: touch atmosphere_status.log
   command: touch {{ ATMOSPHERE_LOCATION }}/logs/atmosphere_status.log
+
+- name: add webserver user for user and group permissions
+  file: path={{ ATMOSPHERE_LOCATION }} owner={{ WEBSERVER_USER }} group={{ WEBSERVER_USER }} recurse=yes
