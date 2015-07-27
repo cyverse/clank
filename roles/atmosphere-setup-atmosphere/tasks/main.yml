@@ -1,5 +1,11 @@
 - name: pip install requirements
-  pip: requirements={{ ATMOSPHERE_LOCATION  }}/requirements.txt virtualenv={{ VIRTUAL_ENV_ATMOSPHERE }}
+  pip: requirements={{ ATMOSPHERE_LOCATION }}/requirements.txt virtualenv={{ VIRTUAL_ENV_ATMOSPHERE }}
 
 - name: wheel install requirements
   command: "{{ VIRTUAL_ENV_ATMOSPHERE }}/bin/wheel install-scripts celery"
+
+- name: local.py template
+  template: src=local.py.j2 dest={{ ATMOSPHERE_LOCATION }}/atmosphere/settings/local.py
+
+- name: settings.py template
+  template: src=settings.py.j2 dest={{ ATMOSPHERE_LOCATION }}/atmosphere/settings/settings.py
