@@ -1,0 +1,8 @@
+SSL_LOCATION: /etc/ssl/
+
+SSL_CERTIFICATE: ""
+BUNDLE_CERT: ""
+SSL_KEY: ""
+
+OPENSSL_SELF_SIGNED:
+  - { name: 'foobar.org', country: 'US', state: 'Arizona', city: 'Tucson', organization: 'Foo Bar', unit: '', email: 'foo@bar.com', days: 3650 }
