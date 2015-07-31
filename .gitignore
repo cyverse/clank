@@ -61,3 +61,4 @@ target/
 ansible.cfg
 #Keep secrets from getting commited
 vars/*
+variables.yml
