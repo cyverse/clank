@@ -8,4 +8,4 @@
     - atmosphere-clone-repo
     - atmosphere-setup-atmosphere
     - atmosphere-setup-ssl
-    - atmosphere-setup-webserver
+    - webserver-setup
