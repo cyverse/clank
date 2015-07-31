@@ -1,0 +1,10 @@
+APACHE_MODULES:
+  modules:
+    - rewrite
+    - ssl 
+    - proxy 
+    - proxy_http 
+    - auth_cas 
+    - wsgi 
+    - macro 
+    - headers
