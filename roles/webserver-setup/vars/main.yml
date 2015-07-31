@@ -1,4 +1,4 @@
-WEBSERVER: apache #choose apache or nginx
+WEBSERVER: nginx #choose apache or nginx
 
 ATMO_ONLY: FALSE  #set to TRUE when you only want to install atmosphere
 TROPO_ONLY: FALSE #set to TRUE when you only want to install troposphere
