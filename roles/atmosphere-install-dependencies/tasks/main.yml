@@ -31,6 +31,9 @@
   with_items: LIB_PACKAGES.packages
   tags: install
 
+- name: Install yuglify node.js package globally.
+  npm: name=yuglify global=yes
+
 - name: install apache packages packages
   action: >
     {{ ansible_pkg_mgr }} name={{ item }} state={{ APACHE_PACKAGES.state }}
