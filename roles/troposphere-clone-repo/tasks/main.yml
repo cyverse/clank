@@ -1,0 +1,14 @@
+- name: create troposphere directory
+  command: mkdir -p "{{ TROPOSPHERE_DIR }}"
+
+- name: check to see if repo exists
+  stat: path={{ TROPOSPHERE_LOCATION }}
+  register: p
+
+# include clone.yml when the repo does not exist
+- include: clone.yml
+  when: p.stat.exists == false
+
+# include pull.yml when the repo does exists
+- include: pull.yml
+  when: p.stat.exists
