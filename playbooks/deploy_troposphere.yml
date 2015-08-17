@@ -3,6 +3,7 @@
   hosts: all
   roles:
     - install-dependencies
+    - troposphere-setup-virtualenv
     #- atmosphere-setup-postgres
     #- troposphere-setup-virtualenv
     #- atmosphere-clone-repo
