@@ -1,0 +1,11 @@
+---
+- name: Playbook to install and configure troposphere
+  hosts: all
+  roles:
+    - install-dependencies
+    #- atmosphere-setup-postgres
+    #- troposphere-setup-virtualenv
+    #- atmosphere-clone-repo
+    #- atmosphere-setup-atmosphere
+    #- atmosphere-setup-ssl
+    #- webserver-setup
