@@ -1,9 +1,10 @@
 - name: pip install requirements
   pip: requirements={{ TROPOSPHERE_LOCATION }}/requirements.txt virtualenv={{ VIRTUAL_ENV_TROPOSPHERE }}
 
-- name: move over local.py template
-  template: src=/tmp/troposphere/troposphere/settings/local.py.j2 dest={{ TROPOSPHERE_LOCATION }}/troposphere/settings/local.py
-
 - name: create troposphere log directory
   command: mkdir -p {{ TROPOSPHERE_LOCATION }}/logs
+
+#### TODO move other troposphere templates when Evan is finished creating them
+- name: move over local.py template
+  template: src=/tmp/troposphere/troposphere/settings/local.py.j2 dest={{ TROPOSPHERE_LOCATION }}/troposphere/settings/local.py
 
