@@ -6,6 +6,6 @@
     - troposphere-setup-virtualenv
     #- atmosphere-setup-postgres
     - troposphere-clone-repo
-    #- atmosphere-setup-atmosphere
+    - troposphere-setup-troposphere
     #- atmosphere-setup-ssl
     #- webserver-setup

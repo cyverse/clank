@@ -15,3 +15,23 @@
        force=yes
        version={{ TROPOSPHERE_BRANCH | default("master") }}
   when: TROPOSPHERE_BRANCH |length > 0
+
+- name: pull local troposphere git repo with branched not defined
+  local_action: >
+       git repo=https://github.com/iPlantCollaborativeOpenSource/troposphere.git
+       dest=/tmp/
+       clone=yes
+       update=yes
+       force=yes
+       version="master"
+  when: TROPOSPHERE_BRANCH |length == 0
+
+- name: pull local troposphere git repo with branched defined
+  local_action: >
+       git repo=https://github.com/iPlantCollaborativeOpenSource/troposphere.git
+       dest=/tmp/
+       clone=yes
+       update=yes
+       force=yes
+       version={{ TROPOSPHERE_BRANCH | default("master") }}
+  when: TROPOSPHERE_BRANCH |length > 0

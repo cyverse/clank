@@ -1,0 +1,130 @@
+"""
+Settings specific to the local deploy.
+
+"""
+
+import os
+import sys
+
+globals().update(vars(sys.modules['atmosphere.settings']))
+
+#Method to generate SECRET_KEY and write it to file..
+def generate_secret_key(secret_key_path):
+    from django.utils.crypto import get_random_string
+    from datetime import datetime
+    chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
+    secret_value = get_random_string(50, chars)
+    comment_block = "\"\"\"\nThis file was Auto-Generated on %s\n\"\"\"\n" % datetime.now()
+    with open(secret_key_path,"w") as key_file:
+        key_file.write(comment_block)
+        key_file.write("SECRET_KEY=\"%s\"\n" % secret_value)
+
+#Generate your SECRET_KEY if it doesn't exist yet.
+try:
+    from secret_key import SECRET_KEY
+except ImportError:
+    import ipdb;ipdb.set_trace()
+    SETTINGS_DIR=os.path.abspath(os.path.dirname(__file__))
+    generate_secret_key(os.path.join(SETTINGS_DIR, 'secret_key.py'))
+    try:
+        from secret_key import SECRET_KEY
+    except ImportError:
+        raise Exception("local.py could not generate a SECRET_KEY in secret_key.py")
+
+
+#Debug Mode
+DEBUG = True
+ENFORCING = False
+TEMPLATE_DEBUG = DEBUG
+
+# Django-Celery Development settings
+#CELERY_ALWAYS_EAGER = True
+#CELERY_EAGER_PROPAGATES_EXCEPTIONS = True  # Issue #75
+
+## logging
+LOGGING_LEVEL = logging.INFO
+DEP_LOGGING_LEVEL = logging.INFO # Logging level for dependencies.
+
+PROJECT_ROOT = os.path.abspath(
+    os.path.join(
+        os.path.dirname(__file__), '../..'))
+
+TEST_RUNNER='atmosphere.test_runner.CeleryDiscoverTestSuiteRunner'
+TEST_RUNNER_USER='estevetest03'
+TEST_RUNNER_PASS='testtest'
+SERVER_URL = 'https://{{ SERVER_URL }}'
+DEPLOY_SERVER_URL = 'http://{{ SERVER_URL }}'
+
+DATABASES = {
+    'default': {
+        'NAME': '{{ DBNAME }}', # Up to date as of 03/31/2015 - SG
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'USER': '{{ DBUSER }}',
+        'PASSWORD': '{{ DBPASSWORD }}',
+        'HOST': 'localhost',
+        'PORT': '5432'
+    },
+}
+# Must reassign anything using SERVER_URL.
+
+# Prevents warnings
+ALLOWED_HOSTS = [SERVER_URL.replace('https://','')]
+
+#Atmosphere Keypair/Deployment Configs
+ATMOSPHERE_PRIVATE_KEYFILE=os.path.join(PROJECT_ROOT, "extras/ssh/id_rsa")
+ATMOSPHERE_KEYPAIR_FILE=os.path.join(PROJECT_ROOT, "extras/ssh/id_rsa.pub")
+ATMOSPHERE_KEYPAIR_NAME="atmosphere"
+
+# Atmosphere Ansible Deploy
+ANSIBLE_ROOT = "{{ ANSIBLE_ROOT }}"
+# The root directory for the ansible deploy project.
+# If this is emptry str then ansible deploys will not
+# run and will warn that ansible is no configured.
+ANSIBLE_CONFIG_FILE = os.path.join(ANSIBLE_ROOT,
+                                   "ansible/ansible.cfg")
+ANSIBLE_HOST_FILE = os.path.join(ANSIBLE_ROOT,
+                                 "ansible/hosts")
+ANSIBLE_PLAYBOOKS_DIR = os.path.join(ANSIBLE_ROOT,
+                                     "ansible/playbooks")
+ANSIBLE_ROLES_PATH = os.path.join(ANSIBLE_ROOT,
+                                  "ansible/roles")
+sys.path.insert(2, ANSIBLE_ROOT)
+# Atmosphere App Configs
+INSTANCE_SERVICE_URL = SERVER_URL + REDIRECT_URL + '/api/v1/notification/'
+API_SERVER_URL = SERVER_URL + REDIRECT_URL + '/resources/v1'
+AUTH_SERVER_URL = SERVER_URL + REDIRECT_URL + '/auth'
+
+# CASLIB
+CAS_SERVER = 'https://{{ CAS_SERVER }}'
+CAS_AUTH_PREFIX = '{{ CAS_AUTH_PREFIX }}'
+OAUTH_CLIENT_KEY = "{{ OAUTH_CLIENT_KEY }}"
+OAUTH_CLIENT_SECRET = "{{ OAUTH_CLIENT_SECRET }}"
+OAUTH_CLIENT_CALLBACK = SERVER_URL + "/oauth2.0/callbackAuthorize"
+SELF_SIGNED_CERT = True
+
+SERVICE_URL = SERVER_URL+'/CAS_serviceValidater?sendback='+REDIRECT_URL+'/application/'
+PROXY_URL = SERVER_URL+'/CAS_proxyUrl'
+PROXY_CALLBACK_URL = SERVER_URL+'/CAS_proxyCallback'
+
+
+#caslib.cas_init(CAS_SERVER, SERVICE_URL, PROXY_URL, PROXY_CALLBACK_URL, SELF_SIGNED_CERT)
+
+# New Relic
+NEW_RELIC_ENVIRONMENT = 'staging'
+
+
+# LOGSTASH
+LOGSTASH_HOST = "{{ LOGSTASH_HOST }}"
+LOGSTASH_PORT = {{ LOGSTASH_PORT }}
+
+try:
+    import logstash
+    import threepio
+    has_logstash = True
+except ImportError:
+    has_logstash = False
+
+if has_logstash and LOGSTASH_HOST:
+    fh = logstash.TCPLogstashHandler(LOGSTASH_HOST, LOGSTASH_PORT,
+                                     message_type="atmo-deploy", version=1)
+    threepio.deploy_logger.addHandler(fh)

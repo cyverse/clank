@@ -1,0 +1,37 @@
+VIRTUAL_ENV_DIR: /opt/env
+VIRTUAL_ENV_ATMOSPHERE: "{{ VIRTUAL_ENV_DIR }}/atmo"
+ATMOSPHERE_DIR: /opt/dev
+ATMOSPHERE_LOCATION: "{{ ATMOSPHERE_DIR }}/atmosphere"
+ATMOSPHERE_BRANCH: ""
+
+#PART OF THE LOCAL TEMPLATE VARIABLE
+SERVER_URL: #atmo.hostname.org
+#make sure this is the same as your postgres db role
+DBNAME: #atmo_prod
+DNUSER: #atmo_app
+DBPASSWORD: #atmosphere
+
+#Make sure this matches as the setup ansible roles role
+ANSIBLE_ROOT: #/opt/dev/atmosphere-ansible-bioci
+
+CAS_SERVER: #auth.iplantcollaborative.org
+CAS_AUTH_PREFIX: #/endpoint
+OAUTH_CLIENT_KEY: #some_key
+OAUTH_CLIENT_SECRET: #some_secret
+
+LOGSTASH_HOST: #logstash_host.org
+LOGSTASH_PORT: #5000
+
+#PART OF THE SECRETS TEMPLATE VARIABLE
+ATMOSPHERE_VNC_LICENSE: #ER5DH-2FC3E-ZQJPB-647AS-M458R
+LDAP_SERVER: #ldap://ldap.hostnamehere.org
+LDAP_SERVER_DN: #ou=people,dc=hostnamehere,dc=org  
+
+IRODS_HOST:  #irodshosthere.org 
+IRODS_PORT:  #1234
+IRODS_ZONE:  #arizona 
+IRODS_ADMIN_USER: #some_admin
+IRODS_ADMIN_PASS: #f876b3e2258eqre9304
+LOCAL_STORAGE: #/Storage
+
+WEBSERVER_USER: www-data
