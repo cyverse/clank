@@ -8,3 +8,18 @@
 - name: move over local.py template
   template: src=/tmp/troposphere/troposphere/settings/local.py.j2 dest={{ TROPOSPHERE_LOCATION }}/troposphere/settings/local.py
 
+
+
+
+
+#### TODO the Make file needs to be a template or something to insert variables
+
+#- name: Build troposphere
+#  shell: 'cd {{ TROPOSPHERE_LOCATION }}; {{ item }}'
+#  with_items:
+#    - make
+#    #- npm install
+#    #- npm run build
+
+- name: add webserver user for user and group permissions
+  file: path={{ TROPOSPHERE_LOCATION }} owner={{ WEBSERVER_USER }} group={{ WEBSERVER_USER }} recurse=yes

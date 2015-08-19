@@ -31,7 +31,10 @@
   with_items: LIB_PACKAGES.packages
   tags: install
 
-- name: Install yuglify node.js package globally.
+- name: update node
+  command: npm install npm -g
+
+- name: install yuglify node.js package globally.
   npm: name=yuglify global=yes
 
 - name: install apache packages packages
@@ -46,3 +49,4 @@
     - virtualenv
     - wheel
     - setuptools
+

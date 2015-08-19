@@ -19,7 +19,7 @@
 - name: pull local troposphere git repo with branched not defined
   local_action: >
        git repo=https://github.com/iPlantCollaborativeOpenSource/troposphere.git
-       dest=/tmp/
+       dest=/tmp/troposphere
        clone=yes
        update=yes
        force=yes
@@ -29,7 +29,7 @@
 - name: pull local troposphere git repo with branched defined
   local_action: >
        git repo=https://github.com/iPlantCollaborativeOpenSource/troposphere.git
-       dest=/tmp/
+       dest=/tmp/troposphere
        clone=yes
        update=yes
        force=yes
