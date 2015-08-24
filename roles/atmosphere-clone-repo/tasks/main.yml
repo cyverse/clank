@@ -1,14 +1,21 @@
 - name: create atmosphere directory
   command: mkdir -p "{{ ATMOSPHERE_DIR }}"
+  tags:
+    - ansible-deploy
 
 - name: check to see if repo exists
   stat: path={{ ATMOSPHERE_LOCATION }}
   register: p
+  tags:
+    - ansible-deploy
 
 # include clone.yml when the repo does not exist
 - include: clone.yml
   when: p.stat.exists == false
-
+  tags:
+    - ansible-deploy
 # include pull.yml when the repo does exists
 - include: pull.yml
   when: p.stat.exists
+  tags:
+    - ansible-deploy

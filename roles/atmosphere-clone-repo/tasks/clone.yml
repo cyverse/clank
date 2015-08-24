@@ -1,5 +1,3 @@
-- debug: msg="IN THE CLONE FILE"
-
 - name: ensure atmosphere location
   command: mkdir -p {{ ATMOSPHERE_LOCATION }}
 
@@ -32,3 +30,47 @@
        update=yes
        version={{ ATMOSPHERE_BRANCH | default("master") }}
   when: ATMOSPHERE_BRANCH |length > 0
+
+##### Ansible Roles bioci 
+- name: ensure ansible role location
+  command: mkdir -p {{ ANSIBLE_DEPLOY_LOCATION }}
+
+- name: clone ansible deploy git repo
+  git: repo=https://github.com/iPlantCollaborativeOpenSource/atmosphere-ansible-bioci.git
+       dest={{ ANSIBLE_DEPLOY_LOCATION }}
+       clone=yes
+       update=yes
+  when: ATMOSPHERE_BRANCH |length == 0  
+  tags:
+    - ansible-deploy
+
+- name: clone ansible deploy git repo with branched defined
+  git: repo=https://github.com/iPlantCollaborativeOpenSource/atmosphere-ansible-bioci.git
+       dest={{ ANSIBLE_DEPLOY_LOCATION }}
+       clone=yes
+       update=yes
+       version={{ ATMOSPHERE_BRANCH | default("master") }}
+  when: ATMOSPHERE_BRANCH |length > 0
+  tags:
+    - ansible-deploy
+
+- name: clone local ansible deploy git repo
+  local_action: >
+       git repo=https://github.com/iPlantCollaborativeOpenSource/atmosphere-ansible-bioci.git
+       dest=/tmp/atmosphere-ansible-bioci
+       clone=yes
+       update=yes
+  when: ATMOSPHERE_BRANCH |length == 0  
+  tags:
+    - ansible-deploy
+
+- name: clone local ansible deploy git repo with branched defined
+  local_action: >
+       git repo=https://github.com/iPlantCollaborativeOpenSource/atmosphere-ansible-bioci.git
+       dest=/tmp/atmosphere-ansible-bioci
+       clone=yes
+       update=yes
+       version={{ ATMOSPHERE_BRANCH | default("master") }}
+  when: ATMOSPHERE_BRANCH |length > 0
+  tags:
+    - ansible-deploy
