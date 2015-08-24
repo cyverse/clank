@@ -17,3 +17,18 @@
        update=yes
        version={{ ATMOSPHERE_BRANCH | default("master") }}
   when: ATMOSPHERE_BRANCH |length > 0
+
+- name: clone atmosphere git repo
+  git: repo=https://github.com/iPlantCollaborativeOpenSource/atmosphere.git
+       dest=/tmp/atmosphere
+       clone=yes
+       update=yes
+  when: ATMOSPHERE_BRANCH |length == 0  
+
+- name: clone atmosphere git repo with branched defined
+  git: repo=https://github.com/iPlantCollaborativeOpenSource/atmosphere.git
+       dest=/tmp/atmosphere
+       clone=yes
+       update=yes
+       version={{ ATMOSPHERE_BRANCH | default("master") }}
+  when: ATMOSPHERE_BRANCH |length > 0

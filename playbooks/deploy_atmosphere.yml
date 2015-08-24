@@ -8,4 +8,5 @@
     - atmosphere-clone-repo
     - atmosphere-setup-atmosphere
     - atmosphere-setup-ssl
+    - setup-celery
     #- webserver-setup

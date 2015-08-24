@@ -1,0 +1,30 @@
+- name: gather os specific variables
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution }}-{{ ansible_distribution_major_version}}.yml"
+    - "{{ ansible_distribution }}.yml"
+    - "{{ ansible_os_family }}.yml"
+    - "defaults.yml"
+  tags: vars
+
+- name: copy over celery ufw file
+  copy: src=celery dest=/etc/ufw/applications.d/
+
+- name: allow celery firewall access 
+  ufw: name=celery policy=allow
+
+- name: link celeryd init.d script
+  file: src={{ ATMOSPHERE_LOCATION }}/extras/init.d/{{ CELERYD }} dest={{ INIT_LOCATION }}/celeryd state=link 
+
+- name: link celerybeat init.d script
+  file: src={{ ATMOSPHERE_LOCATION }}/extras/init.d/{{ CELERYBEAT }} dest={{ INIT_LOCATION }}/celerybeat state=link 
+
+- name: send over celeryd.default.dist template as celeryd.default
+  template: src=/tmp/atmosphere/extras/init.d/celeryd.default.dist.j2 dest={{ ATMOSPHERE_LOCATION }}/extras/init.d/celeryd.default
+
+- name: link default celeryd.defult.dist to /etc/default
+  file: src={{ ATMOSPHERE_LOCATION }}/extras/init.d/celeryd.default dest=/etc/default/celeryd state=link
+
+##### TODO Move this to the webserver role
+- name: link atmosphere init.d script
+  file: src={{ ATMOSPHERE_LOCATION }}/extras/init.d/atmosphere dest={{ INIT_LOCATION }}/atmosphere state=link

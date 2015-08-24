@@ -1,0 +1,4 @@
+[Celery]
+title=Remote Celery Communications
+description=Enables remote celery connections
+ports=6379/tcp
