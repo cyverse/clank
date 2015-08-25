@@ -14,7 +14,7 @@
   template: src=wsgi.py.j2 dest={{ ATMOSPHERE_LOCATION }}/atmosphere/wsgi.py force=yes
 
 - name: move over ansible.cfg template
-  template: src=/tmp/atmosphere-ansible-bioci/ansible/ansible.cfg.j2 dest={{ ANSIBLE_DEPLOY_LOCATION }}/atmosphere-ansible-bioci/ansible/ansible.cfg force=yes
+  template: src=/tmp/atmosphere-ansible-bioci/ansible/ansible.cfg.j2 dest={{ ANSIBLE_DEPLOY_LOCATION }}/ansible/ansible.cfg force=yes
   tags:
     - ansible-deploy
 
