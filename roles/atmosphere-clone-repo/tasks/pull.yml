@@ -39,7 +39,7 @@
 - name: pull atmosphere ansible git repo with branched not defined
   git: repo=https://github.com/iPlantCollaborativeOpenSource/atmosphere-ansible-bioci.git  
        dest={{ ANSIBLE_DEPLOY_LOCATION }}
-       clone=no
+       clone=yes
        update=yes
        force=yes
        version="master"
@@ -50,7 +50,7 @@
 - name: pull atmosphere ansible git repo with branched defined
   git: repo=https://github.com/iPlantCollaborativeOpenSource/atmosphere-ansible-bioci.git  
        dest={{ ANSIBLE_DEPLOY_LOCATION }}
-       clone=no
+       clone=yes
        update=yes
        force=yes
        version={{ ATMOSPHERE_BRANCH | default("master") }}
