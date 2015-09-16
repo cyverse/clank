@@ -28,6 +28,7 @@ DEV_PACKAGES:
     - ruby1.9.1
     - python-pip
     - python-setuptools
+    - ufw
   state: latest
 
 LIB_PACKAGES:
