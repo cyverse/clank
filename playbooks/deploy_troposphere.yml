@@ -4,7 +4,7 @@
   roles:
     - install-dependencies
     - troposphere-setup-virtualenv
-    #- atmosphere-setup-postgres
+    - setup-postgres
     - troposphere-clone-repo
     - troposphere-setup-troposphere
     #- atmosphere-setup-ssl

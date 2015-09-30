@@ -3,7 +3,7 @@
   hosts: all
   roles:
     - install-dependencies
-    - atmosphere-setup-postgres
+    - setup-postgres
     - atmosphere-setup-virtualenv
     - atmosphere-clone-repo
     - atmosphere-setup-atmosphere
