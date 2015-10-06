@@ -7,6 +7,6 @@
     - atmosphere-setup-virtualenv
     - atmosphere-clone-repo
     - atmosphere-setup-atmosphere
-    - atmosphere-setup-ssl
+    - setup-ssl
     - setup-celery
     #- webserver-setup

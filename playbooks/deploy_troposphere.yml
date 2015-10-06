@@ -7,5 +7,5 @@
     - setup-postgres
     - troposphere-clone-repo
     - troposphere-setup-troposphere
-    #- atmosphere-setup-ssl
+    - setup-ssl
     #- webserver-setup
