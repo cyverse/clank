@@ -1,6 +1,6 @@
 ---
 - name: Playbook to install and configure troposphere
-  hosts: all
+  hosts: atmosphere
   roles:
     - install-dependencies
     - troposphere-setup-virtualenv
