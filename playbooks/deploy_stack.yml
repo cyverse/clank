@@ -11,7 +11,7 @@
     - atmosphere-setup-virtualenv
     - atmosphere-clone-repo
     - atmosphere-setup-atmosphere
-    #- setup-celery
+    - setup-celery
    
     # Troposphere Portion
     #- troposphere-setup-virtualenv
