@@ -1,22 +1,23 @@
 - name: pip install requirements
   pip: requirements={{ ATMOSPHERE_LOCATION }}/requirements.txt virtualenv={{ VIRTUAL_ENV_ATMOSPHERE }}
 
+- name: pip install dev requirements when jenkins variable set
+  pip: requirements={{ ATMOSPHERE_LOCATION }}/dev_requirements.txt virtualenv={{ VIRTUAL_ENV_ATMOSPHERE }}
+  when: JENKINS
+
 - name: wheel install requirements
   command: "{{ VIRTUAL_ENV_ATMOSPHERE }}/bin/wheel install-scripts celery"
 
-- name: move over local.py template
-  template: src=local.py.j2 dest={{ ATMOSPHERE_LOCATION }}/atmosphere/settings/local.py
-
-- name: move over secrets.py template
-  template: src=secrets.py.j2 dest={{ ATMOSPHERE_LOCATION }}/atmosphere/settings/secrets.py
-
-- name: move over wsgi.py template
-  template: src=wsgi.py.j2 dest={{ ATMOSPHERE_LOCATION }}/atmosphere/wsgi.py force=yes
-
-- name: move over ansible.cfg template
-  template: src=/tmp/atmosphere-ansible-bioci/ansible/ansible.cfg.j2 dest={{ ANSIBLE_DEPLOY_LOCATION }}/ansible/ansible.cfg force=yes
+- name: insert ansible role path into config file
+  lineinfile: dest={{ ANSIBLE_DEPLOY_LOCATION }}/ansible/ansible.cfg regexp="roles_path =" line="roles_path = {{ ANSIBLE_DEPLOY_LOCATION }}/atmosphere_ansible_bioci/ansible/roles"
   tags:
     - ansible-deploy
+
+- name: move over precompleted variables.ini
+  copy: src=atmosphere_variables.ini dest={{ ATMOSPHERE_LOCATION }}/variables.ini
+
+- name: run generate scripts for atmosphere
+  shell: "{{ VIRTUAL_ENV_ATMOSPHERE }}/bin/python {{ ATMOSPHERE_LOCATION }}/scripts/generate_configs.py"
 
 - name: make ssh file directory
   command: mkdir -p {{ ATMOSPHERE_LOCATION }}/extras/ssh/
