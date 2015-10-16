@@ -14,9 +14,9 @@
     - setup-celery
    
     # Troposphere Portion
-    #- troposphere-setup-virtualenv
-    #- troposphere-clone-repo
-    #- troposphere-setup-troposphere
+    - troposphere-setup-virtualenv
+    - troposphere-clone-repo
+    - troposphere-setup-troposphere
     
     # Webserver portion
     #- webserver-setup

@@ -4,13 +4,11 @@
 - name: create troposphere log directory
   command: mkdir -p {{ TROPOSPHERE_LOCATION }}/logs
 
-#### TODO move other troposphere templates when Evan is finished creating them
-- name: move over local.py template
-  template: src=/tmp/troposphere/troposphere/settings/local.py.j2 dest={{ TROPOSPHERE_LOCATION }}/troposphere/settings/local.py
+- name: move over precompleted variables.ini
+  copy: src=troposphere_variables.ini dest={{ TROPOSPHERE_LOCATION }}/variables.ini
 
-
-
-
+- name: run generate scripts for troposphere
+  shell: "{{ VIRTUAL_ENV_ATMOSPHERE }}/bin/python {{ TROPOSPHERE_LOCATION }}/scripts/generate_configs.py" 
 
 #### TODO the Make file needs to be a template or something to insert variables
 
