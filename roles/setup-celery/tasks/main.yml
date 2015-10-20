@@ -27,4 +27,4 @@
 
 ##### TODO Move this to the webserver role
 - name: link atmosphere init.d script
-  file: src={{ ATMOSPHERE_LOCATION }}/extras/init.d/atmosphere dest={{ INIT_LOCATION }}/atmosphere state=link
+  file: src={{ ATMOSPHERE_LOCATION }}/extras/init.d/atmosphere.uwsgi+nginx dest={{ INIT_LOCATION }}/atmosphere state=link
