@@ -13,15 +13,6 @@
 - name: add webserver user for user and group permissions
   file: path={{ TROPOSPHERE_LOCATION }} owner={{ WEBSERVER_USER }} group={{ WEBSERVER_USER }} recurse=yes
 
-- name: Build troposphere
-  shell: '{{ item }}'
-  args:
-    chdir: "{{ TROPOSPHERE_LOCATION }}"
-  with_items:
-    - make
-#    - npm install
-#    - npm run build
-
 # nginx portion
 - name: create apps-enabled directory
   command: mkdir -p {{ UWISGI_APPS_ENABLED_PATH }}
