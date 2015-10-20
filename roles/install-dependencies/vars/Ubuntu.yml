@@ -46,3 +46,8 @@ APACHE_PACKAGES:
     - libapache2-mod-wsgi 
     - libapache2-mod-macro
   state: latest
+
+NGINX_PACKAGES:
+  packages:
+    - nginx
+  state: latest

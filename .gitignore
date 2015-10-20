@@ -64,3 +64,4 @@ vars/*
 variables.yml
 roles/atmosphere-setup-atmosphere/files/atmosphere_variables.ini
 roles/troposphere-setup-troposphere/files/troposphere_variables.ini
+roles/setup-ssl/files/*

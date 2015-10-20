@@ -10,14 +10,28 @@
 - name: run generate scripts for troposphere
   shell: "{{ VIRTUAL_ENV_ATMOSPHERE }}/bin/python {{ TROPOSPHERE_LOCATION }}/scripts/generate_configs.py" 
 
-#### TODO the Make file needs to be a template or something to insert variables
-
-#- name: Build troposphere
-#  shell: 'cd {{ TROPOSPHERE_LOCATION }}; {{ item }}'
-#  with_items:
-#    - make
-#    #- npm install
-#    #- npm run build
-
 - name: add webserver user for user and group permissions
   file: path={{ TROPOSPHERE_LOCATION }} owner={{ WEBSERVER_USER }} group={{ WEBSERVER_USER }} recurse=yes
+
+- name: Build troposphere
+  shell: '{{ item }}'
+  args:
+    chdir: "{{ TROPOSPHERE_LOCATION }}"
+  with_items:
+    - make
+#    - npm install
+#    - npm run build
+
+# nginx portion
+- name: create apps-enabled directory
+  command: mkdir -p {{ UWISGI_APPS_ENABLED_PATH }}
+
+- name: link troposphere uwisgi conf file
+  file: src={{ TROPOSPHERE_LOCATION }}/extras/troposphere.uwsgi.ini dest={{ UWISGI_APPS_ENABLED_PATH }}/troposphere.ini state=link
+
+- name: make uwisgi and nginx stuff
+  shell: '{{ item }}'
+  args:
+    chdir: "{{ TROPOSPHERE_LOCATION }}/extras/nginx"
+  with_items:
+    - make  

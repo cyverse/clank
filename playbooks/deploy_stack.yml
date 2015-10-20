@@ -17,6 +17,3 @@
     - troposphere-setup-virtualenv
     - troposphere-clone-repo
     - troposphere-setup-troposphere
-    
-    # Webserver portion
-    #- webserver-setup

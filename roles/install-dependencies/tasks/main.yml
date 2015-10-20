@@ -37,10 +37,10 @@
 - name: install yuglify node.js package globally.
   npm: name=yuglify global=yes
 
-- name: install apache packages packages
+- name: install nginx packages packages
   action: >
-    {{ ansible_pkg_mgr }} name={{ item }} state={{ APACHE_PACKAGES.state }}
-  with_items: APACHE_PACKAGES.packages
+    {{ ansible_pkg_mgr }} name={{ item }} state={{ NGINX_PACKAGES.state }}
+  with_items: NGINX_PACKAGES.packages
   tags: install
 
 - name: pip install python packages
