@@ -36,4 +36,4 @@ LOCAL_STORAGE: #/Storage
 
 WEBSERVER_USER: www-data
 
-JENKINS: false
+JENKINS: true
