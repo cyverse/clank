@@ -49,5 +49,7 @@ APACHE_PACKAGES:
 
 NGINX_PACKAGES:
   packages:
+    - uwsgi
+    - uwsgi-plugin-python
     - nginx
   state: latest
