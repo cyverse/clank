@@ -38,7 +38,7 @@
   command: mkdir -p {{ ATMOSPHERE_LOCATION }}/logs
 
 #### DB migrations
-- name: run syncdb
+- name: atmosphere manage syncdb
   django_manage: >
       command=syncdb
       app_path={{ ATMOSPHERE_LOCATION }}
@@ -46,7 +46,7 @@
       pythonpath={{ ATMOSPHERE_LOCATION }}
       virtualenv={{ VIRTUAL_ENV_ATMOSPHERE }}
 
-- name: run migrate
+- name: atmosphere manage migrate
   django_manage: >
       command=migrate
       app_path={{ ATMOSPHERE_LOCATION }}
@@ -54,7 +54,7 @@
       pythonpath={{ ATMOSPHERE_LOCATION }}
       virtualenv={{ VIRTUAL_ENV_ATMOSPHERE }}
 
-- name: load provider fixtures
+- name: atmosphere manage load provider fixtures
   django_manage: >
       command=loaddata
       app_path={{ ATMOSPHERE_LOCATION }}
@@ -63,7 +63,7 @@
       pythonpath={{ ATMOSPHERE_LOCATION }}
       virtualenv={{ VIRTUAL_ENV_ATMOSPHERE }}
 
-- name: load quota fixtures
+- name: atmosphere manage load quota fixtures
   django_manage: >
       command=loaddata
       app_path={{ ATMOSPHERE_LOCATION }}
@@ -72,7 +72,7 @@
       pythonpath={{ ATMOSPHERE_LOCATION }}
       virtualenv={{ VIRTUAL_ENV_ATMOSPHERE }}
 
-- name: created atmosphere cache requests table
+- name: atmosphere manage created atmosphere cache requests table
   django_manage: >
       command=createcachetable
       cache_table="atmosphere_cache_requests"
@@ -81,7 +81,7 @@
       pythonpath={{ ATMOSPHERE_LOCATION }}
       virtualenv={{ VIRTUAL_ENV_ATMOSPHERE }}
 
-- name: collectstatic
+- name: atmosphere manage collectstatic
   django_manage: >
       command=collectstatic
       app_path={{ ATMOSPHERE_LOCATION }}

@@ -2,7 +2,7 @@ SSL_LOCATION: /etc/ssl/
 
 SSL_CERTIFICATE: "iplantc.org.crt"
 BUNDLE_CERT: "gd_bundle.crt"
-SSL_KEY: "iplantc.key"
+SSL_KEY: "iplantc.org.key"
 
 OPENSSL_SELF_SIGNED:
   - { name: 'foobar.org', country: 'US', state: 'Arizona', city: 'Tucson', organization: 'Foo Bar', unit: '', email: 'foo@bar.com', days: 3650 }
