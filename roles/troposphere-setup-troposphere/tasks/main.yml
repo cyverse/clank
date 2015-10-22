@@ -4,6 +4,9 @@
 - name: create troposphere log directory
   command: mkdir -p {{ TROPOSPHERE_LOCATION }}/logs
 
+- name: create troposphere static directory
+  command: mkdir -p {{ TROPOSPHERE_LOCATION }}/troposphere/tropo-static
+
 - name: move over precompleted variables.ini
   copy: src=troposphere_variables.ini dest={{ TROPOSPHERE_LOCATION }}/variables.ini
 
@@ -43,3 +46,11 @@
     chdir: "{{ TROPOSPHERE_LOCATION }}/extras/nginx"
   with_items:
     - make  
+
+- name: run npm install
+  npm: path={{ TROPOSPHERE_LOCATION }} state=latest
+
+- name: run npm build
+  args:
+    chdir: "{{ TROPOSPHERE_LOCATION }}"
+  shell: npm run build
