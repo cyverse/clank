@@ -84,5 +84,11 @@
   tags:
     - postgres
 
+- name: copy over sql script for postgresql to run
+  copy: src=test.sql dest={{ POSTGRES_SQL_INSTALL_DIRECTORY }}
+  when: LOAD_DATABASE
 
-
+- name: run sql script for postgresql script
+  sudo_user: postgres
+  command: psql -f {{ POSTGRES_SQL_INSTALL_DIRECTORY }}/test.sql
+  when: LOAD_DATABASE
