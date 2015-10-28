@@ -9,7 +9,7 @@
   command: "{{ VIRTUAL_ENV_ATMOSPHERE }}/bin/wheel install-scripts celery"
 
 - name: insert ansible role path into config file
-  lineinfile: dest={{ ANSIBLE_DEPLOY_LOCATION }}/ansible/ansible.cfg regexp="roles_path =" line="roles_path = {{ ANSIBLE_DEPLOY_LOCATION }}/atmosphere_ansible_bioci/ansible/roles"
+  lineinfile: dest={{ ANSIBLE_DEPLOY_LOCATION }}/ansible/ansible.cfg regexp="roles_path =" line="roles_path = {{ ANSIBLE_DEPLOY_LOCATION }}/atmosphere-ansible/ansible/roles"
   tags:
     - ansible-deploy
 
