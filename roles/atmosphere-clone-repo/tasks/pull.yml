@@ -1,5 +1,5 @@
 - name: pull atmosphere git repo with branched not defined
-  git: repo=https://github.com/iPlantCollaborativeOpenSource/atmosphere.git
+  git: repo={{ ATMOSPHERE_REPO }}
        dest={{ ATMOSPHERE_LOCATION }}
        clone=no
        update=yes
@@ -8,7 +8,7 @@
   when: ATMOSPHERE_BRANCH |length == 0
 
 - name: pull atmosphere git repo with branched defined
-  git: repo=https://github.com/iPlantCollaborativeOpenSource/atmosphere.git
+  git: repo={{ ATMOSPHERE_REPO }}
        dest={{ ATMOSPHERE_LOCATION }}
        clone=no
        update=yes
@@ -16,40 +16,9 @@
        version={{ ATMOSPHERE_BRANCH | default("master") }}
   when: ATMOSPHERE_BRANCH |length > 0
 
-- name: pull locally atmosphere git repo with branched not defined
-  local_action: >     
-       git repo=https://github.com/iPlantCollaborativeOpenSource/atmosphere.git
-       dest=/tmp/atmosphere 
-       clone=yes
-       update=yes
-       force=yes
-       version="master"
-  when: ATMOSPHERE_BRANCH |length == 0
-
-- name: pull locally atmosphere git repo with branched defined
-  local_action: >
-       git repo=https://github.com/iPlantCollaborativeOpenSource/atmosphere.git
-       dest=/tmp/atmosphere
-       clone=yes
-       update=yes
-       force=yes
-       version={{ ATMOSPHERE_BRANCH | default("master") }}
-  when: ATMOSPHERE_BRANCH |length > 0
-
 - name: pull atmosphere ansible git repo
-  git: repo=https://github.com/iPlantCollaborativeOpenSource/atmosphere-ansible-bioci.git
+  git: repo={{ ANSIBLE_REPO }}
        dest={{ ANSIBLE_DEPLOY_LOCATION }}
-       clone=yes
-       update=yes
-       force=yes
-       version="master"
-  tags:
-    - ansible-deploy
-
-- name: pull locally atmosphere ansible git repo
-  local_action: >     
-       git repo=https://github.com/iPlantCollaborativeOpenSource/atmosphere-ansible-bioci.git
-       dest=/tmp/atmosphere-ansible-bioci
        clone=yes
        update=yes
        force=yes

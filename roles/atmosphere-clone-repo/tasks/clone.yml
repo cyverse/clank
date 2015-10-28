@@ -2,14 +2,14 @@
   command: mkdir -p {{ ATMOSPHERE_LOCATION }}
 
 - name: clone atmosphere git repo
-  git: repo=https://github.com/iPlantCollaborativeOpenSource/atmosphere.git
+  git: repo={{ ATMOSPHERE_REPO }}
        dest={{ ATMOSPHERE_LOCATION }}
        clone=yes
        update=yes
   when: ATMOSPHERE_BRANCH |length == 0  
 
 - name: clone atmosphere git repo with branched defined
-  git: repo=https://github.com/iPlantCollaborativeOpenSource/atmosphere.git
+  git: repo={{ ATMOSPHERE_REPO }}
        dest={{ ATMOSPHERE_LOCATION }}
        clone=yes
        update=yes
@@ -18,7 +18,7 @@
 
 - name: clone locally atmosphere git repo
   local_action:
-       git repo=https://github.com/iPlantCollaborativeOpenSource/atmosphere.git
+       git repo={{ ATMOSPHERE_REPO }}
        dest=/tmp/atmosphere
        clone=yes
        update=yes
@@ -26,7 +26,7 @@
 
 - name: clone atmosphere git repo with branched defined
   local_action:
-       git repo=https://github.com/iPlantCollaborativeOpenSource/atmosphere.git
+       git repo={{ ATMOSPHERE_REPO }}
        dest=/tmp/atmosphere
        clone=yes
        update=yes
@@ -38,19 +38,8 @@
   command: mkdir -p {{ ANSIBLE_DEPLOY_LOCATION }}
 
 - name: clone ansible git repo
-  git: repo=https://github.com/iPlantCollaborativeOpenSource/atmosphere-ansible-bioci.git
+  git: repo={{ ANSIBLE_REPO }}
        dest={{ ANSIBLE_DEPLOY_LOCATION }}
-       clone=yes
-       update=yes
-       force=yes
-       version="master"
-  tags:
-    - ansible-deploy
-
-- name: clone locally atmosphere ansible git repo
-  local_action: >     
-       git repo=https://github.com/iPlantCollaborativeOpenSource/atmosphere-ansible-bioci.git
-       dest=/tmp/atmosphere-ansible-bioci
        clone=yes
        update=yes
        force=yes
