@@ -29,7 +29,7 @@
   copy: src=id_rsa.pub dest={{ ATMOSPHERE_LOCATION }}/extras/ssh/
 
 - name: add IdentityFile line to system's ssh config
-  lineinfile: dest=/root/.ssh/config state=present create=yes line='IdentityFile {{ ATMOSPHERE_LOCATION }}/atmosphere/extras/ssh/id_rsa' insertbefore=BOF
+  lineinfile: dest=/root/.ssh/config state=present create=yes line='IdentityFile {{ ATMOSPHERE_LOCATION }}/extras/ssh/id_rsa' insertbefore=BOF
 
 - name: add IdentityFile line to system's ssh config
   lineinfile: dest=/root/.ssh/config state=present create=yes line='IdentityFile /root/.ssh/id_rsa' insertbefore=BOF
