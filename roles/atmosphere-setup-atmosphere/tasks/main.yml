@@ -17,7 +17,7 @@
   copy: src=atmosphere_variables.ini dest={{ ATMOSPHERE_LOCATION }}/variables.ini
 
 - name: run generate scripts for atmosphere
-  shell: "{{ VIRTUAL_ENV_ATMOSPHERE }}/bin/python {{ ATMOSPHERE_LOCATION }}/scripts/generate_configs.py"
+  shell: "{{ VIRTUAL_ENV_ATMOSPHERE }}/bin/python {{ ATMOSPHERE_LOCATION }}/configure"
 
 - name: make ssh file directory
   command: mkdir -p {{ ATMOSPHERE_LOCATION }}/extras/ssh/

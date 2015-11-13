@@ -10,9 +10,8 @@
 - name: move over precompleted variables.ini
   copy: src=troposphere_variables.ini dest={{ TROPOSPHERE_LOCATION }}/variables.ini
 
-- name: run generate scripts for troposphere
-  shell: "{{ VIRTUAL_ENV_TROPOSPHERE }}/bin/python {{ TROPOSPHERE_LOCATION }}/scripts/generate_configs.py" 
-
+- name: run generate script for troposphere
+  shell: "{{ VIRTUAL_ENV_TROPOSPHERE }}/bin/python {{ TROPOSPHERE_LOCATION }}/configure" 
 
 - name: troposphere manage collectstatic
   django_manage: >
@@ -46,6 +45,12 @@
     chdir: "{{ TROPOSPHERE_LOCATION }}/extras/nginx"
   with_items:
     - make  
+
+- name: build cf2
+  shell: cp -r {{ TROPOSPHERE_LOCATION }}/troposphere/static/resources {{ TROPOSPHERE_LOCATION }}/troposphere/assets/
+
+- name: remove node modules
+  file: path={{ TROPOSPHERE_LOCATION }}/node_modules state=absent
 
 - name: run npm install
   npm: path={{ TROPOSPHERE_LOCATION }} state=latest
