@@ -1,0 +1,29 @@
+# tasks file for atmosphere-install-dependencies
+
+- name: gather os specific variables
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+    - "{{ ansible_distribution }}.yml"
+    - "{{ ansible_os_family }}.yml"
+    - "defaults.yml"
+  tags: vars
+
+- name: add elastic sourch list
+  apt_repository: repo='deb http://packages.elasticsearch.org/logstash/2.0/debian stable main' state=present
+- name: update apt cache
+  apt: update_cache=yes
+
+- name: install logstash
+  action: >
+    {{ ansible_pkg_mgr }} name={{ item }} state={{ LOGSTASH_PACKAGES.state }} update_cache=yes force=yes
+  with_items: LOGSTASH_PACKAGES.packages
+
+- name: copy over atmosphere-conf files
+  copy: src=logstash dest=/etc force=yes
+
+- name: restart logstash
+  service: name=logstash state=restarted
+
+- name: run to start logstash on boot up
+  command: update-rc.d logstash defaults 96 9 

@@ -1,0 +1,8 @@
+---
+- name: Playbook to install and configure ELK for atmosphere use
+  hosts: all
+  roles:
+    # Dependencies
+    - setup-elasticsearch
+    - setup-kibana
+    - setup-logstash

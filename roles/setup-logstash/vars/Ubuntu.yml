@@ -1,0 +1,23 @@
+INITIAL_PACKAGES:
+  packages:
+    - software-properties-common
+    - python-software-properties
+    #- oracle-java8-installer
+    - openjdk-8-jdk
+  state: latest
+
+ELASTIC_SEARCH_PACKAGES:
+  packages:
+    - elasticsearch
+  state: latest
+
+NGINX_PACAKGES:
+  packages:
+    - nginx 
+    - apache2-utils
+  state: latest
+
+LOGSTASH_PACKAGES:
+  packages:
+    - logstash
+  state: latest

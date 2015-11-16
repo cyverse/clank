@@ -1,0 +1,43 @@
+# tasks file for atmosphere-install-dependencies
+
+- name: gather os specific variables
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+    - "{{ ansible_distribution }}.yml"
+    - "{{ ansible_os_family }}.yml"
+    - "defaults.yml"
+  tags: vars
+
+- name: add java repo for ubuntu
+  apt_repository: repo='ppa:openjdk-r/ppa' state=present
+  when: ansible_distribution  == "Ubuntu" 
+
+- name: install initial packages packages
+  action: >
+    {{ ansible_pkg_mgr }} name={{ item }} state={{ INITIAL_PACKAGES.state }} update_cache=yes
+  with_items: INITIAL_PACKAGES.packages
+  tags: install
+
+- name: add elasticsearch apt key
+  apt_key: url=https://packages.elastic.co/GPG-KEY-elasticsearch state=present
+
+- name: add elastic sourch list
+  apt_repository: repo='deb http://packages.elastic.co/elasticsearch/2.x/debian stable main' state=present
+
+- name: update apt cache
+  apt: update_cache=yes
+
+- name: install elasticsearch
+  action: >
+    {{ ansible_pkg_mgr }} name={{ item }} state={{ ELASTIC_SEARCH_PACKAGES.state }} update_cache=yes  
+  with_items: ELASTIC_SEARCH_PACKAGES.packages
+
+- name: copy over elasticsearch.yml
+  copy: src=elasticsearch.yml dest=/etc/elasticsearch/elasticsearch.yml force=yes
+
+- name: restart elasticsearch
+  service: name=elasticsearch state=restarted
+
+- name: run to start elasticsearch on boot up
+  command: update-rc.d elasticsearch defaults 95 10

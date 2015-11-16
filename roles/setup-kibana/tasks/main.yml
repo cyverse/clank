@@ -1,0 +1,66 @@
+# tasks file for installing kibana
+
+- name: gather os specific variables
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+    - "{{ ansible_distribution }}.yml"
+    - "{{ ansible_os_family }}.yml"
+    - "defaults.yml"
+  tags: vars
+
+- name: install ngninx
+  action: >
+    {{ ansible_pkg_mgr }} name={{ item }} state={{ NGINX_PACAKGES.state }} update_cache=yes  
+  with_items: NGINX_PACAKGES.packages
+
+- name: Create service account for Kibana
+  user: name=kibana
+        system=yes
+        home=/var/lib/kibana
+        shell=/bin/false
+        state=present 
+
+- name: check for kibana folder
+  stat: path={{ KIBANA_DIR }}/kibana
+  register: kibana_stat
+
+- name: download kibana
+  get_url: url={{ KIBANA_URL }}-{{ KIBANA_VERSION }}-{{ KIBANA_OS }}-{{ KIBANA_ARCH }}.tar.gz
+           dest=~/kibana-{{ KIBANA_VERSION }}-{{ KIBANA_OS }}-{{ KIBANA_ARCH }}.tar.gz
+  when: not kibana_stat.stat.exists
+
+- name: extract and install kibana
+  unarchive: src=~/kibana-{{ KIBANA_VERSION }}-{{ KIBANA_OS }}-{{ KIBANA_ARCH }}.tar.gz
+             dest={{ KIBANA_DIR }}
+             copy=no
+             creates={{ KIBANA_DIR }}/kibana-{{ KIBANA_VERSION }}-{{ KIBANA_OS }}-{{ KIBANA_ARCH }}
+  when: not kibana_stat.stat.exists 
+
+- name: rename kibana folder
+  command: mv {{ KIBANA_DIR }}/kibana-{{ KIBANA_VERSION }}-{{ KIBANA_OS }}-{{ KIBANA_ARCH }} {{ KIBANA_DIR}}/kibana
+  when: not kibana_stat.stat.exists
+
+- name: move over template
+  template: src=kibana.yml.j2 dest={{ KIBANA_DIR }}/kibana/config/kibana.yml
+
+- name: recursive chown for kibana user
+  file: path={{ KIBANA_DIR }}/kibana owner=kibana recurse=yes
+
+- name: get init script
+  get_url: url={{ INIT_URL }} dest={{ SERVICE_INIT }}/kibana mode=0766
+
+- name: get default script
+  get_url: url={{ DEFAULT_URL }} dest={{ SERVICE_DEFAULT }}/kibana mode=0766
+
+- name: create htpassword
+  htpasswd: path=/etc/nginx/htpasswd.users name={{ KIBANA_USER }} password={{ KIBANA_PASSWORD }}
+
+- name: move over nginx conf default conf file
+  template: src=default.j2 dest=/etc/nginx/sites-available/default
+
+- name: restart services
+  service: name={{ item }} state=restarted
+  with_items:
+    - nginx
+    - kibana
