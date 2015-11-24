@@ -102,8 +102,9 @@
 - name: create apps-enabled directory 
   command: mkdir -p {{ UWISGI_APPS_ENABLED_PATH }}
 
-- name: link atmosphere uwisgi conf file
-  file: src={{ ATMOSPHERE_LOCATION }}/extras/uwsgi/atmo.uwsgi.ini dest={{ UWISGI_APPS_ENABLED_PATH }}/atmo.uwsgi.ini state=link  
+# Remove this as make uwsigi does this
+#- name: link atmosphere uwisgi conf file
+#  file: src={{ ATMOSPHERE_LOCATION }}/extras/uwsgi/atmo.uwsgi.ini dest={{ UWISGI_APPS_ENABLED_PATH }}/atmo.uwsgi.ini state=link  
 
 - name: make uwisgi and nginx stuff
   shell: "{{ item }}"
