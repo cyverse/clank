@@ -2,11 +2,13 @@
 - name: Playbook to install and configure atmosphere
   hosts: all
   roles:
+    # Dependencies
     - install-dependencies
     - setup-postgres
+    - setup-ssl
+
+    # Atmosphere Portion
     - atmosphere-setup-virtualenv
     - atmosphere-clone-repo
     - atmosphere-setup-atmosphere
-    - setup-ssl
     - setup-celery
-    #- webserver-setup
