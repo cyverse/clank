@@ -4,7 +4,7 @@ ATMOSPHERE_DIR: /opt/dev
 ATMOSPHERE_LOCATION: "{{ ATMOSPHERE_DIR }}/atmosphere"
 ATMOSPHERE_BRANCH: ""
 
-UWISGI_APPS_ENABLED_PATH: /etc/uwsgi/apps-enabled/
+UWISGI_APPS_ENABLED_PATH: /etc/uwsgi/apps-enabled
 
 WEBSERVER_USER: www-data
 
