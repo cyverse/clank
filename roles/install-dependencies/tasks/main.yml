@@ -31,11 +31,12 @@
   with_items: LIB_PACKAGES.packages
   tags: install
 
-- name: update node
-  command: npm install npm -g
-
-- name: install yuglify node.js package globally.
-  npm: name=yuglify global=yes
+# TODO ADD TO TROPOSPHERE DEPENDENCIES
+#- name: update node
+#  command: npm install npm -g
+#
+#- name: install yuglify node.js package globally.
+#  npm: name=yuglify global=yes
 
 - name: install nginx packages packages
   action: >
