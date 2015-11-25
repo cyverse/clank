@@ -11,6 +11,7 @@ DEV_PACKAGES:
     - openssl
     - g++
     - make
+    - build-essential
     - postgresql
     - postgresql-contrib
     - python-psycopg2
