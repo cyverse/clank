@@ -1,6 +1,6 @@
 ---
 - name: Playbook to install and configure troposphere
-  hosts: atmosphere
+  hosts: all
   roles:
     # Dependencies
     - install-dependencies
