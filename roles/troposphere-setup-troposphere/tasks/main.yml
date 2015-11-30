@@ -1,5 +1,5 @@
 - name: pip install requirements
-  pip: requirements={{ TROPOSPHERE_LOCATION }}/dev_requirements.txt virtualenv={{ VIRTUAL_ENV_TROPOSPHERE }}
+  pip: requirements={{ TROPOSPHERE_LOCATION }}/dev_requirements.txt virtualenv={{ VIRTUAL_ENV_TROPOSPHERE }}  state=latest
 
 - name: create troposphere log directory
   command: mkdir -p {{ TROPOSPHERE_LOCATION }}/logs
