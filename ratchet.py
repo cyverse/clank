@@ -23,7 +23,11 @@ def install_dependencies():
         for command in commands:
           r = envoy.run(command)
           if r.status_code is not 0:
-              print bcolors.FAIL + command + bcolors.ENDC
+              print bcolors.FAIL + command 
+              print "Error Code:" + str(r.status_code)
+              print "Std_out:" + r.std_out
+              print "Std_err:" + r.std_err + bcolors.ENDC
+              sys.exit(1)
           else:
               print bcolors.OKGREEN + command + bcolors.ENDC
       
