@@ -5,6 +5,16 @@ import sys
 
 import envoy
 
+try:
+    from jinja2 import Environment, FileSystemLoader, meta, StrictUndefined, \
+                       TemplateNotFound
+except ImportError:
+    sys.exit('''
+        Configuration required `Jinja2` for template & variable merging.
+        Please ensure that the virtualenv for this project have been created
+        and activated before running this script.
+    ''')
+
 class bcolors:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
@@ -34,9 +44,21 @@ def install_dependencies():
  
 def setup_ansible_cfg():
     PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
+    LOADER = FileSystemLoader(PROJECT_PATH)
+    ENV = Environment(loader=LOADER, 
+                     undefined=StrictUndefined)
+    
+    template_location = "ansible.cfg.j2"
+    output_path = os.path.join(PROJECT_PATH, "ansible.cfg")
+    CLANK_ROLES_PATH = os.path.join(PROJECT_PATH, "roles")
+    template = ENV.get_template(template_location)
+    rendered = template.render(CLANK_ANSIBLE_ROLES=CLANK_ROLES_PATH)
+    with open(output_path, 'wb') as fh:
+        fh.write(rendered)
 
 def main():
-    install_dependencies()
+    #install_dependencies()
+    setup_ansible_cfg()
 
 if __name__ == "__main__":
   main()
