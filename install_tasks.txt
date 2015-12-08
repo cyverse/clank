@@ -1,0 +1,10 @@
+apt-get install -y software-properties-common
+apt-add-repository ppa:ansible/ansible
+apt-get update
+apt-get install -y ansible 
+apt-get install -y redis-server
+mkdir -p /var/log/ansible
+touch /var/log/ansible/ansible.log
+virtualenv /root/crushbone-ansible-dev/clank/clank_env
+source /root/crushbone-ansible-dev/clank/clank_env/bin/activate
+pip install ansible redis ansible
