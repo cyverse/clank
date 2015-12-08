@@ -57,7 +57,7 @@ def setup_ansible_cfg():
         fh.write(rendered)
 
 def main():
-    #install_dependencies()
+    install_dependencies()
     setup_ansible_cfg()
 
 if __name__ == "__main__":
