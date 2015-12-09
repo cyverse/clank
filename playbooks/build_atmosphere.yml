@@ -1,0 +1,9 @@
+---
+- name: Playbook to run the neccessary roles to build atmosphere
+  hosts: all
+  roles:
+    # Atmosphere Portion
+    - atmosphere-setup-virtualenv
+    - atmosphere-clone-repo
+    - atmosphere-setup-atmosphere
+    - setup-celery

@@ -1,0 +1,8 @@
+---
+- name: Playbook to run the neccessary roles to build troposphere
+  hosts: all
+  roles:
+    # Troposphere Portion
+    - troposphere-setup-virtualenv
+    - troposphere-clone-repo
+    - troposphere-setup-troposphere    
