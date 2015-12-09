@@ -16,23 +16,6 @@
        version={{ ATMOSPHERE_BRANCH | default("master") }}
   when: ATMOSPHERE_BRANCH |length > 0
 
-- name: clone locally atmosphere git repo
-  local_action:
-       git repo={{ ATMOSPHERE_REPO }}
-       dest=/tmp/atmosphere
-       clone=yes
-       update=yes
-  when: ATMOSPHERE_BRANCH |length == 0  
-
-- name: clone atmosphere git repo with branched defined
-  local_action:
-       git repo={{ ATMOSPHERE_REPO }}
-       dest=/tmp/atmosphere
-       clone=yes
-       update=yes
-       version={{ ATMOSPHERE_BRANCH | default("master") }}
-  when: ATMOSPHERE_BRANCH |length > 0
-
 ##### Ansible Roles bioci 
 - name: ensure ansible role location
   command: mkdir -p {{ ANSIBLE_DEPLOY_LOCATION }}
