@@ -15,20 +15,3 @@
        update=yes
        version={{ TROPOSPHERE_BRANCH | default("master") }}
   when: TROPOSPHERE_BRANCH |length > 0
-
-- name: clone local temp troposphere git repo
-  local_action: >
-       git repo=https://github.com/iPlantCollaborativeOpenSource/troposphere.git
-       dest=/tmp/troposphere
-       clone=yes
-       update=yes
-  when: TROPOSPHERE_BRANCH |length == 0  
-
-- name: clone local troposphere git repo with branched defined
-  local_action: >
-       git repo=https://github.com/iPlantCollaborativeOpenSource/troposphere.git
-       dest=/tmp/troposphere
-       clone=yes
-       update=yes
-       version={{ TROPOSPHERE_BRANCH | default("master") }}
-  when: TROPOSPHERE_BRANCH |length > 0
