@@ -1,5 +1,3 @@
-- debug: msg="IN THE CLONE FILE"
-
 - name: ensure troposphere location
   command: mkdir -p {{ TROPOSPHERE_LOCATION }}
 
