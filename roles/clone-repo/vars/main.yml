@@ -1,0 +1,4 @@
+DIR:              #  /opt/dev
+LOCATION:         # "{{ ATMOSPHERE_DIR }}/atmosphere"
+BRANCH:           # bald-eagle
+REPO:             # https://github.com/iPlantCollaborativeOpenSource/atmosphere.git
