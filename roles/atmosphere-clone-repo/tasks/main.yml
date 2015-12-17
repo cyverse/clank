@@ -4,7 +4,7 @@
     - ansible-deploy
 
 - name: check to see if repo exists
-  stat: path={{ ATMOSPHERE_LOCATION }}
+  stat: path={{ ATMOSPHERE_LOCATION }}/.git
   register: p
   tags:
     - ansible-deploy
@@ -14,6 +14,7 @@
   when: p.stat.exists == false
   tags:
     - ansible-deploy
+
 # include pull.yml when the repo does exists
 - include: pull.yml
   when: p.stat.exists

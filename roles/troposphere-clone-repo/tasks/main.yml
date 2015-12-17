@@ -2,7 +2,7 @@
   command: mkdir -p "{{ TROPOSPHERE_DIR }}"
 
 - name: check to see if repo exists
-  stat: path={{ TROPOSPHERE_LOCATION }}
+  stat: path={{ TROPOSPHERE_LOCATION }}/.git
   register: p
 
 # include clone.yml when the repo does not exist
