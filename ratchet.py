@@ -31,7 +31,7 @@ def install_dependencies():
     with open(INSTALL_LIST) as f:
         commands = f.readlines()
         for command in commands:
-          r = envoy.run(command)
+          r = envoy.run(command, cwd=PROJECT_PATH)
           if r.status_code is not 0:
               print bcolors.FAIL + command 
               print "Error Code:" + str(r.status_code)

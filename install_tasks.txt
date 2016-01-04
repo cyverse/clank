@@ -5,5 +5,5 @@ apt-get install -y ansible
 apt-get install -y redis-server
 mkdir -p /var/log/ansible
 touch /var/log/ansible/ansible.log
-virtualenv /root/crushbone-ansible-dev/clank/clank_env
-/root/crushbone-ansible-dev/clank/clank_env/bin/pip install ansible redis
+virtualenv clank_env
+clank/clank_env/bin/pip install ansible redis
