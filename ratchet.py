@@ -78,7 +78,7 @@ def main():
     parser.add_argument(
         "--dumpfile",
         type=str,
-        help="The dump file to be used when creating the Database. "
+        help="The dump file to be used when creating the Atmosphere database. "
              "Can also be set in the config. (Optional)")
     parser.add_argument(
         "--atmosphere-db",
