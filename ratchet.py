@@ -68,6 +68,7 @@ def validate_install():
     3. Verify that the files you *WANTED* are being used in the path they are expected to be.
     More:
     """
+    pass
 
 
 def main():
