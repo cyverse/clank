@@ -61,13 +61,22 @@ def prepare_ansible_cfg(args):
         fh.write(rendered)
 
 
-def validate_install():
+def validate_install(args):
     """
+    TODO: We may want 'args' to be the 'Merged Python Dict/Object' instead.
+
     1. Read your config file
     2. Verify that the path you *WANTED* is the path you used.
     3. Verify that the files you *WANTED* are being used in the path they are expected to be.
     More:
     """
+    from deploy_tests import test_atmosphere
+    for func_name in dir(test_atmosphere):
+        func = getattr(test_atmosphere, func_name)
+        if 'test' in func_name and callable(func):
+            result = func({})  #TODO: replace with a dict of 'args' later.
+            if result and result[0] == False:
+                print result[1]
     pass
 
 
@@ -108,8 +117,8 @@ def main():
 
     args = parser.parse_args()
     # To be executed prior to running 'ansible-playbook'
-    install_dependencies()
-    prepare_ansible_cfg(args)
+    # install_dependencies()
+    # prepare_ansible_cfg(args)
     #TODO: At this stage, we should SANITY CHECK:
     #TODO: Print out all variables that have been set (In the env. or the arguments below)
     #TODO: This will allow the user to ensure that things are 'as they should be'.
@@ -118,7 +127,7 @@ def main():
     # TODO: Execute ansible-playbook here.
     
     # executed after running 'ansible-playbook'
-    validate_install()
+    validate_install(args)
 
 if __name__ == "__main__":
   main()
