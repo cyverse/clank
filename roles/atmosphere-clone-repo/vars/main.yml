@@ -1,8 +1,8 @@
-ANSIBLE_DEPLOY_DIR: /opt/dev
-ANSIBLE_DEPLOY_LOCATION: "{{ ANSIBLE_DEPLOY_DIR }}/atmosphere-ansible"
 ATMOSPHERE_DIR: /opt/dev
 ATMOSPHERE_LOCATION: "{{ ATMOSPHERE_DIR }}/atmosphere"
+ATMOSPHERE_REPO: https://github.com/iPlantCollaborativeOpenSource/atmosphere.git
 ATMOSPHERE_BRANCH: ""
 
-ATMOSPHERE_REPO: https://github.com/iPlantCollaborativeOpenSource/atmosphere.git
+ANSIBLE_DEPLOY_DIR: "{{ ATMOSPHERE_DIR }}"
+ANSIBLE_DEPLOY_LOCATION: "{{ ANSIBLE_DEPLOY_DIR }}/atmosphere-ansible"
 ANSIBLE_REPO: https://github.com/iPlantCollaborativeOpenSource/atmosphere-ansible.git

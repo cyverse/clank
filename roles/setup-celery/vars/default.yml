@@ -1,8 +1,3 @@
-SSL_LOCATION: /etc/ssl/
-
-SSL_CERTIFICATE: ""
-SSL_KEY:
-
 INIT_LOCATION: /etc/init.d 
 CELERYD: celeryd.default.dist
 CELERYBEAT: celerybeat.default
