@@ -6,25 +6,25 @@
 
 # ATMO
 VIRTUAL_ENV_DIR_ATMOSPHERE: /opt/env
-VIRTUAL_ENV_ATMOSPHERE: {{ VIRTUAL_ENV_DIR_ATMOSPHERE }}/atmo
+VIRTUAL_ENV_ATMOSPHERE: "{{ VIRTUAL_ENV_DIR_ATMOSPHERE }}/atmo"
 
 ATMOSPHERE_DIR: /opt/dev
-ATMOSPHERE_LOCATION: {{ ATMOSPHERE_DIR }}/atmosphere
+ATMOSPHERE_LOCATION: "{{ ATMOSPHERE_DIR }}/atmosphere"
 ATMOSPHERE_REPO: https://github.com/iPlantCollaborativeOpenSource/atmosphere.git
 # Placeholder for defining the atmosphere branch:
 ATMOSPHERE_BRANCH: ""
 
 # ATMO ANSIBLE
-ANSIBLE_DEPLOY_DIR: {{ ATMOSPHERE_DIR }}
-ANSIBLE_DEPLOY_LOCATION: {{ ANSIBLE_DEPLOY_DIR }}/atmosphere-ansible
+ANSIBLE_DEPLOY_DIR: "{{ ATMOSPHERE_DIR }}"
+ANSIBLE_DEPLOY_LOCATION: "{{ ANSIBLE_DEPLOY_DIR }}/atmosphere-ansible"
 ANSIBLE_REPO: https://github.com/iPlantCollaborativeOpenSource/atmosphere-ansible.git
 
 # TROPO
 VIRTUAL_ENV_DIR_TROPOSPHERE: /opt/env
-VIRTUAL_ENV_TROPOSPHERE: {{ VIRTUAL_ENV_DIR_TROPOSPHERE }}/troposphere
+VIRTUAL_ENV_TROPOSPHERE: "{{ VIRTUAL_ENV_DIR_TROPOSPHERE }}/troposphere"
 
 TROPOSPHERE_DIR: /opt/dev
-TROPOSPHERE_LOCATION: {{ TROPOSPHERE_DIR }}/troposphere
+TROPOSPHERE_LOCATION: "{{ TROPOSPHERE_DIR }}/troposphere"
 # Placeholder for defining the troposphere branch:
 TROPOSPHERE_BRANCH: ""
 
