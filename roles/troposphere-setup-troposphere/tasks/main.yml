@@ -58,4 +58,4 @@
 - name: run npm build
   args:
     chdir: "{{ TROPOSPHERE_LOCATION }}"
-  shell: npm run build
+  shell: npm run build --{{ TROPOSPHERE_BUILD | default("production")}}
