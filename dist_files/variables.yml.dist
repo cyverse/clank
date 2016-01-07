@@ -4,61 +4,59 @@
 #
 ###############################
 
-VIRTUAL_ENV_DIR: /opt/env
-VIRTUAL_ENV_ATMOSPHERE: {{ VIRTUAL_ENV_DIR }}/atmo
-
-VIRTUAL_ENV_DIR: /opt/env
-VIRTUAL_ENV_TROPOSPHERE: {{ VIRTUAL_ENV_DIR }}/troposphere
+# ATMO
+VIRTUAL_ENV_DIR_ATMOSPHERE: /opt/env
+VIRTUAL_ENV_ATMOSPHERE: "{{ VIRTUAL_ENV_DIR_ATMOSPHERE }}/atmo"
 
 ATMOSPHERE_DIR: /opt/dev
-ATMOSPHERE_LOCATION: {{ ATMOSPHERE_DIR }}/atmosphere
+ATMOSPHERE_LOCATION: "{{ ATMOSPHERE_DIR }}/atmosphere"
+ATMOSPHERE_REPO: https://github.com/iPlantCollaborativeOpenSource/atmosphere.git
 # Placeholder for defining the atmosphere branch:
-ATMO_REPO: https://github.com/iPlantCollaborativeOpenSource/atmosphere.git
 ATMOSPHERE_BRANCH: ""
 
+# ATMO ANSIBLE
+ANSIBLE_DEPLOY_DIR: "{{ ATMOSPHERE_DIR }}"
+ANSIBLE_DEPLOY_LOCATION: "{{ ANSIBLE_DEPLOY_DIR }}/atmosphere-ansible"
+ANSIBLE_REPO: https://github.com/iPlantCollaborativeOpenSource/atmosphere-ansible.git
+
+# TROPO
+VIRTUAL_ENV_DIR_TROPOSPHERE: /opt/env
+VIRTUAL_ENV_TROPOSPHERE: "{{ VIRTUAL_ENV_DIR_TROPOSPHERE }}/troposphere"
+
 TROPOSPHERE_DIR: /opt/dev
-TROPOSPHERE_LOCATION: {{ TROPOSPHERE_DIR }}/troposphere
+TROPOSPHERE_LOCATION: "{{ TROPOSPHERE_DIR }}/troposphere"
 # Placeholder for defining the troposphere branch:
 TROPOSPHERE_BRANCH: ""
 
-SERVER_URL: 
+# POSTGRESQL DB INFORMATION
 
-DBNAME: 
-DNUSER: 
-DBPASSWORD: 
-DB_VERSION: 
+DB_VERSION: 9.3 # Currently defaults to 9.3
 
-ANSIBLE_ROOT: {{ ATMOSPHERE_DIR }}/atmosphere-ansible
-
-CAS_SERVER: 
-CAS_AUTH_PREFIX: 
-OAUTH_CLIENT_KEY: 
-OAUTH_CLIENT_SECRET: 
-
-LOGSTASH_HOST: 
-LOGSTASH_PORT: 
-
-ATMOSPHERE_VNC_LICENSE: 
-LDAP_SERVER: 
-LDAP_SERVER_DN: 
-
-IRODS_HOST: 
-IRODS_PORT: 
-IRODS_ZONE: 
-IRODS_ADMIN_USER: 
-IRODS_ADMIN_PASS: 
-LOCAL_STORAGE: 
+ATMO_DBNAME: 
+ATMO_DBUSER: 
+ATMO_DBPASSWORD: 
 
 TROPO_DBNAME: 
 TROPO_DBUSER: 
 TROPO_DBPASSWORD: 
 
+# JENKINS
+JENKINS: false
+
+# SSL RELATED VARS
+SSL_CERTIFICATE:    #Absolute Path Recommended
+BUNDLE_CERT:        #Absolute Path Recommended
+SSL_KEY:            #Absolute Path Recommended
+
+#ID_RSA
+ID_RSA:             #Absolute Path Recommended
+ID_RSA_PUB:         #Absolute Path Recommended 
 ###################################
 #
 # COMMON BETWEEN ATMO AND TROP VARS
 #
 ###################################
-COMMON:
+#COMMON:
 
 ###################################
 #

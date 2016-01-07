@@ -22,7 +22,7 @@
     - restart postgresql
 
 - name: atmosphere database is created
-  postgresql_db: name={{ DBNAME }} state=present login_user=postgres 
+  postgresql_db: name={{ ATMO_DBNAME }} state=present login_user=postgres 
   sudo: yes
   sudo_user: postgres
   tags: 
@@ -30,25 +30,25 @@
 
 - name: ensure user has access to atmosphere database
   sudo_user: postgres
-  postgresql_user: db={{ DBNAME }} name={{ DBUSER }} password={{ DBPASSWORD }} priv=ALL
+  postgresql_user: db={{ ATMO_DBNAME }} name={{ ATMO_DBUSER }} password={{ ATMO_DBPASSWORD }} priv=ALL
   tags:
     - postgres
 
 - name: add atmosphere user connect privileges
   sudo_user: postgres
-  postgresql_user: db={{ DBNAME }} name={{ DBUSER }} role_attr_flags=CREATEDB,NOSUPERUSER,CREATEROLE
+  postgresql_user: db={{ ATMO_DBNAME }} name={{ ATMO_DBUSER }} role_attr_flags=CREATEDB,NOSUPERUSER,CREATEROLE
   tags:
     - postgres
 
 - name: remove public connect privileges to atmosphere db
   sudo_user: postgres
-  command: psql -c "REVOKE connect ON DATABASE {{ DBNAME }} FROM PUBLIC;"
+  command: psql -c "REVOKE connect ON DATABASE {{ ATMO_DBNAME }} FROM PUBLIC;"
   tags:
     - postgres
 
 - name: add atmo user connect privileges to atmosphere db
   sudo_user: postgres
-  command: psql -c "GRANT connect ON DATABASE {{ DBNAME }} TO {{ DBUSER }};"
+  command: psql -c "GRANT connect ON DATABASE {{ ATMO_DBNAME }} TO {{ ATMO_DBUSER }};"
   tags:
     - postgres
 
