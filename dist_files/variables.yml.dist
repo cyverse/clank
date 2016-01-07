@@ -53,7 +53,7 @@ SSL_KEY:          #Absolute Path Recommended
 # COMMON BETWEEN ATMO AND TROP VARS
 #
 ###################################
-COMMON:
+#COMMON:
 
 ###################################
 #
