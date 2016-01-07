@@ -7,6 +7,14 @@
 - name: create troposphere static directory
   command: mkdir -p {{ TROPOSPHERE_LOCATION }}/troposphere/tropo-static
 
+- name: ensure local files directory exists
+  local_action: >
+      file path={{ role_path }}/files state=directory mode=0755
+
+- name: create local atmosphere_variables.ini from dist
+  local_action: >
+      template src=../../../dist_files/troposphere_variables.ini.j2 dest={{ role_path }}/files/troposphere_variables.ini
+
 - name: move over precompleted variables.ini
   copy: src=troposphere_variables.ini dest={{ TROPOSPHERE_LOCATION }}/variables.ini
 

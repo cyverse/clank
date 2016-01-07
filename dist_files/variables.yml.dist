@@ -33,7 +33,7 @@ TROPOSPHERE_BRANCH: ""
 DB_VERSION: 9.3 # Currently defaults to 9.3
 
 ATMO_DBNAME: 
-ATMO_DNUSER: 
+ATMO_DBUSER: 
 ATMO_DBPASSWORD: 
 
 TROPO_DBNAME: 
@@ -44,10 +44,13 @@ TROPO_DBPASSWORD:
 JENKINS: false
 
 # SSL RELATED VARS
-SSL_CERTIFICATE:  #Absolute Path Recommended
-BUNDLE_CERT:      #Absolute Path Recommended
-SSL_KEY:          #Absolute Path Recommended
+SSL_CERTIFICATE:    #Absolute Path Recommended
+BUNDLE_CERT:        #Absolute Path Recommended
+SSL_KEY:            #Absolute Path Recommended
 
+#ID_RSA
+ID_RSA:             #Absolute Path Recommended
+ID_RSA_PUB:         #Absolute Path Recommended 
 ###################################
 #
 # COMMON BETWEEN ATMO AND TROP VARS
