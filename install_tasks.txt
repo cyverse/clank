@@ -8,4 +8,4 @@ mkdir -p /var/log/ansible
 touch /var/log/ansible/ansible.log
 virtualenv clank_env
 clank_env/bin/pip install ansible redis
-source clank_env/bin/activate
+. clank_env/bin/activate
