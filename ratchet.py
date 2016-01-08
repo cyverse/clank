@@ -70,6 +70,7 @@ def validate_install(args):
     3. Verify that the files you *WANTED* are being used in the path they are expected to be.
     More:
     """
+    print "NOTE: These next lines are *MEANINGLESS* and can be safely ignored until ratchet is feature-complete"
     from deploy_tests import test_atmosphere
     for func_name in dir(test_atmosphere):
         func = getattr(test_atmosphere, func_name)
@@ -117,8 +118,8 @@ def main():
 
     args = parser.parse_args()
     # To be executed prior to running 'ansible-playbook'
-    # install_dependencies()
-    # prepare_ansible_cfg(args)
+    install_dependencies()
+    prepare_ansible_cfg(args)
     #TODO: At this stage, we should SANITY CHECK:
     #TODO: Print out all variables that have been set (In the env. or the arguments below)
     #TODO: This will allow the user to ensure that things are 'as they should be'.
