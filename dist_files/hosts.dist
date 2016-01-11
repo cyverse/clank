@@ -1,0 +1,29 @@
+########
+#
+# Example hosts file to be completed with examples
+# 
+#
+########
+
+# Instructions:
+# Replace example host groups with your own host and ip ranges allocated for you cloud
+
+#[atmosphere-cloud_here_name]
+#vm2-[2:255] ansible_ssh_host=0.0.0.0 ansible_ssh_port=22
+#100.100.2.[2:255] ansible_ssh_host=0.0.0.0 ansible_ssh_port=22
+
+# Example 1
+[atmosphere-mars]
+vm10-[2:255] ansible_ssh_host=0.0.0.0 ansible_ssh_port=22
+vm11-[2:255] ansible_ssh_host=0.0.0.0 ansible_ssh_port=22
+100.100.[10:11].[2:255] ansible_ssh_host=0.0.0.0 ansible_ssh_port=22
+
+# Example 2
+[atmosphere-venus]
+vm142-[2:255] ansible_ssh_host=0.0.0.0 ansible_ssh_port=22
+111.111.110.[2:255] ansible_ssh_host=0.0.0.0 ansible_ssh_port=22
+
+
+[atmosphere:children]
+atmosphere-mars
+atmosphere-venus

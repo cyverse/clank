@@ -13,6 +13,14 @@
   tags:
     - ansible-deploy
 
+- name: ensure local files directory exists
+  local_action: >
+      file path={{ role_path }}/files state=directory mode=0755
+
+- name: create local atmosphere_variables.ini from dist
+  local_action: >
+      template src=../../../dist_files/atmosphere_variables.ini.j2 dest={{ role_path }}/files/atmosphere_variables.ini
+ 
 - name: move over precompleted variables.ini
   copy: src=atmosphere_variables.ini dest={{ ATMOSPHERE_LOCATION }}/variables.ini
 
@@ -23,12 +31,18 @@
   command: mkdir -p {{ ATMOSPHERE_LOCATION }}/extras/ssh/
 
 - name: move over id_rsa private key
-  copy: src=id_rsa dest={{ ATMOSPHERE_LOCATION }}/extras/ssh/
+  copy: src={{ ID_RSA }} dest={{ ATMOSPHERE_LOCATION }}/extras/ssh/
 
 - name: move over id_rsa public key
-  copy: src=id_rsa.pub dest={{ ATMOSPHERE_LOCATION }}/extras/ssh/
+  copy: src={{ ID_RSA_PUB }} dest={{ ATMOSPHERE_LOCATION }}/extras/ssh/
 
+- name: move over completed hosts file
+  copy: src={{ ANSIBLE_HOSTS_FILE }} dest={{ ANSIBLE_DEPLOY_LOCATION }}/ansible
+
+- name: move over completed group_vars folder
+  copy: src={{ ANSIBLE_GROUP_VARS_FOLDER }} dest={{ ANSIBLE_DEPLOY_LOCATION }}/ansible
 - name: add IdentityFile line to system's ssh config
+
   lineinfile: dest=/root/.ssh/config state=present create=yes line='IdentityFile {{ ATMOSPHERE_LOCATION }}/extras/ssh/id_rsa' insertbefore=BOF
 
 - name: add IdentityFile line to system's ssh config
@@ -101,10 +115,6 @@
 # nginx portion
 - name: create apps-enabled directory 
   command: mkdir -p {{ UWISGI_APPS_ENABLED_PATH }}
-
-# Remove this as make uwsigi does this
-#- name: link atmosphere uwisgi conf file
-#  file: src={{ ATMOSPHERE_LOCATION }}/extras/uwsgi/atmo.uwsgi.ini dest={{ UWISGI_APPS_ENABLED_PATH }}/atmo.uwsgi.ini state=link  
 
 - name: make uwisgi and nginx stuff
   shell: "{{ item }}"
