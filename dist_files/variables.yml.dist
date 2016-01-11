@@ -51,6 +51,11 @@ SSL_KEY:            #Absolute Path Recommended
 #ID_RSA
 ID_RSA:             #Absolute Path Recommended
 ID_RSA_PUB:         #Absolute Path Recommended 
+
+#ANSIBLE Related Files
+ANSIBLE_HOSTS_FILE:               #Absolute Path Recommended
+ANSIBLE_GROUP_VARS_FOLDER:        #Absolute Path Recommended
+
 ###################################
 #
 # COMMON BETWEEN ATMO AND TROP VARS
