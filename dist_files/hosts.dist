@@ -21,7 +21,7 @@ vm11-[2:255] ansible_ssh_host=0.0.0.0 ansible_ssh_port=22
 # Example 2
 [atmosphere-venus]
 vm142-[2:255] ansible_ssh_host=0.0.0.0 ansible_ssh_port=22
-128.169.142.[2:255] ansible_ssh_host=0.0.0.0 ansible_ssh_port=22
+111.111.110.[2:255] ansible_ssh_host=0.0.0.0 ansible_ssh_port=22
 
 
 [atmosphere:children]
