@@ -1,0 +1,27 @@
+# The name of this file needs to match the ansible groups as indicated in the hosts file
+
+# LIST NTP SERVERS HERE
+# Feel free to change them to yours if necessary
+NTP_SERVERS:
+  - 0.us.pool.ntp.org
+  - 1.us.pool.ntp.org
+  - 2.us.pool.ntp.org
+  - 3.us.pool.ntp.org
+
+# List of fail2ban ips to ignore.
+# Feel free to add or remove ips as necessary
+F2B_IGNOREIP:
+  - 127.0.0.1/8
+  
+# Timezone
+# Feel free to change as necessary
+TIMEZONE: "/usr/share/zoneinfo/US/Pacific"
+
+# If additional users or administrative users are requried, add the user's username to the user group defined in /etc/group
+SSH_ALLOW_GROUPS: "users root"
+
+# List of ssh public keys to add.
+# Helpful for admins to have their public keys injected into the vms for support and security purposes
+# Feel free to add or remove keys as necessary
+SSHKEYS:
+  - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDkUcSPiLnbUZpt3b0RdIuEL1dm4fzBYJsxp+aSRLb8CWTJNGnNQQoXwLLtSB/ou2i2wOYPZRxU4KKw6uS7yrp6rtKeNmAMSBAxRYpwCqky7BFE6au4Map86CmJ+qPBPBrMX4wxrZnd99cAgtzCjjlhg4q3rt1gB8oAv3r+Jsayg/pA1vSEWoqSMWWTrNiNSRrQMjP0I7z5o2m5zW+NxVtj/Jzx5FT+P2ad9Gw0GRdsAvFbt+uJmFL0DXDz/LT/YujUBlUFNXSg6AAts8CLy/PZKVqcjY9eO8LQwwv6utbROczOfrwfekLLv0Pfc2FpE1cfOrLUNatDFQdkk0w7Ii5v men_stink@venus"
