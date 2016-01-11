@@ -12,6 +12,7 @@ NTP_SERVERS:
 # Feel free to add or remove ips as necessary
 F2B_IGNOREIP:
   - 127.0.0.1/8
+  - 192.168.122.0/24
   
 # Timezone
 # Feel free to change as necessary
