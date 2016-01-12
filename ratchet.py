@@ -60,7 +60,7 @@ def prepare_ansible_env_file(args):
         else:
             dict_from_file[key] = my_vars_dict[key]
   
-    new_env_file = os.path.join(os.path.abspath(os.path.dirname(__file__)), "dynamic_ratchet_ansible_env.yml")
+    new_env_file = os.path.join(PROJECT_PATH, args.dynamic_env_file)
     with open(new_env_file,'w') as the_file:
         the_file.write(yaml.safe_dump(dict_from_file, default_flow_style=False,  encoding='utf-8', allow_unicode=True))
 
@@ -83,6 +83,20 @@ def prepare_ansible_env_file(args):
 #            yaml.dump(python_obj, default_flow_style=False)
 #        )
 
+def execute_ansible_playbook(args):
+    PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
+    command = '%s/clank/clank_env/bin/ansible-playbook --flush-cache "%s/clank/playbooks/deploy_stack.yml" -c local -e @"%s/clank/%s" -i "%s/clank/local_inventory" --skip "troposphere"' % (args.workspace, args.workspace, args.workspace, args.dynamic_env_file, args.workspace)
+    print command
+    r = envoy.run(command, cwd=PROJECT_PATH)
+            if r.status_code is not 0:
+                print bcolors.FAIL + command
+                print "Error Code:" + str(r.status_code)
+                print "Std_out:" + r.std_out
+                print "Std_err:" + r.std_err + bcolors.ENDC
+                sys.exit(1)
+            else:
+                print bcolors.OKGREEN + command + bcolors.ENDC    
+ 
 def map_arguments(args):
     """
     Takes a 'args NameSpace'
@@ -168,15 +182,17 @@ def main():
         type=str, 
         default="variables.yml",
         help="The environment file to load when running ansible-playbook")
-
-    parser.add_argument(
-        "--variables-file",
+    
+    parser.add_argument("--dynamic-env-file",
         type=str,
-        default="variables.yml",
-        help="Define the variables file for which Ansible is used to import")
+        default="dynamic_ratchet_ansible_env.yml",
+        help="The environment file to be renamed as which will be loaded in to ansible-playbook")
 
-    parser.add_argument(
-        "--override-args",
+    parser.add_argument("--workspace",
+        type=str,
+        help="The workspace from which files will be used to get ansible to run")
+
+    parser.add_argument("--override-args",
         help="Pass in json to override variables file")
 
     args = parser.parse_args()
@@ -193,7 +209,7 @@ def main():
         #TODO: We should give three second delay before we continue. This gives time to Ctrl+C
 
         # TODO: Execute ansible-playbook here.
-        
+        execute_ansible_playbook(args)
         # executed after running 'ansible-playbook'
         validate_install(args)
     except Exception as exc:
