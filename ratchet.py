@@ -45,18 +45,53 @@ def install_dependencies():
             else:
                 print bcolors.OKGREEN + command + bcolors.ENDC
 
-def read_and_write_new_varsfile(args):
+def prepare_ansible_env_file(args):
     PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
-    current_vars_file = args.variables_file
+    current_vars_file = args.env_file
     my_vars_dict = json.loads(args.override_args)
 
     with open(os.path.join(PROJECT_PATH,current_vars_file), "r") as stream:
         dict_from_file = yaml.load(stream)
     
     for key in my_vars_dict.keys():
-        dict_from_file[key] = my_vars_dict[key]
+        if type(my_vars_dict[key]) == dict:
+            vars_dict = my_vars_dict[key]
+            dict_from_file[key].update(vars_dict)
+        else:
+            dict_from_file[key] = my_vars_dict[key]
   
-        
+    new_env_file = os.path.join(os.path.abspath(os.path.dirname(__file__)), "dynamic_ratchet_ansible_env.yml")
+    with open(new_env_file,'w') as the_file:
+        the_file.write(yaml.safe_dump(dict_from_file, default_flow_style=False,  encoding='utf-8', allow_unicode=True))
+
+
+#def prepare_ansible_env_file(args):
+#    """
+#    INPUT: arguments (Including args.env_file)
+#    OUTPUT: A new env file that includes *EVERYTHING* in args.env_file + overriding arguments!
+#    This file will be called 'dynamic_ratchet_ansible_env'
+#    """
+#    if not args.env_file:
+#        raise Exception("Missing env_file! Check your filepath and re-run with an env_file!")
+#    with open(args.env_file,'r') as the_file:
+#        python_obj = yaml.load(the_file)
+#    arg_map = map_arguments(args)
+#    python_obj.update(arg_map)
+#    new_env_file = os.path.join(os.getcwd(), "dynamic_ratchet_ansible_env")
+#    with open(new_env_file,'w') as the_file:
+#        the_file.write(
+#            yaml.dump(python_obj, default_flow_style=False)
+#        )
+
+def map_arguments(args):
+    """
+    Takes a 'args NameSpace'
+    Returns a Python dict with 'Ansible-ized' names!
+    """
+    return {
+        'TROPOSPHERE_BRANCH': args.branch,
+        'ATMOSPHERE_BRANCH': args.branch,
+    }
 
 def prepare_ansible_cfg(args):
     PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
@@ -100,7 +135,7 @@ def main():
     parser.add_argument(
         "--dumpfile",
         type=str,
-        help="The dump file to be used when creating the Database. "
+        help="The dump file to be used when creating the Atmosphere database. "
              "Can also be set in the config. (Optional)")
     parser.add_argument(
         "--atmosphere-db",
@@ -127,6 +162,12 @@ def main():
         type=str,
         default='master',
         help="The branch to use for deploying Atmosphere and/or Troposphere")
+    
+    #POSITIONAL ARGUMENTS:
+    parser.add_argument("--env-file",
+        type=str, 
+        default="variables.yml",
+        help="The environment file to load when running ansible-playbook")
 
     parser.add_argument(
         "--variables-file",
@@ -139,24 +180,25 @@ def main():
         help="Pass in json to override variables file")
 
     args = parser.parse_args()
+
     # To be executed prior to running 'ansible-playbook'
-    read_and_write_new_varsfile(args)
 
-    #install_dependencies()
-    #prepare_ansible_cfg(args)
-    
-    #Override vars
-    
+    try:
+        install_dependencies()
+        prepare_ansible_cfg(args)
+        prepare_ansible_env_file(args)
+        #TODO: At this stage, we should SANITY CHECK:
+        #TODO: Print out all variables that have been set (In the env. or the arguments below)
+        #TODO: This will allow the user to ensure that things are 'as they should be'.
+        #TODO: We should give three second delay before we continue. This gives time to Ctrl+C
 
-    #TODO: At this stage, we should SANITY CHECK:
-    #TODO: Print out all variables that have been set (In the env. or the arguments below)
-    #TODO: This will allow the user to ensure that things are 'as they should be'.
-    #TODO: We should give three second delay before we continue. This gives time to Ctrl+C
-
-    # TODO: Execute ansible-playbook here.
-    
-    # executed after running 'ansible-playbook'
-    #validate_install(args)
+        # TODO: Execute ansible-playbook here.
+        
+        # executed after running 'ansible-playbook'
+        validate_install(args)
+    except Exception as exc:
+        print "Error executing Ratchet: %s" % exc.message
+        parser.print_help()
 
 if __name__ == "__main__":
   main()

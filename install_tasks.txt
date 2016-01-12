@@ -7,4 +7,4 @@ apt-get install -y redis-server
 mkdir -p /var/log/ansible
 touch /var/log/ansible/ansible.log
 virtualenv clank_env
-clank_env/bin/pip install ansible redis
+clank_env/bin/pip install -r clank_requirements.txt
