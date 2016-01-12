@@ -11,3 +11,7 @@ Clank is a set of playbooks & roles and is the replacement for [Crushbone](https
 # License
 
 See LICENSE file.
+
+# Usage
+
+python ratchet.py $WORKSPACE $VARIABLES_YML_FILE
