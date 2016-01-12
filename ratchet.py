@@ -85,7 +85,7 @@ def prepare_ansible_env_file(args):
 
 def execute_ansible_playbook(args):
     PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
-    command = '%s/clank/clank_env/bin/ansible-playbook --flush-cache "%s/clank/playbooks/deploy_stack.yml" -c local -e @"%s/clank/%s" -i "%s/clank/local_inventory" --skip "troposphere"' % (args.workspace, args.workspace, args.workspace, args.dynamic_env_file, args.workspace)
+    command = '%s/clank/clank_env/bin/ansible-playbook --flush-cache "%s/clank/playbooks/deploy_stack.yml" -c local -e @"%s/clank/%s" -i "%s/clank/local_inventory" --skip "%s"' % (args.workspace, args.workspace, args.workspace, args.dynamic_env_file, args.workspace, args.skip)
     print command
     r = envoy.run(command, cwd=PROJECT_PATH)
     if r.status_code is not 0:
@@ -170,6 +170,11 @@ def main():
         "--troposphere",
         action='store_true',
         help="Deploy Troposphere *ONLY* (Default: Deploy both services)")
+  
+    parser.add_argument("--skip",
+        type=str,
+        default="",
+        help="command seperated list e.g. 'dependencies,atmosphere'")
 
     parser.add_argument(
         "--branch",
