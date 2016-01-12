@@ -3,17 +3,17 @@
   hosts: all
   roles:
     # Dependencies
-    - install-dependencies
-    - setup-postgres
-    - setup-ssl
+    - { role: install-dependencies, tags: [ 'dependencies', 'packages'] }
+    - { role: setup-postgres, tags: [ 'dependencies', 'db'] }
+    - { role: setup-ssl, tags: [ 'dependencies', 'ssl'] }
 
     # Atmosphere Portion
-    - atmosphere-setup-virtualenv
-    - atmosphere-clone-repo
-    - atmosphere-setup-atmosphere
-    - setup-celery
+    - { role: atmosphere-setup-virtualenv, tags: [ 'atmosphere', 'setup-virtualenv'] }
+    - { role: atmosphere-clone-repo, tags: [ 'atmosphere', 'clone-repo'] }
+    - { role: atmosphere-setup-atmosphere, tags: [ 'atmosphere', 'setup-atmosphere'] } 
+    - { role: setup-celery , tags: [ 'atmosphere', 'celery'] }
    
     # Troposphere Portion
-    - troposphere-setup-virtualenv
-    - troposphere-clone-repo
-    - troposphere-setup-troposphere
+    - { role: troposphere-setup-virtualenv, tags: [ 'troposphere', 'setup-virtualenv'] }
+    - { role: troposphere-clone-repo, tags: [ 'troposphere', 'clone-repo'] }
+    - { role: troposphere-setup-troposphere, tags: [ 'troposphere', 'setup-troposphere'] }

@@ -1,0 +1,301 @@
+###############################
+#
+# CLANK VARS
+#
+###############################
+
+# ATMO
+VIRTUAL_ENV_DIR_ATMOSPHERE: /opt/env
+VIRTUAL_ENV_ATMOSPHERE: "{{ VIRTUAL_ENV_DIR_ATMOSPHERE }}/atmo"
+
+ATMOSPHERE_DIR: /opt/dev
+ATMOSPHERE_LOCATION: "{{ ATMOSPHERE_DIR }}/atmosphere"
+ATMOSPHERE_REPO: https://github.com/iPlantCollaborativeOpenSource/atmosphere.git
+# Placeholder for defining the atmosphere branch:
+ATMOSPHERE_BRANCH: ""
+
+# ATMO ANSIBLE
+ANSIBLE_DEPLOY_DIR: "{{ ATMOSPHERE_DIR }}"
+ANSIBLE_DEPLOY_LOCATION: "{{ ANSIBLE_DEPLOY_DIR }}/atmosphere-ansible"
+ANSIBLE_REPO: https://github.com/iPlantCollaborativeOpenSource/atmosphere-ansible.git
+
+# TROPO
+VIRTUAL_ENV_DIR_TROPOSPHERE: /opt/env
+VIRTUAL_ENV_TROPOSPHERE: "{{ VIRTUAL_ENV_DIR_TROPOSPHERE }}/troposphere"
+
+TROPOSPHERE_DIR: /opt/dev
+TROPOSPHERE_LOCATION: "{{ TROPOSPHERE_DIR }}/troposphere"
+# Placeholder for defining the troposphere branch:
+TROPOSPHERE_BRANCH: ""
+
+# POSTGRESQL DB INFORMATION
+
+DB_VERSION: 9.3 # Currently defaults to 9.3
+
+ATMO_DBNAME: 
+ATMO_DBUSER: 
+ATMO_DBPASSWORD: 
+
+TROPO_DBNAME: 
+TROPO_DBUSER: 
+TROPO_DBPASSWORD: 
+
+# JENKINS
+JENKINS: false
+
+# SSL RELATED VARS
+SSL_CERTIFICATE:    #Absolute Path Recommended
+BUNDLE_CERT:        #Absolute Path Recommended
+SSL_KEY:            #Absolute Path Recommended
+
+#ID_RSA
+ID_RSA:             #Absolute Path Recommended
+ID_RSA_PUB:         #Absolute Path Recommended 
+
+#ANSIBLE Related Files
+ANSIBLE_HOSTS_FILE:               #Absolute Path Recommended
+ANSIBLE_GROUP_VARS_FOLDER:        #Absolute Path Recommended
+
+###################################
+#
+# COMMON BETWEEN ATMO AND TROP VARS
+#
+###################################
+#COMMON:
+
+###################################
+#
+# ATMOSPHERE VARS
+#
+###################################
+
+ATMO: 
+    #COMMON
+    SERVER_URL: 
+    LDAP_SERVER: 
+    LDAP_SERVER_DN: 
+    TOKEN_EXPIRY_TIME_DAYS: 
+    DJANGO_SERVER_URL: 
+    
+    #apache2
+    MYSHORTNAME: 
+    MYHOSTNAMEHERE: 
+    PATH_TO_ATMOSPHERE: 
+    PATH_TO_TROPOSPHERE: 
+    BASECERTHERE: 
+    KEYHERE: 
+    BUNDLECERTHERE: 
+    
+    #nginx
+    ATMOSPHERE_PATH: 
+    BUNDLE_FILE: 
+    CERT_DIR: 
+    CERT_FILE: 
+    COMBINED_CERT_FILE: 
+    COMBINED_CERT_PATH: 
+    DHPARAM: 
+    KEY_FILE: 
+    KEY_PATH: 
+    KEY_SIZE: 
+    LEADERBOARD_URL: 
+    LOCATIONS_DIR: 
+    SITES_ENABLED_DIR: 
+    SITES_AVAILABLE_DIR: 
+    SERVER_URL: 
+    VIRTUALENV_PATH: 
+    
+    #uwsgi.ini
+    LOCAL_DEV: 
+    PATH_TO_ATMOSPHERE: 
+    VIRTUALENV_PATH: 
+    UWSGI_USER: 
+    UWSGI_GROUP: 
+    UWSGI_LOG_PATH: 
+    
+    #local.py
+    ANSIBLE_ROOT: 
+    LOGOUT_REDIRECT_URL: 
+    CAS_AUTH_PREFIX: 
+    CAS_SERVER: 
+    OAUTH_ISSUE_USER: 
+    LDAP_SERVER: 
+    LDAP_SERVER_DN: 
+    JWT_INSTALL: 
+    JWT_PUBLIC_KEY: 
+    JWT_CLIENT_KEY: 
+    JWT_CLIENT_SECRET: 
+    GLOBUS_OAUTH_ID: 
+    GLOBUS_OAUTH_SECRET: 
+    GLOBUS_OAUTH_CREDENTIALS_SCOPE: 
+    GLOBUS_OAUTH_ATMOSPHERE_SCOPE: 
+    GLOBUS_TOKENINFO_URL: 
+    GLOBUS_TOKEN_URL: 
+    GLOBUS_AUTH_URL: 
+    OAUTH_CLIENT_KEY: 
+    OAUTH_CLIENT_SECRET: 
+    DATABASE_CONN_MAX_AGE: 
+    DATABASE_ENGINE: 
+    DATABASE_HOST: 
+    DATABASE_NAME: 
+    DATABASE_PASSWORD: 
+    DATABASE_PORT: 
+    DATABASE_USER: 
+    DJANGO_DEBUG: 
+    #NOTE: DO NOT SET ENFORCING UNLESS YOU ARE ON PRODUCTION!!!!
+    ENFORCING: 
+    DJANGO_JENKINS: 
+    SSLSERVER: 
+    TESTING: 
+    MOCK_USER: 
+    USE_MOCK_AUTH: 
+    SAML_SSO: 
+    SAML_SSO_KEYFILE: 
+    SAML_SSO_CERTFILE: 
+    SAML_IDP_URL: 
+    SAML_IDP_OAUTH_URL: 
+    SSO_OAUTH_KEY: 
+    SSO_OAUTH_SECRET: 
+    SAML_ENTITY_ID: 
+    DJANGO_TEMPLATE_DEBUG: 
+    LOG_LIBCLOUD: 
+    LOGGING_DEP_LEVEL: 
+    LOGGING_LEVEL: 
+    LOGSTASH_HOST: 
+    LOGSTASH_PORT: 
+    METRIC_SERVER: 
+    SECRET_KEY: 
+    SELF_SIGNED_CERT: 
+    TEST_RUNNER: 
+    TEST_RUNNER_PASS: 
+    TEST_RUNNER_USER: 
+    AUTO_CREATE_NEW_ACCOUNTS: 
+    
+    #secrets.py
+    IRODS_HOST: 
+    IRODS_PORT: 
+    IRODS_ZONE: 
+    IRODS_ADMIN_USER: 
+    IRODS_ADMIN_PASS: 
+    LOCAL_STORAGE: 
+    OPENSTACK_PROVIDER_KEY: 
+    OPENSTACK_ADMIN_KEY: 
+    OPENSTACK_ADMIN_SECRET: 
+    OPENSTACK_AUTH_URL: 
+    OPENSTACK_ADMIN_TENANT: 
+    OPENSTACK_DEFAULT_REGION: 
+    OPENSTACK_DEFAULT_ROUTER: 
+    OPENSTACK_USER_ROLE: 
+    OPENSTACK_ADMIN_ROLE: 
+    ATMOSPHERE_SUPERUSER: 
+    ATMOSPHERE_VNC_LICENSE: 
+    
+    #celeryd.default
+    VIRTUAL_ENV_ATMOSPHERE: 
+    ATMOSPHERE_LOCATION: 
+    SSL_LOCATION: 
+    SSL_CERTIFICATE: 
+    SSL_KEY: 
+
+###################################
+#
+# TROPOSPHERE VARS
+#
+###################################
+
+
+TROPO:
+     
+    # COMMON 
+    ASSETS_PATH: 
+    THEME_PATH: 
+    DJANGO_SERVER_URL: 
+    SERVER_URL: 
+    LDAP_SERVER: 
+    LDAP_SERVER_DN: 
+    TOKEN_EXPIRY_TIME_DAYS: 
+    
+    # apache 
+    MYSHORTNAME: 
+    MYHOSTNAMEHERE: 
+    PATH_TO_TROPOSPHERE: 
+    BASECERTHERE: 
+    KEYHERE: 
+    BUNDLECERTHERE: 
+    
+    # nginx 
+    BUNDLE_FILE: 
+    TROPOSPHERE_PATH: 
+    LOCATIONS_DIR: 
+    SITES_AVAILABLE_DIR: 
+    SITES_ENABLED_DIR: 
+    SERVER_URL: 
+    CERT_DIR: 
+    CERT_FILE: 
+    COMBINED_CERT_FILE: 
+    COMBINED_CERT_PATH: 
+    KEY_FILE: 
+    KEY_PATH: 
+    KEY_SIZE: 
+    DHPARAM: 
+    VIRTUALENV_PATH: 
+    
+    # uwsgi.ini 
+    LOCAL_DEV: 
+    PATH_TO_TROPOSPHERE: 
+    VIRTUALENV_PATH: 
+    UWSGI_USER: 
+    UWSGI_GROUP: 
+    UWSGI_LOG_PATH: 
+    
+    # local.py 
+    DEBUG: 
+    SECRET_KEY: 
+    THEME_NAME: 
+    SITE_TITLE: 
+    SITE_FOOTER: 
+    API_SERVER: 
+    BASE_URL: 
+    
+    DATABASE_NAME: 
+    DATABASE_ENGINE: 
+    DATABASE_USER: 
+    DATABASE_CONN_MAX_AGE: 
+    DATABASE_PASSWORD: 
+    DATABASE_HOST: 
+    DATABASE_PORT: 
+    DJANGO_JENKINS: 
+    SSLSERVER: 
+    
+    MOCK_USER: 
+    USE_MOCK_AUTH: 
+    LOGOUT_REDIRECT_URL: 
+    CAS_SERVER: 
+    CAS_AUTH_PREFIX: 
+    OAUTH_CLIENT_KEY: 
+    OAUTH_CLIENT_SECRET: 
+    OAUTH_CLIENT_CALLBACK: 
+    GLOBUS_OAUTH_ID: 
+    GLOBUS_OAUTH_SECRET: 
+    GLOBUS_OAUTH_CREDENTIALS_SCOPE: 
+    GLOBUS_OAUTH_ATMOSPHERE_SCOPE: 
+    GLOBUS_TOKENINFO_URL: 
+    GLOBUS_TOKEN_URL: 
+    GLOBUS_AUTH_URL: 
+    OAUTH_ISSUE_USER: 
+    
+    BADGES_ENABLED: 
+    BADGE_SECRET: 
+    BADGE_HOST: 
+    BADGE_API_HOST: 
+    BADGE_SYSTEM_NAME: 
+    BADGE_SYSTEM_SLUG: 
+    SHOW_INSTANCE_METRICS: 
+    
+    USE_GATE_ONE_API: 
+    # Key and secret represent atmo-dev credentials
+    GATE_ONE_API_KEY: 
+    GATE_ONE_API_SECRET: 
+    # must be localhost or route-able domain
+    WEB_SH_ROUTE: 
+    WEB_SH_BASE_URL: 
+    WEB_SH_JS_FILE: 
