@@ -176,26 +176,24 @@ def main():
         type=str,
         default='master',
         help="The branch to use for deploying Atmosphere and/or Troposphere")
-    
-    #POSITIONAL ARGUMENTS:
-    parser.add_argument("--env-file",
-        type=str, 
-        default="variables.yml",
-        help="The environment file to load when running ansible-playbook")
+
+    parser.add_argument("--override-args",
+        default="{}",
+        help="Pass in json to override variables file")
     
     parser.add_argument("--dynamic-env-file",
         type=str,
         default="dynamic_ratchet_ansible_env.yml",
         help="The environment file to be renamed as which will be loaded in to ansible-playbook")
 
-    parser.add_argument("--workspace",
+    #POSITIONAL ARGUMENTS:
+    parser.add_argument("workspace",
         type=str,
-        default="",
         help="The workspace from which files will be used to get ansible to run")
-
-    parser.add_argument("--override-args",
-        default="{}",
-        help="Pass in json to override variables file")
+    parser.add_argument("env-file",
+        type=str, 
+        help="The environment file to load when running ansible-playbook")
+    
 
     args = parser.parse_args()
 
