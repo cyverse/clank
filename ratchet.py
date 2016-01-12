@@ -88,14 +88,14 @@ def execute_ansible_playbook(args):
     command = '%s/clank/clank_env/bin/ansible-playbook --flush-cache "%s/clank/playbooks/deploy_stack.yml" -c local -e @"%s/clank/%s" -i "%s/clank/local_inventory" --skip "troposphere"' % (args.workspace, args.workspace, args.workspace, args.dynamic_env_file, args.workspace)
     print command
     r = envoy.run(command, cwd=PROJECT_PATH)
-            if r.status_code is not 0:
-                print bcolors.FAIL + command
-                print "Error Code:" + str(r.status_code)
-                print "Std_out:" + r.std_out
-                print "Std_err:" + r.std_err + bcolors.ENDC
-                sys.exit(1)
-            else:
-                print bcolors.OKGREEN + command + bcolors.ENDC    
+    if r.status_code is not 0:
+        print bcolors.FAIL + command
+        print "Error Code:" + str(r.status_code)
+        print "Std_out:" + r.std_out
+        print "Std_err:" + r.std_err + bcolors.ENDC
+        sys.exit(1)
+    else:
+        print bcolors.OKGREEN + command + bcolors.ENDC    
  
 def map_arguments(args):
     """
@@ -190,9 +190,11 @@ def main():
 
     parser.add_argument("--workspace",
         type=str,
+        default="",
         help="The workspace from which files will be used to get ansible to run")
 
     parser.add_argument("--override-args",
+        default="{}",
         help="Pass in json to override variables file")
 
     args = parser.parse_args()
