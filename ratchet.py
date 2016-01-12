@@ -1,8 +1,11 @@
 #!/usr/bin/env python
 
+import argparse
+import json
 import os
 import sys
-import argparse
+import yaml
+
 import envoy
 
 try:
@@ -42,11 +45,20 @@ def install_dependencies():
             else:
                 print bcolors.OKGREEN + command + bcolors.ENDC
 
+def read_and_write_new_varsfile(args):
+    PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
+    current_vars_file = args.variables_file
+    my_vars_dict = json.loads(args.override_args)
+
+    with open(os.path.join(PROJECT_PATH,current_vars_file), "r") as stream:
+        dict_from_file = yaml.load(stream)
+    
+    for key in my_vars_dict.keys():
+        dict_from_file[key] = my_vars_dict[key]
+  
+        
 
 def prepare_ansible_cfg(args):
-    #TODO: swap out any overriding 'args' (set in ratchet.py)
-    #with the values that were contained in the template/environment file.
-
     PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
     LOADER = FileSystemLoader(PROJECT_PATH)
     ENV = Environment(loader=LOADER,
@@ -116,10 +128,26 @@ def main():
         default='master',
         help="The branch to use for deploying Atmosphere and/or Troposphere")
 
+    parser.add_argument(
+        "--variables-file",
+        type=str,
+        default="variables.yml",
+        help="Define the variables file for which Ansible is used to import")
+
+    parser.add_argument(
+        "--override-args",
+        help="Pass in json to override variables file")
+
     args = parser.parse_args()
     # To be executed prior to running 'ansible-playbook'
-    install_dependencies()
-    prepare_ansible_cfg(args)
+    read_and_write_new_varsfile(args)
+
+    #install_dependencies()
+    #prepare_ansible_cfg(args)
+    
+    #Override vars
+    
+
     #TODO: At this stage, we should SANITY CHECK:
     #TODO: Print out all variables that have been set (In the env. or the arguments below)
     #TODO: This will allow the user to ensure that things are 'as they should be'.
@@ -128,7 +156,7 @@ def main():
     # TODO: Execute ansible-playbook here.
     
     # executed after running 'ansible-playbook'
-    validate_install(args)
+    #validate_install(args)
 
 if __name__ == "__main__":
   main()
