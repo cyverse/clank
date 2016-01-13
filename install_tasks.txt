@@ -1,5 +1,6 @@
 apt-get install -y software-properties-common
-apt-get install -y python-virtualenv
+apt-get install python-pip python-dev build-essential
+pip install --upgrade pip virtualenv virtualenvwrapper
 apt-add-repository ppa:ansible/ansible
 apt-get update
 apt-get install -y ansible 
