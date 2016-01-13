@@ -149,12 +149,12 @@ def main():
         help="The dump file to be used when creating the Atmosphere database. "
              "Can also be set in the config. (Optional)")
     parser.add_argument(
-        "--atmosphere-db",
+        "--atmosphere_db",
         type=str,
         help="The database name to be used for Atmosphere. "
              "Can also be set in the config. (Optional)")
     parser.add_argument(
-        "--troposphere-db",
+        "--troposphere_db",
         type=str,
         help="The database name to be used for Troposphere. "
              "Can also be set in the config. (Optional)")
@@ -179,11 +179,11 @@ def main():
         default='master',
         help="The branch to use for deploying Atmosphere and/or Troposphere")
 
-    parser.add_argument("--override-args",
+    parser.add_argument("--override_args",
         default="{}",
         help="Pass in json to override variables file")
     
-    parser.add_argument("--dynamic-env-file",
+    parser.add_argument("--dynamic_env_file",
         type=str,
         default="dynamic_ratchet_ansible_env.yml",
         help="The environment file to be renamed as which will be loaded in to ansible-playbook")
@@ -192,7 +192,7 @@ def main():
     parser.add_argument("workspace",
         type=str,
         help="The workspace from which files will be used to get ansible to run")
-    parser.add_argument("env-file",
+    parser.add_argument("env_file",
         type=str, 
         help="The environment file to load when running ansible-playbook")
     
