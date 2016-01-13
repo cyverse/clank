@@ -8,6 +8,7 @@ import yaml
 
 import envoy
 
+FILE_PATH = os.path.abspath(os.path.dirname(__file__))
 try:
     from jinja2 import Environment, FileSystemLoader, StrictUndefined
 except ImportError:
@@ -29,13 +30,12 @@ class bcolors:
     UNDERLINE = '\033[4m'
 
 
-def install_dependencies():
-    PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
-    INSTALL_LIST = os.path.join(PROJECT_PATH, "install_tasks.txt")
+def install_dependencies(args):
+    INSTALL_LIST = os.path.join(FILE_PATH, "install_tasks.txt")
     with open(INSTALL_LIST) as f:
         commands = f.readlines()
         for command in commands:
-            r = envoy.run(command, cwd=PROJECT_PATH)
+            r = envoy.run(command, cwd=FILE_PATH)
             if r.status_code is not 0:
                 print bcolors.FAIL + command
                 print "Error Code:" + str(r.status_code)
@@ -46,11 +46,10 @@ def install_dependencies():
                 print bcolors.OKGREEN + command + bcolors.ENDC
 
 def prepare_ansible_env_file(args):
-    PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
     current_vars_file = args.env_file
     my_vars_dict = json.loads(args.override_args)
 
-    with open(os.path.join(PROJECT_PATH,current_vars_file), "r") as stream:
+    with open(current_vars_file, "r") as stream:
         dict_from_file = yaml.load(stream)
     
     for key in my_vars_dict.keys():
@@ -60,7 +59,7 @@ def prepare_ansible_env_file(args):
         else:
             dict_from_file[key] = my_vars_dict[key]
   
-    new_env_file = os.path.join(PROJECT_PATH, args.dynamic_env_file)
+    new_env_file = os.path.join(FILE_PATH, args.dynamic_env_file)
     with open(new_env_file,'w') as the_file:
         the_file.write(yaml.safe_dump(dict_from_file, default_flow_style=False,  encoding='utf-8', allow_unicode=True))
 
@@ -84,10 +83,9 @@ def prepare_ansible_env_file(args):
 #        )
 
 def execute_ansible_playbook(args):
-    PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
     command = '%s/clank/clank_env/bin/ansible-playbook --flush-cache "%s/clank/playbooks/deploy_stack.yml" -c local -e @"%s/clank/%s" -i "%s/clank/local_inventory" --skip "%s"' % (args.workspace, args.workspace, args.workspace, args.dynamic_env_file, args.workspace, args.skip)
     print command
-    r = envoy.run(command, cwd=PROJECT_PATH)
+    r = envoy.run(command, cwd=FILE_PATH)
     if r.status_code is not 0:
         print bcolors.FAIL + command
         print "Error Code:" + str(r.status_code)
@@ -108,14 +106,13 @@ def map_arguments(args):
     }
 
 def prepare_ansible_cfg(args):
-    PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
-    LOADER = FileSystemLoader(PROJECT_PATH)
+    LOADER = FileSystemLoader(FILE_PATH)
     ENV = Environment(loader=LOADER,
                       undefined=StrictUndefined)
 
     template_location = "ansible.cfg.j2"
-    output_path = os.path.join(PROJECT_PATH, "ansible.cfg")
-    CLANK_ROLES_PATH = os.path.join(PROJECT_PATH, "roles")
+    output_path = os.path.join(FILE_PATH, "ansible.cfg")
+    CLANK_ROLES_PATH = os.path.join(FILE_PATH, "roles")
     template = ENV.get_template(template_location)
     rendered = template.render(CLANK_ANSIBLE_ROLES=CLANK_ROLES_PATH)
     with open(output_path, 'wb') as fh:
@@ -205,7 +202,7 @@ def main():
     # To be executed prior to running 'ansible-playbook'
 
     try:
-        install_dependencies()
+        install_dependencies(args)
         prepare_ansible_cfg(args)
         prepare_ansible_env_file(args)
         #TODO: At this stage, we should SANITY CHECK:
