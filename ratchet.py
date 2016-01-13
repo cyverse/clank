@@ -188,11 +188,13 @@ def main():
         default="dynamic_ratchet_ansible_env.yml",
         help="The environment file to be renamed as which will be loaded in to ansible-playbook")
 
-    #POSITIONAL ARGUMENTS:
-    parser.add_argument("workspace",
+    parser.add_argument("--workspace",
+        required=True,
         type=str,
         help="The workspace from which files will be used to get ansible to run")
-    parser.add_argument("env_file",
+
+    parser.add_argument("--env_file",
+        required=True,
         type=str, 
         help="The environment file to load when running ansible-playbook")
     
