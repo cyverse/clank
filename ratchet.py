@@ -80,8 +80,7 @@ def execute_ansible_playbook(args):
     #Optional commands that cause errors if left empty:
     if args.skip:
        command += ' --skip "%s"' % args.skip
-    os.environ['PYTHONUNBUFFEREED'] = 1
-    (out, err, returncode) = live_run(command, cwd=FILE_PATH, env=env)
+    (out, err, returncode) = live_run(command, cwd=FILE_PATH)
     if returncode is not 0:
         print bcolors.FAIL + "%s" % command
         print "Error Code:" + str(returncode)
