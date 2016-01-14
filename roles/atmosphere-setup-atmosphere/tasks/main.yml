@@ -22,7 +22,7 @@
       template src=../../../dist_files/atmosphere_variables.ini.j2 dest={{ role_path }}/files/atmosphere_variables.ini
  
 - name: move over precompleted variables.ini
-  copy: src=atmosphere_variables.ini dest={{ ATMOSPHERE_LOCATION }}/variables.ini backup=yes force=yes
+  copy: src=atmosphere_variables.ini dest={{ ATMOSPHERE_LOCATION }}/variables.ini 
 
 - name: run generate scripts for atmosphere
   shell: "{{ VIRTUAL_ENV_ATMOSPHERE }}/bin/python {{ ATMOSPHERE_LOCATION }}/configure"
