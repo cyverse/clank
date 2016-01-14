@@ -3,7 +3,10 @@
 import argparse
 import json
 import os
+import shlex
+import subprocess
 import sys
+import traceback
 import yaml
 
 import envoy
@@ -51,56 +54,42 @@ def prepare_ansible_env_file(args):
 
     with open(current_vars_file, "r") as stream:
         dict_from_file = yaml.load(stream)
-    
+
     for key in my_vars_dict.keys():
         if type(my_vars_dict[key]) == dict:
             vars_dict = my_vars_dict[key]
             dict_from_file[key].update(vars_dict)
         else:
             dict_from_file[key] = my_vars_dict[key]
-  
+
     new_env_file = os.path.join(FILE_PATH, args.dynamic_env_file)
     with open(new_env_file,'w') as the_file:
         the_file.write(yaml.safe_dump(dict_from_file, default_flow_style=False,  encoding='utf-8', allow_unicode=True))
 
 
-#def prepare_ansible_env_file(args):
-#    """
-#    INPUT: arguments (Including args.env_file)
-#    OUTPUT: A new env file that includes *EVERYTHING* in args.env_file + overriding arguments!
-#    This file will be called 'dynamic_ratchet_ansible_env'
-#    """
-#    if not args.env_file:
-#        raise Exception("Missing env_file! Check your filepath and re-run with an env_file!")
-#    with open(args.env_file,'r') as the_file:
-#        python_obj = yaml.load(the_file)
-#    arg_map = map_arguments(args)
-#    python_obj.update(arg_map)
-#    new_env_file = os.path.join(os.getcwd(), "dynamic_ratchet_ansible_env")
-#    with open(new_env_file,'w') as the_file:
-#        the_file.write(
-#            yaml.dump(python_obj, default_flow_style=False)
-#        )
+def live_run(command, **kwargs):
+    proc = subprocess.Popen(shlex.split(command), **kwargs) 
+    out, err = proc.communicate()
+    return (out, err, proc.returncode)
 
 def execute_ansible_playbook(args):
-    
-    command = '%s/clank/clank_env/bin/ansible-playbook --flush-cache "%s/clank/playbooks/deploy_stack.yml" -c local -e @"%s/clank/%s" -i "%s/clank/local_inventory"' % (args.workspace, args.workspace, args.workspace, args.dynamic_env_file, args.workspace)
+
+    command = '%s/clank/clank_env/bin/ansible-playbook %s/clank/playbooks/deploy_stack.yml --flush-cache -c local -e "@%s/clank/%s" -i "%s/clank/local_inventory"' % (args.workspace, args.workspace, args.workspace, args.dynamic_env_file, args.workspace)
 
     #Optional commands that cause errors if left empty:
     if args.skip:
-       command += " --skip %s" % args.skip
+       command += ' --skip "%s"' % args.skip
 
-    print command
-    r = envoy.run(command, cwd=FILE_PATH)
-    if r.status_code is not 0:
-        print bcolors.FAIL + command
-        print "Error Code:" + str(r.status_code)
-        print "Std_out:" + r.std_out
-        print "Std_err:" + r.std_err + bcolors.ENDC
+    (out, err, returncode) = live_run(command, cwd=FILE_PATH)
+    if returncode is not 0:
+        print bcolors.FAIL + "%s" % command
+        print "Error Code:" + str(returncode)
+        print "Std_out:" + out
+        print "Std_err:" + err + bcolors.ENDC
         sys.exit(1)
     else:
-        print bcolors.OKGREEN + command + bcolors.ENDC    
- 
+        print bcolors.OKGREEN + command + bcolors.ENDC
+
 def map_arguments(args):
     """
     Takes a 'args NameSpace'
@@ -173,7 +162,7 @@ def main():
         "--troposphere",
         action='store_true',
         help="Deploy Troposphere *ONLY* (Default: Deploy both services)")
-  
+
     parser.add_argument("--skip",
         type=str,
         default="",
@@ -188,7 +177,7 @@ def main():
     parser.add_argument("--override_args",
         default="{}",
         help="Pass in json to override variables file")
-    
+
     parser.add_argument("--dynamic_env_file",
         type=str,
         default="dynamic_ratchet_ansible_env.yml",
@@ -201,30 +190,31 @@ def main():
 
     parser.add_argument("--env_file",
         required=True,
-        type=str, 
+        type=str,
         help="The environment file to load when running ansible-playbook")
-    
+
 
     args = parser.parse_args()
 
-    # To be executed prior to running 'ansible-playbook'
 
     try:
+        # To be executed prior to running 'ansible-playbook'
         install_dependencies(args)
         prepare_ansible_cfg(args)
         prepare_ansible_env_file(args)
-        #TODO: At this stage, we should SANITY CHECK:
-        #TODO: Print out all variables that have been set (In the env. or the arguments below)
-        #TODO: This will allow the user to ensure that things are 'as they should be'.
-        #TODO: We should give three second delay before we continue. This gives time to Ctrl+C
 
-        # TODO: Execute ansible-playbook here.
+        # TODO: At this stage, we should SANITY CHECK:
+        #       Print out all variables that have been set (In the env. or the arguments below)
+        #       This will allow the user to ensure that things are 'as they should be'.
+        #       We should give three second delay before we continue. This gives time to Ctrl+C
+
         execute_ansible_playbook(args)
-        # executed after running 'ansible-playbook'
-        validate_install(args)
+        # TODO: Tests that can be executed after running 'ansible-playbook'
+        # validate_install(args)
     except Exception as exc:
         print "Error executing Ratchet: %s" % exc.message
         parser.print_help()
+        traceback.print_exc(file=sys.stdout)
 
 if __name__ == "__main__":
   main()
