@@ -84,7 +84,13 @@ def prepare_ansible_env_file(args):
 #        )
 
 def execute_ansible_playbook(args):
-    command = '%s/clank/clank_env/bin/ansible-playbook --flush-cache "%s/clank/playbooks/deploy_stack.yml" -c local -e @"%s/clank/%s" -i "%s/clank/local_inventory" --skip "%s"' % (args.workspace, args.workspace, args.workspace, args.dynamic_env_file, args.workspace, args.skip)
+    
+    command = '%s/clank/clank_env/bin/ansible-playbook --flush-cache "%s/clank/playbooks/deploy_stack.yml" -c local -e @"%s/clank/%s" -i "%s/clank/local_inventory"' % (args.workspace, args.workspace, args.workspace, args.dynamic_env_file, args.workspace)
+
+    #Optional commands that cause errors if left empty:
+    if args.skip:
+       command += " --skip %s" % args.skip
+
     print command
     r = envoy.run(command, cwd=FILE_PATH)
     if r.status_code is not 0:
