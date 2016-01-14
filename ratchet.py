@@ -5,6 +5,7 @@ import json
 import os
 import sys
 import yaml
+import ruamel.yaml
 
 import envoy
 
@@ -61,7 +62,7 @@ def prepare_ansible_env_file(args):
   
     new_env_file = os.path.join(FILE_PATH, args.dynamic_env_file)
     with open(new_env_file,'w') as the_file:
-        the_file.write(yaml.safe_dump(dict_from_file, default_flow_style=False,  encoding='utf-8', allow_unicode=True))
+        the_file.write(ruamel.yaml.dump(dict_from_file, Dumper=ruamel.yaml.RoundTripDumper))
 
 
 #def prepare_ansible_env_file(args):
