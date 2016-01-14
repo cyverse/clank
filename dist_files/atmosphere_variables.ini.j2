@@ -70,7 +70,7 @@ DATABASE_PORT = {{ ATMO["DATABASE_PORT"] | default('', true) }}
 DATABASE_USER = {{ ATMO["DATABASE_USER"] | default('', true) }} 
 DJANGO_DEBUG = {{ ATMO["DJANGO_DEBUG"] | default('', true) }} 
 #NOTE: DO NOT SET ENFORCING UNLESS YOU ARE ON PRODUCTION!!!!
-ENFORCING = {{ ATMO["ENFORCING"] | default('', true, true) }} 
+ENFORCING = {{ ATMO["ENFORCING"] | default('', true) }} 
 DJANGO_JENKINS = {{ ATMO["DJANGO_JENKINS"] | default('', true) }} 
 SSLSERVER = {{ ATMO["SSLSERVER"] | default('', true) }} 
 TESTING = {{ ATMO["TESTING"] | default('', true) }} 
