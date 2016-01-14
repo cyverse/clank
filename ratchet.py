@@ -5,9 +5,9 @@ import json
 import os
 import sys
 import yaml
-import ruamel.yaml
 
 import envoy
+import ruamel.yaml
 
 FILE_PATH = os.path.abspath(os.path.dirname(__file__))
 try:
