@@ -85,8 +85,10 @@ def execute_ansible_playbook(args):
     if returncode is not 0:
         print bcolors.FAIL + "%s" % command
         print "Error Code:" + str(returncode)
-        print "Std_out:" + out
-        print "Std_err:" + err + bcolors.ENDC
+        if out:
+            print "Std_out:" + out
+        if err:
+            print "Std_err:" + err + bcolors.ENDC
         sys.exit(1)
     else:
         print bcolors.OKGREEN + command + bcolors.ENDC
