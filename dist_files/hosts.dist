@@ -3,6 +3,13 @@
 # Example of how to complete the necessary `hosts` file. 
 # 
 ########
+#
+# Conceptual Hierarchy:
+#
+# Cloud:
+#   - Provider(s)
+#       - virtual machines (hosts)
+#
 # Background:
 #
 # This file has two ways of describing the virtual machines that can
