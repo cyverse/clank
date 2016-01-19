@@ -1,29 +1,86 @@
 ########
 #
-# Example hosts file to be completed with examples
+# Example of how to complete the necessary `hosts` file. 
 # 
+########
+# Background:
 #
+# This file has two ways of describing the virtual machines that can
+# be launched within a given cloud. So this `hosts` file is describing
+# the machines that will be connected. 
+# 
+# We can describe them by:
+# - possible hostname pattern (vms-10-[2:255])
+# - possible IP range pattern (100.100.10.[2:255])
+#
+# These "host"s could be launched withing 1 provider. But, a "cloud" may
+# have more than one _provider_. So we offer a way to specify this "child"
+# clouds (_providers_) within the overall "cloud".
+#
+# If you have a single _provider_ (called 'provider1') whose virtual machines
+# have "vms-" prefixes for their assigned hostname and were assigned IPs that
+# fall in `100.100.10.*`  or `100.100.11.*`, we would use that to fill in hosts
+# like so:
+# 
+# ```
+# [atmosphere-provider1]
+# vms-10-[2:255] ansible_ssh_host=0.0.0.0 ansible_ssh_port=22
+# vms-11-[2:255] ansible_ssh_host=0.0.0.0 ansible_ssh_port=22
+# 100.100.[10:11].[2:255] ansible_ssh_host=0.0.0.0 ansible_ssh_port=22
+#
+# [atmosphere:children]
+# atmosphere-provider1
+# ```
+# 
+# Our goal is giving a description for "reachability" purposes. So, any virtual
+# machine launched in "provider1" can be reached (and connected via SSH) using
+# either the "hostname" pattern or the IP range pattern specified.
+# 
 ########
 
+########
+# Below is a multiple _provider_ example. 
+#
 # Instructions:
 # Replace example host groups with your own host and ip ranges allocated for you cloud
 
-#[atmosphere-cloud_here_name]
-#vm2-[2:255] ansible_ssh_host=0.0.0.0 ansible_ssh_port=22
-#100.100.2.[2:255] ansible_ssh_host=0.0.0.0 ansible_ssh_port=22
+# You could consider the following template and the "placeholders":
+#
+# [atmosphere-{{cloud_provider_name}}]
+# {{common-hostname-prefix}}[2:255] ansible_ssh_host=0.0.0.0 ansible_ssh_port=22
+# {{project-owned-IP-prefix1}}.2.[2:255] ansible_ssh_host=0.0.0.0 ansible_ssh_port=22
+# {{project-owned-IP-prefix2}}.2.[2:255] ansible_ssh_host=0.0.0.0 ansible_ssh_port=22
+#
+# The "placeholders" are determined by your infrastructure:
+#
+# For provider1
+# - {{cloud_provider_name}} = provider1 
+# - {{common-hostname-prefix}} = pr1-
+# - {{project-owned-IP-prefix1}} = 100.100.10
+# - {{project-owned-IP-prefix2}} = 100.100.11
+#
+# For provider2
+# - {{cloud_provider_name}} = provider2
+# - {{common-hostname-prefix}} = pr2-
+# - {{project-owned-IP-prefix1}} = 100.100.110
 
-# Example 1
-[atmosphere-mars]
-vm10-[2:255] ansible_ssh_host=0.0.0.0 ansible_ssh_port=22
-vm11-[2:255] ansible_ssh_host=0.0.0.0 ansible_ssh_port=22
+#
+# Example (continued) - multiple provider:
+#
+
+# Example Provider1
+[atmosphere-provider1]
+pr1-10-[2:255] ansible_ssh_host=0.0.0.0 ansible_ssh_port=22
+pr1-11-[2:255] ansible_ssh_host=0.0.0.0 ansible_ssh_port=22
 100.100.[10:11].[2:255] ansible_ssh_host=0.0.0.0 ansible_ssh_port=22
 
-# Example 2
-[atmosphere-venus]
-vm142-[2:255] ansible_ssh_host=0.0.0.0 ansible_ssh_port=22
+
+# Example Provider2
+[atmosphere-provider2]
+pr2-110-[2:255] ansible_ssh_host=0.0.0.0 ansible_ssh_port=22
 111.111.110.[2:255] ansible_ssh_host=0.0.0.0 ansible_ssh_port=22
 
-
+# Example - including providers
 [atmosphere:children]
-atmosphere-mars
-atmosphere-venus
+atmosphere-provider1
+atmosphere-provider2
