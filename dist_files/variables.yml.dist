@@ -40,6 +40,9 @@ TROPO_DBNAME:
 TROPO_DBUSER: 
 TROPO_DBPASSWORD: 
 
+LOAD_DATABASE: false            # set this to true when you want to load postgres with sql files
+DATABASE_FILES_TO_BE_LOADED: [] # a list containing absolute paths to sql scripts that you want loaded ["/root/some_sql.sql", "/opt/postgresstuff/test.sql"]
+
 # JENKINS
 JENKINS: false
 
