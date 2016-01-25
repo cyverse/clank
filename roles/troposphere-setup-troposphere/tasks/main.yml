@@ -1,10 +1,10 @@
 - name: copy over troposphere sql script for postgresql to run
-  copy: src={{ TROPOSPHERE_DATABASE_FILES_TO_BE_LOADED }} dest={{ POSTGRES_SQL_INSTALL_DIRECTORY }}
+  copy: src={{ TROPOSPHERE_DATABASE_FILE_TO_BE_LOADED }} dest={{ POSTGRES_SQL_INSTALL_DIRECTORY }}
   when: LOAD_TROPOSPHERE_DATABASE
 
 - name: run troposphere sql script for postgresql
   sudo_user: postgres
-  command: psql -f {{ POSTGRES_SQL_INSTALL_DIRECTORY }}/{{ TROPOSPHERE_DATABASE_FILES_TO_BE_LOADED | basename }} 
+  command: psql -f {{ POSTGRES_SQL_INSTALL_DIRECTORY }}/{{ TROPOSPHERE_DATABASE_FILE_TO_BE_LOADED | basename }} 
   when: LOAD_TROPOSPHERE_DATABASE
 
 - name: pip install requirements
