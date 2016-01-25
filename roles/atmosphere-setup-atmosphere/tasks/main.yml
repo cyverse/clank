@@ -1,3 +1,12 @@
+- name: copy over atmosphere sql scripts for postgresql to run
+  copy: src={{ ATMOSPHERE_DATABASE_FILE_TO_BE_LOADED }} dest={{ POSTGRES_SQL_INSTALL_DIRECTORY }}
+  when: LOAD_ATMOSPHERE_DATABASE
+
+- name: run atmosphere sql scripts for postgresql
+  sudo_user: postgres
+  command: psql -f {{ POSTGRES_SQL_INSTALL_DIRECTORY }}/{{ ATMOSPHERE_DATABASE_FILE_TO_BE_LOADED | basename }} 
+  when: LOAD_ATMOSPHERE_DATABASE
+
 - name: pip install requirements
   pip: requirements={{ ATMOSPHERE_LOCATION }}/requirements.txt virtualenv={{ VIRTUAL_ENV_ATMOSPHERE }}
 
@@ -38,8 +47,6 @@
 
 - name: make sure ssh config exists
   file: path=/root/.ssh/config state=touch
-
-
 
 - name: move over completed hosts file
   copy: src={{ ANSIBLE_HOSTS_FILE }} dest={{ ANSIBLE_DEPLOY_LOCATION }}/ansible

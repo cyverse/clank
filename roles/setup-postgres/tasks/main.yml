@@ -83,18 +83,3 @@
   command: psql -c "GRANT connect ON DATABASE {{ TROPO_DBNAME }} TO {{ TROPO_DBUSER }};"
   tags:
     - postgres
-
-- name: copy over sql scripts for postgresql to run
-  copy: src={{ item }} dest={{ POSTGRES_SQL_INSTALL_DIRECTORY }}
-  with_items: "{{ DATABASE_FILES_TO_BE_LOADED }}"
-  when: LOAD_DATABASE
-  tags:
-    - postgres
-
-- name: run sql scripts for postgresql
-  sudo_user: postgres
-  command: psql -f {{ POSTGRES_SQL_INSTALL_DIRECTORY }}/{{ item | basename }}
-  with_items: "{{ DATABASE_FILES_TO_BE_LOADED }}"
-  when: LOAD_DATABASE
-  tags:
-    - postgres

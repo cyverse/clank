@@ -1,3 +1,12 @@
+- name: copy over troposphere sql script for postgresql to run
+  copy: src={{ TROPOSPHERE_DATABASE_FILES_TO_BE_LOADED }} dest={{ POSTGRES_SQL_INSTALL_DIRECTORY }}
+  when: LOAD_TROPOSPHERE_DATABASE
+
+- name: run troposphere sql script for postgresql
+  sudo_user: postgres
+  command: psql -f {{ POSTGRES_SQL_INSTALL_DIRECTORY }}/{{ TROPOSPHERE_DATABASE_FILES_TO_BE_LOADED | basename }} 
+  when: LOAD_TROPOSPHERE_DATABASE
+
 - name: pip install requirements
   pip: requirements={{ TROPOSPHERE_LOCATION }}/dev_requirements.txt virtualenv={{ VIRTUAL_ENV_TROPOSPHERE }}  state=latest
 
@@ -11,7 +20,7 @@
   local_action: >
       file path={{ role_path }}/files state=directory mode=0755
 
-- name: create local atmosphere_variables.ini from dist
+- name: create local troposphere_variables.ini from dist
   local_action: >
       template src=../../../dist_files/troposphere_variables.ini.j2 dest={{ role_path }}/files/troposphere_variables.ini
 
