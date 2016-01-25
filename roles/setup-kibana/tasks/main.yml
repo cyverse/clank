@@ -13,6 +13,7 @@
   action: >
     {{ ansible_pkg_mgr }} name={{ item }} state={{ NGINX_PACAKGES.state }} update_cache=yes  
   with_items: NGINX_PACAKGES.packages
+  tags: apt-install
 
 - name: Create service account for Kibana
   user: name=kibana

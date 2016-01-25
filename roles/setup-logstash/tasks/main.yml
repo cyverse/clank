@@ -11,13 +11,17 @@
 
 - name: add elastic sourch list
   apt_repository: repo='deb http://packages.elasticsearch.org/logstash/2.0/debian stable main' state=present
+  tags: apt-install
+
 - name: update apt cache
   apt: update_cache=yes
+  tags: apt-install
 
 - name: install logstash
   action: >
     {{ ansible_pkg_mgr }} name={{ item }} state={{ LOGSTASH_PACKAGES.state }} update_cache=yes force=yes
   with_items: LOGSTASH_PACKAGES.packages
+  tags: apt-install
 
 - name: copy over atmosphere-conf files
   copy: src=logstash dest=/etc force=yes

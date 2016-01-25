@@ -13,36 +13,42 @@
   action: >
     {{ ansible_pkg_mgr }} name={{ item }} state={{ INITIAL_PACKAGES.state }} update_cache=yes
   with_items: INITIAL_PACKAGES.packages
-  tags: install
+  tags: install, apt-install
 
-## NOTE: OS BRANCH OUT
-- include: Ubuntu.yml
-  when: ansible_distribution  == "Ubuntu" 
+# Add apt repositories
+
+- name: add node repository
+  apt_repository: repo='ppa:chris-lea/node.js'
+  when: ansible_distribution  == "Ubuntu"
+  tags: apt-install
+
+- name: add redis repository
+  apt_repository: repo='ppa:rwky/redis'
+  when: ansible_distribution  == "Ubuntu"
+  tags: apt-install
+
+- name: update cache as a separate step
+  apt: update_cache=yes
+  when: ansible_distribution  == "Ubuntu"
+  tags: apt-install
 
 - name: install dev packages packages
   action: >
     {{ ansible_pkg_mgr }} name={{ item }} state={{ DEV_PACKAGES.state }}
   with_items: DEV_PACKAGES.packages
-  tags: install
+  tags: install, apt-install
 
 - name: install lib packages packages
   action: >
     {{ ansible_pkg_mgr }} name={{ item }} state={{ LIB_PACKAGES.state }}
   with_items: LIB_PACKAGES.packages
-  tags: install
-
-# TODO ADD TO TROPOSPHERE DEPENDENCIES
-#- name: update node
-#  command: npm install npm -g
-#
-#- name: install yuglify node.js package globally.
-#  npm: name=yuglify global=yes
+  tags: install, apt-install
 
 - name: install nginx packages packages
   action: >
     {{ ansible_pkg_mgr }} name={{ item }} state={{ NGINX_PACKAGES.state }}
   with_items: NGINX_PACKAGES.packages
-  tags: install
+  tags: install, apt-install
 
 - name: pip install python packages
   pip: name={{ item }}
