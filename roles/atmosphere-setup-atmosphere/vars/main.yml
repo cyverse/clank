@@ -5,6 +5,8 @@ ATMOSPHERE_DIR: /opt/dev
 ATMOSPHERE_LOCATION: "{{ ATMOSPHERE_DIR }}/atmosphere"
 
 POSTGRES_SQL_INSTALL_DIRECTORY: /var/lib/postgresql
+
+LOAD_ATMOSPHERE_DATABASE: false
 ATMOSPHERE_DATABASE_FILE_TO_BE_LOADED: # an absolute path to sql script that you want loaded /root/some_sql.sql
 
 ID_RSA:             #Absolute Path Recommende

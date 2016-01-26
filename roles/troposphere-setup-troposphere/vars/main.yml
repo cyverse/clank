@@ -5,6 +5,8 @@ TROPOSPHERE_DIR: /opt/dev
 TROPOSPHERE_LOCATION: "{{ TROPOSPHERE_DIR }}/troposphere"
 
 POSTGRES_SQL_INSTALL_DIRECTORY: /var/lib/postgresql
+
+LOAD_TROPOSPHERE_DATABASE: false
 TROPOSPHERE_DATABASE_FILE_TO_BE_LOADED: #an absolute path to sql script that you want loaded /root/some_sql.sql
 
 UWISGI_APPS_ENABLED_PATH: /etc/uwsgi/apps-enabled/
