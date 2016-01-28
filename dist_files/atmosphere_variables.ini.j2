@@ -41,6 +41,7 @@ UWSGI_GROUP = {{ ATMO["UWSGI_GROUP"] | default('') }}
 UWSGI_LOG_PATH = {{ ATMO["UWSGI_LOG_PATH"] | default('') }} 
 
 [local.py]
+GLOBUS_MAPPING_FILE = {{ ATMO["GLOBUS_MAPPING_FILE"] | default('') }}
 ANSIBLE_ROOT = {{ ATMO["ANSIBLE_ROOT"] | default('') }} 
 LOGOUT_REDIRECT_URL = {{ ATMO["LOGOUT_REDIRECT_URL"] | default('') }} 
 CAS_AUTH_PREFIX = {{ ATMO["CAS_AUTH_PREFIX"] | default('') }} 
