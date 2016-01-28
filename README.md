@@ -42,8 +42,6 @@ Your hosts file and group_vars should reflect one another. This would include re
 * A bundle cert
 * And a organization ssl key
 
-These files also need to be placed in directory also with the other files. Please set the variables to the names of the certs in src/0_1configurationVariables.sh
-
 ######SSH keys configuration
 
 * A private id_rsa file
