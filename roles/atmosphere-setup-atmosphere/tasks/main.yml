@@ -124,12 +124,12 @@
 - name: create apps-enabled directory 
   command: mkdir -p {{ UWISGI_APPS_ENABLED_PATH }}
 
-- name: link nginx atmosphere.ini file
-  file: src={{ ATMOSPHERE_LOCATION }}/extras/uwsgi/atmo.uwsgi.ini dest={{ UWISGI_APPS_ENABLED_PATH }}/atmosphere.ini state=link
-
 - name: make uwisgi and nginx stuff
   shell: "{{ item }}"
   args:
     chdir: "{{ ATMOSPHERE_LOCATION }}/extras/nginx"  
   with_items:
     - make
+
+- name: link uwsgi atmosphere.ini file
+  file: src={{ ATMOSPHERE_LOCATION }}/extras/uwsgi/atmo.uwsgi.ini dest={{ UWISGI_APPS_ENABLED_PATH }}/atmosphere.ini state=link
