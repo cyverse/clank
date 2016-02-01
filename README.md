@@ -8,9 +8,12 @@ Clank deploys the [Atmosphere](http://www.iplantcollaborative.org/ci/atmosphere)
 
 Clank is a set of playbooks & roles and is the replacement for [Crushbone](https://github.com/iPlantCollaborativeOpenSource/crushbone).
 
-# License
+## Dependencies
 
-See [LICENSE](LICENSE) file.
+```bash
+apt-get install python-virtualenv -y
+apt-get install python-dev -y
+```
 
 # Usage
 
@@ -52,3 +55,7 @@ Your hosts file and group_vars should reflect one another. This would include re
 * troposphere.sql
 
 Be sure to include the location of these files in your completed variables.yml.
+
+# License
+
+See [LICENSE](LICENSE) file.
