@@ -8,11 +8,17 @@ Clank deploys the [Atmosphere](http://www.iplantcollaborative.org/ci/atmosphere)
 
 Clank is a set of playbooks & roles and is the replacement for [Crushbone](https://github.com/iPlantCollaborativeOpenSource/crushbone).
 
-## Dependencies
+## Dependencies and Setup
 
 ```bash
 apt-get install python-virtualenv -y
 apt-get install python-dev -y
+
+git clone https://github.com/iPlantCollaborativeOpenSource/clank.git
+
+virtualenv ratchet_env
+. ratchet_env/bin/activate
+pip install -r clank/ratchet_requirements.txt
 ```
 
 # Usage
