@@ -132,7 +132,7 @@
   command: mkdir -p {{ UWISGI_APPS_ENABLED_PATH }}
 
 - name: link nginx atmosphere.ini file
-  file: src={{ ATMOSPHERE_LOCATION }}/extras/atmo.uwsgi.ini dest={{ UWISGI_APPS_ENABLED_PATH }}/atmosphere.ini state=link
+  file: src={{ ATMOSPHERE_LOCATION }}/extras/uwsgi/atmo.uwsgi.ini dest={{ UWISGI_APPS_ENABLED_PATH }}/atmosphere.ini state=link
 
 - name: make uwisgi and nginx stuff
   shell: "{{ item }}"
