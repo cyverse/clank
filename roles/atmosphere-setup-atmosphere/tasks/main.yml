@@ -67,13 +67,6 @@
   command: mkdir -p {{ ATMOSPHERE_LOCATION }}/logs
 
 #### DB migrations
-- name: atmosphere manage syncdb
-  django_manage: >
-      command=syncdb
-      app_path={{ ATMOSPHERE_LOCATION }}
-      settings='atmosphere.settings'
-      pythonpath={{ ATMOSPHERE_LOCATION }}
-      virtualenv={{ VIRTUAL_ENV_ATMOSPHERE }}
 
 - name: atmosphere manage migrate
   django_manage: >
