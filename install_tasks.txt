@@ -1,5 +1,5 @@
 apt-get install -y software-properties-common
-apt-get install python-pip python-dev build-essential
+apt-get install -y python-pip python-dev build-essential
 pip install --upgrade pip virtualenv virtualenvwrapper
 apt-add-repository ppa:ansible/ansible
 add-apt-repository ppa:chris-lea/redis-server
