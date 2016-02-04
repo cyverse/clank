@@ -13,6 +13,7 @@ Clank is a set of playbooks & roles and is the replacement for [Crushbone](https
 ```bash
 apt-get install python-virtualenv -y
 apt-get install python-dev -y
+apt-get install git -y
 
 git clone https://github.com/iPlantCollaborativeOpenSource/clank.git
 
