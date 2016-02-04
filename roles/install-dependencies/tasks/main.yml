@@ -23,7 +23,7 @@
   tags: apt-install
 
 - name: add redis repository
-  apt_repository: repo='ppa:rwky/redis'
+  apt_repository: repo='ppa:chris-lea/redis-server'
   when: ansible_distribution  == "Ubuntu"
   tags: apt-install
 
