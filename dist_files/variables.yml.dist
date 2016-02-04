@@ -41,10 +41,10 @@ TROPO_DBUSER:
 TROPO_DBPASSWORD: 
 
 LOAD_ATMOPSHERE_DATABASE: false             # set this to true when you want to load postgres with sql files
-ATMOSPHERE_DATABASE_FILE_TO_BE_LOADED: []   # an absolute path to sql script that you want loaded /root/some_sql.sql
+ATMOSPHERE_DATABASE_FILE_TO_BE_LOADED:      # an absolute path to sql script that you want loaded /root/some_sql.sql
 
 LOAD_TROPOSPHERE_DATABASE: false            # set this to true when you want to load postgres with sql files
-TROPOSPHERE_DATABASE_FILE_TO_BE_LOADED: []  # an absolute path to sql script that you want loaded /opt/postgresstuff/test.sql
+TROPOSPHERE_DATABASE_FILE_TO_BE_LOADED:     # an absolute path to sql script that you want loaded /opt/postgresstuff/test.sql
 
 # JENKINS
 JENKINS: false
