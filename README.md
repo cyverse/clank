@@ -12,7 +12,7 @@ Clank is a set of playbooks & roles and is the replacement for [Crushbone](https
 
 ```bash
 apt-get install python-virtualenv -y
-apt-get install python-dev libyaml-dev -y
+apt-get install git python-dev libyaml-dev -y
 
 git clone https://github.com/iPlantCollaborativeOpenSource/clank.git
 
@@ -24,10 +24,10 @@ pip install -r clank/ratchet_requirements.txt
 # Usage
 
 ```bash
-python ratchet.py --workspace $WORKSPACE --env_file $VARIABLES_YML_FILE
+python ratchet.py --env_file $VARIABLES_YML_FILE
 ```
 
-And example of the [`$VARIABLES_YML_FILE`](dist_files/variables.yml.dist) can be found in the [dist_files](dist_files) directory.
+An example of the [`$VARIABLES_YML_FILE`](dist_files/variables.yml.dist) can be found in the [dist_files](dist_files) directory.
 
 ####List of Files Needed Before Hand
 
@@ -54,13 +54,13 @@ Your hosts file and group_vars should reflect one another. This would include re
 ######SSH keys configuration
 
 * A private id_rsa file
-* A publice id_rsa file
+* A public id_rsa file
 
 ######Atmosphere and Troposphere DB FILES TO BE LOADED (Not required)
 * atmosphere.sql
 * troposphere.sql
 
-Be sure to include the location of these files in your completed variables.yml.
+The location of these files *must* be stated in your _completed_ [variables.yml](https://github.com/iPlantCollaborativeOpenSource/clank/blob/master/dist_files/variables.yml.dist#L52-L63).
 
 # License
 
