@@ -91,3 +91,7 @@ pr2-110-[2:255] ansible_ssh_host=0.0.0.0 ansible_ssh_port=22
 [atmosphere:children]
 atmosphere-provider1
 atmosphere-provider2
+
+# Example host
+[gateone-hosts]
+gateone-dev ansible_ssh_host=100.1.2.3 ansible_ssh_port=22
