@@ -1,7 +1,7 @@
 apt-get update
+apt-get purge redis-tools -y
 apt-get install -y software-properties-common
 apt-get install -y python-pip python-dev build-essential
-apt-get purge redis-tools -y
 apt-add-repository ppa:ansible/ansible
 add-apt-repository ppa:chris-lea/redis-server
 apt-get update
