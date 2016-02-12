@@ -45,7 +45,7 @@ def install_dependencies(args):
                 print "Error Code:" + str(r.status_code)
                 print "Std_out:" + r.std_out
                 print "Std_err:" + r.std_err + bcolors.ENDC
-                sys.exit(1)
+                sys.exit(r.status_code)
             else:
                 print bcolors.OKGREEN + command + bcolors.ENDC
 
@@ -88,7 +88,7 @@ def execute_ansible_playbook(args):
             print "Std_out:" + out
         if err:
             print "Std_err:" + err + bcolors.ENDC
-        sys.exit(1)
+        sys.exit(returncode)
     else:
         print bcolors.OKGREEN + command + bcolors.ENDC
 
@@ -217,6 +217,7 @@ def main():
         print "Error executing Ratchet: %s" % exc.message
         parser.print_help()
         traceback.print_exc(file=sys.stdout)
+        sys.exit(1)
 
 if __name__ == "__main__":
   main()
