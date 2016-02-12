@@ -56,7 +56,8 @@ DATABASE_CONN_MAX_AGE = {{ TROPO["DATABASE_CONN_MAX_AGE"] | default('') }}
 DATABASE_PASSWORD = {{ TROPO["DATABASE_PASSWORD"] | default('') }} 
 DATABASE_HOST = {{ TROPO["DATABASE_HOST"] | default('') }} 
 DATABASE_PORT = {{ TROPO["DATABASE_PORT"] | default('') }} 
-DJANGO_JENKINS = {{ TROPO["DJANGO_JENKINS"] | default('') }} 
+DJANGO_JENKINS = {{ TROPO["DJANGO_JENKINS"] | default('') }}
+SESSION_COOKIE_AGE = {{ TROPO["SESSION_COOKIE_AGE"] | default('') }}
 SSLSERVER = {{ TROPO["SSLSERVER"] | default('') }} 
 
 MOCK_USER = {{ TROPO["MOCK_USER"] | default('""') }} 
