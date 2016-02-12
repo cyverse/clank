@@ -297,7 +297,11 @@ TROPO:
     BADGE_SYSTEM_NAME: 
     BADGE_SYSTEM_SLUG: 
     SHOW_INSTANCE_METRICS: 
-    
+
+    INTERCOM_APP_ID:
+    INTERCOM_COMPANY_ID:
+    INTERCOM_COMPANY_NAME:
+
     USE_GATE_ONE_API: 
     # Key and secret represent atmo-dev credentials
     GATE_ONE_API_KEY: 
