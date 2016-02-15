@@ -30,6 +30,8 @@ DEV_PACKAGES:
     - python-pip
     - python-setuptools
     - ufw
+    - qemu-utils 
+    - xfsprogs
   state: latest
 
 LIB_PACKAGES:
@@ -46,3 +48,7 @@ NGINX_PACKAGES:
     - uwsgi-plugin-python
     - nginx
   state: latest
+
+MODPROBE_PACKAGES:
+  packages:
+    - { name: 'nbd', params: 'max_part=16' }

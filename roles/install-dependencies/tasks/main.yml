@@ -50,10 +50,20 @@
   with_items: NGINX_PACKAGES.packages
   tags: install, apt-install
 
+- name: run modprobe for the first time 
+  modprobe: name={{ item.name }} state=present params={{ item.params }} 
+  with_items: MODPROBE_PACKAGES.packages
+
+- name: make sure there is an exit 0 at end of /etc/rc.local
+  lineinfile: dest=/etc/rc.local insertbefore=EOR line="exit 0"
+
+- name: add modprobe nbd for imaging to /etc/rc.local for subsequent rebooks
+  lineinfile: dest=/etc/rc.local insertbefore="exit 0" line="modprope {{ item.name }} {{ item.params | default(omit) }}" 
+  with_items: MODPROBE_PACKAGES.packages
+
 - name: pip install python packages
   pip: name={{ item }}
   with_items:
     - virtualenv
     - wheel
     - setuptools
-
