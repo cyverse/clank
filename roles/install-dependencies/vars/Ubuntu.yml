@@ -30,8 +30,6 @@ DEV_PACKAGES:
     - python-pip
     - python-setuptools
     - ufw
-    - qemu-utils 
-    - xfsprogs
   state: latest
 
 LIB_PACKAGES:
