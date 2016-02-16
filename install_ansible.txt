@@ -1,5 +1,5 @@
 apt-get update
-apt-get remove redis-tools -y
+apt-get purge redis-tools -y
 apt-get install -y software-properties-common
 apt-get install -y python-pip python-dev build-essential
 apt-add-repository ppa:ansible/ansible

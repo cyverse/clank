@@ -34,13 +34,13 @@ class bcolors:
     UNDERLINE = '\033[4m'
 
 def install_dependencies(args):
-    ### Check to see if ansible is not installed and redis
+    # Check to see if ansible is not installed and redis
     ansible_check = envoy.run("which ansible")
     redis_check = envoy.run("which redis-server")
     if ansible_check.status_code is not 0 or redis_check.status_code is not 0:
         run_tasks_in_file("install_ansible.txt")
 
-    ###Create virtualenv anyway
+    # Create virtualenv anyway
     run_tasks_in_file("install_tasks.txt")
 
 def install_ansible(args):
