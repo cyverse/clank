@@ -33,9 +33,24 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
-
 def install_dependencies(args):
-    INSTALL_LIST = os.path.join(FILE_PATH, "install_tasks.txt")
+    ### Check to see if ansible is not installed and redis
+    ansible_check = envoy.run("which ansible")
+    redis_check = envoy.run("which redis-server")
+    if ansible_check.status_code is not 0 or redis_check.status_code is not 0:
+        run_tasks_in_file("install_ansible.txt")
+
+    ###Create virtualenv anyway
+    run_tasks_in_file("install_tasks.txt")
+
+def install_ansible(args):
+    run_tasks_in_file("install_ansible.txt")
+
+def create_virtualenv(args):
+    run_tasks_in_file("install_tasks.txt")
+
+def run_tasks_in_file(filename):
+    INSTALL_LIST = os.path.join(FILE_PATH, filename)
     with open(INSTALL_LIST) as f:
         commands = f.readlines()
         for command in commands:
