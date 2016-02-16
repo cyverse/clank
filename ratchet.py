@@ -9,6 +9,7 @@ import sys
 import traceback
 import yaml
 
+import colorama
 import envoy
 import ruamel.yaml
 
@@ -99,12 +100,7 @@ def setup_dependencies():
     ansible_check = envoy.run("which ansible")
     redis_check = envoy.run("which redis-server")
     if ansible_check.status_code is not 0 or redis_check.status_code is not 0:
-        install_ansible()
-
-    create_virtualenv()
-
-def install_ansible():
-    run_tasks_in_file("install_ansible.txt")
+        run_tasks_in_file("install_dependencies.txt")
 
 def create_virtualenv():
     run_tasks_in_file("create_virtualenv.txt")
@@ -217,6 +213,7 @@ def main():
     try:
         # To be executed prior to running 'ansible-playbook'
         setup_dependencies()
+        create_virtualenv()
         prepare_ansible_cfg(args)
         prepare_ansible_env_file(args)
 
@@ -230,7 +227,6 @@ def main():
         # validate_install(args)
     except Exception as exc:
         print "Error executing Ratchet: %s" % exc.message
-        parser.print_help()
         traceback.print_exc(file=sys.stdout)
         sys.exit(1)
 
