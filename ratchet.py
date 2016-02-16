@@ -12,7 +12,6 @@ import yaml
 import envoy
 import ruamel.yaml
 
-FILE_PATH = os.path.abspath(os.path.dirname(__file__))
 try:
     from jinja2 import Environment, FileSystemLoader, StrictUndefined
 except ImportError:
@@ -22,6 +21,7 @@ except ImportError:
         and activated before running this script.
     ''')
 
+FILE_PATH = os.path.abspath(os.path.dirname(__file__))
 
 class bcolors:
     HEADER = '\033[95m'
@@ -33,21 +33,81 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
-def install_dependencies(args):
+def setup_arguments():
+    parser = argparse.ArgumentParser(
+        description="Deploys Atmosphere and/or Troposphere according to "
+                    "the configuration and overriding arguments.")
+    parser.add_argument(
+        "--dumpfile",
+        type=str,
+        help="The dump file to be used when creating the Atmosphere database. "
+             "Can also be set in the config. (Optional)")
+    parser.add_argument(
+        "--atmosphere_db",
+        type=str,
+        help="The database name to be used for Atmosphere. "
+             "Can also be set in the config. (Optional)")
+    parser.add_argument(
+        "--troposphere_db",
+        type=str,
+        help="The database name to be used for Troposphere. "
+             "Can also be set in the config. (Optional)")
+    parser.add_argument(
+        "--atmosphere",
+        action='store_true',
+        help="Deploy Atmosphere *ONLY* (Default: Deploy both services)")
+
+    parser.add_argument(
+        "--troposphere",
+        action='store_true',
+        help="Deploy Troposphere *ONLY* (Default: Deploy both services)")
+
+    parser.add_argument("--skip",
+        type=str,
+        default="",
+        help="command seperated list e.g. 'dependencies,atmosphere'")
+
+    parser.add_argument(
+        "--branch",
+        type=str,
+        default='master',
+        help="The branch to use for deploying Atmosphere and/or Troposphere")
+
+    parser.add_argument("--override_args",
+        default="{}",
+        help="Pass in json to override variables file")
+
+    parser.add_argument("--dynamic_env_file",
+        type=str,
+        default="dynamic_ratchet_ansible_env.yml",
+        help="The environment file to be renamed as which will be loaded in to ansible-playbook")
+
+    parser.add_argument("--workspace",
+        required=True,
+        type=str,
+        help="The workspace from which files will be used to get ansible to run")
+
+    parser.add_argument("--env_file",
+        required=True,
+        type=str,
+        help="The environment file to load when running ansible-playbook")
+
+    return parser.parse_args()
+
+def setup_dependencies():
     # Check to see if ansible is not installed and redis
     ansible_check = envoy.run("which ansible")
     redis_check = envoy.run("which redis-server")
     if ansible_check.status_code is not 0 or redis_check.status_code is not 0:
-        run_tasks_in_file("install_ansible.txt")
+        install_ansible()
 
-    # Create virtualenv anyway
-    run_tasks_in_file("install_tasks.txt")
+    create_virtualenv()
 
-def install_ansible(args):
+def install_ansible():
     run_tasks_in_file("install_ansible.txt")
 
-def create_virtualenv(args):
-    run_tasks_in_file("install_tasks.txt")
+def create_virtualenv():
+    run_tasks_in_file("create_virtualenv.txt")
 
 def run_tasks_in_file(filename):
     INSTALL_LIST = os.path.join(FILE_PATH, filename)
@@ -152,71 +212,11 @@ def validate_install(args):
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description="Deploys Atmosphere and/or Troposphere according to "
-                    "the configuration and overriding arguments.")
-    parser.add_argument(
-        "--dumpfile",
-        type=str,
-        help="The dump file to be used when creating the Atmosphere database. "
-             "Can also be set in the config. (Optional)")
-    parser.add_argument(
-        "--atmosphere_db",
-        type=str,
-        help="The database name to be used for Atmosphere. "
-             "Can also be set in the config. (Optional)")
-    parser.add_argument(
-        "--troposphere_db",
-        type=str,
-        help="The database name to be used for Troposphere. "
-             "Can also be set in the config. (Optional)")
-    parser.add_argument(
-        "--atmosphere",
-        action='store_true',
-        help="Deploy Atmosphere *ONLY* (Default: Deploy both services)")
-
-    parser.add_argument(
-        "--troposphere",
-        action='store_true',
-        help="Deploy Troposphere *ONLY* (Default: Deploy both services)")
-
-    parser.add_argument("--skip",
-        type=str,
-        default="",
-        help="command seperated list e.g. 'dependencies,atmosphere'")
-
-    parser.add_argument(
-        "--branch",
-        type=str,
-        default='master',
-        help="The branch to use for deploying Atmosphere and/or Troposphere")
-
-    parser.add_argument("--override_args",
-        default="{}",
-        help="Pass in json to override variables file")
-
-    parser.add_argument("--dynamic_env_file",
-        type=str,
-        default="dynamic_ratchet_ansible_env.yml",
-        help="The environment file to be renamed as which will be loaded in to ansible-playbook")
-
-    parser.add_argument("--workspace",
-        required=True,
-        type=str,
-        help="The workspace from which files will be used to get ansible to run")
-
-    parser.add_argument("--env_file",
-        required=True,
-        type=str,
-        help="The environment file to load when running ansible-playbook")
-
-
-    args = parser.parse_args()
-
+    args = setup_arguments()
 
     try:
         # To be executed prior to running 'ansible-playbook'
-        install_dependencies(args)
+        setup_dependencies()
         prepare_ansible_cfg(args)
         prepare_ansible_env_file(args)
 
