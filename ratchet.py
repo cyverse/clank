@@ -93,7 +93,7 @@ def setup_arguments():
         type=str,
         help="The environment file to load when running ansible-playbook")
 
-    return parser.parse_args()
+    return parser
 
 def setup_dependencies():
     # Check to see if ansible is not installed and redis
@@ -208,8 +208,8 @@ def validate_install(args):
 
 
 def main():
-    args = setup_arguments()
-
+    parser = setup_arguments()
+    args = parser.parse_args()
     try:
         # To be executed prior to running 'ansible-playbook'
         setup_dependencies()
@@ -227,6 +227,7 @@ def main():
         # validate_install(args)
     except Exception as exc:
         print "Error executing Ratchet: %s" % exc.message
+        parser.print_help()
         traceback.print_exc(file=sys.stdout)
         sys.exit(1)
 
