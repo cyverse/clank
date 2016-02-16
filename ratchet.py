@@ -9,7 +9,6 @@ import sys
 import traceback
 import yaml
 
-import colorama
 import envoy
 import ruamel.yaml
 
