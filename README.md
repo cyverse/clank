@@ -1,4 +1,6 @@
-# Clank
+*****
+Clank
+*****
 
 Clank deploys the [Atmosphere](http://www.iplantcollaborative.org/ci/atmosphere) infrastructure within a Linux environment to make using OpenStack for on-demanding computing needs easy.
 
@@ -8,7 +10,9 @@ Clank deploys the [Atmosphere](http://www.iplantcollaborative.org/ci/atmosphere)
 
 Clank is a set of playbooks & roles and is the replacement for [Crushbone](https://github.com/iPlantCollaborativeOpenSource/crushbone).
 
-## Dependencies and Setup
+======================
+Dependencies and Setup
+======================
 
 ```bash
 apt-get install python-virtualenv -y
@@ -21,7 +25,9 @@ virtualenv ratchet_env
 pip install -r clank/ratchet_requirements.txt
 ```
 
-# Usage
+=====
+Usage
+=====
 
 ```bash
 python ratchet.py --env_file $VARIABLES_YML_FILE
@@ -45,8 +51,11 @@ python ratchet.py --env_file $VARIABLES_YML_FILE --skip dependencies,troposphere
 ```
 
 You can actually skip over any tag you may find in the roles and playbooks. Ratchet will pass the desired skips to ansible will skip those.
- 
-####List of Files Needed Before Hand
+
+
+================================
+List of Files Needed Before Hand
+================================
 
 ######Completed variables.yml file
 
@@ -79,6 +88,7 @@ Your hosts file and group_vars should reflect one another. This would include re
 
 The location of these files *must* be stated in your _completed_ [variables.yml](https://github.com/iPlantCollaborativeOpenSource/clank/blob/master/dist_files/variables.yml.dist#L52-L63).
 
-# License
-
+=======
+License
+=======
 See [LICENSE](LICENSE) file.
