@@ -1,6 +1,4 @@
-*****
-Clank
-*****
+# Clank
 
 Clank deploys the [Atmosphere](http://www.iplantcollaborative.org/ci/atmosphere) infrastructure within a Linux environment to make using OpenStack for on-demanding computing needs easy.
 
@@ -51,7 +49,6 @@ python ratchet.py --env_file $VARIABLES_YML_FILE --skip dependencies,troposphere
 ```
 
 You can actually skip over any tag you may find in the roles and playbooks. Ratchet will pass the desired skips to ansible will skip those.
-
 
 ================================
 List of Files Needed Before Hand
