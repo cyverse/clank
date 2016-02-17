@@ -29,6 +29,23 @@ python ratchet.py --env_file $VARIABLES_YML_FILE
 
 An example of the [`$VARIABLES_YML_FILE`](dist_files/variables.yml.dist) can be found in the [dist_files](dist_files) directory.
 
+###### Skipping Portions of Clank
+
+Clank's install process is separated into three parts: installation of dependencies, atmosphere, troposphere.
+To skip over a certain section, pass in a comma separated list to skip portions that you wish clank would not run.
+
+Supported skip tags: `dependencies`, `atmosphere`, `troposphere`
+
+```bash
+python ratchet.py --env_file $VARIABLES_YML_FILE --skip atmosphere # skips over the installation of atmosphere
+```
+
+```bash
+python ratchet.py --env_file $VARIABLES_YML_FILE --skip dependencies,troposphere # skips over the installation of dependencies and troposphere
+```
+
+You can actually skip over any tag you may find in the roles and playbooks. Ratchet will pass the desired skips to ansible will skip those.
+ 
 ####List of Files Needed Before Hand
 
 ######Completed variables.yml file
