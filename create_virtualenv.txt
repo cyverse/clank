@@ -1,0 +1,3 @@
+pip install --upgrade pip virtualenv virtualenvwrapper
+virtualenv clank_env
+clank_env/bin/pip install -r clank_requirements.txt
