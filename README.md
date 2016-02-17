@@ -32,7 +32,7 @@ An example of the [`$VARIABLES_YML_FILE`](dist_files/variables.yml.dist) can be 
 ###### Skipping Portions of Clank
 
 Clank's install process is separated into three parts: installation of dependencies, atmosphere, troposphere.
-To skip over a certain section, pass in a comma separated list to skip portions that you wish clank would not run.
+To skip over sections of the deployment process, pass in a comma separated list to the `--skip` ratchet.py argument.
 
 Supported skip tags: `dependencies`, `atmosphere`, `troposphere`
 
