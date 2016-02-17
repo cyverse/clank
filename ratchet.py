@@ -10,7 +10,6 @@ import traceback
 import yaml
 
 from colorama import init, Fore
-init(autoreset=True)
 import envoy
 import ruamel.yaml
 
@@ -223,4 +222,5 @@ def main():
         sys.exit(1)
 
 if __name__ == "__main__":
-  main()
+    init(autoreset=True)  #init colorama
+    main()
