@@ -3,3 +3,4 @@ MarkupSafe
 Jinja2
 PyYAML 
 ruamel.yaml
+colorama

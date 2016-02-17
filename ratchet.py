@@ -9,6 +9,7 @@ import sys
 import traceback
 import yaml
 
+from colorama import init, Fore
 import envoy
 import ruamel.yaml
 
@@ -22,16 +23,6 @@ except ImportError:
     ''')
 
 FILE_PATH = os.path.abspath(os.path.dirname(__file__))
-
-class bcolors:
-    HEADER = '\033[95m'
-    OKBLUE = '\033[94m'
-    OKGREEN = '\033[92m'
-    WARNING = '\033[93m'
-    FAIL = '\033[91m'
-    ENDC = '\033[0m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'
 
 def setup_arguments():
     parser = argparse.ArgumentParser(
@@ -111,13 +102,13 @@ def run_tasks_in_file(filename):
         for command in commands:
             r = envoy.run(command, cwd=FILE_PATH)
             if r.status_code is not 0:
-                print bcolors.FAIL + command
-                print "Error Code:" + str(r.status_code)
-                print "Std_out:" + r.std_out
-                print "Std_err:" + r.std_err + bcolors.ENDC
+                print Fore.RED + command
+                print Fore.RED + "Error Code:" + str(r.status_code)
+                print Fore.RED + "Std_out:" + r.std_out
+                print Fore.RED + "Std_err:" + r.std_err
                 sys.exit(r.status_code)
             else:
-                print bcolors.OKGREEN + command + bcolors.ENDC
+                print Fore.GREEN + command
 
 def prepare_ansible_env_file(args):
     current_vars_file = args.env_file
@@ -152,15 +143,15 @@ def execute_ansible_playbook(args):
        command += ' --skip "%s"' % args.skip
     (out, err, returncode) = live_run(command, cwd=FILE_PATH)
     if returncode is not 0:
-        print bcolors.FAIL + "%s" % command
-        print "Error Code:" + str(returncode)
+        print Fore.RED + "%s" % command
+        print Fore.RED + "Error Code:" + str(returncode)
         if out:
-            print "Std_out:" + out
+            print Fore.RED + "Std_out:" + out
         if err:
-            print "Std_err:" + err + bcolors.ENDC
+            print Fore.RED + "Std_err:" + err
         sys.exit(returncode)
     else:
-        print bcolors.OKGREEN + command + bcolors.ENDC
+        print Fore.GREEN + command 
 
 def map_arguments(args):
     """
@@ -225,10 +216,11 @@ def main():
         # TODO: Tests that can be executed after running 'ansible-playbook'
         # validate_install(args)
     except Exception as exc:
-        print "Error executing Ratchet: %s" % exc.message
+        print Fore.RED + "Error executing Ratchet: %s" % exc.message
         parser.print_help()
         traceback.print_exc(file=sys.stdout)
         sys.exit(1)
 
 if __name__ == "__main__":
-  main()
+    init(autoreset=True)  #init colorama
+    main()
