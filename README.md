@@ -1,3 +1,11 @@
+```
+   ________            __  
+  / ____/ /___ _____  / /__
+ / /   / / __ `/ __ \/ //_/
+/ /___/ / /_/ / / / / ,<   
+\____/_/\__,_/_/ /_/_/|_|  
+```
+
 # Clank
 
 Clank deploys the [Atmosphere](http://www.iplantcollaborative.org/ci/atmosphere) infrastructure within a Linux environment to make using OpenStack for on-demanding computing needs easy.
