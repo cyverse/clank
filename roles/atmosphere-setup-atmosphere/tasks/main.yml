@@ -34,10 +34,10 @@
   when: LOAD_ATMOSPHERE_DATABASE
 
 - name: pip install requirements
-  pip: requirements={{ ATMOSPHERE_LOCATION }}/requirements.txt virtualenv={{ VIRTUAL_ENV_ATMOSPHERE }}
+  pip: requirements={{ ATMOSPHERE_LOCATION }}/requirements.txt virtualenv={{ VIRTUAL_ENV_ATMOSPHERE }} extra_args='--no-cache-dir'
 
 - name: pip install dev requirements when jenkins variable set
-  pip: requirements={{ ATMOSPHERE_LOCATION }}/dev_requirements.txt virtualenv={{ VIRTUAL_ENV_ATMOSPHERE }}
+  pip: requirements={{ ATMOSPHERE_LOCATION }}/dev_requirements.txt virtualenv={{ VIRTUAL_ENV_ATMOSPHERE }} extra_args='--no-cache-dir'
   when: JENKINS
 
 - name: wheel install requirements
