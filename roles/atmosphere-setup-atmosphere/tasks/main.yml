@@ -21,7 +21,7 @@
   lineinfile: dest=/etc/rc.local insertbefore=EOF line="exit 0"
 
 - name: add modprobe nbd for imaging to /etc/rc.local for subsequent rebooks
-  lineinfile: dest=/etc/rc.local insertbefore="exit 0" line="modprope {{ item.name }} {{ item.params | default(omit) }}"
+  lineinfile: dest=/etc/rc.local insertbefore="exit 0" line="modprobe {{ item.name }} {{ item.params | default(omit) }}"
   with_items: MODPROBE_PACKAGES.packages
 
 - name: copy over atmosphere sql scripts for postgresql to run
