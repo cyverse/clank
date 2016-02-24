@@ -10,8 +10,8 @@
 
 - name: include move ssl script when variables are defined
   include: move_ssl.yml
-  when: SSL_CERTIFICATE |length > 0
+  when: CREATE_SSL != true
 
 - name: include create ssl scripts when variables are undefined
   include: create_ssl.yml
-  when: SSL_CERTIFICATE |length == 0
+  when: CREATE_SSL == true
