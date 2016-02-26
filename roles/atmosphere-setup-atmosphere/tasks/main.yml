@@ -150,7 +150,7 @@
 - name: create apps-enabled directory
   command: mkdir -p {{ UWISGI_APPS_ENABLED_PATH }}
 
-- name: make uwisgi and nginx stuff
+- name: make uwsgi and nginx stuff
   shell: "{{ item }}"
   args:
     chdir: "{{ ATMOSPHERE_LOCATION }}/extras/nginx"

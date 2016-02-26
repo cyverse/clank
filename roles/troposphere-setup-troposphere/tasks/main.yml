@@ -53,10 +53,10 @@
 - name: create apps-enabled directory
   command: mkdir -p {{ UWISGI_APPS_ENABLED_PATH }}
 
-- name: link troposphere uwisgi conf file
+- name: link troposphere uwsgi conf file
   file: src={{ TROPOSPHERE_LOCATION }}/extras/troposphere.uwsgi.ini dest={{ UWISGI_APPS_ENABLED_PATH }}/troposphere.ini state=link
 
-- name: make uwisgi and nginx stuff
+- name: make uwsgi and nginx stuff
   shell: '{{ item }}'
   args:
     chdir: "{{ TROPOSPHERE_LOCATION }}/extras/nginx"
