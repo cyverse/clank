@@ -70,7 +70,9 @@
   file: path={{ TROPOSPHERE_LOCATION }}/node_modules state=absent
 
 - name: run npm install
-  npm: path={{ TROPOSPHERE_LOCATION }} state=latest
+  args:
+    chdir: "{{ TROPOSPHERE_LOCATION }}"
+  shell: npm install
 
 - name: run npm build
   args:
