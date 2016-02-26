@@ -70,9 +70,12 @@
   file: path={{ TROPOSPHERE_LOCATION }}/node_modules state=absent
 
 - name: run npm install
+  action: shell npm install
   args:
     chdir: "{{ TROPOSPHERE_LOCATION }}"
-  shell: npm install
+  register: result
+  until: result.rc == 0
+  retries: 2
 
 - name: run npm build
   args:
