@@ -123,10 +123,13 @@ def prepare_ansible_env_file(args):
             dict_from_file[key].update(vars_dict)
         else:
             dict_from_file[key] = my_vars_dict[key]
+    dumper = yaml.RoundTripDumper
+    dumper.MAX_SIMPLE_KEY_LENGTH = 999
+    file_content = ruamel.yaml.dump(dict_from_file, Dumper=dumper)
 
     new_env_file = os.path.join(FILE_PATH, args.dynamic_env_file)
     with open(new_env_file,'w') as the_file:
-        the_file.write(ruamel.yaml.dump(dict_from_file, Dumper=ruamel.yaml.RoundTripDumper))
+        the_file.write(file_content)
 
 
 def live_run(command, **kwargs):
