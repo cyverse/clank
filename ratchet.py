@@ -123,7 +123,7 @@ def prepare_ansible_env_file(args):
             dict_from_file[key].update(vars_dict)
         else:
             dict_from_file[key] = my_vars_dict[key]
-    dumper = yaml.RoundTripDumper
+    dumper = ruamel.yaml.RoundTripDumper
     dumper.MAX_SIMPLE_KEY_LENGTH = 999
     file_content = ruamel.yaml.dump(dict_from_file, Dumper=dumper)
 
