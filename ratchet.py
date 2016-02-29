@@ -58,6 +58,11 @@ def setup_arguments():
         default="",
         help="command seperated list e.g. 'dependencies,atmosphere'")
 
+    parser.add_argument("--tags",
+        type=str,
+        default="",
+        help="command seperated list e.g. 'dependencies,atmosphere'")
+
     parser.add_argument(
         "--branch",
         type=str,
@@ -144,6 +149,8 @@ def execute_ansible_playbook(args):
     #Optional commands that cause errors if left empty:
     if args.skip:
        command += ' --skip "%s"' % args.skip
+    if args.tags:
+        command += ' --tags "%s"' % args.tags  
     (out, err, returncode) = live_run(command, cwd=FILE_PATH)
     if returncode is not 0:
         print Fore.RED + "%s" % command
