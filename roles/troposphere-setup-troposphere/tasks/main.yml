@@ -58,6 +58,10 @@
 - name: add webserver user for user and group permissions
   file: path={{ TROPOSPHERE_LOCATION }} owner={{ WEBSERVER_USER }} group={{ WEBSERVER_USER }} recurse=yes
 
+- name: add vagrant user to webserver_user when value present
+  user: name=vagrant group={{ WEBSERVER_USER }}
+  when: VAGRANT
+
 - name: turn off apache
   service: name={{ APACHE }} state=stopped enabled=no
   failed_when: False

@@ -12,3 +12,5 @@ TROPOSPHERE_DATABASE_FILE_TO_BE_LOADED: #an absolute path to sql script that you
 UWISGI_APPS_ENABLED_PATH: /etc/uwsgi/apps-enabled/
 
 WEBSERVER_USER: www-data
+
+VAGRANT: false

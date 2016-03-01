@@ -63,6 +63,10 @@ def setup_arguments():
         default="",
         help="command seperated list e.g. 'dependencies,atmosphere'")
 
+    parser.add_argument("--vagrant",
+        action='store_true',
+        help="when present will setup up install for vagrant")
+
     parser.add_argument(
         "--branch",
         type=str,
@@ -151,6 +155,8 @@ def execute_ansible_playbook(args):
        command += ' --skip "%s"' % args.skip
     if args.tags:
         command += ' --tags "%s"' % args.tags  
+    if args.vagrant is True:
+        command += ' -e"VAGRANT=true"'
     (out, err, returncode) = live_run(command, cwd=FILE_PATH)
     if returncode is not 0:
         print Fore.RED + "%s" % command
