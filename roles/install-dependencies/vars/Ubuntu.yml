@@ -50,3 +50,5 @@ NGINX_PACKAGES:
 MODPROBE_PACKAGES:
   packages:
     - { name: 'nbd', params: 'max_part=16' }
+
+APACHE: apache2

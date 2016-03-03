@@ -58,6 +58,15 @@ def setup_arguments():
         default="",
         help="command seperated list e.g. 'dependencies,atmosphere'")
 
+    parser.add_argument("--tags",
+        type=str,
+        default="",
+        help="command seperated list e.g. 'dependencies,atmosphere'")
+
+    parser.add_argument("--vagrant",
+        action='store_true',
+        help="when present will setup up install for vagrant")
+
     parser.add_argument(
         "--branch",
         type=str,
@@ -123,10 +132,13 @@ def prepare_ansible_env_file(args):
             dict_from_file[key].update(vars_dict)
         else:
             dict_from_file[key] = my_vars_dict[key]
+    dumper = ruamel.yaml.RoundTripDumper
+    dumper.MAX_SIMPLE_KEY_LENGTH = 999
+    file_content = ruamel.yaml.dump(dict_from_file, Dumper=dumper)
 
     new_env_file = os.path.join(FILE_PATH, args.dynamic_env_file)
     with open(new_env_file,'w') as the_file:
-        the_file.write(ruamel.yaml.dump(dict_from_file, Dumper=ruamel.yaml.RoundTripDumper))
+        the_file.write(file_content)
 
 
 def live_run(command, **kwargs):
@@ -141,6 +153,10 @@ def execute_ansible_playbook(args):
     #Optional commands that cause errors if left empty:
     if args.skip:
        command += ' --skip "%s"' % args.skip
+    if args.tags:
+        command += ' --tags "%s"' % args.tags  
+    if args.vagrant is True:
+        command += ' -e"VAGRANT=true"'
     (out, err, returncode) = live_run(command, cwd=FILE_PATH)
     if returncode is not 0:
         print Fore.RED + "%s" % command

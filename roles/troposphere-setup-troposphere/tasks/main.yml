@@ -1,3 +1,12 @@
+- name: gather os specific variables
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+    - "{{ ansible_distribution }}.yml"
+    - "{{ ansible_os_family }}.yml"
+    - "defaults.yml"
+  tags: vars
+
 - name: copy over troposphere sql script for postgresql to run
   copy: src={{ TROPOSPHERE_DATABASE_FILE_TO_BE_LOADED }} dest={{ POSTGRES_SQL_INSTALL_DIRECTORY }}
   when: LOAD_TROPOSPHERE_DATABASE
@@ -49,14 +58,22 @@
 - name: add webserver user for user and group permissions
   file: path={{ TROPOSPHERE_LOCATION }} owner={{ WEBSERVER_USER }} group={{ WEBSERVER_USER }} recurse=yes
 
+- name: add vagrant user to webserver_user when value present
+  user: name=vagrant group={{ WEBSERVER_USER }}
+  when: VAGRANT
+
+- name: turn off apache
+  service: name={{ APACHE }} state=stopped enabled=no
+  failed_when: False
+
 # nginx portion
 - name: create apps-enabled directory
   command: mkdir -p {{ UWISGI_APPS_ENABLED_PATH }}
 
-- name: link troposphere uwisgi conf file
+- name: link troposphere uwsgi conf file
   file: src={{ TROPOSPHERE_LOCATION }}/extras/troposphere.uwsgi.ini dest={{ UWISGI_APPS_ENABLED_PATH }}/troposphere.ini state=link
 
-- name: make uwisgi and nginx stuff
+- name: make uwsgi and nginx stuff
   shell: '{{ item }}'
   args:
     chdir: "{{ TROPOSPHERE_LOCATION }}/extras/nginx"
@@ -70,7 +87,12 @@
   file: path={{ TROPOSPHERE_LOCATION }}/node_modules state=absent
 
 - name: run npm install
-  npm: path={{ TROPOSPHERE_LOCATION }} state=latest
+  action: shell npm install
+  args:
+    chdir: "{{ TROPOSPHERE_LOCATION }}"
+  register: result
+  until: result.rc == 0
+  retries: 2
 
 - name: run npm build
   args:

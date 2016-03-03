@@ -9,6 +9,10 @@
     - "defaults.yml"
   tags: vars
 
+- name: turn off apache
+  service: name={{ APACHE }} state=stopped enabled=no
+  failed_when: False
+
 - name: install initial packages packages
   action: >
     {{ ansible_pkg_mgr }} name={{ item }} state={{ INITIAL_PACKAGES.state }} update_cache=yes

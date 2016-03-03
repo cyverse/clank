@@ -41,6 +41,12 @@ UWSGI_GROUP = {{ ATMO["uwsgi.ini"]["UWSGI_GROUP"] | default('') }}
 UWSGI_LOG_PATH = {{ ATMO["uwsgi.ini"]["UWSGI_LOG_PATH"] | default('') }}
 
 [local.py]
+AUTH_USE_OVERRIDE = {{ ATMO["local.py"]["AUTH_USE_OVERRIDE"] | default('') }}
+AUTH_MOCK_USER = {{ ATMO["local.py"]["AUTH_MOCK_USER"] | default('') }}
+AUTH_ENABLE_MOCK = {{ ATMO["local.py"]["AUTH_ENABLE_MOCK"] | default('') }}
+AUTH_ENABLE_GLOBUS = {{ ATMO["local.py"]["AUTH_ENABLE_GLOBUS"] | default('') }}
+AUTH_ENABLE_CAS = {{ ATMO["local.py"]["AUTH_ENABLE_CAS"] | default('') }}
+AUTH_ENABLE_LDAP = {{ ATMO["local.py"]["AUTH_ENABLE_LDAP"] | default('') }}
 GLOBUS_MAPPING_FILE = {{ ATMO["local.py"]["GLOBUS_MAPPING_FILE"] | default('') }}
 ANSIBLE_ROOT = {{ ATMO["local.py"]["ANSIBLE_ROOT"] | default('') }}
 LOGOUT_REDIRECT_URL = {{ ATMO["local.py"]["LOGOUT_REDIRECT_URL"] | default('') }}
@@ -106,6 +112,7 @@ IRODS_ZONE = {{ ATMO["secrets.py"]["IRODS_ZONE"] | default('') }}
 IRODS_ADMIN_USER = {{ ATMO["secrets.py"]["IRODS_ADMIN_USER"] | default('') }}
 IRODS_ADMIN_PASS = {{ ATMO["secrets.py"]["IRODS_ADMIN_PASS"] | default('') }}
 LOCAL_STORAGE = {{ ATMO["secrets.py"]["LOCAL_STORAGE"] | default('') }}
+CHROMO_DEPLOYMENT_KEY = {{ ATMO["secrets.py"]["CHROMO_DEPLOYMENT_KEY"] | default('') }}
 OPENSTACK_PROVIDER_KEY = {{ ATMO["secrets.py"]["OPENSTACK_PROVIDER_KEY"] | default('') }}
 OPENSTACK_ADMIN_KEY = {{ ATMO["secrets.py"]["OPENSTACK_ADMIN_KEY"] | default('') }}
 OPENSTACK_ADMIN_SECRET = {{ ATMO["secrets.py"]["OPENSTACK_ADMIN_SECRET"] | default('') }}

@@ -1,5 +1,5 @@
 - name: gather os specific variables
-  include_vars: "{{ item }}" 
+  include_vars: "{{ item }}"
   with_first_found:
     - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
     - "{{ ansible_distribution }}.yml"
@@ -7,7 +7,7 @@
     - "{{ ansible_os_family }}.yml"
   tags: vars
 
-- name: install dev packages packages 
+- name: install dev packages packages
   action: >
     {{ ansible_pkg_mgr }} name={{ item }} state={{ DEV_PACKAGES.state }}
   with_items: DEV_PACKAGES.packages
@@ -15,13 +15,13 @@
 
 - name: run modprobe for the first time
   modprobe: name={{ item.name }} state=present params={{ item.params }}
-  with_items: MODPROBE_PACKAGES.packages 
+  with_items: MODPROBE_PACKAGES.packages
 
 - name: make sure there is an exit 0 at end of /etc/rc.local
   lineinfile: dest=/etc/rc.local insertbefore=EOF line="exit 0"
 
 - name: add modprobe nbd for imaging to /etc/rc.local for subsequent rebooks
-  lineinfile: dest=/etc/rc.local insertbefore="exit 0" line="modprope {{ item.name }} {{ item.params | default(omit) }}"
+  lineinfile: dest=/etc/rc.local insertbefore="exit 0" line="modprobe {{ item.name }} {{ item.params | default(omit) }}"
   with_items: MODPROBE_PACKAGES.packages
 
 - name: copy over atmosphere sql scripts for postgresql to run
@@ -30,7 +30,7 @@
 
 - name: run atmosphere sql scripts for postgresql
   sudo_user: postgres
-  command: psql -f {{ POSTGRES_SQL_INSTALL_DIRECTORY }}/{{ ATMOSPHERE_DATABASE_FILE_TO_BE_LOADED | basename }} 
+  command: psql -f {{ POSTGRES_SQL_INSTALL_DIRECTORY }}/{{ ATMOSPHERE_DATABASE_FILE_TO_BE_LOADED | basename }}
   when: LOAD_ATMOSPHERE_DATABASE
 
 - name: pip install requirements
@@ -55,7 +55,7 @@
 - name: create local atmosphere_variables.ini from dist
   local_action: >
       template src=../../../dist_files/atmosphere_variables.ini.j2 dest={{ role_path }}/files/atmosphere_variables.ini
- 
+
 - name: move over precompleted variables.ini
   copy: src=atmosphere_variables.ini dest={{ ATMOSPHERE_LOCATION }}/variables.ini backup=yes
 
@@ -146,14 +146,22 @@
 - name: add webserver user for user and group permissions
   file: path={{ ATMOSPHERE_LOCATION }} owner={{ WEBSERVER_USER }} group={{ WEBSERVER_USER }} recurse=yes
 
+- name: add vagrant user to webserver_user when value present
+  user: name=vagrant group={{ WEBSERVER_USER }}
+  when: VAGRANT
+
+- name: turn off apache
+  service: name={{ APACHE }} state=stopped enabled=no
+  failed_when: False
+
 # nginx portion
-- name: create apps-enabled directory 
+- name: create apps-enabled directory
   command: mkdir -p {{ UWISGI_APPS_ENABLED_PATH }}
 
-- name: make uwisgi and nginx stuff
+- name: make uwsgi and nginx stuff
   shell: "{{ item }}"
   args:
-    chdir: "{{ ATMOSPHERE_LOCATION }}/extras/nginx"  
+    chdir: "{{ ATMOSPHERE_LOCATION }}/extras/nginx"
   with_items:
     - make
 
