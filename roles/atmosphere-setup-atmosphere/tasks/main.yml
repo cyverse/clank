@@ -48,13 +48,20 @@
   command: psql -c "REVOKE connect ON DATABASE {{ ATMO_DBNAME }} FROM PUBLIC;"
   tags:
     - postgres
+  register: output
+
+- debug: var=output.stdout_lines
+  when: "{{ CLANK_VERBOSE | default(False) }}"
 
 - name: add atmo user connect privileges to atmosphere db
   sudo_user: postgres
   command: psql -c "GRANT connect ON DATABASE {{ ATMO_DBNAME }} TO {{ ATMO_DBUSER }};"
   tags:
     - postgres
+  register: output
 
+- debug: var=output.stdout_lines
+  when: "{{ CLANK_VERBOSE | default(False) }}"
 
 - name: copy over atmosphere sql scripts for postgresql to run
   copy: src={{ ATMOSPHERE_DATABASE_FILE_TO_BE_LOADED }} dest={{ POSTGRES_SQL_INSTALL_DIRECTORY }}
@@ -64,6 +71,10 @@
   sudo_user: postgres
   command: psql -f {{ POSTGRES_SQL_INSTALL_DIRECTORY }}/{{ ATMOSPHERE_DATABASE_FILE_TO_BE_LOADED | basename }}
   when: LOAD_ATMOSPHERE_DATABASE
+  register: output
+
+- debug: var=output.stdout_lines
+  when: "{{ CLANK_VERBOSE | default(False) }}"
 
 - name: pip install requirements
   pip: requirements={{ ATMOSPHERE_LOCATION }}/requirements.txt virtualenv={{ VIRTUAL_ENV_ATMOSPHERE }} extra_args='--no-cache-dir'
@@ -74,6 +85,10 @@
 
 - name: wheel install requirements
   command: "{{ VIRTUAL_ENV_ATMOSPHERE }}/bin/wheel install-scripts celery"
+  register: output
+
+- debug: var=output.stdout_lines
+  when: "{{ CLANK_VERBOSE | default(False) }}"
 
 - name: insert ansible role path into config file
   lineinfile: dest={{ ANSIBLE_DEPLOY_LOCATION }}/ansible/ansible.cfg regexp="roles_path =" line="roles_path = {{ ANSIBLE_DEPLOY_LOCATION }}/ansible/roles"
