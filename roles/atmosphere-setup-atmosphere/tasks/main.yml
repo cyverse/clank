@@ -63,7 +63,7 @@
   shell: "{{ VIRTUAL_ENV_ATMOSPHERE }}/bin/python {{ ATMOSPHERE_LOCATION }}/configure"
 
 - name: make ssh file directory
-  command: mkdir -p {{ ATMOSPHERE_LOCATION }}/extras/ssh/
+  file: path={{ ATMOSPHERE_LOCATION }}/extras/ssh/ state=directory
 
 - name: move over id_rsa private key
   copy: src={{ ID_RSA }} dest={{ ATMOSPHERE_LOCATION }}/extras/ssh/
@@ -88,9 +88,6 @@
 
 - name: add strict no hostkey checking
   lineinfile: dest=/root/.ssh/config insertafter=EOF line="Host *\n      StrictHostKeyChecking no"
-
-- name: create atmosphere log directory
-  command: mkdir -p {{ ATMOSPHERE_LOCATION }}/logs
 
 #### DB migrations
 
@@ -136,12 +133,16 @@
       settings='atmosphere.settings'
       pythonpath={{ ATMOSPHERE_LOCATION }}
       virtualenv={{ VIRTUAL_ENV_ATMOSPHERE }}
+# End of Migrations
+
+- name: create atmosphere log directory
+  file: path={{ ATMOSPHERE_LOCATION }}/logs state=directory
 
 - name: touch atmosphere.log
-  command: touch {{ ATMOSPHERE_LOCATION }}/logs/atmosphere.log
+  file: path={{ ATMOSPHERE_LOCATION }}/logs/atmosphere.log state=touch
 
 - name: touch atmosphere_status.log
-  command: touch {{ ATMOSPHERE_LOCATION }}/logs/atmosphere_status.log
+  file: path={{ ATMOSPHERE_LOCATION }}/logs/atmosphere_status.log state=touch
 
 - name: add webserver user for user and group permissions
   file: path={{ ATMOSPHERE_LOCATION }} owner={{ WEBSERVER_USER }} group={{ WEBSERVER_USER }} recurse=yes
@@ -156,7 +157,7 @@
 
 # nginx portion
 - name: create apps-enabled directory
-  command: mkdir -p {{ UWISGI_APPS_ENABLED_PATH }}
+  file: path={{ UWISGI_APPS_ENABLED_PATH }} state=directory
 
 - name: make uwsgi and nginx stuff
   shell: "{{ item }}"

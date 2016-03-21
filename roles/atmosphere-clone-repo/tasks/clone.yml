@@ -1,5 +1,5 @@
 - name: ensure atmosphere location
-  command: mkdir -p {{ ATMOSPHERE_LOCATION }}
+  file: path={{ ATMOSPHERE_LOCATION }} state=directory
 
 - name: clone atmosphere git repo
   git: repo={{ ATMOSPHERE_REPO }}
@@ -18,7 +18,7 @@
 
 ##### Ansible Roles bioci 
 - name: ensure ansible role location
-  command: mkdir -p {{ ANSIBLE_DEPLOY_LOCATION }}
+  file: path={{ ANSIBLE_DEPLOY_LOCATION }} state=directory
 
 - name: clone ansible git repo
   git: repo={{ ANSIBLE_REPO }}

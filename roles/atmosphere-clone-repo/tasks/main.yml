@@ -1,10 +1,10 @@
 - name: create atmosphere directory
-  command: mkdir -p "{{ ATMOSPHERE_DIR }}"
+  file: path={{ ATMOSPHERE_DIR }} state=directory
   tags:
     - ansible-deploy
 
 - name: check to see if repo exists
-  stat: path={{ ATMOSPHERE_LOCATION }}/.git
+  stat: path="{{ ATMOSPHERE_LOCATION }}/.git"
   register: p
   tags:
     - ansible-deploy
