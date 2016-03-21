@@ -24,6 +24,38 @@
   lineinfile: dest=/etc/rc.local insertbefore="exit 0" line="modprobe {{ item.name }} {{ item.params | default(omit) }}"
   with_items: MODPROBE_PACKAGES.packages
 
+- name: atmosphere database is created
+  postgresql_db: name={{ ATMO_DBNAME }} state=present login_user=postgres
+  sudo: yes
+  sudo_user: postgres
+  tags:
+    - postgres
+
+- name: ensure user has access to atmosphere database
+  sudo_user: postgres
+  postgresql_user: db={{ ATMO_DBNAME }} name={{ ATMO_DBUSER }} password={{ ATMO_DBPASSWORD }} priv=ALL
+  tags:
+    - postgres
+
+- name: add atmosphere user connect privileges
+  sudo_user: postgres
+  postgresql_user: db={{ ATMO_DBNAME }} name={{ ATMO_DBUSER }} role_attr_flags=CREATEDB,NOSUPERUSER,CREATEROLE
+  tags:
+    - postgres
+
+- name: remove public connect privileges to atmosphere db
+  sudo_user: postgres
+  command: psql -c "REVOKE connect ON DATABASE {{ ATMO_DBNAME }} FROM PUBLIC;"
+  tags:
+    - postgres
+
+- name: add atmo user connect privileges to atmosphere db
+  sudo_user: postgres
+  command: psql -c "GRANT connect ON DATABASE {{ ATMO_DBNAME }} TO {{ ATMO_DBUSER }};"
+  tags:
+    - postgres
+
+
 - name: copy over atmosphere sql scripts for postgresql to run
   copy: src={{ ATMOSPHERE_DATABASE_FILE_TO_BE_LOADED }} dest={{ POSTGRES_SQL_INSTALL_DIRECTORY }}
   when: LOAD_ATMOSPHERE_DATABASE
