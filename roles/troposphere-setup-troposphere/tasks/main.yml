@@ -31,12 +31,20 @@
   command: psql -c "REVOKE connect ON DATABASE {{ TROPO_DBNAME }} FROM PUBLIC;"
   tags:
     - postgres
+  register: output
+
+- debug: var=output.stdout_lines
+  when: "{{ CLANK_VERBOSE | default(False) }}"
 
 - name: add atmo user connect privileges to troposphere db
   sudo_user: postgres
   command: psql -c "GRANT connect ON DATABASE {{ TROPO_DBNAME }} TO {{ TROPO_DBUSER }};"
   tags:
     - postgres
+  register: output
+
+- debug: var=output.stdout_lines
+  when: "{{ CLANK_VERBOSE | default(False) }}"
 
 - name: copy over troposphere sql script for postgresql to run
   copy: src={{ TROPOSPHERE_DATABASE_FILE_TO_BE_LOADED }} dest={{ POSTGRES_SQL_INSTALL_DIRECTORY }}
@@ -46,6 +54,10 @@
   sudo_user: postgres
   command: psql -f {{ POSTGRES_SQL_INSTALL_DIRECTORY }}/{{ TROPOSPHERE_DATABASE_FILE_TO_BE_LOADED | basename }}
   when: LOAD_TROPOSPHERE_DATABASE
+  register: output
+
+- debug: var=output.stdout_lines
+  when: ({{ CLANK_VERBOSE | default(False) }} and {{ LOAD_TROPOSPHERE_DATABASE }})
 
 - name: pip install requirements
   pip: requirements={{ TROPOSPHERE_LOCATION }}/dev_requirements.txt virtualenv={{ VIRTUAL_ENV_TROPOSPHERE }}  state=latest
@@ -69,6 +81,10 @@
 
 - name: run generate script for troposphere
   shell: "{{ VIRTUAL_ENV_TROPOSPHERE }}/bin/python {{ TROPOSPHERE_LOCATION }}/configure"
+  register: output
+
+- debug: var=output.stdout_lines
+  when: "{{ CLANK_VERBOSE | default(False) }}"
 
 - name: troposphere manage collectstatic
   django_manage: >
@@ -110,9 +126,17 @@
     chdir: "{{ TROPOSPHERE_LOCATION }}/extras/nginx"
   with_items:
     - make
+  register: output
+
+- debug: var=output.stdout_lines
+  when: "{{ CLANK_VERBOSE | default(False) }}"
 
 - name: build cf2
   shell: cp -r {{ TROPOSPHERE_LOCATION }}/troposphere/static/resources {{ TROPOSPHERE_LOCATION }}/troposphere/assets/
+  register: output
+
+- debug: var=output.stdout_lines
+  when: "{{ CLANK_VERBOSE | default(False) }}"
 
 - name: remove node modules
   file: path={{ TROPOSPHERE_LOCATION }}/node_modules state=absent
@@ -125,7 +149,14 @@
   until: result.rc == 0
   retries: 2
 
+- debug: var=result.stdout_lines
+  when: "{{ CLANK_VERBOSE | default(False) }}"
+
 - name: run npm build
   args:
     chdir: "{{ TROPOSPHERE_LOCATION }}"
   shell: npm run build --{{ TROPOSPHERE_BUILD | default("production")}}
+  register: output
+
+- debug: var=output.stdout_lines
+  when: "{{ CLANK_VERBOSE | default(False) }}"

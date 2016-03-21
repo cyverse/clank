@@ -74,7 +74,7 @@
   register: output
 
 - debug: var=output.stdout_lines
-  when: "{{ CLANK_VERBOSE | default(False) }}"
+  when: ({{ CLANK_VERBOSE | default(False) }} and {{ LOAD_ATMOSPHERE_DATABASE }})
 
 - name: pip install requirements
   pip: requirements={{ ATMOSPHERE_LOCATION }}/requirements.txt virtualenv={{ VIRTUAL_ENV_ATMOSPHERE }} extra_args='--no-cache-dir'
