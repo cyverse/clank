@@ -1,5 +1,5 @@
 - name: create troposphere directory
-  command: mkdir -p "{{ TROPOSPHERE_DIR }}"
+  file: path={{ TROPOSPHERE_DIR }} state=directory
 
 - name: check to see if repo exists
   stat: path={{ TROPOSPHERE_LOCATION }}/.git

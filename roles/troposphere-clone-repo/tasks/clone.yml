@@ -1,5 +1,5 @@
 - name: ensure troposphere location
-  command: mkdir -p {{ TROPOSPHERE_LOCATION }}
+  file: path={{ TROPOSPHERE_LOCATION }} state=directory
 
 - name: clone troposphere git repo
   git: repo=https://github.com/iPlantCollaborativeOpenSource/troposphere.git

@@ -20,10 +20,10 @@
   pip: requirements={{ TROPOSPHERE_LOCATION }}/dev_requirements.txt virtualenv={{ VIRTUAL_ENV_TROPOSPHERE }}  state=latest
 
 - name: create troposphere log directory
-  command: mkdir -p {{ TROPOSPHERE_LOCATION }}/logs
+  file: path={{ TROPOSPHERE_LOCATION }}/logs state=directory
 
 - name: create troposphere static directory
-  command: mkdir -p {{ TROPOSPHERE_LOCATION }}/troposphere/tropo-static
+  file: path={{ TROPOSPHERE_LOCATION }}/troposphere/tropo-static state=directory
 
 - name: ensure local files directory exists
   local_action: >
@@ -68,7 +68,7 @@
 
 # nginx portion
 - name: create apps-enabled directory
-  command: mkdir -p {{ UWISGI_APPS_ENABLED_PATH }}
+  file: path={{ UWISGI_APPS_ENABLED_PATH }} state=directory
 
 - name: link troposphere uwsgi conf file
   file: src={{ TROPOSPHERE_LOCATION }}/extras/troposphere.uwsgi.ini dest={{ UWISGI_APPS_ENABLED_PATH }}/troposphere.ini state=link
