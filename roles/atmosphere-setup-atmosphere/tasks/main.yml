@@ -108,7 +108,11 @@
 
 - name: run generate scripts for atmosphere
   shell: "{{ VIRTUAL_ENV_ATMOSPHERE }}/bin/python {{ ATMOSPHERE_LOCATION }}/configure"
+  register: output
 
+- debug: var=output.stdout_lines
+  when: "{{ CLANK_VERBOSE | default(False) }}"
+ 
 - name: make ssh file directory
   file: path={{ ATMOSPHERE_LOCATION }}/extras/ssh/ state=directory
 
@@ -203,6 +207,10 @@
     chdir: "{{ ATMOSPHERE_LOCATION }}/extras/nginx"
   with_items:
     - make
+  register: output
+
+- debug: var=output.stdout_lines
+  when: "{{ CLANK_VERBOSE | default(False) }}"
 
 - name: link uwsgi atmosphere.ini file
   file: src={{ ATMOSPHERE_LOCATION }}/extras/uwsgi/atmo.uwsgi.ini dest={{ UWISGI_APPS_ENABLED_PATH }}/atmosphere.ini state=link
