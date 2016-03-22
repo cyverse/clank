@@ -1,22 +1,75 @@
 - name: create atmosphere directory
-  command: mkdir -p "{{ ATMOSPHERE_DIR }}"
+  file: path={{ ATMOSPHERE_DIR }} state=directory
   tags:
     - ansible-deploy
 
 - name: check to see if repo exists
-  stat: path={{ ATMOSPHERE_LOCATION }}/.git
+  stat: path="{{ ATMOSPHERE_LOCATION }}/.git"
   register: p
   tags:
     - ansible-deploy
 
-# include clone.yml when the repo does not exist
-- include: clone.yml
-  when: p.stat.exists == false
-  tags:
-    - ansible-deploy
+###################################
+# Task relating to clone atmosphere
+###################################
+- name: clone atmosphere git repo
+  git: repo={{ ATMOSPHERE_REPO }}
+       dest={{ ATMOSPHERE_LOCATION }}
+       clone=yes
+       update=yes
+  when: (ATMOSPHERE_BRANCH |length == 0 and not p.stat.exists)
 
-# include pull.yml when the repo does exists
-- include: pull.yml
-  when: p.stat.exists
+- name: clone atmosphere git repo with branched defined
+  git: repo={{ ATMOSPHERE_REPO }}
+       dest={{ ATMOSPHERE_LOCATION }}
+       clone=yes
+       update=yes
+       version={{ ATMOSPHERE_BRANCH | default("master") }}
+  when: (ATMOSPHERE_BRANCH |length > 0 and not p.stat.exists)
+
+# Ansible Roles bioci 
+- name: ensure ansible role location
+  file: path={{ ANSIBLE_DEPLOY_LOCATION }} state=directory
+
+- name: clone ansible git repo
+  git: repo={{ ANSIBLE_REPO }}
+       dest={{ ANSIBLE_DEPLOY_LOCATION }}
+       clone=yes
+       update=yes
+       force=yes
+       version="master"
   tags:
     - ansible-deploy
+  when: not p.stat.exists
+
+####################################
+# Tasks relating to pulling git repo
+####################################
+- name: pull atmosphere git repo with branched not defined
+  git: repo={{ ATMOSPHERE_REPO }}
+       dest={{ ATMOSPHERE_LOCATION }}
+       clone=no
+       update=yes
+       force=yes
+       version="master"
+  when: (ATMOSPHERE_BRANCH |length == 0 and p.stat.exists)
+
+- name: pull atmosphere git repo with branched defined
+  git: repo={{ ATMOSPHERE_REPO }}
+       dest={{ ATMOSPHERE_LOCATION }}
+       clone=no
+       update=yes
+       force=yes
+       version={{ ATMOSPHERE_BRANCH | default("master") }}
+  when: (ATMOSPHERE_BRANCH |length > 0 and p.stat.exists)
+
+- name: pull atmosphere ansible git repo
+  git: repo={{ ANSIBLE_REPO }}
+       dest={{ ANSIBLE_DEPLOY_LOCATION }}
+       clone=yes
+       update=yes
+       force=yes
+       version="master"
+  tags:
+    - ansible-deploy
+  when: p.stat.exists

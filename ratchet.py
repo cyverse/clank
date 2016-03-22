@@ -82,6 +82,10 @@ def setup_arguments():
         default="dynamic_ratchet_ansible_env.yml",
         help="The environment file to be renamed as which will be loaded in to ansible-playbook")
 
+    parser.add_argument("--verbose_output",
+        action='store_true',
+        help="Toggle on verbose output for command and shell tasks.")
+
     parser.add_argument("--workspace",
         required=True,
         type=str,
@@ -157,6 +161,8 @@ def execute_ansible_playbook(args):
         command += ' --tags "%s"' % args.tags  
     if args.vagrant is True:
         command += ' -e"VAGRANT=true"'
+    if args.verbose_output is True:
+        command += ' -e"CLANK_VERBOSE=true"'
     (out, err, returncode) = live_run(command, cwd=FILE_PATH)
     if returncode is not 0:
         print Fore.RED + "%s" % command

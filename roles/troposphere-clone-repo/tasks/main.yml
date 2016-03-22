@@ -1,14 +1,47 @@
 - name: create troposphere directory
-  command: mkdir -p "{{ TROPOSPHERE_DIR }}"
+  file: path={{ TROPOSPHERE_DIR }} state=directory
 
 - name: check to see if repo exists
   stat: path={{ TROPOSPHERE_LOCATION }}/.git
   register: p
 
-# include clone.yml when the repo does not exist
-- include: clone.yml
-  when: p.stat.exists == false
+###############################
+# Tasks related to cloning repo
+###############################
 
-# include pull.yml when the repo does exists
-- include: pull.yml
-  when: p.stat.exists
+- name: clone troposphere git repo
+  git: repo=https://github.com/iPlantCollaborativeOpenSource/troposphere.git
+       dest={{ TROPOSPHERE_LOCATION }}
+       clone=yes
+       update=yes
+  when: (TROPOSPHERE_BRANCH |length == 0 and not p.stat.exists)
+
+- name: clone troposphere git repo with branched defined
+  git: repo=https://github.com/iPlantCollaborativeOpenSource/troposphere.git
+       dest={{ TROPOSPHERE_LOCATION }}
+       clone=yes
+       update=yes
+       version={{ TROPOSPHERE_BRANCH | default("master") }}
+  when: (TROPOSPHERE_BRANCH |length > 0 and not p.stat.exists)
+
+###############################
+# Tasks related to pulling repo
+###############################
+
+- name: pull troposphere git repo with branched not defined
+  git: repo=https://github.com/iPlantCollaborativeOpenSource/troposphere.git
+       dest={{ TROPOSPHERE_LOCATION }}
+       clone=no
+       update=yes
+       force=yes
+       version="master"
+  when: (TROPOSPHERE_BRANCH |length == 0 and p.stat.exists)
+
+- name: pull troposphere git repo with branched defined
+  git: repo=https://github.com/iPlantCollaborativeOpenSource/troposphere.git
+       dest={{ TROPOSPHERE_LOCATION }}
+       clone=no
+       update=yes
+       force=yes
+       version={{ TROPOSPHERE_BRANCH | default("master") }}
+  when: (TROPOSPHERE_BRANCH |length > 0 and p.stat.exists)

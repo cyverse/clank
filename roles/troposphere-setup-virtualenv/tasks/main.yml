@@ -1,5 +1,9 @@
 - name: create directory
-  command: mkdir -p "{{ VIRTUAL_ENV_DIR_TROPOSPHERE }}"
+  file: path={{ VIRTUAL_ENV_DIR_TROPOSPHERE }} state=directory
 
 - name: Manually create the initial virtualenv
   command: virtualenv {{ VIRTUAL_ENV_TROPOSPHERE  }} creates="{{ VIRTUAL_ENV_TROPOSPHERE }}"
+  register: output
+
+- debug: var=output.stdout_lines
+  when: "{{ CLANK_VERBOSE | default(False) }}"
