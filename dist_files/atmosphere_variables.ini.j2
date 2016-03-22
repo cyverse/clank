@@ -5,15 +5,6 @@ LDAP_SERVER_DN = {{ ATMO["COMMON"]["LDAP_SERVER_DN"] | default('') }}
 TOKEN_EXPIRY_TIME_DAYS = {{ ATMO["COMMON"]["TOKEN_EXPIRY_TIME_DAYS"] | default('') }}
 DJANGO_SERVER_URL = {{ ATMO["COMMON"]["DJANGO_SERVER_URL"] | default('') }}
 
-[apache2]
-MYSHORTNAME = {{ ATMO["apache2"]["MYSHORTNAME"] | default('') }}
-MYHOSTNAMEHERE = {{ ATMO["apache2"]["MYHOSTNAMEHERE"] | default('') }}
-PATH_TO_ATMOSPHERE = {{ ATMO["apache2"]["PATH_TO_ATMOSPHERE"] | default('') }}
-PATH_TO_TROPOSPHERE = {{ ATMO["apache2"]["PATH_TO_TROPOSPHERE"] | default('') }}
-BASECERTHERE = {{ ATMO["apache2"]["BASECERTHERE"] | default('') }}
-KEYHERE = {{ ATMO["apache2"]["KEYHERE"] | default('') }}
-BUNDLECERTHERE = {{ ATMO["apache2"]["BUNDLECERTHERE"] | default('') }}
-
 [nginx]
 ATMOSPHERE_PATH = {{ ATMO["nginx"]["ATMOSPHERE_PATH"] | default('') }}
 BUNDLE_FILE = {{ ATMO["nginx"]["BUNDLE_FILE"] | default('') }}
