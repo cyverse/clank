@@ -95,7 +95,7 @@ TEST_RUNNER = {{ ATMO["local.py"]["TEST_RUNNER"] | default('') }}
 TEST_RUNNER_PASS = {{ ATMO["local.py"]["TEST_RUNNER_PASS"] | default('') }}
 TEST_RUNNER_USER = {{ ATMO["local.py"]["TEST_RUNNER_USER"] | default('') }}
 
-[local.py-site]
+#local.py - site configuration
 AUTO_CREATE_NEW_ACCOUNTS = {{ ATMO["local.py-site"]["AUTO_CREATE_NEW_ACCOUNTS"] | default('') }}
 DEFAULT_ALLOCATION_THRESHOLD = {{ ATMO["local.py-site"]["DEFAULT_ALLOCATION_THRESHOLD"] | default('') }}
 DEFAULT_ALLOCATION_DELTA = {{ ATMO["local.py-site"]["DEFAULT_ALLOCATION_DELTA"] | default('') }}
