@@ -96,23 +96,23 @@ TEST_RUNNER_PASS = {{ ATMO["local.py"]["TEST_RUNNER_PASS"] | default('') }}
 TEST_RUNNER_USER = {{ ATMO["local.py"]["TEST_RUNNER_USER"] | default('') }}
 
 #local.py - site configuration
-AUTO_CREATE_NEW_ACCOUNTS = {{ ATMO["local.py-site"]["AUTO_CREATE_NEW_ACCOUNTS"] | default('') }}
-DEFAULT_ALLOCATION_THRESHOLD = {{ ATMO["local.py-site"]["DEFAULT_ALLOCATION_THRESHOLD"] | default('') }}
-DEFAULT_ALLOCATION_DELTA = {{ ATMO["local.py-site"]["DEFAULT_ALLOCATION_DELTA"] | default('') }}
-DEFAULT_EMAIL_DOMAIN = {{ ATMO["local.py-site"]["DEFAULT_EMAIL_DOMAIN"] | default('') }}
-DEFAULT_IP_LOOKUP = {{ ATMO["local.py-site"]["DEFAULT_IP_LOOKUP"] | default('') }}
-DEFAULT_KEYSTONE_ROLE = {{ ATMO["local.py-site"]["DEFAULT_KEYSTONE_ROLE"] | default('') }}
-DEFAULT_QUOTA = '{{ ATMO["local.py-site"]["DEFAULT_QUOTA"] | default("") }}'
-ADMINS_EMAIL_TUPLE = {{ ATMO["local.py-site"]["ADMINS_EMAIL_TUPLE"] | default('') }}
-SUPPORT_EMAIL = {{ ATMO["local.py-site"]["SUPPORT_EMAIL"] | default('') }}
-SUPPORT_LINKS = {{ ATMO["local.py-site"]["SUPPORT_LINKS"] | default('') }}
-MONTHLY_RESET_PROVIDER_LOCATIONS = '{{ ATMO["local.py-site"]["MONTHLY_RESET_PROVIDER_LOCATIONS"] | default("") }}'
-REPLICATION_PROVIDER_LOCATION = {{ ATMO["local.py-site"]["REPLICATION_PROVIDER_LOCATION"] | default('') }}
-EMAIL_LOOKUP_METHOD = {{ ATMO["local.py-site"]["EMAIL_LOOKUP_METHOD"] | default('') }}
-USER_EMAIL_LOOKUP_METHOD = {{ ATMO["local.py-site"]["USER_EMAIL_LOOKUP_METHOD"] | default('') }}
-INSTANCE_HOSTNAMING_DOMAIN = {{ ATMO["local.py-site"]["INSTANCE_HOSTNAMING_DOMAIN"] | default('') }}
-INSTANCE_HOSTNAMING_FORMAT = "{{ ATMO["local.py-site"]["INSTANCE_HOSTNAMING_FORMAT"] | default('') }}"
-CELERYBEAT_SCHEDULE = {{ ATMO["local.py-site"]["CELERYBEAT_SCHEDULE"] | default('') }}
+AUTO_CREATE_NEW_ACCOUNTS = {{ ATMO["local.py"]["AUTO_CREATE_NEW_ACCOUNTS"] | default('') }}
+DEFAULT_ALLOCATION_THRESHOLD = {{ ATMO["local.py"]["DEFAULT_ALLOCATION_THRESHOLD"] | default('') }}
+DEFAULT_ALLOCATION_DELTA = {{ ATMO["local.py"]["DEFAULT_ALLOCATION_DELTA"] | default('') }}
+DEFAULT_EMAIL_DOMAIN = {{ ATMO["local.py"]["DEFAULT_EMAIL_DOMAIN"] | default('') }}
+DEFAULT_IP_LOOKUP = {{ ATMO["local.py"]["DEFAULT_IP_LOOKUP"] | default('') }}
+DEFAULT_KEYSTONE_ROLE = {{ ATMO["local.py"]["DEFAULT_KEYSTONE_ROLE"] | default('') }}
+DEFAULT_QUOTA = '{{ ATMO["local.py"]["DEFAULT_QUOTA"] | default("") }}'
+ADMINS_EMAIL_TUPLE = {{ ATMO["local.py"]["ADMINS_EMAIL_TUPLE"] | default('') }}
+SUPPORT_EMAIL = {{ ATMO["local.py"]["SUPPORT_EMAIL"] | default('') }}
+SUPPORT_LINKS = {{ ATMO["local.py"]["SUPPORT_LINKS"] | default('') }}
+MONTHLY_RESET_PROVIDER_LOCATIONS = '{{ ATMO["local.py"]["MONTHLY_RESET_PROVIDER_LOCATIONS"] | default("") }}'
+REPLICATION_PROVIDER_LOCATION = {{ ATMO["local.py"]["REPLICATION_PROVIDER_LOCATION"] | default('') }}
+EMAIL_LOOKUP_METHOD = {{ ATMO["local.py"]["EMAIL_LOOKUP_METHOD"] | default('') }}
+USER_EMAIL_LOOKUP_METHOD = {{ ATMO["local.py"]["USER_EMAIL_LOOKUP_METHOD"] | default('') }}
+INSTANCE_HOSTNAMING_DOMAIN = {{ ATMO["local.py"]["INSTANCE_HOSTNAMING_DOMAIN"] | default('') }}
+INSTANCE_HOSTNAMING_FORMAT = "{{ ATMO["local.py"]["INSTANCE_HOSTNAMING_FORMAT"] | default('') }}"
+CELERYBEAT_SCHEDULE = {{ ATMO["local.py"]["CELERYBEAT_SCHEDULE"] | default('') }}
 
 
 [secrets.py]
