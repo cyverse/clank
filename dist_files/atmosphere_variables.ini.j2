@@ -97,6 +97,7 @@ TEST_RUNNER_USER = {{ ATMO["local.py"]["TEST_RUNNER_USER"] | default('') }}
 
 #local.py - site configuration
 SITE_NAME = {{ ATMO["local.py"]["SITE_NAME"] | default('Atmosphere') }}
+TIME_ZONE = {{ ATMO["local.py"]["TIME_ZONE"] | default('') }}
 AUTO_CREATE_NEW_ACCOUNTS = {{ ATMO["local.py"]["AUTO_CREATE_NEW_ACCOUNTS"] | default('') }}
 DEFAULT_ALLOCATION_THRESHOLD = {{ ATMO["local.py"]["DEFAULT_ALLOCATION_THRESHOLD"] | default('') }}
 DEFAULT_ALLOCATION_DELTA = {{ ATMO["local.py"]["DEFAULT_ALLOCATION_DELTA"] | default('') }}
