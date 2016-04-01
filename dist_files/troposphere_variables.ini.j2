@@ -7,14 +7,6 @@ LDAP_SERVER = {{ TROPO["COMMON"]["LDAP_SERVER"] | default('') }}
 LDAP_SERVER_DN = {{ TROPO["COMMON"]["LDAP_SERVER_DN"] | default('') }}
 TOKEN_EXPIRY_TIME_DAYS = {{ TROPO["COMMON"]["TOKEN_EXPIRY_TIME_DAYS"] | default('') }}
 
-[apache]
-MYSHORTNAME = {{ TROPO["apache"]["MYSHORTNAME"] | default('') }}
-MYHOSTNAMEHERE = {{ TROPO["apache"]["MYHOSTNAMEHERE"] | default('') }}
-PATH_TO_TROPOSPHERE = {{ TROPO["apache"]["PATH_TO_TROPOSPHERE"] | default('') }}
-BASECERTHERE = {{ TROPO["apache"]["BASECERTHERE"] | default('') }}
-KEYHERE = {{ TROPO["apache"]["KEYHERE"] | default('') }}
-BUNDLECERTHERE = {{ TROPO["apache"]["BUNDLECERTHERE"] | default('') }}
-
 [nginx]
 BUNDLE_FILE = {{ TROPO["nginx"]["BUNDLE_FILE"] | default('') }}
 TROPOSPHERE_PATH = {{ TROPO["nginx"]["TROPOSPHERE_PATH"] | default('') }}
