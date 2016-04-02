@@ -8,7 +8,7 @@
 {% elif template_vars[section_name][var_name] is sameas True or template_vars[section_name][var_name] is sameas False %}
 {{var_name}} = {{template_vars[section_name][var_name] | default('')}}
 {% else %}
-{{var_name}} = "{{template_vars[section_name][var_name] | default('')}}"
+{{var_name}} = {{template_vars[section_name][var_name] | to_ini_value }}
 {% endif %}
 {% endfor %}
 
