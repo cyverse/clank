@@ -99,9 +99,9 @@
   local_action: >
       file path={{ role_path }}/files state=directory mode=0755
 
-- name: create local atmosphere_variables.ini from dist
+- name: create local atmosphere_variables.ini from dict
   local_action: >
-      template src=../../../dist_files/atmosphere_variables.ini.j2 dest={{ role_path }}/files/atmosphere_variables.ini
+      template src={{ role_path }}/templates/variables.ini.j2 dest={{ role_path }}/files/atmosphere_variables.ini
   tags: variables
 
 - name: move over precompleted variables.ini
@@ -114,7 +114,7 @@
 
 - debug: var=output.stdout_lines
   when: "{{ CLANK_VERBOSE | default(False) }}"
- 
+
 - name: make ssh file directory
   file: path={{ ATMOSPHERE_LOCATION }}/extras/ssh/ state=directory
 
