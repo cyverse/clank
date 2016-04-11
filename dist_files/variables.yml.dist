@@ -50,9 +50,15 @@ TROPOSPHERE_DATABASE_FILE_TO_BE_LOADED:     # an absolute path to sql script tha
 JENKINS: false
 
 # SSL RELATED VARS
+CREATE_SSL: false                           # Set this to true if you wish to create ssl certs
+
+
+# If the above variable is set to true, don't edit next three vars below
 SSL_CERTIFICATE:    #Absolute Path Recommended
 BUNDLE_CERT:        #Absolute Path Recommended
 SSL_KEY:            #Absolute Path Recommended
+
+BUNDLE_CERT: {{ BUNDLE_CERT | default(empty_bundle.crt) }}       # Based on var above
 
 #ID_RSA
 ID_RSA:             #Absolute Path Recommended
