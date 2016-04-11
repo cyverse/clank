@@ -25,7 +25,9 @@ F2B_IGNOREIP:
 # Timezone
 #
 # Feel free to change as necessary:
-TIMEZONE: "/usr/share/zoneinfo/US/Pacific"
+
+TIMEZONE: America/Chicago
+ZONEINFO: /usr/share/zoneinfo/US/Central
 
 # If additional users or administrative users are requried, add the user's 
 # username to the user group defined in /etc/group
