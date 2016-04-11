@@ -1,4 +1,4 @@
-SSL_LOCATION: /etc/pki/tls/
+SSL_LOCATION: /etc/pki/tls
 
 SSL_CERTIFICATE:
 BUNDLE_CERT:

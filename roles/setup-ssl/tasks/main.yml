@@ -40,3 +40,7 @@
     creates: "{{ SSL_CERTIFICATE }}/certs/{{ item.name }}.crt"
   with_items: OPENSSL_SELF_SIGNED
   when: CREATE_SSL
+
+- name: Copy over empty bundle file
+  file: path={{ SSL_LOCATION }}/certs/empty_bundle.crt state=touch
+  when: CREATE_SSL
