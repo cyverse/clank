@@ -8,14 +8,20 @@
     - { role: setup-ssl, tags: [ 'dependencies', 'ssl'] }
 
     # Atmosphere Portion
-    - { role: atmosphere-setup-virtualenv, tags: [ 'atmosphere', 'setup-virtualenv'] }
+    - { role: setup-virtualenv,
+        VIRTUAL_ENV_NAME: 'atmo',
+        VIRTUAL_ENV_BASE_DIR: "{{ VIRTUAL_ENV_DIR_ATMOSPHERE }}",
+        tags: [ 'atmosphere', 'setup-virtualenv'] }
     - { role: atmosphere-clone-repo, tags: [ 'atmosphere', 'clone-repo'] }
     - { role: atmosphere-setup-atmosphere, template_vars: "{{ ATMO }}",
         tags: [ 'atmosphere', 'setup-atmosphere'] }
     - { role: setup-celery , tags: [ 'atmosphere', 'celery'] }
 
     # Troposphere Portion
-    - { role: troposphere-setup-virtualenv, tags: [ 'troposphere', 'setup-virtualenv'] }
+    - { role: setup-virtualenv,
+        VIRTUAL_ENV_NAME: 'troposphere',
+        VIRTUAL_ENV_BASE_DIR: "{{ VIRTUAL_ENV_DIR_TROPOSPHERE }}",
+        tags: [ 'troposphere', 'setup-virtualenv'] }
     - { role: troposphere-clone-repo, tags: [ 'troposphere', 'clone-repo'] }
     - { role: troposphere-setup-troposphere, template_vars: "{{ TROPO }}",
         tags: [ 'troposphere', 'setup-troposphere'] }

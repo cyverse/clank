@@ -1,8 +1,8 @@
 - name: create directory
-  file: path="{{ VIRTUAL_ENV_DIR_ATMOSPHERE }}" state=directory
+  file: path={{ VIRTUAL_ENV_BASE_DIR }} state=directory
 
 - name: Manually create the initial virtualenv
-  command: virtualenv {{ VIRTUAL_ENV_ATMOSPHERE  }} creates="{{ VIRTUAL_ENV_ATMOSPHERE }}"
+  command: virtualenv {{ VIRTUAL_ENV_FULL_PATH }} creates="{{ VIRTUAL_ENV_FULL_PATH }}"
   register: output
 
 - debug: var=output.stdout_lines
