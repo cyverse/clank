@@ -26,28 +26,28 @@
 
 - name: atmosphere database is created
   postgresql_db: name={{ ATMO_DBNAME }} state=present login_user=postgres
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   tags:
     - postgres
 
 - name: ensure user has access to atmosphere database
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   postgresql_user: db={{ ATMO_DBNAME }} name={{ ATMO_DBUSER }} password={{ ATMO_DBPASSWORD }} priv=ALL
   tags:
     - postgres
 
 - name: add atmosphere user connect privileges
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   postgresql_user: db={{ ATMO_DBNAME }} name={{ ATMO_DBUSER }} role_attr_flags=CREATEDB,NOSUPERUSER,CREATEROLE
   tags:
     - postgres
 
 - name: remove public connect privileges to atmosphere db
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   command: psql -c "REVOKE connect ON DATABASE {{ ATMO_DBNAME }} FROM PUBLIC;"
   tags:
     - postgres
@@ -57,8 +57,8 @@
   when: "{{ CLANK_VERBOSE | default(False) }}"
 
 - name: add atmo user connect privileges to atmosphere db
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   command: psql -c "GRANT connect ON DATABASE {{ ATMO_DBNAME }} TO {{ ATMO_DBUSER }};"
   tags:
     - postgres
@@ -72,8 +72,8 @@
   when: LOAD_ATMOSPHERE_DATABASE
 
 - name: run atmosphere sql scripts for postgresql
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   command: psql -f {{ POSTGRES_SQL_INSTALL_DIRECTORY }}/{{ ATMOSPHERE_DATABASE_FILE_TO_BE_LOADED | basename }}
   when: LOAD_ATMOSPHERE_DATABASE
   register: output
