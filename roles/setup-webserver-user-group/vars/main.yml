@@ -2,5 +2,5 @@
 # vars file for setup-webserver-user-group
 
 APP_BASE_DIR: ""
-WEBSERVER_USER: "www-data"
+WEBSERVER_USER: www-data
 VAGRANT: False
