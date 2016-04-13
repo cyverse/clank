@@ -1,0 +1,4 @@
+---
+# defaults file for app-config-postgres
+
+DEFAULT_ROLE_ATTR_FLAGS: CREATEDB,NOSUPERUSER,CREATEROLE

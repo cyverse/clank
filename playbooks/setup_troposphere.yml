@@ -3,6 +3,15 @@
   hosts: all
 
   roles:
+    - { role: app-config-postgres,
+        DBNAME: "{{ TROPO_DBNAME }}",
+        DBUSER: "{{ TROPO_DBUSER }}",
+        DBPASSWORD: "{{ TROPO_DBPASSWORD }}" }
+
+    - { role: app-load-data-postgres,
+        DBNAME: "{{ TROPO_DBNAME}} ",
+        LOAD_DATABASE: True,
+        DATABASE_FILE_TO_BE_LOADED: "{{ SQL_DUMP_FILE }}" }
 
     - { role: app-pip-install-requirements,
         APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION }}",
