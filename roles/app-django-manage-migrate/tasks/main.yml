@@ -1,0 +1,13 @@
+---
+# tasks file for app-django-manage-migrate
+
+- name: django manage migrate
+  django_manage: >
+      command=migrate
+      app_path={{ APP_BASE_DIR }}
+      settings={{ DJANGO_SETTINGS_MODULE }}
+      pythonpath={{ APP_BASE_DIR }}
+      virtualenv={{ VIRTUAL_ENV }}
+
+# Note: it does *not* appear that we can do a `register: output` on the
+# `django_manage` to capture & print the output
