@@ -1,0 +1,10 @@
+---
+# tasks file for app-config-logging
+
+
+- name: create application log directory
+  file: path={{ LOG_DIR_BASE }} state=directory
+
+- name: touch log files
+  file: path={{ LOG_DIR_BASE }}/{{ item }} state=touch
+  with_items: "{{ LOG_FILES }}"

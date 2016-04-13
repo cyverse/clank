@@ -4,6 +4,11 @@
 
   roles:
 
+    - { role: app-config-logging,
+        APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION }}",
+        LOG_FILES: "{{ TROPO_LOG_FILES }}",
+        tags: ['troposphere', 'logging']}
+
     - { role: config-nginx-uwsgi,
         APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION }}",
         UWSGI_APP_NAME: 'troposphere',
