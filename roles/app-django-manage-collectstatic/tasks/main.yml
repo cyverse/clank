@@ -1,7 +1,7 @@
 ---
 # tasks file for app-django-manage-collectstatic
 
-- name: create troposphere static directory
+- name: create django-app static directory
   file: path={{ APP_BASE_DIR }}/{{ STATIC_DIR_PATH }} state=directory
   when: STATIC_DIR_PATH is defined and STATIC_DIR_PATH != ""
 
