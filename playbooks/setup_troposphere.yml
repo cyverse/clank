@@ -9,6 +9,12 @@
         LOG_FILES: "{{ TROPO_LOG_FILES }}",
         tags: ['troposphere', 'logging']}
 
+    - { role: app-generate-ini-config,
+        template_vars: "{{ TROPO }}",
+        APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION }}",
+        VIRTUAL_ENV: "{{ VIRTUAL_ENV_TROPOSPHERE }}",
+        tags: ['troposphere'] }
+
     - { role: config-nginx-uwsgi,
         APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION }}",
         UWSGI_APP_NAME: 'troposphere',
