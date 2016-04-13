@@ -1,0 +1,6 @@
+# Managed by Ansible
+
+alias tropoactivate='source {{ VIRTUAL_ENV_TROPOSPHERE }}/bin/activate'
+alias tropocd='tropoactivate;cd {{ TROPOSPHERE_LOCATION }}'
+alias tropomanage='tropocd;DJANGO_SETTINGS_MODULE='\''troposphere.settings'\'' {{ TROPOSPHERE_LOCATION }}/manage.py'
+alias tropor='service troposphere celery-restart'

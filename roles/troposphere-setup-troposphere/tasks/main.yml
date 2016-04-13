@@ -7,6 +7,18 @@
     - "defaults.yml"
   tags: vars
 
+- name: template out tropo bash aliases
+  template: src=tropo_bash_aliases.j2 dest=~/.tropo_bash_aliases mode="u=rw,g=r,o=r"
+
+- name: add aliases to ~/.bashrc
+  blockinfile:
+    dest: ~/.bashrc
+    block: |
+      if [ -f ~/.tropo_bash_aliases ]; then
+        . ~/.tropo_bash_aliases
+      fi
+    marker: "# {mark} ANSIBLE MANAGED BLOCK tropo_bash_aliases"
+
 - name: troposphere database is created
   become: yes
   become_user: postgres

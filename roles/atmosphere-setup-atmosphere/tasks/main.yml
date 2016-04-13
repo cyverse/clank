@@ -7,6 +7,18 @@
     - "{{ ansible_os_family }}.yml"
   tags: vars
 
+- name: template out atmo bash aliases
+  template: src=atmo_bash_aliases.j2 dest=~/.atmo_bash_aliases mode="u=rw,g=r,o=r"
+
+- name: add atmo bash aliases to ~/.bashrc
+  blockinfile:
+    dest: ~/.bashrc
+    block: |
+      if [ -f ~/.atmo_bash_aliases ]; then
+        . ~/.atmo_bash_aliases
+      fi
+    marker: "# {mark} ANSIBLE MANAGED BLOCK atmo_bash_aliases"
+    
 - name: install dev packages packages
   action: >
     {{ ansible_pkg_mgr }} name={{ item }} state={{ DEV_PACKAGES.state }}

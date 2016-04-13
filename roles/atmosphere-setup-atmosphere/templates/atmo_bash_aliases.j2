@@ -1,0 +1,7 @@
+# Managed by Ansible
+
+alias atmoactivate='source {{ VIRTUAL_ENV_ATMOSPHERE }}/bin/activate'
+alias atmocd='atmoactivate;cd {{ ATMOSPHERE_LOCATION }}'
+alias atmoacd='cd {{ ANSIBLE_DEPLOY_LOCATION }}'
+alias atmomanage='atmocd;DJANGO_SETTINGS_MODULE='\''atmosphere.settings'\'' {{ ATMOSPHERE_LOCATION }}/manage.py'
+alias atmor='service atmosphere celery-restart'
