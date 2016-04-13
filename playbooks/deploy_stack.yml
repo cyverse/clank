@@ -12,7 +12,17 @@
         VIRTUAL_ENV_NAME: 'atmo',
         VIRTUAL_ENV_BASE_DIR: "{{ VIRTUAL_ENV_DIR_ATMOSPHERE }}",
         tags: [ 'atmosphere', 'setup-virtualenv'] }
-    - { role: atmosphere-clone-repo, tags: [ 'atmosphere', 'clone-repo'] }
+    - { role: clone-repo,
+        REPO_BASE_DIR: "{{ ATMOSPHERE_DIR }}",
+        CLONE_TARGET: "{{ ATMOSPHERE_LOCATION }}",
+#       SPECIFIC_BRANCH: "{{ ATMOSPHERE_BRANCH }}",
+        REPO_URI: "{{ ATMOSPHERE_REPO }}",
+        tags: [ 'atmosphere', clone-repo'] }
+    - { role: clone-repo,
+        REPO_BASE_DIR: "{{ ANSIBLE_DEPLOY_DIR }}",
+        CLONE_TARGET: "{{ ANSIBLE_DEPLOY_LOCATION }}",
+        REPO_URI: "{{ ANSIBLE_REPO }}",
+        tags: [ 'atmosphere', 'ansible-deploy', clone-repo'] }
     - { role: atmosphere-setup-atmosphere, template_vars: "{{ ATMO }}",
         tags: [ 'atmosphere', 'setup-atmosphere'] }
     - { role: setup-celery , tags: [ 'atmosphere', 'celery'] }
@@ -22,6 +32,11 @@
         VIRTUAL_ENV_NAME: 'troposphere',
         VIRTUAL_ENV_BASE_DIR: "{{ VIRTUAL_ENV_DIR_TROPOSPHERE }}",
         tags: [ 'troposphere', 'setup-virtualenv'] }
-    - { role: troposphere-clone-repo, tags: [ 'troposphere', 'clone-repo'] }
+    - { role: clone-repo,
+        REPO_BASE_DIR: "{{ TROPOSPHERE_DIR }}",
+        CLONE_TARGET: "{{ TROPOSPHERE_LOCATION }}",
+#       SPECIFIC_BRANCH: "{{ TROPOSPHERE_BRANCH }}",
+        REPO_URI: "{{ TROPOSPHERE_REPO }}",
+        tags: [ 'troposphere', 'clone-repo'] }
     - { role: troposphere-setup-troposphere, template_vars: "{{ TROPO }}",
         tags: [ 'troposphere', 'setup-troposphere'] }
