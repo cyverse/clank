@@ -6,12 +6,14 @@
     - { role: app-config-postgres,
         DBNAME: "{{ TROPO_DBNAME }}",
         DBUSER: "{{ TROPO_DBUSER }}",
-        DBPASSWORD: "{{ TROPO_DBPASSWORD }}" }
+        DBPASSWORD: "{{ TROPO_DBPASSWORD }}",
+        tags: ['troposphere', 'database'] }
 
     - { role: app-load-data-postgres,
         DBNAME: "{{ TROPO_DBNAME}} ",
         LOAD_DATABASE: True,
-        DATABASE_FILE_TO_BE_LOADED: "{{ SQL_DUMP_FILE }}" }
+        DATABASE_FILE_TO_BE_LOADED: "{{ SQL_DUMP_FILE }}",
+        tags: ['troposphere', 'data-load'] }
 
     - { role: app-pip-install-requirements,
         APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION }}",
