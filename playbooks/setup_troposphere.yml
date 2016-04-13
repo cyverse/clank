@@ -31,6 +31,19 @@
         VIRTUAL_ENV: "{{ VIRTUAL_ENV_TROPOSPHERE }}",
         tags: ['troposphere'] }
 
+    - { role: app-django-manage-collectstatic,
+        APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION }}",
+        VIRTUAL_ENV: "{{ VIRTUAL_ENV_TROPOSPHERE }}",
+        STATIC_DIR_PATH: 'troposphere/tropo-static',
+        DJANGO_SETTINGS_MODULE: 'troposphere.settings',
+        tags: ['troposphere']}
+
+    - { role: app-django-manage-migrate,
+        APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION }}",
+        VIRTUAL_ENV: "{{ VIRTUAL_ENV_TROPOSPHERE }}",
+        DJANGO_SETTINGS_MODULE: 'troposphere.settings',
+        tags: ['troposphere', 'migrate'] }
+
     - { role: config-nginx-uwsgi,
         APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION }}",
         UWSGI_APP_NAME: 'troposphere',
