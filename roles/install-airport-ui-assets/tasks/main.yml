@@ -1,0 +1,9 @@
+---
+# tasks file for install-airport-ui-assets
+
+- name: build cf2
+  shell: cp -r {{ AIRPORT_SOURCE }}/troposphere/static/resources {{ AIRPORT_SOURCE }}/troposphere/assets/
+  register: output
+
+- debug: var=output.stdout_lines
+  when: "{{ CLANK_VERBOSE | default(False) }}"

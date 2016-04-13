@@ -1,0 +1,8 @@
+---
+# vars file for build-install-troposphere-ui-assets
+
+# absolute path to the base, aka root, directory of an application
+# using NPM to manage its' dependencies & automation tasks via `npm`
+NPM_APP_DIR: ""
+NPM_BUILD_TYPE: "production"
+NPM_CLEAN_BUILD: False

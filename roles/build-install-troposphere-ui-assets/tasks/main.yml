@@ -1,0 +1,26 @@
+---
+# tasks file for build-install-troposphere-ui-assets
+
+- name: remove node modules
+  file: path={{ NPM_APP_DIR }}/node_modules state=absent
+  when: NPM_CLEAN_BUILD
+
+- name: run npm install
+  action: shell npm install
+  args:
+    chdir: "{{ NPM_APP_DIR }}"
+  register: result
+  until: result.rc == 0
+  retries: 2
+
+- debug: var=result.stdout_lines
+  when: "{{ CLANK_VERBOSE | default(False) }}"
+
+- name: run npm build
+  args:
+    chdir: "{{ NPM_APP_DIR }}"
+  shell: npm run build --{{ NPM_BUILD_TYPE | default("production")}}
+  register: output
+
+- debug: var=output.stdout_lines
+  when: "{{ CLANK_VERBOSE | default(False) }}"
