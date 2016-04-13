@@ -38,7 +38,7 @@
       -out {{ SSL_LOCATION }}/certs/{{ item.name }}.crt
   args:
     creates: "{{ SSL_CERTIFICATE }}/certs/{{ item.name }}.crt"
-  with_items: OPENSSL_SELF_SIGNED
+  with_items: "{{ OPENSSL_SELF_SIGNED }}"
   when: CREATE_SSL
 
 - name: Copy over empty bundle file
