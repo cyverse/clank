@@ -3,6 +3,12 @@
   hosts: all
 
   roles:
+
+    - { role: config-nginx-uwsgi,
+        APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION }}",
+        UWSGI_APP_NAME: 'troposphere',
+        tags: ['troposphere'] }
+
     - { role: install-airport-ui-assets,
         AIRPORT_SOURCE: "{{ TROPOSPHERE_LOCATION }}",
         tags: ['troposphere', 'airport'] }
