@@ -1,5 +1,5 @@
-app-alter-kernal-for-imaging
-=========
+app-alter-kernel-for-imaging
+============================
 
 Ensure target server has packages necessary to service Virtual Machine Imaging requests
 
@@ -21,7 +21,7 @@ Example Playbook
 ```
     - hosts: servers
       roles:
-         - { role: app-alter-kernal-for-imaging, tag: ['atmosphere'] }
+         - { role: app-alter-kernel-for-imaging, tag: ['atmosphere'] }
 ```
 
 License
