@@ -1,0 +1,8 @@
+---
+# vars file for app-pip-install-requirements
+
+APP_BASE_DIR: ""
+
+VIRTUAL_ENV: ""
+
+

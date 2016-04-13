@@ -4,6 +4,11 @@
 
   roles:
 
+    - { role: app-pip-install-requirements,
+        APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION }}",
+        VIRTUAL_ENV: "{{ VIRTUAL_ENV_TROPOSPHERE }}",
+        tags: ['troposphere']}
+
     - { role: app-config-logging,
         APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION }}",
         LOG_FILES: "{{ TROPO_LOG_FILES }}",

@@ -1,0 +1,6 @@
+---
+# defaults file for app-pip-install-requirements
+
+REQUIREMENTS_FILE_NAME: 'dev_requirements.txt'
+
+REQUIREMENTS_NAME: "{{ APP_BASE_DIR }}/{{ REQUIREMENTS_FILE_NAME }}"
