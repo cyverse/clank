@@ -1,0 +1,5 @@
+---
+# tasks file for app-pip-install-requirements
+
+- name: pip install requirements
+  pip: requirements={{ REQUIREMENTS_NAME }} virtualenv={{ VIRTUAL_ENV }}  state=latest
