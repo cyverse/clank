@@ -1,0 +1,32 @@
+---
+# tasks file for app-install-instance-deploy-automation
+
+- name: insert ansible role path into config file
+  lineinfile: >
+    dest={{ INSTANCE_DEPLOY_AUTOMATION_DIR }}/ansible/ansible.cfg
+    regexp="roles_path ="
+    line="roles_path = {{ INSTANCE_DEPLOY_AUTOMATION_DIR }}/ansible/roles"
+
+- name: make ssh file directory
+  file: path={{ APP_BASE_DIR }}/extras/ssh/ state=directory
+
+- name: move over id_rsa private key
+  copy: src={{ SSH_PRIV_KEY }} dest={{ APP_BASE_DIR }}/extras/ssh/
+
+- name: move over id_rsa public key
+  copy: src={{ SSH_PUB_KEY }} dest={{ APP_BASE_DIR }}/extras/ssh/
+
+- name: move over completed hosts file
+  copy: >
+    src={{ INSTANCE_DEPLOY_AUTOMATION_HOSTS_FILE }}
+    dest={{ INSTANCE_DEPLOY_AUTOMATION_DIR }}/ansible
+
+- name: move over completed group_vars folder
+  copy: >
+    src={{ INSTANCE_DEPLOY_AUTOMATION_GROUP_VARS_FOLDER }}
+    dest={{ INSTANCE_DEPLOY_AUTOMATION_DIR }}/ansible
+
+
+- name: template over root user ssh config
+  template: src=ssh_config.j2 dest=/root/.ssh/config backup=yes
+
