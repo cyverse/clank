@@ -31,7 +31,7 @@
 - debug: var=output.stdout_lines
   when: "{{ CLANK_VERBOSE | default(False) }}"
 
-- name: add atmo user connect privileges to {{ DBNAME | default("") }} database
+- name: add {{ DBUSER | default("") }} user connect privileges to {{ DBNAME | default("") }} database
   sudo_user: postgres
   command: psql -c "GRANT connect ON DATABASE {{ DBNAME }} TO {{ DBUSER }};"
   register: output
