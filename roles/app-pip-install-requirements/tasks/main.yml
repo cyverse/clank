@@ -2,4 +2,24 @@
 # tasks file for app-pip-install-requirements
 
 - name: pip install requirements
-  pip: requirements={{ REQUIREMENTS_NAME }} virtualenv={{ VIRTUAL_ENV }}  state=latest
+  pip: >
+    requirements={{ REQUIREMENTS_NAME }}
+    virtualenv={{ VIRTUAL_ENV }}
+    extra_args={{ PIP_EXTRA_ARGS }}
+    state=latest
+
+- name: pip install dev requirements when jenkins variable set
+  pip: >
+    requirements={{ APP_BASE_DIR }}/dev_requirements.txt
+    virtualenv={{ VIRTUAL_ENV }}
+    extra_args={{ PIP_EXTRA_ARGS }}
+  when: JENKINS
+
+- name: wheel install requirements
+  command: "{{ VIRTUAL_ENV_ATMOSPHERE }}/bin/wheel install-scripts {{ item }}"
+  with_items: WHEEL_INSTALL_SCRIPT_PACKAGES
+  when: RUN_WHEEL_SCRIPTS
+  register: output
+
+- debug: var=output.results
+  when: "{{ CLANK_VERBOSE | default(False) }}"

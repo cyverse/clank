@@ -5,4 +5,6 @@ APP_BASE_DIR: ""
 
 VIRTUAL_ENV: ""
 
+REQUIREMENTS_FILE_NAME: 'dev_requirements.txt'
 
+PIP_EXTRA_ARGS: ""
