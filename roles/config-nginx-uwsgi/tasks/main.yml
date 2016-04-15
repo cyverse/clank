@@ -1,6 +1,9 @@
 ---
 # tasks file for config-nginx-uwsgi
 
+- debug: var=UWSGI_INI_SRC_NAME
+  when: "{{ DEBUG_OR_TEST_ROLE | default(False) }}"
+
 - name: create apps-enabled directory
   file: path={{ UWSGI_APPS_ENABLED_PATH }} state=directory
 

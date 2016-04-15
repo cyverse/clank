@@ -13,6 +13,7 @@ Role Variables
 - `APP_BASE_DIR` - the base, or root, directory of the application
 - `UWSGI_APP_NAME` - the name of the enabled UWSGI application
 - `UWSGI_APPS_ENABLED_PATH` - path to enabled apps, default `/etc/uwsgi/apps-enabled/`
+- `UWSGI_INI_SRC_NAME` (optional) - file name, including relative path from `APP_BASE_DIR`
 
 Dependencies
 ------------
