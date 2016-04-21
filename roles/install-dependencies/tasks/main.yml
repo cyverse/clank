@@ -16,7 +16,7 @@
 - name: install initial packages packages
   action: >
     {{ ansible_pkg_mgr }} name={{ item }} state={{ INITIAL_PACKAGES.state }} update_cache=yes
-  with_items: INITIAL_PACKAGES.packages
+  with_items: "{{ INITIAL_PACKAGES.packages }}"
   tags: install, apt-install
 
 # Add apt repositories
@@ -39,19 +39,19 @@
 - name: install dev packages packages
   action: >
     {{ ansible_pkg_mgr }} name={{ item }} state={{ DEV_PACKAGES.state }}
-  with_items: DEV_PACKAGES.packages
+  with_items: "{{ DEV_PACKAGES.packages }}"
   tags: install, apt-install
 
 - name: install lib packages packages
   action: >
     {{ ansible_pkg_mgr }} name={{ item }} state={{ LIB_PACKAGES.state }}
-  with_items: LIB_PACKAGES.packages
+  with_items: "{{ LIB_PACKAGES.packages }}"
   tags: install, apt-install
 
 - name: install nginx packages packages
   action: >
     {{ ansible_pkg_mgr }} name={{ item }} state={{ NGINX_PACKAGES.state }}
-  with_items: NGINX_PACKAGES.packages
+  with_items: "{{ NGINX_PACKAGES.packages }}"
   tags: install, apt-install
 
 - name: pip install python packages
