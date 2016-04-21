@@ -1,0 +1,5 @@
+---
+# vars file for install-airport-ui-assets
+
+# the path to the install base of Troposphere
+AIRPORT_SOURCE: ""

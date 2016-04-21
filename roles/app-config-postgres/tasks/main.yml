@@ -1,0 +1,40 @@
+---
+# tasks file for app-config-postgres
+
+- name: gather os specific variables
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+    - "{{ ansible_distribution }}.yml"
+    - "{{ ansible_os_family }}.yml"
+    - "defaults.yml"
+  tags: vars
+
+- name: database {{ DBNAME | default("") }} is created
+  postgresql_db: name={{ DBNAME }} state=present login_user=postgres
+  sudo: yes
+  sudo_user: postgres
+
+- name: ensure user has access to {{ DBNAME | default("") }} database
+  sudo_user: postgres
+  postgresql_user: db={{ DBNAME }} name={{ DBUSER }} password={{ DBPASSWORD }} priv=ALL
+
+- name: add {{ DBUSER | default("") }} user connect privileges
+  sudo_user: postgres
+  postgresql_user: db={{ DBNAME }} name={{ DBUSER }} role_attr_flags={{ DEFAULT_ROLE_ATTR_FLAGS }}
+
+- name: remove public connect privileges to {{ DBNAME | default("") }} database
+  sudo_user: postgres
+  command: psql -c "REVOKE connect ON DATABASE {{ DBNAME }} FROM PUBLIC;"
+  register: output
+
+- debug: var=output.stdout_lines
+  when: "{{ CLANK_VERBOSE | default(False) }}"
+
+- name: add {{ DBUSER | default("") }} user connect privileges to {{ DBNAME | default("") }} database
+  sudo_user: postgres
+  command: psql -c "GRANT connect ON DATABASE {{ DBNAME }} TO {{ DBUSER }};"
+  register: output
+
+- debug: var=output.stdout_lines
+  when: "{{ CLANK_VERBOSE | default(False) }}"

@@ -1,0 +1,17 @@
+---
+# tasks file for app-django-manage-collectstatic
+
+- name: create django-app static directory
+  file: path={{ APP_BASE_DIR }}/{{ STATIC_DIR_PATH }} state=directory
+  when: STATIC_DIR_PATH is defined and STATIC_DIR_PATH != ""
+
+- name: django manage collectstatic
+  django_manage: >
+      command=collectstatic
+      app_path={{ APP_BASE_DIR }}
+      settings={{ DJANGO_SETTINGS_MODULE }}
+      pythonpath={{ APP_BASE_DIR }}
+      virtualenv={{ VIRTUAL_ENV }}
+
+# Note: it does *not* appear that we can do a `register: output` on the
+# `django_manage` to capture & print the output

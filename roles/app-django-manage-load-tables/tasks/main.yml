@@ -1,0 +1,22 @@
+---
+# tasks file for app-django-manage-load-tables
+
+- name: django manage load data fixture(s)
+  django_manage: >
+      command=loaddata
+      app_path={{ APP_BASE_DIR }}
+      fixtures={{ item }}
+      settings={{ DJANGO_SETTINGS_MODULE }}
+      pythonpath={{ APP_BASE_DIR }}
+      virtualenv={{ VIRTUAL_ENV }}
+  with_items: "{{ DATA_FIXTURES }}"
+
+- name: django manage create cache table(s)
+  django_manage: >
+      command=createcachetable
+      cache_table={{ item }}
+      app_path={{ APP_BASE_DIR }}
+      settings={{ DJANGO_SETTINGS_MODULE }}
+      pythonpath={{ APP_BASE_DIR }}
+      virtualenv={{ VIRTUAL_ENV }}
+  with_items: "{{ CACHE_TABLENAMES }}"

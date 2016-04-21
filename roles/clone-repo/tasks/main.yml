@@ -1,27 +1,28 @@
-- name: create atmosphere directory
-  command: mkdir -p "{{ DEPLOY_DIR }}"
-  tags:
-    - ansible-deploy
+- name: check to repository directory
+  stat: path={{ REPO_BASE_DIR }}
+  register: rd
+
+- name: create repository directory when absent
+  command: mkdir -p "{{ REPO_BASE_DIR }}"
+  when: not rd.stat.exists
 
 - name: check to see if repo exists
-  stat: path={{ LOCATION }}/.git
+  stat: path={{ CLONE_TARGET }}/.git
   register: p
-  tags:
-    - ansible-deploy
 
-- name: clone atmosphere git repo with branched defined
-  git: repo={{ REPO }}
-       dest={{ LOCATION }}
+- name: clone git repo with branched defined
+  git: repo={{ REPO_URI }}
+       dest={{ CLONE_TARGET }}
        clone=yes
        update=yes
-       version={{ BRANCH | default("master", true) }}
-  when: p.stat.exists == false
+       version={{ SPECIFIC_BRANCH | default("master", true) }}
+  when: not p.stat.exists
 
 - name: pull git repo with branched
-  git: repo={{ REPO }}
-       dest={{ LOCATION }}
+  git: repo={{ REPO_URI }}
+       dest={{ CLONE_TARGET }}
        clone=no
        update=yes
        force=yes
-       version={{ BRANCH | default("master", true) }}
+       version={{ SPECIFIC_BRANCH | default("master", true) }}
   when: p.stat.exists

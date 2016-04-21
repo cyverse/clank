@@ -1,0 +1,5 @@
+---
+# defaults file for config-nginx-uwsgi
+
+UWSGI_APP_SRC: "{{ APP_BASE_DIR }}/extras/{{ UWSGI_APP_NAME }}.uwsgi.ini"
+UWSGI_APP_DEST: "{{ UWSGI_APPS_ENABLED_PATH }}/{{ UWSGI_APP_NAME }}.ini"

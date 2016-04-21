@@ -1,0 +1,59 @@
+---
+- name: Setup the Troposphere project
+  hosts: all
+
+  roles:
+    - { role: app-config-postgres,
+        DBNAME: "{{ TROPO_DBNAME }}",
+        DBUSER: "{{ TROPO_DBUSER }}",
+        DBPASSWORD: "{{ TROPO_DBPASSWORD }}",
+        tags: ['troposphere', 'database'] }
+
+    - { role: app-load-data-postgres,
+        DBNAME: "{{ TROPO_DBNAME}} ",
+        LOAD_DATABASE: True,
+        DATABASE_FILE_TO_BE_LOADED: "{{ SQL_DUMP_FILE }}",
+        tags: ['troposphere', 'data-load'] }
+
+    - { role: app-pip-install-requirements,
+        APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION }}",
+        VIRTUAL_ENV: "{{ VIRTUAL_ENV_TROPOSPHERE }}",
+        tags: ['troposphere']}
+
+    - { role: app-config-logging,
+        APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION }}",
+        LOG_FILES: "{{ TROPO_LOG_FILES }}",
+        tags: ['troposphere', 'logging']}
+
+    - { role: app-generate-ini-config,
+        template_vars: "{{ TROPO }}",
+        APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION }}",
+        VIRTUAL_ENV: "{{ VIRTUAL_ENV_TROPOSPHERE }}",
+        tags: ['troposphere'] }
+
+    - { role: app-django-manage-collectstatic,
+        APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION }}",
+        VIRTUAL_ENV: "{{ VIRTUAL_ENV_TROPOSPHERE }}",
+        STATIC_DIR_PATH: 'troposphere/tropo-static',
+        DJANGO_SETTINGS_MODULE: 'troposphere.settings',
+        tags: ['troposphere']}
+
+    - { role: app-django-manage-migrate,
+        APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION }}",
+        VIRTUAL_ENV: "{{ VIRTUAL_ENV_TROPOSPHERE }}",
+        DJANGO_SETTINGS_MODULE: 'troposphere.settings',
+        tags: ['troposphere', 'migrate'] }
+
+    - { role: config-nginx-uwsgi,
+        APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION }}",
+        UWSGI_APP_NAME: 'troposphere',
+        tags: ['troposphere'] }
+
+    - { role: install-airport-ui-assets,
+        AIRPORT_SOURCE: "{{ TROPOSPHERE_LOCATION }}",
+        tags: ['troposphere', 'airport'] }
+
+    - { role: build-install-troposphere-ui-assets,
+        NPM_APP_DIR: "{{ TROPOSPHERE_LOCATION }}",
+        NPM_BUILD_TYPE: "{{ TROPOSPHERE_BUILD | default('production') }}",
+        tags: ['troposphere', 'npm'] }

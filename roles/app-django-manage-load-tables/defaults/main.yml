@@ -1,0 +1,9 @@
+---
+# defaults file for app-django-manage-load-tables
+
+DATA_FIXTURES:
+  - "{{APP_BASE_DIR}}/core/fixtures/provider.json"
+  - "{{APP_BASE_DIR}}/core/fixtures/quota.json"
+
+CACHE_TABLENAMES:
+  - "atmosphere_cache_requests"

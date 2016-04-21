@@ -1,0 +1,5 @@
+---
+# vars file for app-generate-ini-config
+
+APP_BASE_DIR: ""
+VIRTUAL_ENV: ""

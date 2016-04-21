@@ -1,0 +1,9 @@
+---
+# defaults file for app-pip-install-requirements
+
+REQUIREMENTS_NAME: "{{ APP_BASE_DIR }}/{{ REQUIREMENTS_FILE_NAME }}"
+
+RUN_WHEEL_SCRIPTS: False
+
+WHEEL_INSTALL_SCRIPT_PACKAGES:
+  - 'celery'
