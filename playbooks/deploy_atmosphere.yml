@@ -1,14 +1,42 @@
 ---
-- name: Playbook to install and configure atmosphere
+- name: Install and setup required dependencies for Atmosphere
   hosts: all
-  roles:
-    # Dependencies
-    - install-dependencies
-    - setup-postgres
-    - setup-ssl
+  vars:
+    clean_target: "{{ CLEAN_TARGET | default(True) }}"
 
-    # Atmosphere Portion
-    - atmosphere-setup-virtualenv
-    - atmosphere-clone-repo
-    - atmosphere-setup-atmosphere
+  roles:
+    - { role: install-dependencies,
+        when: clean_target,
+        tags: ['dependencies', 'apt-install', 'install'] }
+
+    - { role: setup-postgres,
+        when: clean_target,
+        tags: ['dependencies', 'database'] }
+
+    - { role: setup-ssl,
+        when: clean_target,
+        tags: ['dependencies', 'ssl'] }
+
+- name: Setup virtualenv and clone Atmosphere
+  hosts: all
+
+  roles:
+    - { role: setup-virtualenv,
+        VIRTUAL_ENV_NAME: 'atmo',
+        VIRTUAL_ENV_BASE_DIR: "{{ VIRTUAL_ENV_DIR_ATMOSPHERE }}",
+        tags: [ 'atmosphere', 'setup-virtualenv'] }
+
+    - { role: clone-repo,
+        REPO_BASE_DIR: "{{ ATMOSPHERE_DIR }}",
+        CLONE_TARGET: "{{ ATMOSPHERE_LOCATION }}",
+#       SPECIFIC_BRANCH: "{{ ATMOSPHERE_BRANCH }}",
+        REPO_URI: "{{ ATMOSPHERE_REPO }}",
+        tags: [ 'atmosphere', 'clone-repo'] }
+
+- include: ./setup_atmosphere.yml
+
+- name: Setup celery for Atmosphere
+  hosts: all
+
+  roles:
     - setup-celery
