@@ -1,7 +1,10 @@
 ---
 # vars file for config-nginx-uwsgi
 
-APP_BASE_DIR: ""
+APP_BASE_DIR:
 
-UWSGI_APP_NAME: ""
+UWSGI_APP_NAME:
+
+UWSGI_INI_SRC_NAME: "extras/{{ UWSGI_APP_NAME }}.uwsgi.ini"
+
 UWSGI_APPS_ENABLED_PATH: /etc/uwsgi/apps-enabled/

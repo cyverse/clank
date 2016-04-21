@@ -1,13 +1,38 @@
 ---
-- name: Playbook to install and configure troposphere
+- name: Install and setup required dependencies for Troposphere
   hosts: all
+  vars:
+    clean_target: "{{ CLEAN_TARGET | default(True) }}"
+
   roles:
-    # Dependencies
-    - install-dependencies
-    - setup-postgres
-    - setup-ssl
-    
-    # Troposphere Portion
-    - troposphere-setup-virtualenv
-    - troposphere-clone-repo
-    - troposphere-setup-troposphere    
+    - { role: install-dependencies,
+        when: clean_target,
+        tags: ['dependencies', 'apt-install', 'install'] }
+
+    - { role: setup-postgres,
+        when: clean_target,
+        tags: ['dependencies', 'database'] }
+
+    - { role: setup-ssl,
+        when: clean_target,
+        tags: ['dependencies', 'ssl'] }
+
+
+- name: Setup virtualenv and clone Troposphere
+  hosts: all
+
+  roles:
+    - { role: setup-virtualenv,
+        VIRTUAL_ENV_NAME: 'troposphere',
+        VIRTUAL_ENV_BASE_DIR: "{{ VIRTUAL_ENV_DIR_TROPOSPHERE }}",
+        tags: [ 'troposphere', 'setup-virtualenv'] }
+
+    - { role: clone-repo,
+        REPO_BASE_DIR: "{{ TROPOSPHERE_DIR }}",
+        CLONE_TARGET: "{{ TROPOSPHERE_LOCATION }}",
+#       SPECIFIC_BRANCH: "{{ TROPOSPHERE_BRANCH }}",
+        REPO_URI: "{{ TROPOSPHERE_REPO }}",
+        tags: [ 'troposphere', 'clone-repo'] }
+
+# Setup Trososphere
+- include: ./setup_troposphere.yml

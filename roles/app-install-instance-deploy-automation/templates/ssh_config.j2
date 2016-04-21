@@ -1,0 +1,7 @@
+# {{ ansible_managed }}
+
+IdentityFile /root/.ssh/id_rsa
+IdentityFile {{ APP_BASE_DIR }}/extras/ssh/{{ ID_RSA | basename }}
+
+Host *
+    StrictHostKeyChecking no

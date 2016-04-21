@@ -21,7 +21,7 @@ Example Playbook
 ```
     - hosts: servers
       roles:
-         - { role: app-alter-kernel-for-imaging, tag: ['atmosphere'] }
+         - { role: app-alter-kernel-for-imaging, tags: ['atmosphere'] }
 ```
 
 License

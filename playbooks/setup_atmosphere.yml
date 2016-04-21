@@ -1,0 +1,67 @@
+---
+- name: Setup the Atmosphere API component
+  hosts: all
+
+  roles:
+    - { role: app-alter-kernel-for-imaging,
+        tags: ['atmosphere'] }
+
+    - { role: app-config-postgres,
+        DBNAME: "{{ ATMO_DBNAME }}",
+        DBUSER: "{{ ATMO_DBUSER }}",
+        DBPASSWORD: "{{ ATMO_DBPASSWORD }}",
+        tags: ['atmosphere', 'database'] }
+
+    - { role: app-load-data-postgres,
+        DBNAME: "{{ ATMO_DBNAME}} ",
+        LOAD_DATABASE: True,
+        DATABASE_FILE_TO_BE_LOADED: "{{ ATMO_DATA.SQL_DUMP_FILE }}",
+        tags: ['atmosphere', 'data-load'] }
+
+    - { role: app-pip-install-requirements,
+        APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION }}",
+        REQUIREMENTS_FILE_NAME: 'requirements.txt',
+        VIRTUAL_ENV: "{{ VIRTUAL_ENV_ATMOSPHERE }}",
+        PIP_EXTRA_ARGS: '--no-cache-dir',
+        tags: ['atmosphere']}
+
+    - { role: app-config-logging,
+        APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION }}",
+        LOG_FILES: "{{ ATMO_LOG_FILES }}",
+        tags: ['atmosphere', 'logging']}
+
+    - { role: app-generate-ini-config,
+        template_vars: "{{ ATMO }}",
+        APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION }}",
+        VIRTUAL_ENV: "{{ VIRTUAL_ENV_ATMOSPHERE }}",
+        tags: ['atmosphere'] }
+
+    - { role: app-install-instance-deploy-automation,
+        APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION }}",
+        SSH_PRIV_KEY: "{{ ID_RSA }}",
+        SSH_PUB_KEY: "{{ ID_RSA_PUB }}",
+        INSTANCE_DEPLOY_AUTOMATION_DIR: "{{ ANSIBLE_DEPLOY_LOCATION }}",
+        INSTANCE_DEPLOY_AUTOMATION_HOSTS_FILE: "{{ ANSIBLE_HOSTS_FILE }}",
+        INSTANCE_DEPLOY_AUTOMATION_GROUP_VARS_FOLDER: "{{ ANSIBLE_GROUP_VARS_FOLDER }}",
+        tags: ['ansible-deploy'] }
+
+    - { role: app-django-manage-collectstatic,
+        APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION }}",
+        VIRTUAL_ENV: "{{ VIRTUAL_ENV_ATMOSPHERE }}",
+        DJANGO_SETTINGS_MODULE: 'atmosphere.settings' }
+
+    - { role: app-django-manage-migrate,
+        APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION }}",
+        VIRTUAL_ENV: "{{ VIRTUAL_ENV_ATMOSPHERE }}",
+        DJANGO_SETTINGS_MODULE: 'atmosphere.settings' }
+
+    - { role: app-django-manage-load-tables,
+        APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION }}",
+        VIRTUAL_ENV: "{{ VIRTUAL_ENV_ATMOSPHERE }}",
+        DJANGO_SETTINGS_MODULE: 'atmosphere.settings' }
+
+    - { role: config-nginx-uwsgi,
+        APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION }}",
+        UWSGI_APP_NAME: 'atmosphere',
+        UWSGI_INI_SRC_NAME: 'extras/uwsgi/atmo.uwsgi.ini',
+        tags: ['atmosphere'] }
