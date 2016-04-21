@@ -12,19 +12,22 @@
 
 - name: database {{ DBNAME | default("") }} is created
   postgresql_db: name={{ DBNAME }} state=present login_user=postgres
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
 
 - name: ensure user has access to {{ DBNAME | default("") }} database
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   postgresql_user: db={{ DBNAME }} name={{ DBUSER }} password={{ DBPASSWORD }} priv=ALL
 
 - name: add {{ DBUSER | default("") }} user connect privileges
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   postgresql_user: db={{ DBNAME }} name={{ DBUSER }} role_attr_flags={{ DEFAULT_ROLE_ATTR_FLAGS }}
 
 - name: remove public connect privileges to {{ DBNAME | default("") }} database
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   command: psql -c "REVOKE connect ON DATABASE {{ DBNAME }} FROM PUBLIC;"
   register: output
 
@@ -32,7 +35,8 @@
   when: "{{ CLANK_VERBOSE | default(False) }}"
 
 - name: add {{ DBUSER | default("") }} user connect privileges to {{ DBNAME | default("") }} database
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   command: psql -c "GRANT connect ON DATABASE {{ DBNAME }} TO {{ DBUSER }};"
   register: output
 

@@ -24,7 +24,8 @@
   when: "{{ DEBUG_OR_TEST_ROLE | default(False) }}"
 
 - name: run sql script for postgresql
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   command: psql -d {{ DBNAME }} -f {{ TARGET_SQL_LOAD_FILE }}
   when: LOAD_DATABASE
   register: output
