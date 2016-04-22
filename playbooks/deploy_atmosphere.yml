@@ -29,7 +29,7 @@
     - { role: clone-repo,
         REPO_BASE_DIR: "{{ ATMOSPHERE_DIR }}",
         CLONE_TARGET: "{{ ATMOSPHERE_LOCATION }}",
-#       SPECIFIC_BRANCH: "{{ ATMOSPHERE_BRANCH }}",
+        SPECIFIC_BRANCH: "{{ ATMOSPHERE_BRANCH  | default('master', true) }}",
         REPO_URI: "{{ ATMOSPHERE_REPO }}",
         tags: [ 'atmosphere', 'clone-repo'] }
 

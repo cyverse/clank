@@ -30,7 +30,7 @@
     - { role: clone-repo,
         REPO_BASE_DIR: "{{ TROPOSPHERE_DIR }}",
         CLONE_TARGET: "{{ TROPOSPHERE_LOCATION }}",
-#       SPECIFIC_BRANCH: "{{ TROPOSPHERE_BRANCH }}",
+        SPECIFIC_BRANCH: "{{ TROPOSPHERE_BRANCH | default('master', true) }}",
         REPO_URI: "{{ TROPOSPHERE_REPO }}",
         tags: [ 'troposphere', 'clone-repo'] }
 
