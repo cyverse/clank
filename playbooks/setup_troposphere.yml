@@ -11,7 +11,7 @@
 
     - { role: app-load-data-postgres,
         DBNAME: "{{ TROPO_DBNAME}} ",
-        LOAD_DATABASE: True,
+        LOAD_DATABASE: "{{ TROPO_DATA.LOAD_DATABASE }}",
         DATABASE_FILE_TO_BE_LOADED: "{{ TROPO_DATA.SQL_DUMP_FILE }}",
         tags: ['troposphere', 'data-load'] }
 
