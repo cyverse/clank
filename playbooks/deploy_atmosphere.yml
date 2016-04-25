@@ -14,6 +14,7 @@
         tags: ['dependencies', 'database'] }
 
     - { role: setup-ssl,
+        CREATE_SSL_FILES: "{{ CREATE_SSL | default(True) }}",
         when: clean_target,
         tags: ['dependencies', 'ssl'] }
 

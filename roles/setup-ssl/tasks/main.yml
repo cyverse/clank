@@ -8,20 +8,23 @@
     - "default.yml"
   tags: vars
 
+- name: debug create ssl
+  debug: var={{ CREATE_SSL_FILES }}
+
 ########################################
 # Tasks related to ssl certs being given
 ########################################
 - name: copy over ssl certificate
   copy: src={{ SSL_CERTIFICATE }} dest={{ SSL_LOCATION }}/certs/
-  when: not CREATE_SSL
+  when: not CREATE_SSL_FILES
 
 - name: copy over bundle cert
   copy: src={{ BUNDLE_CERT }} dest={{ SSL_LOCATION }}/certs/
-  when: not CREATE_SSL
+  when: not CREATE_SSL_FILES
 
 - name: copy over private ssl key
   copy: src={{ SSL_KEY }} dest={{ SSL_LOCATION }}/private/
-  when: not CREATE_SSL
+  when: not CREATE_SSL_FILES
 
 ########################################
 # Tasks related to ssl certs not given
@@ -39,8 +42,8 @@
   args:
     creates: "{{ SSL_CERTIFICATE }}/certs/{{ item.name }}.crt"
   with_items: "{{ OPENSSL_SELF_SIGNED }}"
-  when: CREATE_SSL
+  when: CREATE_SSL_FILES
 
 - name: Copy over empty bundle file
   file: path={{ SSL_LOCATION }}/certs/empty_bundle.crt state=touch
-  when: CREATE_SSL
+  when: CREATE_SSL_FILES
