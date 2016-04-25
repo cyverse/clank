@@ -1,0 +1,8 @@
+---
+# vars file for setup-ssh-keys
+
+# Default behavior is to create ssh keys
+CREATE_SSH: true
+
+SSH_PRIV_KEY:
+SSH_PUB_KEY:
