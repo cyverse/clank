@@ -18,6 +18,16 @@
         when: clean_target,
         tags: ['dependencies', 'ssl'] }
 
+- name: Clone Atmosphere Ansible
+  hosts: all
+
+  roles:
+    - { role: clone-repo,
+        REPO_BASE_DIR: "{{ ANSIBLE_DEPLOY_DIR }}",
+        CLONE_TARGET: "{{ ANSIBLE_DEPLOY_LOCATION }}",
+        REPO_URI: "{{ ANSIBLE_REPO }}",
+        tags: [ 'atmosphere', 'clone-repo'] }
+
 - name: Setup virtualenv and clone Atmosphere
   hosts: all
 
