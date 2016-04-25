@@ -25,6 +25,7 @@
     - { role: clone-repo,
         REPO_BASE_DIR: "{{ ANSIBLE_DEPLOY_DIR }}",
         CLONE_TARGET: "{{ ANSIBLE_DEPLOY_LOCATION }}",
+        SPECIFIC_BRANCH: "{{ ATMOSPHERE_ANSIBLE_BRANCH | default('master', true) }}",
         REPO_URI: "{{ ANSIBLE_REPO }}",
         tags: [ 'atmosphere', 'clone-repo'] }
 

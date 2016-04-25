@@ -18,6 +18,8 @@ ATMOSPHERE_BRANCH: ""
 ANSIBLE_DEPLOY_DIR: "{{ ATMOSPHERE_DIR }}"
 ANSIBLE_DEPLOY_LOCATION: "{{ ANSIBLE_DEPLOY_DIR }}/atmosphere-ansible"
 ANSIBLE_REPO: https://github.com/iPlantCollaborativeOpenSource/atmosphere-ansible.git
+# Placeholder for defining the atmosphere-ansible branch:
+ATMOSPHERE_ANSIBLE_BRANCH: ""
 
 # TROPO
 VIRTUAL_ENV_DIR_TROPOSPHERE: /opt/env
