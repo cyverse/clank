@@ -1,11 +1,13 @@
 ---
 # tasks file for app-install-instance-deploy-automation
 
-- name: insert ansible role path into config file
-  lineinfile: >
-    dest={{ INSTANCE_DEPLOY_AUTOMATION_DIR }}/ansible/ansible.cfg
-    regexp="roles_path ="
-    line="roles_path = {{ INSTANCE_DEPLOY_AUTOMATION_DIR }}/ansible/roles"
+- name: run configuration for atmosphere-ansible
+  shell: "{{ VIRTUAL_ENV_ATMOSPHERE }}/bin/python {{ INSTANCE_DEPLOY_AUTOMATION_DIR }}/configure"
+  failed_when: False
+  register: output
+
+- debug: var=output.stdout_lines
+  when: "{{ CLANK_VERBOSE | default(False) }}"
 
 - name: move over completed hosts file
   copy: >
