@@ -19,7 +19,7 @@
 # Tasks related to ssh keys not being given
 ###########################################
 - name: Create a 2048-bit SSH key for user root in {{ APP_BASE_DIR }}/extras/ssh/
-  user: name=root generate_ssh_key=yes ssh_key_bits=2048 ssh_key_file={{ APP_BASE_DIR }}/extras/ssh/id_rsa
+  user: name=root generate_ssh_key=yes ssh_key_bits=2048 ssh_key_file={{ APP_BASE_DIR }}/extras/ssh/{{ CREATED_SSH_KEY_NAME }} # default is id_rsa
   when: CREATE_SSH
 
 - name: template over root user ssh config

@@ -4,5 +4,7 @@
 # Default behavior is to create ssh keys
 CREATE_SSH: true
 
+CREATED_SSH_KEY_NAME: id_rsa   # you can change this to another name e.g. atmosphere_id_rsa
+
 SSH_PRIV_KEY:
 SSH_PUB_KEY:
