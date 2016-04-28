@@ -1,12 +1,6 @@
 ---
 # tasks file for app-install-instance-deploy-automation
-
-- name: run configuration for atmosphere-ansible
-  shell: "{{ VIRTUAL_ENV_ATMOSPHERE }}/bin/python {{ INSTANCE_DEPLOY_AUTOMATION_DIR }}/configure"
-  register: output
-
-- debug: var=output.stdout_lines
-  when: "{{ CLANK_VERBOSE | default(False) }}"
+# Installation is *NOT* complete until the app-generate-ini role
 
 - name: make ssh file directory
   file: path={{ APP_BASE_DIR }}/extras/ssh/ state=directory

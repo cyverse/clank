@@ -45,6 +45,12 @@
         INSTANCE_DEPLOY_AUTOMATION_GROUP_VARS_FOLDER: "{{ ANSIBLE_GROUP_VARS_FOLDER }}",
         tags: ['ansible-deploy'] }
 
+    - { role: app-generate-ini-config,
+        template_vars: "{{ ATMOSPHERE_ANSIBLE }}",
+        APP_BASE_DIR: "{{ ANSIBLE_DEPLOY_LOCATION }}",
+        VIRTUAL_ENV: "{{ VIRTUAL_ENV_ATMOSPHERE }}",
+        tags: ['ansible-deploy'] }
+
     - { role: app-django-manage-collectstatic,
         APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION }}",
         VIRTUAL_ENV: "{{ VIRTUAL_ENV_ATMOSPHERE }}",
