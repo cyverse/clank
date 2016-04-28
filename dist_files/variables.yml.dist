@@ -1,3 +1,15 @@
+##########################################
+# Required vars to be filled out by user
+##########################################
+
+# Server url of the instance Atmosphere and/or Troposphere 
+# will be installed
+SERVER_URL:                       # myhostname.org
+
+# Ansible Related Files
+ANSIBLE_HOSTS_FILE:               #Absolute Path Recommended
+ANSIBLE_GROUP_VARS_FOLDER:        #Absolute Path Recommended
+
 ###############################
 #
 # CLANK VARS
@@ -14,12 +26,14 @@ ATMOSPHERE_REPO: https://github.com/iPlantCollaborativeOpenSource/atmosphere.git
 # Placeholder for defining the atmosphere branch:
 ATMOSPHERE_BRANCH: ""
 
-# ATMO ANSIBLE
+# ATMOSPHERE ANSIBLE
 ANSIBLE_DEPLOY_DIR: "{{ ATMOSPHERE_DIR }}"
 ANSIBLE_DEPLOY_LOCATION: "{{ ANSIBLE_DEPLOY_DIR }}/atmosphere-ansible"
 # Placeholder for defining the atmosphere-ansible branch:
 ANSIBLE_DEPLOY_BRANCH: ""
 ANSIBLE_REPO: https://github.com/iPlantCollaborativeOpenSource/atmosphere-ansible.git
+# Placeholder for defining the atmosphere-ansible branch:
+ATMOSPHERE_ANSIBLE_BRANCH: ""
 
 # TROPO
 VIRTUAL_ENV_DIR_TROPOSPHERE: /opt/env
@@ -27,48 +41,42 @@ VIRTUAL_ENV_TROPOSPHERE: "{{ VIRTUAL_ENV_DIR_TROPOSPHERE }}/troposphere"
 
 TROPOSPHERE_DIR: /opt/dev
 TROPOSPHERE_LOCATION: "{{ TROPOSPHERE_DIR }}/troposphere"
+TROPOSPHERE_REPO: https://github.com/iplantcollaborativeOpenSource/troposphere.git
+TROPOSPHERE_BUILD: "production"
 # Placeholder for defining the troposphere branch:
 TROPOSPHERE_BRANCH: ""
 
 # POSTGRESQL DB INFORMATION
-
 DB_VERSION: 9.3 # Currently defaults to 9.3
 
-ATMO_DBNAME: 
-ATMO_DBUSER: 
-ATMO_DBPASSWORD: 
+ATMO_DBNAME:    atmosphere
+ATMO_DBUSER:    atmosphere_app
+ATMO_DBPASSWORD: mySECRETpassword
 
-TROPO_DBNAME: 
-TROPO_DBUSER: 
-TROPO_DBPASSWORD: 
+ATMO_DATA:
+    LOAD_DATABASE: False                    # set this to true when you want to load postgres with sql files
+    SQL_DUMP_FILE:                          # an absolute path to sql script that you want loaded /root/some_sql.sql
+    
+TROPO_DBNAME:   troposphere
+TROPO_DBUSER:   troposphere_app
+TROPO_DBPASSWORD: mySECRETpassword
 
-LOAD_ATMOPSHERE_DATABASE: false             # set this to true when you want to load postgres with sql files
-ATMOSPHERE_DATABASE_FILE_TO_BE_LOADED:      # an absolute path to sql script that you want loaded /root/some_sql.sql
-
-LOAD_TROPOSPHERE_DATABASE: false            # set this to true when you want to load postgres with sql files
-TROPOSPHERE_DATABASE_FILE_TO_BE_LOADED:     # an absolute path to sql script that you want loaded /opt/postgresstuff/test.sql
-
-# JENKINS
-JENKINS: false
+TROPO_DATA:
+    LOAD_DATABASE: False                    # set this to true when you want to load postgres with sql files
+    SQL_DUMP_FILE:                          # an absolute path to sql script that you want loaded /root/some_sql.sql
 
 # SSL RELATED VARS
-CREATE_SSL: false                           # Set this to true if you wish to create ssl certs
-
-
+CREATE_SSL: true                           # Set this to false if you wish to pass in your own certs
 # If the above variable is set to true, don't edit next three vars below
 SSL_CERTIFICATE:    #Absolute Path Recommended
 BUNDLE_CERT:        #Absolute Path Recommended
 SSL_KEY:            #Absolute Path Recommended
-
 BUNDLE_CERT: {{ BUNDLE_CERT | default(empty_bundle.crt) }}       # Based on var above
 
-#ID_RSA
+# SSH KEYS
+CREATE_SSH_KEYS: true                     # Set this to false if you wish to pass in your own ssh keys     
 ID_RSA:             #Absolute Path Recommended
 ID_RSA_PUB:         #Absolute Path Recommended 
-
-#ANSIBLE Related Files
-ANSIBLE_HOSTS_FILE:               #Absolute Path Recommended
-ANSIBLE_GROUP_VARS_FOLDER:        #Absolute Path Recommended
 
 ###################################
 #

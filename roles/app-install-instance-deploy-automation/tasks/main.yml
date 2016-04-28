@@ -3,19 +3,11 @@
 
 - name: run configuration for atmosphere-ansible
   shell: "{{ VIRTUAL_ENV_ATMOSPHERE }}/bin/python {{ INSTANCE_DEPLOY_AUTOMATION_DIR }}/configure"
+  failed_when: False
   register: output
 
 - debug: var=output.stdout_lines
   when: "{{ CLANK_VERBOSE | default(False) }}"
-
-- name: make ssh file directory
-  file: path={{ APP_BASE_DIR }}/extras/ssh/ state=directory
-
-- name: move over id_rsa private key
-  copy: src={{ SSH_PRIV_KEY }} dest={{ APP_BASE_DIR }}/extras/ssh/
-
-- name: move over id_rsa public key
-  copy: src={{ SSH_PUB_KEY }} dest={{ APP_BASE_DIR }}/extras/ssh/
 
 - name: move over completed hosts file
   copy: >
@@ -26,8 +18,3 @@
   copy: >
     src={{ INSTANCE_DEPLOY_AUTOMATION_GROUP_VARS_FOLDER }}
     dest={{ INSTANCE_DEPLOY_AUTOMATION_DIR }}/ansible
-
-
-- name: template over root user ssh config
-  template: src=ssh_config.j2 dest=/root/.ssh/config backup=yes
-
