@@ -1,13 +1,6 @@
 ---
 # tasks file for app-install-instance-deploy-automation
-
-- name: run configuration for atmosphere-ansible
-  shell: "{{ VIRTUAL_ENV_ATMOSPHERE }}/bin/python {{ INSTANCE_DEPLOY_AUTOMATION_DIR }}/configure"
-  failed_when: False
-  register: output
-
-- debug: var=output.stdout_lines
-  when: "{{ CLANK_VERBOSE | default(False) }}"
+# Installation is *NOT* complete until the app-generate-ini role
 
 - name: move over completed hosts file
   copy: >

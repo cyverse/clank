@@ -31,13 +31,23 @@
 - name: ensure ansible role location
   file: path={{ ANSIBLE_DEPLOY_LOCATION }} state=directory
 
-- name: clone ansible git repo
+- name: clone ansible deploy git repo
   git: repo={{ ANSIBLE_REPO }}
        dest={{ ANSIBLE_DEPLOY_LOCATION }}
        clone=yes
        update=yes
        force=yes
-       version="master"
+       version={{ ANSIBLE_DEPLOY_BRANCH | default("master") }}
+  when: (ANSIBLE_DEPLOY_BRANCH |length == 0 and not p.stat.exists)
+
+- name: clone ansible deploy git repo with branched defined
+  git: repo={{ ANSIBLE_REPO }}
+       dest={{ ANSIBLE_DEPLOY_LOCATION }}
+       clone=yes
+       update=yes
+       version={{ ANSIBLE_DEPLOY_BRANCH | default("master") }}
+  when: (ANSIBLE_DEPLOY_BRANCH |length > 0 and not p.stat.exists)
+
   tags:
     - ansible-deploy
   when: not p.stat.exists

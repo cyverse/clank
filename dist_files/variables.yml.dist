@@ -29,6 +29,8 @@ ATMOSPHERE_BRANCH: ""
 # ATMOSPHERE ANSIBLE
 ANSIBLE_DEPLOY_DIR: "{{ ATMOSPHERE_DIR }}"
 ANSIBLE_DEPLOY_LOCATION: "{{ ANSIBLE_DEPLOY_DIR }}/atmosphere-ansible"
+# Placeholder for defining the atmosphere-ansible branch:
+ANSIBLE_DEPLOY_BRANCH: ""
 ANSIBLE_REPO: https://github.com/iPlantCollaborativeOpenSource/atmosphere-ansible.git
 # Placeholder for defining the atmosphere-ansible branch:
 ATMOSPHERE_ANSIBLE_BRANCH: ""
