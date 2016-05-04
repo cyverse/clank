@@ -41,20 +41,20 @@
         CREATE_SSH: "{{ CREATE_SSH_KEYS | default(true) }}",
         SSH_PRIV_KEY: "{{ ID_RSA }}",
         SSH_PUB_KEY: "{{ ID_RSA_PUB }}",
-        tags: ['atmosphere, ansible-deploy'] }
+        tags: ['atmosphere', 'ansible-deploy'] }
 
     - { role: app-install-instance-deploy-automation,
         APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION }}",
         INSTANCE_DEPLOY_AUTOMATION_DIR: "{{ ANSIBLE_DEPLOY_LOCATION }}",
         INSTANCE_DEPLOY_AUTOMATION_HOSTS_FILE: "{{ ANSIBLE_HOSTS_FILE }}",
         INSTANCE_DEPLOY_AUTOMATION_GROUP_VARS_FOLDER: "{{ ANSIBLE_GROUP_VARS_FOLDER }}",
-        tags: ['atmosphere, ansible-deploy'] }
+        tags: ['atmosphere', 'ansible-deploy'] }
 
     - { role: app-generate-ini-config,
         template_vars: "{{ ATMOSPHERE_ANSIBLE }}",
         APP_BASE_DIR: "{{ ANSIBLE_DEPLOY_LOCATION }}",
         VIRTUAL_ENV: "{{ VIRTUAL_ENV_ATMOSPHERE }}",
-        tags: ['atmosphere, ansible-deploy'] }
+        tags: ['atmosphere', 'ansible-deploy'] }
 
     - { role: app-django-manage-collectstatic,
         APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION }}",
