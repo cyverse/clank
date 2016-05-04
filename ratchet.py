@@ -156,7 +156,7 @@ def execute_ansible_playbook(args):
 
     #Optional commands that cause errors if left empty:
     if args.skip:
-       command += ' --skip "%s"' % args.skip
+       command += ' --skip-tags="%s"' % args.skip
     if args.tags:
         command += ' --tags "%s"' % args.tags  
     if args.vagrant is True:
