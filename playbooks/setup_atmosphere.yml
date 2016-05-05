@@ -34,14 +34,14 @@
         template_vars: "{{ ATMO }}",
         APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION }}",
         VIRTUAL_ENV: "{{ VIRTUAL_ENV_ATMOSPHERE }}",
-        tags: ['atmosphere'] }
+        tags: ['atmosphere', 'generate-config'] }
 
     - { role: app-setup-ssh-keys,
         APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION }}",
         CREATE_SSH: "{{ CREATE_SSH_KEYS | default(true) }}",
         SSH_PRIV_KEY: "{{ ID_RSA }}",
         SSH_PUB_KEY: "{{ ID_RSA_PUB }}",
-        tags: ['atmosphere', 'ansible-deploy'] }
+        tags: ['atmosphere', 'ansible-deploy', 'setup-ssh-keys'] }
 
     - { role: app-install-instance-deploy-automation,
         APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION }}",
