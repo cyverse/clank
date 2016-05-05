@@ -1,28 +1,6 @@
-- name: check to repository directory
-  stat: path={{ REPO_BASE_DIR }}
-  register: rd
-
-- name: create repository directory when absent
-  command: mkdir -p "{{ REPO_BASE_DIR }}"
-  when: not rd.stat.exists
-
-- name: check to see if repo exists
-  stat: path={{ CLONE_TARGET }}/.git
-  register: p
-
 - name: clone git repo with branched defined
   git: repo={{ REPO_URI }}
        dest={{ CLONE_TARGET }}
        clone=yes
        update=yes
        version={{ SPECIFIC_BRANCH | default("master", true) }}
-  when: not p.stat.exists
-
-- name: pull git repo with branched
-  git: repo={{ REPO_URI }}
-       dest={{ CLONE_TARGET }}
-       clone=no
-       update=yes
-       force=yes
-       version={{ SPECIFIC_BRANCH | default("master", true) }}
-  when: p.stat.exists
