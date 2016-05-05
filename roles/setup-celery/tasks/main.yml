@@ -21,3 +21,5 @@
 
 - name: link default celeryd.defult.dist to /etc/default
   file: src={{ ATMOSPHERE_LOCATION }}/extras/init.d/celeryd.default dest=/etc/default/celeryd state=link
+  tags:
+    - deploy_only
