@@ -1,10 +1,5 @@
-- name: check to repository directory
-  stat: path={{ REPO_BASE_DIR }}
-  register: rd
-
 - name: create repository directory when absent
-  command: mkdir -p "{{ REPO_BASE_DIR }}"
-  when: not rd.stat.exists
+  file: path="{{ REPO_BASE_DIR }}" state=directory
 
 - name: check to see if repo exists
   stat: path={{ CLONE_TARGET }}/.git
