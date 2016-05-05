@@ -9,12 +9,16 @@
 
 - name: link {{ UWSGI_APP_NAME | default('') }} uwsgi conf file
   file: src={{ UWSGI_APP_SRC }} dest={{ UWSGI_APP_DEST }} state=link
+  tags:
+    - deploy
 
 - name: make nginx configuration files
   shell: make
   args:
     chdir: "{{ APP_BASE_DIR }}/extras/nginx"
   register: output
+  tags:
+    - deploy
 
 - debug: var=output.stdout_lines
   when: "{{ CLANK_VERBOSE | default(False) }}"

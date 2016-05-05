@@ -15,9 +15,15 @@
 
 - name: link celeryd init.d script
   file: src={{ ATMOSPHERE_LOCATION }}/extras/init.d/{{ CELERYD }} dest={{ INIT_LOCATION }}/celeryd state=link 
+  tags:
+    - deploy
 
 - name: link celerybeat init.d script
   file: src={{ ATMOSPHERE_LOCATION }}/extras/init.d/{{ CELERYBEAT }} dest={{ INIT_LOCATION }}/celerybeat state=link 
+  tags:
+    - deploy
 
 - name: link default celeryd.defult.dist to /etc/default
   file: src={{ ATMOSPHERE_LOCATION }}/extras/init.d/celeryd.default dest=/etc/default/celeryd state=link
+  tags:
+    - deploy
