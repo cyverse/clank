@@ -17,6 +17,7 @@ Dependencies and Setup
 ```bash
 apt-get install python-virtualenv -y
 apt-get install git python-dev libyaml-dev -y
+atp-get install libssl-dev libffi-dev -y
 
 git clone https://github.com/iPlantCollaborativeOpenSource/clank.git
 
