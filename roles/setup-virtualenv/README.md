@@ -34,7 +34,7 @@ Example Playbook
     - name: Example Usage
       hosts: all
       roles:
-         - { role: setup-virtual-env, VIRTUAL_ENV_NAME: "atmo" }
+         - { role: setup-virtualenv, VIRTUAL_ENV_NAME: "atmo" }
 ```
 
 License
