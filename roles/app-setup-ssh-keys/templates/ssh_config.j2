@@ -1,12 +1,10 @@
 # {{ ansible_managed }}
 
-IdentityFile /root/.ssh/id_rsa
-{% if SSH_PUB_KEY %}
-IdentityFile {{ APP_BASE_DIR }}/extras/ssh/{{ SSH_PRIV_KEY | basename }}
-{% else %}
-IdentityFile {{ APP_BASE_DIR }}/extras/ssh/id_rsa
-{% endif %}
-
 Host *
+    {% if SSH_PUB_KEY %}
+    IdentityFile {{ APP_BASE_DIR }}/extras/ssh/{{ SSH_PRIV_KEY | basename }}
+    {% else %}
+    IdentityFile {{ APP_BASE_DIR }}/extras/ssh/id_rsa
+    {% endif %}
     StrictHostKeyChecking no
     UserKnownHostsFile=/dev/null
