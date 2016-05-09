@@ -34,3 +34,5 @@
           IdentityFile {{ APP_BASE_DIR }}/extras/ssh/{{ SSH_PRIV_KEY | basename | default('id_rsa') }}
           StrictHostKeyChecking no
           UserKnownHostsFile=/dev/null
+  tags:
+    - deploy
