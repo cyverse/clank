@@ -71,7 +71,7 @@ CREATE_SSL: true                           # Set this to false if you wish to pa
 SSL_CERTIFICATE:    #Absolute Path Recommended
 BUNDLE_CERT:        #Absolute Path Recommended
 SSL_KEY:            #Absolute Path Recommended
-BUNDLE_CERT: {{ BUNDLE_CERT | default(empty_bundle.crt) }}       # Based on var above
+BUNDLE_CERT: "{{ BUNDLE_CERT | default(empty_bundle.crt) }}"       # Based on var above
 
 # SSH KEYS
 CREATE_SSH_KEYS: true                     # Set this to false if you wish to pass in your own ssh keys     
