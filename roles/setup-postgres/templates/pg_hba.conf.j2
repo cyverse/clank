@@ -97,4 +97,10 @@ host    all             all             ::1/128                 md5
 #local   replication     postgres                                peer
 #host    replication     postgres        127.0.0.1/32            md5
 #host    replication     postgres        ::1/128                 md5
+{% if ATMO_DBUSER %}
 local   all              {{ ATMO_DBUSER }}                  md5
+{% elif TROPO_DBUSER %}
+local   all              {{ TROPO_DBUSER }}                  md5
+{% else %}
+local   all              {{ DBUSER }}                  md5
+{% endif %}
