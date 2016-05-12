@@ -155,8 +155,8 @@ def execute_ansible_playbook(args):
     command = '%s/clank/clank_env/bin/ansible-playbook %s/clank/playbooks/deploy_stack.yml --flush-cache -c local -e "@%s/clank/%s" -i "%s/clank/local_inventory"' % (args.workspace, args.workspace, args.workspace, args.dynamic_env_file, args.workspace)
 
     #Optional commands that cause errors if left empty:
-    if args.skip:
-       command += ' --skip-tags="%s"' % args.skip
+    if args.skip_tags:
+       command += ' --skip-tags="%s"' % args.skip_tags
     if args.tags:
         command += ' --tags "%s"' % args.tags  
     if args.vagrant is True:
