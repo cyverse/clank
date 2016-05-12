@@ -51,4 +51,5 @@
   hosts: all
 
   roles:
-    - setup-celery
+    - { role: setup-celery,
+        tags: ['atmosphere', 'celery'] }
