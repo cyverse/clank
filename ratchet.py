@@ -53,7 +53,7 @@ def setup_arguments():
         action='store_true',
         help="Deploy Troposphere *ONLY* (Default: Deploy both services)")
 
-    parser.add_argument("--skip",
+    parser.add_argument("--skip-tags",
         type=str,
         default="",
         help="command seperated list e.g. 'dependencies,atmosphere'")
