@@ -17,7 +17,9 @@
     marker: "# {mark} ANSIBLE MANAGED BLOCK {{item}}"
   with_items:
       - "{{ DBUSER }}"
-
+  notify:
+    - restart postgresql
+    
 - name: PostgreSQL - Ensure PostgreSQL is running
   service: name=postgresql state=started
   tags:
