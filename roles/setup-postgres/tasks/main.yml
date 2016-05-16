@@ -9,13 +9,19 @@
     - vars
     - postgres
 
+- name: insert/update "Database User" configuation block in /etc/postgresql/{{ DB_VERSION }}/main/pg_hba.conf
+  blockinfile:
+    dest: "/etc/postgresql/{{ DB_VERSION }}/main/pg_hba.conf"
+    block: |
+      local   all              {{ item }}                  md5
+    marker: "# {mark} ANSIBLE MANAGED BLOCK {{item}}"
+  with_items:
+      - "{{ DBUSER }}"
+  notify:
+    - restart postgresql
+    
 - name: PostgreSQL - Ensure PostgreSQL is running
   service: name=postgresql state=started
   tags:
     - postgres
-
-- name: update postgres db configuration
-  template: src=pg_hba.conf.j2 dest=/etc/postgresql/{{ DB_VERSION }}/main/pg_hba.conf
-  notify:
-    - restart postgresql
 

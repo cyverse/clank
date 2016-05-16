@@ -11,6 +11,7 @@
 
     - { role: setup-postgres,
         when: clean_target,
+        DBUSER: "{{ ATMO_DBUSER }}",
         tags: ['dependencies', 'database'] }
 
     - { role: setup-ssl,
@@ -51,4 +52,5 @@
   hosts: all
 
   roles:
-    - setup-celery
+    - { role: setup-celery,
+        tags: ['atmosphere', 'celery'] }
