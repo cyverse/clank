@@ -23,6 +23,7 @@
         REQUIREMENTS_FILE_NAME: 'requirements.txt',
         VIRTUAL_ENV: "{{ VIRTUAL_ENV_ATMOSPHERE }}",
         PIP_EXTRA_ARGS: '--no-cache-dir',
+        INSTALL_JEKINS: "{{ JENKINS | default(false) }}",
         tags: ['atmosphere']}
 
     - { role: app-config-logging,
