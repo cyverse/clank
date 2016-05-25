@@ -1,0 +1,3 @@
+---
+# defaults file for logrotate-file
+LOGROATE_CONFD_DIR: /etc/logrotate.d
