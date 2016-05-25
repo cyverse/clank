@@ -1,7 +1,7 @@
 logrotate-files
 =========
 
-A brief description of the role goes here.
+Role that will link from the /etc/logrotate.d directory (by default) to the logroate files in question.
 
 Requirements
 ------------
