@@ -34,7 +34,8 @@ or
     - hosts: all
       roles:
         - { role: logrotate-files,
-            LOGROTATE_FILES: "['{{ ATMOSPHERE_LOCATION }}/extras/logrotate.atmosphere','{{ ATMOSPHERE_LOCATION }}/extras/logrotate.celery']", 
+            LOGROTATE_FILES: "['{{ ATMOSPHERE_LOCATION }}/extras/logrotate.atmosphere',
+                               '{{ ATMOSPHERE_LOCATION }}/extras/logrotate.celery']", 
             tags: ['atmosphere', 'celery'] }
 ```
 
