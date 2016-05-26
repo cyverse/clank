@@ -13,7 +13,7 @@
     requirements={{ APP_BASE_DIR }}/dev_requirements.txt
     virtualenv={{ VIRTUAL_ENV }}
     extra_args={{ PIP_EXTRA_ARGS }}
-  when: JENKINS
+  when: INSTALL_JENKINS 
 
 - name: wheel install requirements
   command: "{{ VIRTUAL_ENV_ATMOSPHERE }}/bin/wheel install-scripts {{ item }}"

@@ -23,12 +23,17 @@
         REQUIREMENTS_FILE_NAME: 'requirements.txt',
         VIRTUAL_ENV: "{{ VIRTUAL_ENV_ATMOSPHERE }}",
         PIP_EXTRA_ARGS: '--no-cache-dir',
+        INSTALL_JENKINS: "{{ JENKINS | default(false) }}",
         tags: ['atmosphere']}
 
     - { role: app-config-logging,
         APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION }}",
         LOG_FILES: "{{ ATMO_LOG_FILES }}",
         tags: ['atmosphere', 'logging']}
+
+    - { role: logrotate-files,
+        LOGROTATE_FILES: "{{ ATMOSPHERE_LOCATION }}/extras/logrotate.atmosphere",
+        tags: ['atmosphere', 'logrotate'] }
 
     - { role: app-generate-ini-config,
         template_vars: "{{ ATMO }}",
