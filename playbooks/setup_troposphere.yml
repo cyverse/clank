@@ -24,7 +24,6 @@
         LOGROTATE_FILES: "{{ TROPOSPHERE_LOCATION }}/extras/logrotate.troposphere",
         tags: ['troposphere', 'logrotate'] }
 
-
     - { role: app-config-logging,
         APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION }}",
         LOG_FILES: "{{ TROPO_LOG_FILES }}",
