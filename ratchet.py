@@ -43,21 +43,11 @@ def setup_arguments():
         action='store_true',
         help="when present will setup up install for vagrant")
 
-    parser.add_argument("--override_args",
-        default="{}",
-        help="Pass in json to override variables file")
-
-    parser.add_argument("--dynamic_env_file",
-        type=str,
-        default="dynamic_ratchet_ansible_env.yml",
-        help="The environment file to be renamed as which will be loaded in to ansible-playbook")
-
     parser.add_argument("--verbose_output",
         action='store_true',
         help="Toggle on verbose output for command and shell tasks.")
 
     parser.add_argument("--workspace",
-        required=True,
         type=str,
         help="The workspace from which files will be used to get ansible to run")
 
@@ -93,46 +83,27 @@ def run_tasks_in_file(filename):
             else:
                 print Fore.GREEN + command
 
-def prepare_ansible_env_file(args):
-    current_vars_file = args.env_file
-    my_vars_dict = json.loads(args.override_args)
-
-    with open(current_vars_file, "r") as stream:
-        dict_from_file = yaml.load(stream)
-
-    for key in my_vars_dict.keys():
-        if type(my_vars_dict[key]) == dict:
-            vars_dict = my_vars_dict[key]
-            dict_from_file[key].update(vars_dict)
-        else:
-            dict_from_file[key] = my_vars_dict[key]
-    dumper = ruamel.yaml.RoundTripDumper
-    dumper.MAX_SIMPLE_KEY_LENGTH = 999
-    file_content = ruamel.yaml.dump(dict_from_file, Dumper=dumper)
-
-    new_env_file = os.path.join(FILE_PATH, args.dynamic_env_file)
-    with open(new_env_file,'w') as the_file:
-        the_file.write(file_content)
-
-
 def live_run(command, **kwargs):
     proc = subprocess.Popen(shlex.split(command), **kwargs) 
     out, err = proc.communicate()
     return (out, err, proc.returncode)
 
 def execute_ansible_playbook(args):
-
-    command = '%s/clank/clank_env/bin/ansible-playbook %s/clank/playbooks/deploy_stack.yml --flush-cache -c local -e "@%s/clank/%s" -i "%s/clank/local_inventory"' % (args.workspace, args.workspace, args.workspace, args.dynamic_env_file, args.workspace)
-
+    workspace = args.workspace if args.workspace else os.path.dirname(FILE_PATH)
+    command = '%s/clank/clank_env/bin/ansible-playbook %s/clank/playbooks/deploy_stack.yml --flush-cache -c local -i "%s/clank/local_inventory"' % (workspace, workspace, workspace)
+   
     #Optional commands that cause errors if left empty:
     if args.skip_tags:
        command += ' --skip-tags="%s"' % args.skip_tags
     if args.tags:
         command += ' --tags "%s"' % args.tags  
+    if args.env_file:
+        command += ' -e "@%s/clank/%s"' % (workspace, args.env_file)
     if args.vagrant is True:
         command += ' -e"VAGRANT=true"'
     if args.verbose_output is True:
         command += ' -e"CLANK_VERBOSE=true"'
+    print "COMMAND: %s" % command
     (out, err, returncode) = live_run(command, cwd=FILE_PATH)
     if returncode is not 0:
         print Fore.RED + "%s" % command
@@ -152,7 +123,7 @@ def main():
         # To be executed prior to running 'ansible-playbook'
         setup_dependencies()
         create_virtualenv()
-        prepare_ansible_env_file(args)
+        #prepare_ansible_env_file(args)
 
         # TODO: At this stage, we should SANITY CHECK:
         #       Print out all variables that have been set (In the env. or the arguments below)
