@@ -1,6 +1,6 @@
 ---
 - name: Setup the Atmosphere API component
-  hosts: all
+  hosts: deploy-stack
 
   roles:
     - { role: app-alter-kernel-for-imaging,
