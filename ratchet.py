@@ -28,30 +28,6 @@ def setup_arguments():
     parser = argparse.ArgumentParser(
         description="Deploys Atmosphere and/or Troposphere according to "
                     "the configuration and overriding arguments.")
-    parser.add_argument(
-        "--dumpfile",
-        type=str,
-        help="The dump file to be used when creating the Atmosphere database. "
-             "Can also be set in the config. (Optional)")
-    parser.add_argument(
-        "--atmosphere_db",
-        type=str,
-        help="The database name to be used for Atmosphere. "
-             "Can also be set in the config. (Optional)")
-    parser.add_argument(
-        "--troposphere_db",
-        type=str,
-        help="The database name to be used for Troposphere. "
-             "Can also be set in the config. (Optional)")
-    parser.add_argument(
-        "--atmosphere",
-        action='store_true',
-        help="Deploy Atmosphere *ONLY* (Default: Deploy both services)")
-
-    parser.add_argument(
-        "--troposphere",
-        action='store_true',
-        help="Deploy Troposphere *ONLY* (Default: Deploy both services)")
 
     parser.add_argument("--skip-tags",
         type=str,
@@ -66,12 +42,6 @@ def setup_arguments():
     parser.add_argument("--vagrant",
         action='store_true',
         help="when present will setup up install for vagrant")
-
-    parser.add_argument(
-        "--branch",
-        type=str,
-        default='master',
-        help="The branch to use for deploying Atmosphere and/or Troposphere")
 
     parser.add_argument("--override_args",
         default="{}",
@@ -175,50 +145,6 @@ def execute_ansible_playbook(args):
     else:
         print Fore.GREEN + command 
 
-def map_arguments(args):
-    """
-    Takes a 'args NameSpace'
-    Returns a Python dict with 'Ansible-ized' names!
-    """
-    return {
-        'TROPOSPHERE_BRANCH': args.branch,
-        'ATMOSPHERE_BRANCH': args.branch,
-    }
-
-def prepare_ansible_cfg(args):
-    LOADER = FileSystemLoader(FILE_PATH)
-    ENV = Environment(loader=LOADER,
-                      undefined=StrictUndefined)
-
-    template_location = "ansible.cfg.j2"
-    output_path = os.path.join(FILE_PATH, "ansible.cfg")
-    CLANK_ROLES_PATH = os.path.join(FILE_PATH, "roles")
-    template = ENV.get_template(template_location)
-    rendered = template.render(CLANK_ANSIBLE_ROLES=CLANK_ROLES_PATH)
-    with open(output_path, 'wb') as fh:
-        fh.write(rendered)
-
-
-def validate_install(args):
-    """
-    TODO: We may want 'args' to be the 'Merged Python Dict/Object' instead.
-
-    1. Read your config file
-    2. Verify that the path you *WANTED* is the path you used.
-    3. Verify that the files you *WANTED* are being used in the path they are expected to be.
-    More:
-    """
-    print "NOTE: These next lines are *MEANINGLESS* and can be safely ignored until ratchet is feature-complete"
-    from deploy_tests import test_atmosphere
-    for func_name in dir(test_atmosphere):
-        func = getattr(test_atmosphere, func_name)
-        if 'test' in func_name and callable(func):
-            result = func({})  #TODO: replace with a dict of 'args' later.
-            if result and result[0] == False:
-                print result[1]
-    pass
-
-
 def main():
     parser = setup_arguments()
     args = parser.parse_args()
@@ -226,7 +152,6 @@ def main():
         # To be executed prior to running 'ansible-playbook'
         setup_dependencies()
         create_virtualenv()
-        prepare_ansible_cfg(args)
         prepare_ansible_env_file(args)
 
         # TODO: At this stage, we should SANITY CHECK:
@@ -235,8 +160,6 @@ def main():
         #       We should give three second delay before we continue. This gives time to Ctrl+C
 
         execute_ansible_playbook(args)
-        # TODO: Tests that can be executed after running 'ansible-playbook'
-        # validate_install(args)
     except Exception as exc:
         print Fore.RED + "Error executing Ratchet: %s" % exc.message
         parser.print_help()

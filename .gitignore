@@ -58,7 +58,6 @@ target/
 \#*\#
 *.swp
 
-ansible.cfg
 #Keep secrets from getting commited
 variables.yml
 roles/app-generate-ini-config/files/*_variables.ini
