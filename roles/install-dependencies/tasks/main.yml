@@ -27,8 +27,13 @@
 
 # Add apt repositories
 
-- name: add node repository
-  apt_repository: repo='ppa:chris-lea/node.js'
+- name: Add NodeSource repository key
+  apt_key: url="https://deb.nodesource.com/gpgkey/nodesource.gpg.key" state=present
+  when: ansible_distribution  == "Ubuntu"
+  tags: apt-install
+
+- name: Add NodeSource repository
+  apt_repository: repo="deb https://deb.nodesource.com/node_4.x {{ ansible_distribution_release }} main" state=present
   when: ansible_distribution  == "Ubuntu"
   tags: apt-install
 
