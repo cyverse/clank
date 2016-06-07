@@ -90,13 +90,16 @@ def live_run(command, **kwargs):
 
 def execute_ansible_playbook(args):
     workspace = args.workspace if args.workspace else os.path.dirname(FILE_PATH)
-    command = '%s/clank/clank_env/bin/ansible-playbook %s/clank/playbooks/deploy_stack.yml --flush-cache -c local -i "%s/clank/local_inventory"' % (workspace, workspace, workspace)
+    command = ('{0!s}/clank/clank_env/bin/ansible-playbook {0!s}/clank/playbooks/deploy_stack.yml' +
+               ' --flush-cache -c local -i "{0!s}/clank/local_inventory"').format(workspace)
    
     #Optional commands that cause errors if left empty:
     if args.skip_tags:
        command += ' --skip-tags="%s"' % args.skip_tags
     if args.tags:
         command += ' --tags "%s"' % args.tags  
+
+    # Load env file
     if args.env_file:
         command += ' -e "@%s/clank/%s"' % (workspace, args.env_file)
     if args.vagrant is True:
@@ -123,13 +126,6 @@ def main():
         # To be executed prior to running 'ansible-playbook'
         setup_dependencies()
         create_virtualenv()
-        #prepare_ansible_env_file(args)
-
-        # TODO: At this stage, we should SANITY CHECK:
-        #       Print out all variables that have been set (In the env. or the arguments below)
-        #       This will allow the user to ensure that things are 'as they should be'.
-        #       We should give three second delay before we continue. This gives time to Ctrl+C
-
         execute_ansible_playbook(args)
     except Exception as exc:
         print Fore.RED + "Error executing Ratchet: %s" % exc.message

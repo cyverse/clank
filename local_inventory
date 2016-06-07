@@ -1,5 +1,2 @@
-[deploy-stack]
-#dependencies
-#atmosphere
-#troposphere
+[all]
 localhost

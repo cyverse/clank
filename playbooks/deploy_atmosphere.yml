@@ -1,6 +1,6 @@
 ---
 - name: Install and setup required dependencies for Atmosphere
-  hosts: deploy-stack
+  hosts: all
   vars:
     clean_target: "{{ CLEAN_TARGET | default(True) }}"
 
