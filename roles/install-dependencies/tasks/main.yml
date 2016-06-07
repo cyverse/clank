@@ -19,6 +19,12 @@
   with_items: "{{ INITIAL_PACKAGES.packages }}"
   tags: install, apt-install
 
+# Remove deprecated apt repositories
+
+- name: Remove chris-lea nodejs repository
+  apt_repository: repo='ppa:chris-lea/node.js' state=absent
+  when: ansible_distribution  == "Ubuntu"
+
 # Add apt repositories
 
 - name: add node repository
