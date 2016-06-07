@@ -98,7 +98,6 @@ def execute_ansible_playbook(args):
        command += ' --skip-tags="%s"' % args.skip_tags
     if args.tags:
         command += ' --tags "%s"' % args.tags  
-
     # Load env file
     if args.env_file:
         command += ' -e "@%s/clank/%s"' % (workspace, args.env_file)
