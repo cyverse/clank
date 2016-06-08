@@ -44,7 +44,7 @@ NGINX_PACKAGES:
   packages:
     - uwsgi
     - uwsgi-plugin-python
-    - nginx
+    - nginx-full
   state: latest
 
 APACHE: apache2
