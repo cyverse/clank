@@ -1,3 +1,4 @@
+
 # tasks file for atmosphere-install-dependencies
 
 - name: gather os specific variables
@@ -30,6 +31,7 @@
 - name: Add Nginx Stable repository
   apt_repository: repo='ppa:nginx/stable' state=present
   when: ansible_distribution == "Ubuntu"
+  tags: apt-install
 
 - name: Add NodeSource repository key
   apt_key: url="https://deb.nodesource.com/gpgkey/nodesource.gpg.key" state=present
