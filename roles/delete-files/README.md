@@ -29,6 +29,17 @@ Including an example of how to use your role (for instance, with variables passe
         GLOB: "*.pyc",
         tags: ['atmosphere'] }
 ```
+or
+
+```
+- hosts: all
+  roles:
+    - { role: delete-files,
+        LOCATION: "{{ ATMOSPHERE_LOCATION",
+        GLOB: "*.bak*",
+        tags: ['atmosphere'] }
+```
+
 
 License
 -------
