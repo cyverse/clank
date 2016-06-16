@@ -18,6 +18,15 @@
         DATABASE_FILE_TO_BE_LOADED: "{{ ATMO_DATA.SQL_DUMP_FILE }}",
         tags: ['atmosphere', 'data-load'] }
 
+    - { role: logrotate-files,
+        LOGROTATE_FILES: "{{ ATMOSPHERE_LOCATION }}/extras/logrotate.atmosphere",
+        tags: ['atmosphere', 'logrotate'] }
+
+    - { role: delete-files,
+        LOCATION: "{{ ATMOSPHERE_LOCATION }}",
+        GLOB: "*.pyc",
+        tags: ['atmosphere'] }
+
     - { role: app-pip-install-requirements,
         APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION }}",
         REQUIREMENTS_FILE_NAME: 'requirements.txt',
@@ -30,10 +39,6 @@
         APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION }}",
         LOG_FILES: "{{ ATMO_LOG_FILES }}",
         tags: ['atmosphere', 'logging']}
-
-    - { role: logrotate-files,
-        LOGROTATE_FILES: "{{ ATMOSPHERE_LOCATION }}/extras/logrotate.atmosphere",
-        tags: ['atmosphere', 'logrotate'] }
 
     - { role: app-generate-ini-config,
         template_vars: "{{ ATMO }}",
