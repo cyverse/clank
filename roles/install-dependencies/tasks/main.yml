@@ -1,3 +1,4 @@
+
 # tasks file for atmosphere-install-dependencies
 
 - name: gather os specific variables
@@ -23,28 +24,33 @@
 
 - name: Remove chris-lea nodejs repository
   apt_repository: repo='ppa:chris-lea/node.js' state=absent
-  when: ansible_distribution  == "Ubuntu"
+  when: ansible_distribution == "Ubuntu"
 
 # Add apt repositories
 
+- name: Add Nginx Stable repository
+  apt_repository: repo='ppa:nginx/stable' state=present
+  when: ansible_distribution == "Ubuntu"
+  tags: apt-install
+
 - name: Add NodeSource repository key
   apt_key: url="https://deb.nodesource.com/gpgkey/nodesource.gpg.key" state=present
-  when: ansible_distribution  == "Ubuntu"
+  when: ansible_distribution == "Ubuntu"
   tags: apt-install
 
 - name: Add NodeSource repository
   apt_repository: repo="deb https://deb.nodesource.com/node_4.x {{ ansible_distribution_release }} main" state=present
-  when: ansible_distribution  == "Ubuntu"
+  when: ansible_distribution == "Ubuntu"
   tags: apt-install
 
 - name: add redis repository
   apt_repository: repo='ppa:chris-lea/redis-server'
-  when: ansible_distribution  == "Ubuntu"
+  when: ansible_distribution == "Ubuntu"
   tags: apt-install
 
 - name: update cache as a separate step
   apt: update_cache=yes
-  when: ansible_distribution  == "Ubuntu"
+  when: ansible_distribution == "Ubuntu"
   tags: apt-install
 
 - name: install dev packages packages
