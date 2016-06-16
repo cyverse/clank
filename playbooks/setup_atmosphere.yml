@@ -26,6 +26,11 @@
         INSTALL_JENKINS: "{{ JENKINS | default(false) }}",
         tags: ['atmosphere']}
 
+    - { role: delete-files,
+        LOCATION: "{{ ATMOSPHERE_LOCATION }}",
+        GLOB: "*.pyc",
+        tags: ['atmosphere'] }
+
     - { role: app-config-logging,
         APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION }}",
         LOG_FILES: "{{ ATMO_LOG_FILES }}",
