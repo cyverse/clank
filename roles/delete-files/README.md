@@ -1,7 +1,7 @@
-logrotate-files
+delete-files
 =========
 
-Role that will link from the /etc/logrotate.d directory (by default) to the logroate files in question.
+Role to search and recursively delete files matching a location and glob 
 
 Requirements
 ------------
@@ -10,7 +10,8 @@ Requirements
 Role Variables
 --------------
 
-- `LOGROTATE_FILES` - the logrotate file or list of files that will be linked to the logrotate file 
+- `LOCATION` - the location where you want to recursively search for a file matching the glob 
+- `GLOB` - the glob you wish to search for file based off of
 
 Dependencies
 ------------
@@ -21,22 +22,11 @@ Example Playbook
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
 ```
-    - hosts: all
       roles:
-        - { role: logrotate-files,
-            LOGROTATE_FILES: "{{ ATMOSPHERE_LOCATION }}/extras/logrotate.atmosphere",
-            tags: ['atmosphere'] }
-```
-
-or
-
-```
-    - hosts: all
-      roles:
-        - { role: logrotate-files,
-            LOGROTATE_FILES: "['{{ ATMOSPHERE_LOCATION }}/extras/logrotate.atmosphere',
-                               '{{ ATMOSPHERE_LOCATION }}/extras/logrotate.celery']", 
-            tags: ['atmosphere', 'celery'] }
+    - { role: delete-files,
+        LOCATION: "/opt/dev/atmosphere",
+        GLOB: "*.pyc",
+        tags: ['atmosphere'] }
 ```
 
 License
