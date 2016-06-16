@@ -66,7 +66,10 @@ TROPO_DATA:
     SQL_DUMP_FILE:                          # an absolute path to sql script that you want loaded /root/some_sql.sql
 
 # SSL RELATED VARS
+GENERATE_SSH_CONFIG: true                  # Set this to false if you wish to keep your .ssh/config
+
 CREATE_SSL: true                           # Set this to false if you wish to pass in your own certs
+
 # If the above variable is set to true, don't edit next three vars below
 SSL_CERTIFICATE:    #Absolute Path Recommended
 BUNDLE_CERT:        #Absolute Path Recommended
