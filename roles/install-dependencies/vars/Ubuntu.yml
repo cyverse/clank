@@ -1,3 +1,20 @@
+APT_REPOSITORIES_TO_REMOVE:
+  packages:
+    - ppa:chris-lea/node.js
+  state: absent
+
+APT_KEYS_TO_ADD:
+  packages:
+    - https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+  state: present
+
+APT_REPOSITORIES_TO_ADD:
+  packages:
+    - ppa:nginx/stable
+    - deb https://deb.nodesource.com/node_4.x {{ ansible_distribution_release }} main
+    - ppa:chris-lea/redis-server
+  state: present
+
 INITIAL_PACKAGES:
   packages:
     - software-properties-common
@@ -48,3 +65,5 @@ NGINX_PACKAGES:
   state: latest
 
 APACHE: apache2
+
+
