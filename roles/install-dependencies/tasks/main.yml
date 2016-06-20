@@ -15,22 +15,22 @@
 
 - name: install initial packages packages
   action: >
-    {{ ansible_pkg_mgr }} name={{ item }} state={{ INITIAL_PACKAGES.state }} update_cache=yes
+    {{ ansible_pkg_mgr }} name={{ item }} state=latest update_cache=yes
   with_items: "{{ INITIAL_PACKAGES.packages }}"
   tags: install, apt-install
 
 - name: remove old apt respositories
-  apt_repository: repo={{ item }} state={{ APT_REPOSITORIES_TO_REMOVE.state }}
+  apt_repository: repo={{ item }} state=absent
   with_items: "{{ APT_REPOSITORIES_TO_REMOVE.packages }}"
   when: ansible_distribution == "Ubuntu"
 
 - name: add apt keys
-  apt_key: url={{ item }} state={{ APT_KEYS_TO_ADD.state }}
+  apt_key: url={{ item }} state=present
   with_items: "{{ APT_KEYS_TO_ADD.packages }}"
   when: ansible_distribution == "Ubuntu" 
 
 - name: add apt repositories
-  apt_repository: repo={{ item }} state={{ APT_REPOSITORIES_TO_ADD.state }}
+  apt_repository: repo={{ item }} state=present
   with_items: "{{ APT_REPOSITORIES_TO_ADD.packages }}"
   when: ansible_distribution == "Ubuntu" 
 
@@ -41,19 +41,19 @@
 
 - name: install dev packages packages
   action: >
-    {{ ansible_pkg_mgr }} name={{ item }} state={{ DEV_PACKAGES.state }}
+    {{ ansible_pkg_mgr }} name={{ item }} state=latest
   with_items: "{{ DEV_PACKAGES.packages }}"
   tags: install, apt-install
 
 - name: install lib packages packages
   action: >
-    {{ ansible_pkg_mgr }} name={{ item }} state={{ LIB_PACKAGES.state }}
+    {{ ansible_pkg_mgr }} name={{ item }} state=latest
   with_items: "{{ LIB_PACKAGES.packages }}"
   tags: install, apt-install
 
 - name: install nginx packages packages
   action: >
-    {{ ansible_pkg_mgr }} name={{ item }} state={{ NGINX_PACKAGES.state }}
+    {{ ansible_pkg_mgr }} name={{ item }} state=latest
   with_items: "{{ NGINX_PACKAGES.packages }}"
   tags: install, apt-install
 
