@@ -65,5 +65,3 @@ NGINX_PACKAGES:
   state: latest
 
 APACHE: apache2
-
-
