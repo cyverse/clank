@@ -1,4 +1,3 @@
-
 # tasks file for atmosphere-install-dependencies
 
 - name: gather os specific variables
@@ -16,37 +15,24 @@
 
 - name: install initial packages packages
   action: >
-    {{ ansible_pkg_mgr }} name={{ item }} state={{ INITIAL_PACKAGES.state }} update_cache=yes
+    {{ ansible_pkg_mgr }} name={{ item }} state=latest update_cache=yes
   with_items: "{{ INITIAL_PACKAGES.packages }}"
   tags: install, apt-install
 
-# Remove deprecated apt repositories
-
-- name: Remove chris-lea nodejs repository
-  apt_repository: repo='ppa:chris-lea/node.js' state=absent
+- name: remove old apt respositories
+  apt_repository: repo={{ item }} state=absent
+  with_items: "{{ APT_REPOSITORIES_TO_REMOVE.packages }}"
   when: ansible_distribution == "Ubuntu"
 
-# Add apt repositories
+- name: add apt keys
+  apt_key: url={{ item }} state=present
+  with_items: "{{ APT_KEYS_TO_ADD.packages }}"
+  when: ansible_distribution == "Ubuntu" 
 
-- name: Add Nginx Stable repository
-  apt_repository: repo='ppa:nginx/stable' state=present
-  when: ansible_distribution == "Ubuntu"
-  tags: apt-install
-
-- name: Add NodeSource repository key
-  apt_key: url="https://deb.nodesource.com/gpgkey/nodesource.gpg.key" state=present
-  when: ansible_distribution == "Ubuntu"
-  tags: apt-install
-
-- name: Add NodeSource repository
-  apt_repository: repo="deb https://deb.nodesource.com/node_4.x {{ ansible_distribution_release }} main" state=present
-  when: ansible_distribution == "Ubuntu"
-  tags: apt-install
-
-- name: add redis repository
-  apt_repository: repo='ppa:chris-lea/redis-server'
-  when: ansible_distribution == "Ubuntu"
-  tags: apt-install
+- name: add apt repositories
+  apt_repository: repo={{ item }} state=present
+  with_items: "{{ APT_REPOSITORIES_TO_ADD.packages }}"
+  when: ansible_distribution == "Ubuntu" 
 
 - name: update cache as a separate step
   apt: update_cache=yes
@@ -55,19 +41,19 @@
 
 - name: install dev packages packages
   action: >
-    {{ ansible_pkg_mgr }} name={{ item }} state={{ DEV_PACKAGES.state }}
+    {{ ansible_pkg_mgr }} name={{ item }} state=latest
   with_items: "{{ DEV_PACKAGES.packages }}"
   tags: install, apt-install
 
 - name: install lib packages packages
   action: >
-    {{ ansible_pkg_mgr }} name={{ item }} state={{ LIB_PACKAGES.state }}
+    {{ ansible_pkg_mgr }} name={{ item }} state=latest
   with_items: "{{ LIB_PACKAGES.packages }}"
   tags: install, apt-install
 
 - name: install nginx packages packages
   action: >
-    {{ ansible_pkg_mgr }} name={{ item }} state={{ NGINX_PACKAGES.state }}
+    {{ ansible_pkg_mgr }} name={{ item }} state=latest
   with_items: "{{ NGINX_PACKAGES.packages }}"
   tags: install, apt-install
 
