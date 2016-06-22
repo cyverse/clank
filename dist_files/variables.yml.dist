@@ -7,6 +7,9 @@
 SERVER_URL:                       # myhostname.org
 SERVERNAME: {{SERVER_URL}}
 
+# "mock" used only for development
+MOCK_USERNAME: # valid user within system; should against on cloud providers
+
 # Ansible Related Files
 ANSIBLE_HOSTS_FILE:               #Absolute Path Recommended
 ANSIBLE_GROUP_VARS_FOLDER:        #Absolute Path Recommended
@@ -250,6 +253,16 @@ ATMO:
         SSL_CERTIFICATE:
         SSL_KEY: iplantc.key
         USE_PRODUCTION: False
+        FLOWER_AUTH_SCHEME: "basic"
+        # Required if auth_scheme is 'basic'
+        FLOWER_BASIC_USERNAME: "example-basic-user"
+        FLOWER_BASIC_PASSWORD: "some-security-basic-pass"
+        # Required if auth_scheme is 'google'
+        FLOWER_EMAIL_ACCESS_LIST:
+        FLOWER_OAUTH2_CLIENT_ID:
+        FLOWER_OAUTH2_CLIENT_SECRET:
+        FLOWER_OAUTH2_REDIRECT_URI:
+
 
 ###################################
 #
