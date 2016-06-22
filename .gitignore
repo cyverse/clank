@@ -69,3 +69,4 @@ roles/atmosphere-setup-atmosphere/files/*
 clank_env
 ratchet_env
 dynamic_ratchet_ansible_env.yml
+atmo-extras*
