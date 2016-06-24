@@ -1,8 +1,0 @@
----
-# vars file for app-django-manage-migrate
-
-APP_BASE_DIR:
-
-VIRTUAL_ENV:
-
-DJANGO_SETTINGS_MODULE:

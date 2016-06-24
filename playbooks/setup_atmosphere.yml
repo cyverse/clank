@@ -70,13 +70,13 @@
         APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION }}",
         VIRTUAL_ENV: "{{ VIRTUAL_ENV_ATMOSPHERE }}",
         DJANGO_SETTINGS_MODULE: 'atmosphere.settings',
-        tags: ['atmosphere'] }
+        tags: ['atmosphere', 'manage-collectstatic'] }
 
     - { role: app-django-manage-migrate,
         APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION }}",
         VIRTUAL_ENV: "{{ VIRTUAL_ENV_ATMOSPHERE }}",
         DJANGO_SETTINGS_MODULE: 'atmosphere.settings',
-        tags: ['atmosphere'] }
+        tags: ['atmosphere', 'manage-migrate'] }
 
     - { role: app-django-manage-load-tables,
         APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION }}",
