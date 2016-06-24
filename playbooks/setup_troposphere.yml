@@ -38,25 +38,25 @@
         template_vars: "{{ TROPO }}",
         APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION }}",
         VIRTUAL_ENV: "{{ VIRTUAL_ENV_TROPOSPHERE }}",
-        tags: ['troposphere'] }
+        tags: ['troposphere', 'generate-config'] }
 
     - { role: app-django-manage-collectstatic,
         APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION }}",
         VIRTUAL_ENV: "{{ VIRTUAL_ENV_TROPOSPHERE }}",
         STATIC_DIR_PATH: 'troposphere/tropo-static',
         DJANGO_SETTINGS_MODULE: 'troposphere.settings',
-        tags: ['troposphere']}
+        tags: ['troposphere', 'manage-collectstatic']}
 
     - { role: app-django-manage-migrate,
         APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION }}",
         VIRTUAL_ENV: "{{ VIRTUAL_ENV_TROPOSPHERE }}",
         DJANGO_SETTINGS_MODULE: 'troposphere.settings',
-        tags: ['troposphere', 'migrate'] }
+        tags: ['troposphere', 'migrate', 'manage-migrate'] }
 
     - { role: config-nginx-uwsgi,
         APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION }}",
         UWSGI_APP_NAME: 'troposphere',
-        tags: ['troposphere'] }
+        tags: ['troposphere', 'nginx-uwsgi'] }
 
     - { role: install-airport-ui-assets,
         AIRPORT_SOURCE: "{{ TROPOSPHERE_LOCATION }}",
