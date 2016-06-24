@@ -82,7 +82,7 @@
         APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION }}",
         VIRTUAL_ENV: "{{ VIRTUAL_ENV_ATMOSPHERE }}",
         DJANGO_SETTINGS_MODULE: 'atmosphere.settings',
-        tags: ['atmosphere'] }
+        tags: ['atmosphere','manage-load-tables'] }
 
     - { role: config-nginx-uwsgi,
         APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION }}",
