@@ -1,6 +1,0 @@
----
-# vars file for app-config-postgres
-
-DBNAME:
-DBUSER:
-DBPASSWORD:
