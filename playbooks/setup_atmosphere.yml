@@ -88,4 +88,4 @@
         APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION }}",
         UWSGI_APP_NAME: 'atmosphere',
         UWSGI_INI_SRC_NAME: 'extras/uwsgi/atmo.uwsgi.ini',
-        tags: ['atmosphere', 'deploy'] }
+        tags: ['atmosphere', 'deploy', 'nginx-uwsgi'] }
