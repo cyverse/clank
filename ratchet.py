@@ -147,7 +147,17 @@ def live_run(command, **kwargs):
 
 def execute_ansible_playbook(args):
 
-    command = '%s/clank_env/bin/ansible-playbook %s/playbooks/deploy_stack.yml --flush-cache -c local -e "@%s/%s" -i "%s/local_inventory"' % (CUR_DIR, CUR_DIR, CUR_DIR, args.dynamic_env_file, CUR_DIR)
+    ansible_exec = '{}/clank_env/bin/ansible-playbook'.format(CUR_DIR)
+    ansible_play = '{}/playbooks/deploy_stack.yml'.format(CUR_DIR)
+    # NOTE: args.dynamic_env_file should just be an absolute path
+    ansible_env_file = '@{}/{}'.format(CUR_DIR, args.dynamic_env_file)
+    # NOTE: inventory should be an arg and it should default to hosts for
+    # consistency with ansible
+    ansible_inventory = '{}/local_inventory'.format(CUR_DIR)
+
+    command = '{} "{}" --flush-cache -c local -e "{}" -i "{}"'.format(
+        ansible_exec, ansible_play, ansible_env_file, ansible_inventory
+    )
 
     #Optional commands that cause errors if left empty:
     if args.skip_tags:
