@@ -21,5 +21,3 @@ UWISGI_APPS_ENABLED_PATH: /etc/uwsgi/apps-enabled
 WEBSERVER_USER: www-data
 
 JENKINS: false
-
-VAGRANT: false
