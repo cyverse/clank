@@ -67,3 +67,10 @@ roles/atmosphere-setup-atmosphere/files/*
 clank_env
 ratchet_env
 dynamic_ratchet_ansible_env.yml
+
+# ignore any initialization files (aka secrets or sensitive infoz)
+clank_init
+clank
+*-extras/*
+secrets*
+scratch
