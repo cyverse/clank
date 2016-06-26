@@ -2,3 +2,5 @@ envoy
 Jinja2
 ruamel.yaml
 colorama
+ansible==2.1.0.0
+redis

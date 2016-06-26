@@ -21,9 +21,9 @@ apt-get install libssl-dev libffi-dev -y
 
 git clone https://github.com/iPlantCollaborativeOpenSource/clank.git
 
-virtualenv ratchet_env
-. ratchet_env/bin/activate
-pip install -r clank/ratchet_requirements.txt
+virtualenv clank_env
+. clank_env/bin/activate
+pip install -r clank/requirements.txt
 ```
 
 =====
@@ -31,7 +31,7 @@ Usage
 =====
 
 ```bash
-python ratchet.py --env_file $VARIABLES_YML_FILE
+./clank.py --env_file $VARIABLES_YML_FILE
 ```
 
 An example of the [`$VARIABLES_YML_FILE`](dist_files/variables.yml.dist) can be found in the [dist_files](dist_files) directory.
@@ -39,16 +39,16 @@ An example of the [`$VARIABLES_YML_FILE`](dist_files/variables.yml.dist) can be 
 ###### Skipping Portions of Clank
 
 Clank's install process is separated into three parts: installation of dependencies, atmosphere, troposphere.
-To skip over sections of the deployment process, pass in a comma separated list to the `--skip` ratchet.py argument.
+To skip over sections of the deployment process, pass in a comma separated list to the `--skip` clank.py argument.
 
 Supported skip tags: `dependencies`, `atmosphere`, `troposphere`
 
 ```bash
-python ratchet.py --env_file $VARIABLES_YML_FILE --skip atmosphere # skips over the installation of atmosphere
+./clank.py --env_file $VARIABLES_YML_FILE --skip atmosphere # skips over the installation of atmosphere
 ```
 
 ```bash
-python ratchet.py --env_file $VARIABLES_YML_FILE --skip dependencies,troposphere # skips over the installation of dependencies and troposphere
+./clank.py --env_file $VARIABLES_YML_FILE --skip dependencies,troposphere # skips over the installation of dependencies and troposphere
 ```
 
 You can actually skip over any tag you may find in the roles and playbooks. Ratchet will pass the desired skips to ansible will skip those.
