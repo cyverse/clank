@@ -6,17 +6,9 @@ import shlex
 import subprocess
 import sys
 import traceback
-import yaml
 
 try:
-    VIRTUAL_DIR = os.environ["VIRTUAL_ENV"]
-    from jinja2 import Environment, FileSystemLoader, StrictUndefined
     from colorama import init, Fore
-    import ruamel.yaml
-except KeyError:
-    sys.exit('''
-    Make sure to run within a virtualenv. See README.md.
-    ''')
 except ImportError:
     sys.exit('''
     Error: missing imports
