@@ -8,12 +8,10 @@ import sys
 import traceback
 import yaml
 
-
 try:
     VIRTUAL_DIR = os.environ["VIRTUAL_ENV"]
     from jinja2 import Environment, FileSystemLoader, StrictUndefined
     from colorama import init, Fore
-    import envoy
     import ruamel.yaml
 except KeyError:
     sys.exit('''
@@ -62,31 +60,6 @@ def setup_arguments():
 
     return parser
 
-def setup_dependencies():
-    # Check to see if ansible is not installed and redis
-    ansible_check = envoy.run("which ansible")
-    redis_check = envoy.run("which redis-server")
-    if ansible_check.status_code is not 0 or redis_check.status_code is not 0:
-        run_tasks_in_file("install_dependencies.txt")
-
-def create_virtualenv():
-    run_tasks_in_file("create_virtualenv.txt")
-
-def run_tasks_in_file(filename):
-    INSTALL_LIST = os.path.join(CUR_DIR, filename)
-    with open(INSTALL_LIST) as f:
-        commands = f.readlines()
-        for command in commands:
-            r = envoy.run(command, cwd=CUR_DIR)
-            if r.status_code is not 0:
-                print Fore.RED + command
-                print Fore.RED + "Error Code:" + str(r.status_code)
-                print Fore.RED + "Std_out:" + r.std_out
-                print Fore.RED + "Std_err:" + r.std_err
-                sys.exit(r.status_code)
-            else:
-                print Fore.GREEN + command
-
 def live_run(command, **kwargs):
     proc = subprocess.Popen(shlex.split(command), **kwargs) 
     out, err = proc.communicate()
@@ -128,8 +101,6 @@ def main():
     args = parser.parse_args()
     try:
         # To be executed prior to running 'ansible-playbook'
-        setup_dependencies()
-        create_virtualenv()
         execute_ansible_playbook(args)
     except Exception as exc:
         print Fore.RED + "Error executing Ratchet: %s" % exc.message
