@@ -34,26 +34,22 @@ def setup_arguments():
         type=str,
         default="",
 	metavar="TAGS",
-        help="comma separated tag list e.g. 'dependencies,atmosphere'")
+        help="Skip the tag list e.g. 'dependencies,atmosphere'")
 
     parser.add_argument("--tags",
         type=str,
         default="",
-        help="comma separated tag list e.g. 'dependencies,atmosphere'")
-
-    parser.add_argument("--vagrant",
-        action='store_true',
-        help="when present will setup up install for vagrant")
+        help="Include the tag list e.g. 'dependencies,atmosphere'")
 
     parser.add_argument("--verbose",
         action='store_true',
-        help="Toggle on verbose output for command and shell tasks.")
+        help="Toggle on verbose output for command and shell tasks")
 
-    parser.add_argument("--workspace",
-        type=str,
-        help="The workspace from which files will be used to get ansible to run")
+    parser.add_argument("--debug",
+        action='store_true',
+        help="Print rather than execute ansible")
 
-    parser.add_argument("--env_file",
+    parser.add_argument("-e", "--env_file",
         required=True,
         type=str,
         help="The environment file to load when running ansible-playbook")
@@ -66,23 +62,22 @@ def live_run(command, **kwargs):
     return (out, err, proc.returncode)
 
 def execute_ansible_playbook(args):
-    workspace = args.workspace if args.workspace else os.path.dirname(CUR_DIR)
-    command = ('{0!s}/clank/clank_env/bin/ansible-playbook {0!s}/clank/playbooks/deploy_stack.yml' +
-               ' --flush-cache -c local -i "{0!s}/clank/local_inventory"').format(workspace)
-   
-    #Optional commands that cause errors if left empty:
+
+    ansible_exec = '{}/bin/ansible-playbook'.format(VIRTUAL_DIR)
+    ansible_play = '{}/playbooks/deploy_stack.yml'.format(CUR_DIR)
+    command = '{} "{}" --flush-cache -c local -e "@{}" -i "localhost,"'.format(
+        ansible_exec, ansible_play, args.env_file
+    )
+
     if args.skip_tags:
        command += ' --skip-tags="%s"' % args.skip_tags
     if args.tags:
         command += ' --tags "%s"' % args.tags  
-    # Load env file
-    if args.env_file:
-        command += ' -e "@%s/clank/%s"' % (workspace, args.env_file)
-    if args.vagrant:
-        command += ' -e"VAGRANT=true"'
     if args.verbose:
         command += ' -e"CLANK_VERBOSE=true"'
-    print "COMMAND: %s" % command
+    if args.debug:
+        print "[DEBUG] Command to execute: {}".format(command)
+	sys.exit(0)
     (out, err, returncode) = live_run(command, cwd=CUR_DIR)
     if returncode is not 0:
         print Fore.RED + "%s" % command
