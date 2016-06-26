@@ -119,6 +119,7 @@ def execute_ansible_playbook(args):
         print Fore.GREEN + command 
 
 def main():
+    init(autoreset=True)  # init colorama
     parser = setup_arguments()
     args = parser.parse_args()
     try:
@@ -133,5 +134,4 @@ def main():
         sys.exit(1)
 
 if __name__ == "__main__":
-    init(autoreset=True)  #init colorama
     main()
