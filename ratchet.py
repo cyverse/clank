@@ -47,11 +47,12 @@ def setup_arguments():
         action='store_true',
         help="Toggle on verbose output for command and shell tasks.")
 
-    parser.add_argument("--workspace",
+    parser.add_argument("-i", "--inventory",
+	default="{}/hosts".format(CUR_DIR),
         type=str,
-        help="The workspace from which files will be used to get ansible to run")
+        help="The path to the ansible inventory, which defaults to ./hosts.")
 
-    parser.add_argument("--env_file",
+    parser.add_argument("-e", "--env_file",
         required=True,
         type=str,
         help="The environment file to load when running ansible-playbook")
@@ -89,18 +90,17 @@ def live_run(command, **kwargs):
     return (out, err, proc.returncode)
 
 def execute_ansible_playbook(args):
-    workspace = args.workspace if args.workspace else os.path.dirname(CUR_DIR)
-    command = ('{0!s}/clank/clank_env/bin/ansible-playbook {0!s}/clank/playbooks/deploy_stack.yml' +
-               ' --flush-cache -c local -i "{0!s}/clank/local_inventory"').format(workspace)
-   
-    #Optional commands that cause errors if left empty:
+
+    ansible_exec = '{}/clank_env/bin/ansible-playbook'.format(CUR_DIR)
+    ansible_play = '{}/playbooks/deploy_stack.yml'.format(CUR_DIR)
+    command = '{} "{}" --flush-cache -c local -e "@{}" -i "{}"'.format(
+        ansible_exec, ansible_play, args.env_file, args.inventory
+    )
+
     if args.skip_tags:
        command += ' --skip-tags="%s"' % args.skip_tags
     if args.tags:
         command += ' --tags "%s"' % args.tags  
-    # Load env file
-    if args.env_file:
-        command += ' -e "@%s/clank/%s"' % (workspace, args.env_file)
     if args.vagrant:
         command += ' -e"VAGRANT=true"'
     if args.verbose:
