@@ -22,7 +22,7 @@ except ImportError:
         and activated before running this script.
     ''')
 
-FILE_PATH = os.path.abspath(os.path.dirname(__file__))
+CUR_DIR = os.path.abspath(os.path.dirname(__file__))
 
 def setup_arguments():
     parser = argparse.ArgumentParser(
@@ -69,11 +69,11 @@ def create_virtualenv():
     run_tasks_in_file("create_virtualenv.txt")
 
 def run_tasks_in_file(filename):
-    INSTALL_LIST = os.path.join(FILE_PATH, filename)
+    INSTALL_LIST = os.path.join(CUR_DIR, filename)
     with open(INSTALL_LIST) as f:
         commands = f.readlines()
         for command in commands:
-            r = envoy.run(command, cwd=FILE_PATH)
+            r = envoy.run(command, cwd=CUR_DIR)
             if r.status_code is not 0:
                 print Fore.RED + command
                 print Fore.RED + "Error Code:" + str(r.status_code)
@@ -89,7 +89,7 @@ def live_run(command, **kwargs):
     return (out, err, proc.returncode)
 
 def execute_ansible_playbook(args):
-    workspace = args.workspace if args.workspace else os.path.dirname(FILE_PATH)
+    workspace = args.workspace if args.workspace else os.path.dirname(CUR_DIR)
     command = ('{0!s}/clank/clank_env/bin/ansible-playbook {0!s}/clank/playbooks/deploy_stack.yml' +
                ' --flush-cache -c local -i "{0!s}/clank/local_inventory"').format(workspace)
    
@@ -106,7 +106,7 @@ def execute_ansible_playbook(args):
     if args.verbose_output is True:
         command += ' -e"CLANK_VERBOSE=true"'
     print "COMMAND: %s" % command
-    (out, err, returncode) = live_run(command, cwd=FILE_PATH)
+    (out, err, returncode) = live_run(command, cwd=CUR_DIR)
     if returncode is not 0:
         print Fore.RED + "%s" % command
         print Fore.RED + "Error Code:" + str(returncode)
