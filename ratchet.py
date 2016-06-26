@@ -43,7 +43,7 @@ def setup_arguments():
         action='store_true',
         help="when present will setup up install for vagrant")
 
-    parser.add_argument("--verbose_output",
+    parser.add_argument("--verbose",
         action='store_true',
         help="Toggle on verbose output for command and shell tasks.")
 
@@ -101,9 +101,9 @@ def execute_ansible_playbook(args):
     # Load env file
     if args.env_file:
         command += ' -e "@%s/clank/%s"' % (workspace, args.env_file)
-    if args.vagrant is True:
+    if args.vagrant:
         command += ' -e"VAGRANT=true"'
-    if args.verbose_output is True:
+    if args.verbose:
         command += ' -e"CLANK_VERBOSE=true"'
     print "COMMAND: %s" % command
     (out, err, returncode) = live_run(command, cwd=CUR_DIR)
