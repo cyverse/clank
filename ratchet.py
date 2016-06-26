@@ -9,17 +9,16 @@ import sys
 import traceback
 import yaml
 
-from colorama import init, Fore
-import envoy
-import ruamel.yaml
 
 try:
     from jinja2 import Environment, FileSystemLoader, StrictUndefined
+    from colorama import init, Fore
+    import envoy
+    import ruamel.yaml
 except ImportError:
     sys.exit('''
-        Configuration required `Jinja2` for template & variable merging.
-        Please ensure that the virtualenv for this project have been created
-        and activated before running this script.
+    Error: missing imports
+    Make sure to source the proper virtualenv. See README.md.
     ''')
 
 CUR_DIR = os.path.abspath(os.path.dirname(__file__))
