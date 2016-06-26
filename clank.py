@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 import argparse
 import json
 import os
@@ -31,12 +30,13 @@ def setup_arguments():
     parser.add_argument("--skip-tags",
         type=str,
         default="",
-        help="command seperated list e.g. 'dependencies,atmosphere'")
+	metavar="TAGS",
+        help="comma separated tag list e.g. 'dependencies,atmosphere'")
 
     parser.add_argument("--tags",
         type=str,
         default="",
-        help="command seperated list e.g. 'dependencies,atmosphere'")
+        help="comma separated tag list e.g. 'dependencies,atmosphere'")
 
     parser.add_argument("--vagrant",
         action='store_true',
