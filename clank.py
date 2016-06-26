@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 import argparse
 import json
 import os
@@ -9,20 +8,24 @@ import sys
 import traceback
 import yaml
 
-from colorama import init, Fore
-import envoy
-import ruamel.yaml
 
 try:
+    VIRTUAL_DIR = os.environ["VIRTUAL_ENV"]
     from jinja2 import Environment, FileSystemLoader, StrictUndefined
+    from colorama import init, Fore
+    import envoy
+    import ruamel.yaml
+except KeyError:
+    sys.exit('''
+    Make sure to run within a virtualenv. See README.md.
+    ''')
 except ImportError:
     sys.exit('''
-        Configuration required `Jinja2` for template & variable merging.
-        Please ensure that the virtualenv for this project have been created
-        and activated before running this script.
+    Error: missing imports
+    pip install -r requirements
     ''')
 
-FILE_PATH = os.path.abspath(os.path.dirname(__file__))
+CUR_DIR = os.path.abspath(os.path.dirname(__file__))
 
 def setup_arguments():
     parser = argparse.ArgumentParser(
@@ -32,48 +35,35 @@ def setup_arguments():
     parser.add_argument("--skip-tags",
         type=str,
         default="",
-        help="command seperated list e.g. 'dependencies,atmosphere'")
+	metavar="TAGS",
+        help="Skip the tag list e.g. 'dependencies,atmosphere'")
 
     parser.add_argument("--tags",
         type=str,
         default="",
-        help="command seperated list e.g. 'dependencies,atmosphere'")
+        help="Include the tag list e.g. 'dependencies,atmosphere'")
 
-    parser.add_argument("--vagrant",
+    parser.add_argument("--verbose",
         action='store_true',
-        help="when present will setup up install for vagrant")
+        help="Toggle on verbose output for command and shell tasks")
 
-    parser.add_argument("--verbose_output",
+    parser.add_argument("--debug",
         action='store_true',
-        help="Toggle on verbose output for command and shell tasks.")
+        help="Print rather than execute ansible")
 
-    parser.add_argument("--workspace",
-        type=str,
-        help="The workspace from which files will be used to get ansible to run")
-
-    parser.add_argument("--env_file",
+    parser.add_argument("-e", "--env_file",
         required=True,
         type=str,
         help="The environment file to load when running ansible-playbook")
 
     return parser
 
-def setup_dependencies():
-    # Check to see if ansible is not installed and redis
-    ansible_check = envoy.run("which ansible")
-    redis_check = envoy.run("which redis-server")
-    if ansible_check.status_code is not 0 or redis_check.status_code is not 0:
-        run_tasks_in_file("install_dependencies.txt")
-
-def create_virtualenv():
-    run_tasks_in_file("create_virtualenv.txt")
-
 def run_tasks_in_file(filename):
-    INSTALL_LIST = os.path.join(FILE_PATH, filename)
+    INSTALL_LIST = os.path.join(CUR_DIR, filename)
     with open(INSTALL_LIST) as f:
         commands = f.readlines()
         for command in commands:
-            r = envoy.run(command, cwd=FILE_PATH)
+            r = envoy.run(command, cwd=CUR_DIR)
             if r.status_code is not 0:
                 print Fore.RED + command
                 print Fore.RED + "Error Code:" + str(r.status_code)
@@ -89,24 +79,23 @@ def live_run(command, **kwargs):
     return (out, err, proc.returncode)
 
 def execute_ansible_playbook(args):
-    workspace = args.workspace if args.workspace else os.path.dirname(FILE_PATH)
-    command = ('{0!s}/clank/clank_env/bin/ansible-playbook {0!s}/clank/playbooks/deploy_stack.yml' +
-               ' --flush-cache -c local -i "{0!s}/clank/local_inventory"').format(workspace)
-   
-    #Optional commands that cause errors if left empty:
+
+    ansible_exec = '{}/bin/ansible-playbook'.format(VIRTUAL_DIR)
+    ansible_play = '{}/playbooks/deploy_stack.yml'.format(CUR_DIR)
+    command = '{} "{}" --flush-cache -c local -e "@{}" -i "localhost,"'.format(
+        ansible_exec, ansible_play, args.env_file
+    )
+
     if args.skip_tags:
        command += ' --skip-tags="%s"' % args.skip_tags
     if args.tags:
         command += ' --tags "%s"' % args.tags  
-    # Load env file
-    if args.env_file:
-        command += ' -e "@%s/clank/%s"' % (workspace, args.env_file)
-    if args.vagrant is True:
-        command += ' -e"VAGRANT=true"'
-    if args.verbose_output is True:
+    if args.verbose:
         command += ' -e"CLANK_VERBOSE=true"'
-    print "COMMAND: %s" % command
-    (out, err, returncode) = live_run(command, cwd=FILE_PATH)
+    if args.debug:
+        print "[DEBUG] Command to execute: {}".format(command)
+	sys.exit(0)
+    (out, err, returncode) = live_run(command, cwd=CUR_DIR)
     if returncode is not 0:
         print Fore.RED + "%s" % command
         print Fore.RED + "Error Code:" + str(returncode)
@@ -119,12 +108,11 @@ def execute_ansible_playbook(args):
         print Fore.GREEN + command 
 
 def main():
+    init(autoreset=True)  # init colorama
     parser = setup_arguments()
     args = parser.parse_args()
     try:
         # To be executed prior to running 'ansible-playbook'
-        setup_dependencies()
-        create_virtualenv()
         execute_ansible_playbook(args)
     except Exception as exc:
         print Fore.RED + "Error executing Ratchet: %s" % exc.message
@@ -133,5 +121,4 @@ def main():
         sys.exit(1)
 
 if __name__ == "__main__":
-    init(autoreset=True)  #init colorama
     main()

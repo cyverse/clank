@@ -1,6 +1,6 @@
 envoy
-MarkupSafe
 Jinja2
-PyYAML 
 ruamel.yaml
 colorama
+ansible==2.1.0.0
+redis
