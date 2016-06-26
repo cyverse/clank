@@ -22,7 +22,7 @@ except ImportError:
         and activated before running this script.
     ''')
 
-FILE_PATH = os.path.abspath(os.path.dirname(__file__))
+CUR_DIR = os.path.abspath(os.path.dirname(__file__))
 
 def setup_arguments():
     parser = argparse.ArgumentParser(
@@ -86,11 +86,6 @@ def setup_arguments():
         action='store_true',
         help="Toggle on verbose output for command and shell tasks.")
 
-    parser.add_argument("--workspace",
-        required=True,
-        type=str,
-        help="The workspace from which files will be used to get ansible to run")
-
     parser.add_argument("--env_file",
         required=True,
         type=str,
@@ -109,11 +104,11 @@ def create_virtualenv():
     run_tasks_in_file("create_virtualenv.txt")
 
 def run_tasks_in_file(filename):
-    INSTALL_LIST = os.path.join(FILE_PATH, filename)
+    INSTALL_LIST = os.path.join(CUR_DIR, filename)
     with open(INSTALL_LIST) as f:
         commands = f.readlines()
         for command in commands:
-            r = envoy.run(command, cwd=FILE_PATH)
+            r = envoy.run(command, cwd=CUR_DIR)
             if r.status_code is not 0:
                 print Fore.RED + command
                 print Fore.RED + "Error Code:" + str(r.status_code)
@@ -140,7 +135,7 @@ def prepare_ansible_env_file(args):
     dumper.MAX_SIMPLE_KEY_LENGTH = 999
     file_content = ruamel.yaml.dump(dict_from_file, Dumper=dumper)
 
-    new_env_file = os.path.join(FILE_PATH, args.dynamic_env_file)
+    new_env_file = os.path.join(CUR_DIR, args.dynamic_env_file)
     with open(new_env_file,'w') as the_file:
         the_file.write(file_content)
 
@@ -152,7 +147,17 @@ def live_run(command, **kwargs):
 
 def execute_ansible_playbook(args):
 
-    command = '%s/clank/clank_env/bin/ansible-playbook %s/clank/playbooks/deploy_stack.yml --flush-cache -c local -e "@%s/clank/%s" -i "%s/clank/local_inventory"' % (args.workspace, args.workspace, args.workspace, args.dynamic_env_file, args.workspace)
+    ansible_exec = '{}/clank_env/bin/ansible-playbook'.format(CUR_DIR)
+    ansible_play = '{}/playbooks/deploy_stack.yml'.format(CUR_DIR)
+    # NOTE: args.dynamic_env_file should just be an absolute path
+    ansible_env_file = '@{}/{}'.format(CUR_DIR, args.dynamic_env_file)
+    # NOTE: inventory should be an arg and it should default to hosts for
+    # consistency with ansible
+    ansible_inventory = '{}/local_inventory'.format(CUR_DIR)
+
+    command = '{} "{}" --flush-cache -c local -e "{}" -i "{}"'.format(
+        ansible_exec, ansible_play, ansible_env_file, ansible_inventory
+    )
 
     #Optional commands that cause errors if left empty:
     if args.skip_tags:
@@ -163,7 +168,7 @@ def execute_ansible_playbook(args):
         command += ' -e"VAGRANT=true"'
     if args.verbose_output is True:
         command += ' -e"CLANK_VERBOSE=true"'
-    (out, err, returncode) = live_run(command, cwd=FILE_PATH)
+    (out, err, returncode) = live_run(command, cwd=CUR_DIR)
     if returncode is not 0:
         print Fore.RED + "%s" % command
         print Fore.RED + "Error Code:" + str(returncode)
@@ -186,13 +191,13 @@ def map_arguments(args):
     }
 
 def prepare_ansible_cfg(args):
-    LOADER = FileSystemLoader(FILE_PATH)
+    LOADER = FileSystemLoader(CUR_DIR)
     ENV = Environment(loader=LOADER,
                       undefined=StrictUndefined)
 
     template_location = "ansible.cfg.j2"
-    output_path = os.path.join(FILE_PATH, "ansible.cfg")
-    CLANK_ROLES_PATH = os.path.join(FILE_PATH, "roles")
+    output_path = os.path.join(CUR_DIR, "ansible.cfg")
+    CLANK_ROLES_PATH = os.path.join(CUR_DIR, "roles")
     template = ENV.get_template(template_location)
     rendered = template.render(CLANK_ANSIBLE_ROLES=CLANK_ROLES_PATH)
     with open(output_path, 'wb') as fh:
