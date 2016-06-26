@@ -3,4 +3,3 @@
 
 APP_BASE_DIR: ""
 WEBSERVER_USER: www-data
-VAGRANT: False

@@ -13,7 +13,6 @@ Role Variables
 
 - `APP_BASE_DIR` - the base, or root, of the application (where _owner_ is set)
 - `WEBSERVER_USER` - name of the user associated with web server
-- `VAGRANT` - indicate when operating within Vagrant; defaults to `False`
 
 Dependencies
 ------------
