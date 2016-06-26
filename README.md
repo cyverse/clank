@@ -4,20 +4,29 @@
 
 Clank is a deployment tool for [Atmosphere](http://www.iplantcollaborative.org/ci/atmosphere).
 
-Dependencies and Setup
-======================
 
+Installation
+============
+
+Fetch packages required to build dependencies.
 ```bash
-apt-get install python-virtualenv -y
-apt-get install git python-dev libyaml-dev -y
-apt-get install libssl-dev libffi-dev -y
+apt-get update
+apt-get install -y git python python-pip python-dev libffi-dev libssl-dev
+pip install --upgrade pip virtualenv
+```
 
+Fetch the repository.
+```
 git clone https://github.com/iPlantCollaborativeOpenSource/clank.git
+```
 
+Prepare an environment for clank.
+```
 virtualenv clank_env
 . clank_env/bin/activate
 pip install -r clank/requirements.txt
 ```
+
 
 Usage
 =====
@@ -79,6 +88,7 @@ renaming the dist file to relflect the groups you wish to create with ansible.
 
 The location of these files *must* be stated in your _completed_
 [variables.yml](https://github.com/iPlantCollaborativeOpenSource/clank/blob/master/dist_files/variables.yml.dist#L52-L63).
+
 
 License
 =======
