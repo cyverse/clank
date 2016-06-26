@@ -10,14 +10,19 @@ import yaml
 
 
 try:
+    VIRTUAL_DIR = os.environ["VIRTUAL_ENV"]
     from jinja2 import Environment, FileSystemLoader, StrictUndefined
     from colorama import init, Fore
     import envoy
     import ruamel.yaml
+except KeyError:
+    sys.exit('''
+    Make sure to run within a virtualenv. See README.md.
+    ''')
 except ImportError:
     sys.exit('''
     Error: missing imports
-    Make sure to source the proper virtualenv. See README.md.
+    pip install -r requirements
     ''')
 
 CUR_DIR = os.path.abspath(os.path.dirname(__file__))
