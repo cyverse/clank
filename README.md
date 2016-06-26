@@ -2,15 +2,8 @@
 
 # Clank
 
-Clank deploys the [Atmosphere](http://www.iplantcollaborative.org/ci/atmosphere) infrastructure within a Linux environment to make using OpenStack for on-demanding computing needs easy.
+Clank is a deployment tool for [Atmosphere](http://www.iplantcollaborative.org/ci/atmosphere).
 
-[Atmosphere](http://www.iplantcollaborative.org/ci/atmosphere) is made up of two distinct elements:
-- an API: [_Atmosphere_](https://github.com/iPlantCollaborativeOpenSource/atmosphere)
-- and, a user interface: [_Troposphere_](https://github.com/iPlantCollaborativeOpenSource/troposphere)
-
-Clank is a set of playbooks & roles and is the replacement for [Crushbone](https://github.com/iPlantCollaborativeOpenSource/crushbone).
-
-======================
 Dependencies and Setup
 ======================
 
@@ -26,7 +19,6 @@ virtualenv clank_env
 pip install -r clank/requirements.txt
 ```
 
-=====
 Usage
 =====
 
@@ -34,26 +26,24 @@ Usage
 ./clank.py --env_file $VARIABLES_YML_FILE
 ```
 
-An example of the [`$VARIABLES_YML_FILE`](dist_files/variables.yml.dist) can be found in the [dist_files](dist_files) directory.
+An example of the [`$VARIABLES_YML_FILE`](dist_files/variables.yml.dist) can be
+found in the [dist_files](dist_files) directory.
 
-###### Skipping Portions of Clank
+###### Running Portions of Clank
 
-Clank's install process is separated into three parts: installation of dependencies, atmosphere, troposphere.
-To skip over sections of the deployment process, pass in a comma separated list to the `--skip` clank.py argument.
+Clank's install process is separated into three parts: installation of
+dependencies, atmosphere, and troposphere. To run specific parts of the
+deployment process, pass a comma separated list to the `--tags` option.
 
-Supported skip tags: `dependencies`, `atmosphere`, `troposphere`
-
-```bash
-./clank.py --env_file $VARIABLES_YML_FILE --skip atmosphere # skips over the installation of atmosphere
-```
+Supported tags: `dependencies`, `atmosphere`, `troposphere`
 
 ```bash
-./clank.py --env_file $VARIABLES_YML_FILE --skip dependencies,troposphere # skips over the installation of dependencies and troposphere
+./clank.py --env_file $VARIABLES_YML_FILE --tags dependencies,troposphere
 ```
 
-You can actually skip over any tag you may find in the roles and playbooks. Ratchet will pass the desired skips to ansible will skip those.
+You can actually specify any tag you may find in the roles and playbooks. Clank
+is a thin-wrapper over ansible.
 
-================================
 List of Files Needed Before Hand
 ================================
 
@@ -69,7 +59,8 @@ List of Files Needed Before Hand
 
 * group_vars (See [group_vars dist](dist_files/group_vars) for blank template)
 
-Your hosts file and group_vars should reflect one another. This would include renaming the dist file to relflect the groups you wish to create with ansible.
+The hosts and group_vars files should reflect one another. This would include
+renaming the dist file to relflect the groups you wish to create with ansible.
 
 ######SSL configuration files
 
@@ -86,9 +77,9 @@ Your hosts file and group_vars should reflect one another. This would include re
 * atmosphere.sql
 * troposphere.sql
 
-The location of these files *must* be stated in your _completed_ [variables.yml](https://github.com/iPlantCollaborativeOpenSource/clank/blob/master/dist_files/variables.yml.dist#L52-L63).
+The location of these files *must* be stated in your _completed_
+[variables.yml](https://github.com/iPlantCollaborativeOpenSource/clank/blob/master/dist_files/variables.yml.dist#L52-L63).
 
-=======
 License
 =======
 See [LICENSE](LICENSE) file.
