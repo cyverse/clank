@@ -87,7 +87,12 @@ def main():
     parser = setup_arguments()
     args = parser.parse_args()
     try:
-        # To be executed prior to running 'ansible-playbook'
+        global VIRTUAL_DIR = os.environ["VIRTUAL_ENV"]
+    except KeyError:
+        sys.exit('''
+        Make sure to run within a virtualenv. See README.md.
+        ''')
+    try:
         execute_ansible_playbook(args)
     except Exception as exc:
         print Fore.RED + "Error executing Ratchet: %s" % exc.message
