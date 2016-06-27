@@ -15,7 +15,6 @@ except ImportError:
     pip install -r requirements
     ''')
 
-CUR_DIR = os.path.abspath(os.path.dirname(__file__))
 
 def setup_arguments():
     parser = argparse.ArgumentParser(
@@ -55,8 +54,10 @@ def live_run(command, **kwargs):
 
 def execute_ansible_playbook(args):
 
-    ansible_exec = '{}/bin/ansible-playbook'.format(VIRTUAL_DIR)
-    ansible_play = '{}/playbooks/deploy_stack.yml'.format(CUR_DIR)
+    cur_dir = os.path.abspath(os.path.dirname(__file__))
+    virtualenv_dir = os.environ["VIRTUAL_ENV"]
+    ansible_exec = '{}/bin/ansible-playbook'.format(virtualenv_dir)
+    ansible_play = '{}/playbooks/deploy_stack.yml'.format(cur_dir)
     command = '{} "{}" --flush-cache -c local -e "@{}" -i "localhost,"'.format(
         ansible_exec, ansible_play, args.env_file
     )
@@ -70,7 +71,7 @@ def execute_ansible_playbook(args):
     if args.debug:
         print "[DEBUG] Command to execute: {}".format(command)
 	sys.exit(0)
-    (out, err, returncode) = live_run(command, cwd=CUR_DIR)
+    (out, err, returncode) = live_run(command, cwd=cur_dir)
     if returncode is not 0:
         print Fore.RED + "%s" % command
         print Fore.RED + "Error Code:" + str(returncode)
@@ -87,7 +88,7 @@ def main():
     parser = setup_arguments()
     args = parser.parse_args()
     try:
-        global VIRTUAL_DIR = os.environ["VIRTUAL_ENV"]
+        os.environ["VIRTUAL_ENV"]
     except KeyError:
         sys.exit('''
         Make sure to run within a virtualenv. See README.md.
