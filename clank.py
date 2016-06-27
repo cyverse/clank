@@ -25,25 +25,25 @@ def setup_arguments():
         type=str,
         default="",
 	metavar="TAGS",
-        help="Skip the tag list e.g. 'dependencies,atmosphere'")
+        help="skip the tag list e.g. 'dependencies,atmosphere'")
 
     parser.add_argument("--tags",
         type=str,
         default="",
-        help="Include the tag list e.g. 'dependencies,atmosphere'")
+        help="include the tag list e.g. 'dependencies,atmosphere'")
 
     parser.add_argument("--verbose",
         action='store_true',
-        help="Toggle on verbose output for command and shell tasks")
+        help="toggle on verbose output for command and shell tasks")
 
     parser.add_argument("--debug",
         action='store_true',
-        help="Print rather than execute ansible")
+        help="print rather than execute ansible")
 
     parser.add_argument("-e", "--env_file",
         required=True,
         type=str,
-        help="The environment file to load when running ansible-playbook")
+        help="the environment file to load when running ansible-playbook")
 
     return parser
 
@@ -96,7 +96,7 @@ def main():
     try:
         execute_ansible_playbook(args)
     except Exception as exc:
-        print Fore.RED + "Error executing Ratchet: %s" % exc.message
+        print Fore.RED + "Error executing clank: %s" % exc.message
         parser.print_help()
         traceback.print_exc(file=sys.stdout)
         sys.exit(1)
