@@ -31,10 +31,10 @@ Usage
 =====
 
 ```bash
-python ratchet.py --env_file $VARIABLES_YML_FILE
+python ratchet.py --env_file $VARIABLES_YML_FILE --workspace $CLANK_DIRECTORY
 ```
 
-An example of the [`$VARIABLES_YML_FILE`](dist_files/variables.yml.dist) can be found in the [dist_files](dist_files) directory.
+An example of the [`$VARIABLES_YML_FILE`](dist_files/variables.yml.dist) can be found in the [dist_files](dist_files) directory. Also, for the `$CLANK_DIRECTORY`, it can be set to be the absolute path of the clank folder.
 
 ###### Skipping Portions of Clank
 
