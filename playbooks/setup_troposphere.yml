@@ -61,3 +61,8 @@
         NPM_APP_DIR: "{{ TROPOSPHERE_LOCATION }}",
         NPM_BUILD_TYPE: "{{ TROPOSPHERE_BUILD | default('production') }}",
         tags: ['troposphere', 'npm'] }
+
+    - { role: setup-webserver-user-group,
+        APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION }}",
+        WEBSERVER_USER: "www-data",
+        tags: ['troposphere', 'set-permissions'] }

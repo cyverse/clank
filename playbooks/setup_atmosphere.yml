@@ -84,3 +84,8 @@
         UWSGI_APP_NAME: 'atmosphere',
         UWSGI_INI_SRC_NAME: 'extras/uwsgi/atmo.uwsgi.ini',
         tags: ['atmosphere', 'deploy'] }
+
+    - { role: setup-webserver-user-group,
+        APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION }}",
+        WEBSERVER_USER: "www-data",
+        tags: ['atmosphere','set-permissions'] }
