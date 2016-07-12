@@ -39,7 +39,6 @@ DEV_PACKAGES:
     - libssl-dev
     - git
     - nodejs
-    - ruby1.9.1
     - python-pip
     - python-setuptools
     - ufw
