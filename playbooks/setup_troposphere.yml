@@ -26,8 +26,17 @@
 
     - { role: app-pip-install-requirements,
         APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION }}",
+        REQUIREMENTS_FILE_NAME: 'requirements.txt',
         VIRTUAL_ENV: "{{ VIRTUAL_ENV_TROPOSPHERE }}",
-        tags: ['troposphere']}
+        PIP_EXTRA_ARGS: '--no-cache-dir',
+        tags: ['troposphere', 'pip-install-requirements']}
+
+    - { role: app-pip-install-requirements,
+        APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION }}",
+        REQUIREMENTS_FILE_NAME: 'dev_requirements.txt',
+        VIRTUAL_ENV: "{{ VIRTUAL_ENV_TROPOSPHERE }}",
+        INSTALL_TOGGLE_VAR: "{{ JENKINS | default(true) }}",
+        tags: ['troposphere', 'pip-install-requirements']}
 
     - { role: app-config-logging,
         APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION }}",
