@@ -1,3 +1,84 @@
 ---
-- include: ./deploy_atmosphere.yml
-- include: ./deploy_troposphere.yml
+- name: Install and setup required dependencies for all components
+  hosts: all
+  vars:
+    clean_target: "{{ CLEAN_TARGET | default(True) }}"
+
+  roles:
+    - { role: install-dependencies,
+        when: clean_target,
+        tags: ['dependencies', 'apt-install', 'install'] }
+
+    - { role: setup-postgres,
+        when: clean_target,
+        DBUSER: "{{ TROPO_DBUSER }}",
+        tags: ['dependencies', 'database'] }
+
+    - { role: setup-postgres,
+        when: clean_target,
+        DBUSER: "{{ ATMO_DBUSER }}",
+        tags: ['dependencies', 'database'] }
+
+    - { role: setup-ssl,
+        when: clean_target,
+        tags: ['dependencies', 'ssl'] }
+
+
+- name: Clone Atmosphere Ansible
+  hosts: all
+
+  roles:
+    - { role: clone-repo,
+        REPO_BASE_DIR: "{{ ANSIBLE_DEPLOY_DIR }}",
+        CLONE_TARGET: "{{ ANSIBLE_DEPLOY_LOCATION }}",
+        SPECIFIC_BRANCH: "{{ ATMOSPHERE_ANSIBLE_BRANCH | default('master', true) }}",
+        REPO_URI: "{{ ANSIBLE_REPO }}",
+        tags: [ 'atmosphere', 'clone-repo'] }
+
+- name: Setup virtualenv and clone Atmosphere
+  hosts: all
+
+  roles:
+    - { role: setup-virtualenv,
+        VIRTUAL_ENV_NAME: 'atmo',
+        VIRTUAL_ENV_BASE_DIR: "{{ VIRTUAL_ENV_DIR_ATMOSPHERE }}",
+        tags: [ 'atmosphere', 'setup-virtualenv'] }
+
+    - { role: clone-repo,
+        REPO_BASE_DIR: "{{ ATMOSPHERE_DIR }}",
+        CLONE_TARGET: "{{ ATMOSPHERE_LOCATION }}",
+        SPECIFIC_BRANCH: "{{ ATMOSPHERE_BRANCH  | default('master', true) }}",
+        REPO_URI: "{{ ATMOSPHERE_REPO }}",
+        tags: [ 'atmosphere', 'clone-repo'] }
+
+- include: ./setup_atmosphere.yml
+
+
+- name: Setup celery for Atmosphere
+  hosts: all
+
+  roles:
+    - { role: setup-celery,
+        tags: ['atmosphere', 'celery'] }
+
+    - { role: logrotate-files,
+        LOGROTATE_FILES: "{{ ATMOSPHERE_LOCATION }}/extras/logrotate.celery",
+        tags: ['atmosphere', 'celery', 'logrotate'] }
+
+- name: Setup virtualenv and clone Troposphere
+  hosts: all
+
+  roles:
+    - { role: setup-virtualenv,
+        VIRTUAL_ENV_NAME: 'troposphere',
+        VIRTUAL_ENV_BASE_DIR: "{{ VIRTUAL_ENV_DIR_TROPOSPHERE }}",
+        tags: [ 'troposphere', 'setup-virtualenv'] }
+
+    - { role: clone-repo,
+        REPO_BASE_DIR: "{{ TROPOSPHERE_DIR }}",
+        CLONE_TARGET: "{{ TROPOSPHERE_LOCATION }}",
+        SPECIFIC_BRANCH: "{{ TROPOSPHERE_BRANCH | default('master', true) }}",
+        REPO_URI: "{{ TROPOSPHERE_REPO }}",
+        tags: [ 'troposphere', 'clone-repo'] }
+
+- include: ./setup_troposphere.yml
