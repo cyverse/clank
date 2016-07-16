@@ -5,3 +5,5 @@ ATMO_HOME: /opt/dev/atmosphere
 TROPO_HOME: /opt/dev/troposphere
 
 LOCAL_SETTINGS: settings/local.py
+
+new_relic_app_name: "Application"
