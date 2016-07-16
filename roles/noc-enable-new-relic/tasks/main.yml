@@ -18,8 +18,7 @@
     local_action: >
         file path={{ role_path }}/files state=directory mode=0755
 
-  - set_fact:
-    NEW_RELIC.APP_NAME: NEW_RELIC.ATMO_LABEL
+  - set_fact: new_relic_app_name="{{ NEW_RELIC.ATMO_LABEL }}"
 
   - name: Add New Relic settings to 'atmopshere/{{ LOCAL_SETTINGS }}'
     blockinfile:
@@ -40,8 +39,7 @@
   - name: move Atmosphere New Relic agent config into place
     copy: src=atmosphere_newrelic.ini dest={{ ATMO_HOME }}/extras/newrelic/atmosphere_newrelic.ini backup=yes
 
-  - set_fact:
-    NEW_RELIC.APP_NAME: NEW_RELIC.TROPO_LABEL
+  - set_fact: new_relic_app_name="{{ NEW_RELIC.TROPO_LABEL }}"
 
   - name: Add New Relic settings to 'troposphere/{{ LOCAL_SETTINGS }}'
     blockinfile:
