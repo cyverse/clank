@@ -14,6 +14,13 @@
   - fail: msg="Wait! {{TROPO_HOME}}/troposphere/{{ LOCAL_SETTINGS }} should exist"
     when: tropo_local.stat.exists == False
 
+  - name: ensure role has local files directory
+    local_action: >
+        file path={{ role_path }}/files state=directory mode=0755
+
+  - set_fact:
+    NEW_RELIC.APP_NAME: NEW_RELIC.ATMO_LABEL
+
   - name: Add New Relic settings to 'atmopshere/{{ LOCAL_SETTINGS }}'
     blockinfile:
       dest: "{{ ATMO_HOME }}/atmosphere/{{ LOCAL_SETTINGS }}"
@@ -21,6 +28,20 @@
         NEW_RELIC_ENVIRONMENT = '{{ NEW_RELIC.ENVIRONMENT }}'
       marker: "# {mark} ANSIBLE MANAGED BLOCK "
     when: atmo_local.stat.exists
+
+  - name: create local atmosphere_newrelic.ini from variables
+    local_action: >
+      template src={{ role_path }}/templates/app_newrelic.ini.j2 dest={{ role_path }}/files/atmosphere_newrelic.ini
+
+  - name: ensure role has local files directory
+    local_action: >
+        file path={{ role_path }}/extras/newrelic state=directory mode=0755
+
+  - name: move Atmosphere New Relic agent config into place
+    copy: src=atmosphere_newrelic.ini dest={{ ATMO_HOME }}/extras/newrelic/atmosphere_newrelic.ini backup=yes
+
+  - set_fact:
+    NEW_RELIC.APP_NAME: NEW_RELIC.TROPO_LABEL
 
   - name: Add New Relic settings to 'troposphere/{{ LOCAL_SETTINGS }}'
     blockinfile:
@@ -30,5 +51,16 @@
         NEW_RELIC_BROWSER_SNIPPET = '{{ NEW_RELIC.BROWSER }}'
       marker: "# {mark} ANSIBLE MANAGED BLOCK "
     when: tropo_local.stat.exists
+
+  - name: create local troposphere_newrelic.ini from variables
+    local_action: >
+      template src={{ role_path }}/templates/app_newrelic.ini.j2 dest={{ role_path }}/files/troposphere_newrelic.ini
+
+  - name: ensure role has local files directory
+    local_action: >
+        file path={{ role_path }}/extras/newrelic state=directory mode=0755
+
+  - name: move Atmosphere New Relic agent config into place
+    copy: src=troposphere_newrelic.ini dest={{ TROPO_HOME }}/extras/newrelic/troposphere_newrelic.ini backup=yes
 
   when: NEW_RELIC is defined
