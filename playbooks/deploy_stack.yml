@@ -1,3 +1,9 @@
 ---
 - include: ./deploy_atmosphere.yml
 - include: ./deploy_troposphere.yml
+
+- name: Enable New Relic agent
+  hosts: all
+
+  roles:
+  - { role: noc-enable-new-relic }

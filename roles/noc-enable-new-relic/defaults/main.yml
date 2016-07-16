@@ -1,0 +1,7 @@
+---
+# defaults file for noc-enable-new-relic
+ATMO_HOME: /opt/dev/atmosphere
+
+TROPO_HOME: /opt/dev/troposphere
+
+LOCAL_SETTINGS: settings/local.py
