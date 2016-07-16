@@ -1,0 +1,34 @@
+---
+# tasks file for noc-enable-new-relic
+- block:
+
+  - stat: path="{{ATMO_HOME}}/atmosphere/{{ LOCAL_SETTINGS }}"
+    register: atmo_local
+
+  - stat: path="{{TROPO_HOME}}/troposphere/{{ LOCAL_SETTINGS }}"
+    register: tropo_local
+
+  - fail: msg="Wait! {{ATMO_HOME}}/atmosphere/{{ LOCAL_SETTINGS }} should exist"
+    when: atmo_local.stat.exists == False
+
+  - fail: msg="Wait! {{TROPO_HOME}}/troposphere/{{ LOCAL_SETTINGS }} should exist"
+    when: tropo_local.stat.exists == False
+
+  - name: Add New Relic settings to 'atmopshere/{{ LOCAL_SETTINGS }}'
+    blockinfile:
+      dest: "{{ ATMO_HOME }}/atmosphere/{{ LOCAL_SETTINGS }}"
+      block: |
+        NEW_RELIC_ENVIRONMENT = '{{ NEW_RELIC.ENVIRONMENT }}'
+      marker: "# {mark} ANSIBLE MANAGED BLOCK "
+    when: atmo_local.stat.exists
+
+  - name: Add New Relic settings to 'troposphere/{{ LOCAL_SETTINGS }}'
+    blockinfile:
+      dest: "{{TROPO_HOME}}/troposphere/{{ LOCAL_SETTINGS }}"
+      block: |
+        NEW_RELIC_ENVIRONMENT = '{{ NEW_RELIC.ENVIRONMENT }}'
+        NEW_RELIC_BROWSER_SNIPPET = '{{ NEW_RELIC.BROWSER }}'
+      marker: "# {mark} ANSIBLE MANAGED BLOCK "
+    when: tropo_local.stat.exists
+
+  when: NEW_RELIC is defined
