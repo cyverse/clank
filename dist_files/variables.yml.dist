@@ -87,6 +87,22 @@ CREATE_SSH_KEYS: true                     # Set this to false if you wish to pas
 ID_RSA:             #Absolute Path Recommended
 ID_RSA_PUB:         #Absolute Path Recommended
 
+# uncomment if using New Relic to monitoring applications
+#
+#NEW_RELIC:
+#    # license key
+#    LICENSE: a1number30m3h43h00000000000
+#    # name that will appear within New Relic site in APM
+#    ATMO_LABEL: 'Atmosphere Python (atmobeta)'
+#    # name that will appear within New Relic site in APM
+#    TROPO_LABEL: 'Troposphere Python (atmobeta)'
+#    # new relic environment: 'production' or 'atmobeta'
+#    ENVIRONMENT: 'atmobeta'
+#    # partial path to New Relic Browser snippet
+#    # - relative path from `troposphere/templates`
+#    BROWSER: 'partials/__new_relic_browser.html'
+
+
 ###################################
 #
 # COMMON BETWEEN ATMO AND TROP VARS
