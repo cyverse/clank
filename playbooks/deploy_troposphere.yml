@@ -37,3 +37,14 @@
 
 # Setup Trososphere
 - include: ./setup_troposphere.yml
+
+- name: Enable New Relic agent
+  hosts: all
+
+  roles:
+     - { role: noc-enable-new-relic,
+         TARGET_HOME: "{{ TROPOSPHERE_DIR }}",
+         MODULE_NAME: 'troposphere',
+         new_relic_browser: True,
+         new_relic_app_name: "{{ NEW_RELIC.TROPO_LABEL }}",
+         tags: ['troposphere', 'new-relic', 'monitoring'] }

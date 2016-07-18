@@ -23,10 +23,11 @@ NEW_RELIC:
 Role Variables
 --------------
 
-- `ATMO_HOME` - defaults to `/opt/dev/atmosphere`
-- `TROPO_HOME` - defaults to `/opt/dev/troposphere`
+- `TARGET_HOME` - **required**; defaults to emtpy, example: `/opt/dev/atmosphere`
+- `MODULE_NAME` - **required**; defaults to empty, example `atmosphere`
 - `LOCAL_SETTINGS` - defaults to `settings/local.py`
 - `new_relic_app_name` - value used when generating `app_name` label for INI
+- `new_relic_browser` - default to `False`, indicates if the New Relic Browser snippet should be included in `settings`
 
 Dependencies
 ------------
@@ -40,15 +41,29 @@ This role will fail is the local settings file is not present. It should be run 
 
     - hosts: servers
       roles:
-         - { role: noc-enable-new-relic }
+         - { role: noc-enable-new-relic,
+             TARGET_HOME: 'opt/dev/troposphere',
+             MODULE_NAME: 'troposphere',
+             new_relic_browser: True,
+             new_relic_app_name: "{{ NEW_RELIC.TROPO_LABEL }}",
+             tags: ['troposphere', 'new-relic', 'monitoring'] }
+
+Or,
+
+    - hosts: servers
+      roles:
+         - { role: noc-enable-new-relic,
+             TARGET_HOME: 'opt/dev/atmosphere',
+             MODULE_NAME: 'atmosphere',
+             new_relic_app_name: "{{ NEW_RELIC.ATMO_LABEL }}" }
 
 If your installation uses a different location then the `/opt/dev` root directories, you need to pass in values for `ATMO_HOME` and `TROPO_HOME`:
 
     - hosts: servers
       roles:
          - { role: noc-enable-new-relic,
-             ATMO_HOME: '/non-standard/atmo',
-             TROPO_HOME: 'non-standard/tropo' }
+             TARGET_HOME: '/non-standard/atmo',
+             MODULE_HOME: 'atmosphere' }
 
 License
 -------

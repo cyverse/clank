@@ -1,9 +1,10 @@
 ---
 # defaults file for noc-enable-new-relic
-ATMO_HOME: /opt/dev/atmosphere
+TARGET_HOME:
 
-TROPO_HOME: /opt/dev/troposphere
+MODULE_NAME:
 
 LOCAL_SETTINGS: settings/local.py
 
+new_relic_browser: False
 new_relic_app_name: "Application"
