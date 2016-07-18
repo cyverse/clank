@@ -12,7 +12,6 @@ Fetch packages required to build dependencies.
 ```bash
 apt-get update
 apt-get install -y git python python-pip python-dev libffi-dev libssl-dev
-pip install --upgrade pip virtualenv
 ```
 
 Fetch the repository.
