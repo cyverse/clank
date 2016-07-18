@@ -8,7 +8,17 @@ This is part of network operations center activities (aka - monitoring) and, thu
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+Will only execution if there is a `NEW_RELIC` variable included.
+
+The expected structure of this appears below:
+```
+NEW_RELIC:
+    LICENSE: a1number30m3h43h00000000000
+    ATMO_LABEL: 'Atmosphere Python (atmobeta)'
+    TROPO_LABEL: 'Troposphere Python (atmobeta)'
+    ENVIRONMENT: 'atmobeta'
+    BROWSER: 'partials/__new_relic_browser.html'
+```
 
 Role Variables
 --------------
@@ -16,6 +26,7 @@ Role Variables
 - `ATMO_HOME` - defaults to `/opt/dev/atmosphere`
 - `TROPO_HOME` - defaults to `/opt/dev/troposphere`
 - `LOCAL_SETTINGS` - defaults to `settings/local.py`
+- `new_relic_app_name` - value used when generating `app_name` label for INI
 
 Dependencies
 ------------
