@@ -59,9 +59,10 @@
         LOGROTATE_FILES: "{{ ATMOSPHERE_LOCATION }}/extras/logrotate.celery",
         tags: ['atmosphere', 'celery', 'logrotate'] }
 
+
   roles:
      - { role: noc-enable-new-relic,
-         TARGET_HOME: "{{ ATMOSPHERE_DIR }}",
+         TARGET_HOME: "{{ ATMOSPHERE_LOCATION }}",
          MODULE_NAME: 'atmosphere',
          new_relic_app_name: "{{ NEW_RELIC.ATMO_LABEL }}",
          tags: ['atmosphere', 'new-relic', 'monitoring'] }

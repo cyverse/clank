@@ -43,7 +43,7 @@
 
   roles:
      - { role: noc-enable-new-relic,
-         TARGET_HOME: "{{ TROPOSPHERE_DIR }}",
+         TARGET_HOME: "{{ TROPOSPHERE_LOCATION }}",
          MODULE_NAME: 'troposphere',
          new_relic_browser: True,
          new_relic_app_name: "{{ NEW_RELIC.TROPO_LABEL }}",
