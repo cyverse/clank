@@ -1,0 +1,42 @@
+---
+# tasks file for noc-enable-new-relic
+- block:
+
+  - fail: msg="Wait! Variable TARGET_HOME must be set."
+    when: TARGET_HOME == ""
+
+  - fail: msg="Wait! Variable MODULE_NAME must be set."
+    when: MODULE_NAME == ""
+
+  - stat: path="{{ TARGET_HOME }}/{{ MODULE_NAME }}/{{ LOCAL_SETTINGS }}"
+    register: local_settings_path
+
+  - fail: msg="Wait! {{ TARGET_HOME }}/{{ MODULE_NAME }}/{{ LOCAL_SETTINGS }} should exist"
+    when: local_settings_path.stat.exists == False
+
+  - name: ensure role has local files directory
+    local_action: >
+        file path={{ role_path }}/files state=directory mode=0755
+
+  - name: Add New Relic settings to '{{ MODULE_NAME }}/{{ LOCAL_SETTINGS }}'
+    blockinfile:
+      dest: "{{ TARGET_HOME }}/{{ MODULE_NAME }}/{{ LOCAL_SETTINGS }}"
+      block: |
+        NEW_RELIC_ENVIRONMENT = '{{ NEW_RELIC.ENVIRONMENT }}'
+      marker: "# {mark} ANSIBLE MANAGED BLOCK "
+    when: local_settings_path.stat.exists and new_relic_browser == False
+
+  - name: Add New Relic settings to '{{ MODULE_NAME }}/{{ LOCAL_SETTINGS }}'
+    blockinfile:
+      dest: "{{ TARGET_HOME }}/{{ MODULE_NAME }}/{{ LOCAL_SETTINGS }}"
+      block: |
+        NEW_RELIC_ENVIRONMENT = '{{ NEW_RELIC.ENVIRONMENT }}'
+        NEW_RELIC_BROWSER_SNIPPET = '{{ NEW_RELIC.BROWSER }}'
+      marker: "# {mark} ANSIBLE MANAGED BLOCK "
+    when: local_settings_path.stat.exists and new_relic_browser
+
+  - name: create local app_newrelic.ini from variables
+    local_action: >
+      template src={{ role_path }}/templates/app_newrelic.ini.j2 dest={{ role_path }}/files/{{ MODULE_NAME }}_newrelic.ini
+
+  when: NEW_RELIC is defined
