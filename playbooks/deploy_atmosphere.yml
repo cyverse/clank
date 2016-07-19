@@ -62,6 +62,6 @@
   roles:
      - { role: noc-enable-new-relic,
          TARGET_HOME: "{{ ATMOSPHERE_DIR }}",
-         MODULE_NAME: 'atmoosphere',
+         MODULE_NAME: 'atmosphere',
          new_relic_app_name: "{{ NEW_RELIC.ATMO_LABEL }}",
          tags: ['atmosphere', 'new-relic', 'monitoring'] }
