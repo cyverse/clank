@@ -9,41 +9,62 @@
   tags: vars
 
 - name: debug create ssl
-  debug: var={{ CREATE_SSL_FILES }}
+  debug: msg="CREATE_SSL_FILES={{ CREATE_SSL_FILES }}"
+
+- stat: path="{{ SSL_CERTIFICATE }}"
+  register: ssl_cert_path
+
+- stat: path="{{ SSL_KEY }}"
+  register: ssl_key_path
+
+- stat: path="{{ BUNDLE_CERT }}"
+  register: bundle_cert_path
 
 ########################################
 # Tasks related to ssl certs being given
 ########################################
-- name: copy over ssl certificate
-  copy: src={{ SSL_CERTIFICATE }} dest={{ SSL_LOCATION }}/certs/
-  when: not CREATE_SSL_FILES
+- block:
 
-- name: copy over bundle cert
-  copy: src={{ BUNDLE_CERT }} dest={{ SSL_LOCATION }}/certs/
-  when: not CREATE_SSL_FILES
+  - fail: msg="Wait! SSL certificate must be absolute path & exist (or CREATE_SSL_FILES=True)"
+    when: ssl_cert_path.stat.exists == False
 
-- name: copy over private ssl key
-  copy: src={{ SSL_KEY }} dest={{ SSL_LOCATION }}/private/
+  - fail: msg="Wait! SSL key must be absolute path & exist (or CREATE_SSL_FILES=True)"
+    when: ssl_key_path.stat.exists == False
+
+  - fail: msg="Wait! Bundle certificate must be absolute path & exist (or CREATE_SSL_FILES=True)"
+    when: bundle_cert_path.stat.exists == False
+
+  - name: copy over ssl certificate
+    copy: src={{ SSL_CERTIFICATE }} dest={{ SSL_LOCATION }}/certs/
+
+  - name: copy over bundle cert
+    copy: src={{ BUNDLE_CERT }} dest={{ SSL_LOCATION }}/certs/
+
+  - name: copy over private ssl key
+    copy: src={{ SSL_KEY }} dest={{ SSL_LOCATION }}/private/
+
   when: not CREATE_SSL_FILES
 
 ########################################
 # Tasks related to ssl certs not given
 ########################################
-- name: Creating self-signed server SSL cert
-  command: >
-    openssl req -new
-      -x509
-      -nodes
-      -extensions v3_ca
-      -days {{ item.days|default(3650) }}
-      -subj "/C={{ item.country|default('') }}/ST={{ item.state|default('') }}/L={{ item.city|default('') }}/O={{ item.organization|default('') }}/OU={{ item.unit|default('') }}{% if item.domains is defined %}{% for domain in item.domains %}/CN={{ domain }}{% endfor %}{% else %}/CN={{ item.name }}{% endif %}/emailAddress={{ item.email|default('') }}"
-      -keyout {{ SSL_LOCATION }}/private/{{ item.name }}.key
-      -out {{ SSL_LOCATION }}/certs/{{ item.name }}.crt
-  args:
-    creates: "{{ SSL_CERTIFICATE }}/certs/{{ item.name }}.crt"
-  with_items: "{{ OPENSSL_SELF_SIGNED }}"
-  when: CREATE_SSL_FILES
+- block:
 
-- name: Copy over empty bundle file
-  file: path={{ SSL_LOCATION }}/certs/empty_bundle.crt state=touch
+  - name: Creating self-signed server SSL cert
+    command: >
+      openssl req -new
+        -x509
+        -nodes
+        -extensions v3_ca
+        -days {{ item.days|default(3650) }}
+        -subj "/C={{ item.country|default('') }}/ST={{ item.state|default('') }}/L={{ item.city|default('') }}/O={{ item.organization|default('') }}/OU={{ item.unit|default('') }}{% if item.domains is defined %}{% for domain in item.domains %}/CN={{ domain }}{% endfor %}{% else %}/CN={{ item.name }}{% endif %}/emailAddress={{ item.email|default('') }}"
+        -keyout {{ SSL_LOCATION }}/private/{{ item.name }}.key
+        -out {{ SSL_LOCATION }}/certs/{{ item.name }}.crt
+    args:
+      creates: "{{ SSL_CERTIFICATE }}/certs/{{ item.name }}.crt"
+    with_items: "{{ OPENSSL_SELF_SIGNED }}"
+
+  - name: Copy over empty bundle file
+    file: path={{ SSL_LOCATION }}/certs/empty_bundle.crt state=touch
+
   when: CREATE_SSL_FILES
