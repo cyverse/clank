@@ -10,10 +10,10 @@
 - block:
 
   - name: move over id_rsa private key
-    copy: src={{ SSH_PRIV_KEY }} dest={{ APP_BASE_DIR }}/extras/ssh/
+    copy: src={{ SSH_PRIV_KEY }} dest={{ APP_BASE_DIR }}/extras/ssh/{{ SSH_PRIV_NAME }}
 
   - name: move over id_rsa public key
-    copy: src={{ SSH_PUB_KEY }} dest={{ APP_BASE_DIR }}/extras/ssh/
+    copy: src={{ SSH_PUB_KEY }} dest={{ APP_BASE_DIR }}/extras/ssh/{{ SSH_PUB_NAME }}
 
   when: not CREATE_SSH
 
