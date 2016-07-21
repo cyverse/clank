@@ -80,7 +80,7 @@ CREATE_SSL: true                           # Set this to false if you wish to pa
 SSL_CERTIFICATE:    #Absolute Path Recommended
 BUNDLE_CERT:        #Absolute Path Recommended
 SSL_KEY:            #Absolute Path Recommended
-BUNDLE_CERT: "{{ BUNDLE_CERT | default(empty_bundle.crt) }}"       # Based on var above
+
 
 # SSH KEYS
 CREATE_SSH_KEYS: true                     # Set this to false if you wish to pass in your own ssh keys
@@ -241,7 +241,7 @@ ATMO:
         USER_EMAIL_LOOKUP_METHOD: ldap_get_email_info
         INSTANCE_HOSTNAMING_DOMAIN: # host domain VMs will have
         INSTANCE_HOSTNAMING_FORMAT: vm%(three)s-%(four)s.%(domain)s
-        DEPLOYMENT_KEYPAIR_NAME = # keypair name inject by atmo-ansible during instance deploy
+        DEPLOYMENT_KEYPAIR_NAME: # keypair name inject by atmo-ansible during instance deploy
         CELERYBEAT_SCHEDULE: {"monitor_instances": {"schedule": 'timedelta(minutes=5)',}}
 
     secrets.py:
