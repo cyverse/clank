@@ -21,8 +21,7 @@ SSH_PUB_KEY:
 # used by Celery tasks or Atmosphere API functionality
 SSH_PRIV_NAME: id_rsa
 SSH_PUB_NAME: "{{SSH_PRIV_NAME}}.pub"
-
-# FIXME: change Atmosphere to allow private keyfile naming
+# ^ FIXME: change Atmosphere to allow private keyfile naming
 
 # From: atmosphere/settings/local.py.j2
 #
