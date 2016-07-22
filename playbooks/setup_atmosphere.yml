@@ -29,17 +29,9 @@
 
     - { role: app-pip-install-requirements,
         APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION }}",
-        REQUIREMENTS_FILE_NAME: 'requirements.txt',
-        VIRTUAL_ENV: "{{ VIRTUAL_ENV_ATMOSPHERE }}",
-        PIP_EXTRA_ARGS: '--no-cache-dir',
-        INSTALL_JENKINS: "{{ JENKINS | default(false) }}",
-        tags: ['atmosphere', 'pip-install-requirements']}
-
-    - { role: app-pip-install-requirements,
-        APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION }}",
         REQUIREMENTS_FILE_NAME: 'dev_requirements.txt',
         VIRTUAL_ENV: "{{ VIRTUAL_ENV_ATMOSPHERE }}",
-        INSTALL_TOGGLE_VAR: "{{ JENKINS | default(true) }}",
+        PIP_EXTRA_ARGS: '--no-cache-dir',
         tags: ['atmosphere', 'pip-install-requirements']}
 
     - { role: app-config-logging,

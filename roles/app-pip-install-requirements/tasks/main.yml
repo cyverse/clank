@@ -7,7 +7,6 @@
     virtualenv={{ VIRTUAL_ENV }}
     extra_args={{ PIP_EXTRA_ARGS }}
     state=latest
-  when: INSTALL_TOGGLE_VAR 
 
 - name: wheel install requirements
   command: "{{ VIRTUAL_ENV_ATMOSPHERE }}/bin/wheel install-scripts {{ item }}"
