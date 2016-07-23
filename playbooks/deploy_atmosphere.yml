@@ -59,6 +59,7 @@
         LOGROTATE_FILES: "{{ ATMOSPHERE_LOCATION }}/extras/logrotate.celery",
         tags: ['atmosphere', 'celery', 'logrotate'] }
 
+- name: Enable New Relic agent
 
   roles:
      - { role: noc-enable-new-relic,
