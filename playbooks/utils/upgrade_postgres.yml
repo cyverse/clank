@@ -1,0 +1,110 @@
+---
+- name: Checking for necessary --extra_vars
+  hosts: all
+  vars:
+    example:
+      - "-e \"{pg_version: '9.5',  pg_version_old: '9.3'}\""
+      - "-e \"{pg_version: '9.5',  pg_version_old: '9.3'}\""
+      - "-e \"{database_names: ['atmosphere', 'troposphere']}\""
+
+  tasks:
+
+    - fail: msg="\nMust set pg_version.\nPass a value in via `-e` as JSON -\n\t {{example[0]}}"
+      when: "{{ pg_version is undefined }}"
+
+    - fail: msg="\nMust set pg_version_old.\nPass a value in via `-e` as JSON -\n\t {{example[1]}}"
+      when: "{{ pg_version_old is undefined }}"
+
+    - debug: msg="Consider passing in `database_names`.\nPass a value in via `-e` as JSON -\n\t {{example[2]}}"
+      when: "{{ database_names is undefined or database_names == []}}"
+
+
+- name: Ensure PostgreSQL service available
+  hosts: all
+
+  tasks:
+    - service: name=postgresql state=started
+
+- name: Backup all Postgres tables
+  hosts: all
+
+  roles:
+    - { role: app-backup-postgres,
+        database_names: ['atmo_prod', 'troposphere'],
+        tags: ['data-backup', 'backup', 'upgrade'] }
+
+
+- name: Stop PostgreSQL service
+  hosts: all
+
+  tasks:
+    - service: name=postgresql state=stopped
+
+- name: Upgrade PostgreSQL
+  hosts: all
+
+  tasks:
+    - name: Install new postgresql packages
+      action: >
+        {{ ansible_pkg_mgr }} name={{ item }} state=latest update_cache=yes
+      with_items:
+        - postgresql-{{ pg_version }}
+        - postgresql-contrib-{{ pg_version }}
+        - postgresql-server-dev-{{ pg_version }}
+      tags: ['install', 'upgrade']
+
+    - name: List current postgresql clusters
+      shell: pg_lsclusters
+      register: list_clusters
+
+    - debug: msg="{{ list_clusters.stdout_lines }}"
+
+    - name: Drop default install postgresql cluster
+      command: >
+        pg_dropcluster --stop {{ pg_version }} main
+
+    - name: Upgrade existing postgresql cluster
+      command: >
+        pg_upgradecluster {{ pg_version_old }} main
+
+- name: Start upgraded PostgreSQL service
+  hosts: all
+
+  tasks:
+    - service: name=postgresql state=started args=9.5
+
+    - name: List current postgresql clusters
+      shell: pg_lsclusters
+      register: list_clusters
+
+    - debug: msg="{{ list_clusters.stdout_lines }}"
+
+- name: Clean up
+  hosts: all
+
+  tasks:
+    - name: Drop default install postgresql cluster
+      command: >
+        pg_dropcluster --stop {{ pg_version_old }} main
+
+    - stat: path="/etc/postgresql/{{ pg_version_old }}"
+      register: pg_old_config_dir
+
+    - fail: msg="Wait! The previous action, `pg_dropcluster`, should have removed this."
+      when: pg_old_config_dir.stat.exists
+
+    - name: Vacuum existings databases
+      become: yes
+      become_user: postgres
+      command: >
+        vacuumdb --analyze-only {{ item }}
+      with_items: ['atmo_prod', 'troposphere']
+
+    - name: Remove old PostgreSQL Apt respositories
+      action: >
+        {{ ansible_pkg_mgr }} name={{ item }} state=absent update_cache=yes
+      with_items:
+        - postgresql-{{ pg_version_old }}
+        - postgresql-contrib-{{ pg_version_old }}
+        - postgresql-server-dev-{{ pg_version_old }}
+      when: ansible_distribution == "Ubuntu"
