@@ -60,6 +60,7 @@
         tags: ['atmosphere', 'celery', 'logrotate'] }
 
 - name: Enable New Relic agent
+  hosts: all
 
   roles:
      - { role: noc-enable-new-relic,
