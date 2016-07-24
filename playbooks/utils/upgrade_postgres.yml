@@ -49,6 +49,7 @@
         {{ ansible_pkg_mgr }} name={{ item }} state=latest update_cache=yes
       with_items:
         - postgresql-{{ pg_version }}
+        - postgresql-client-{{ pg_version }}
         - postgresql-contrib-{{ pg_version }}
         - postgresql-server-dev-{{ pg_version }}
       tags: ['install', 'upgrade']
@@ -87,12 +88,6 @@
       command: >
         pg_dropcluster --stop {{ pg_version_old }} main
 
-    - stat: path="/etc/postgresql/{{ pg_version_old }}"
-      register: pg_old_config_dir
-
-    - fail: msg="Wait! The previous action, `pg_dropcluster`, should have removed this."
-      when: pg_old_config_dir.stat.exists
-
     - name: Vacuum existings databases
       become: yes
       become_user: postgres
@@ -105,6 +100,13 @@
         {{ ansible_pkg_mgr }} name={{ item }} state=absent update_cache=yes
       with_items:
         - postgresql-{{ pg_version_old }}
+        - postgresql-client-{{ pg_version_old }}
         - postgresql-contrib-{{ pg_version_old }}
         - postgresql-server-dev-{{ pg_version_old }}
       when: ansible_distribution == "Ubuntu"
+
+    - stat: path="/etc/postgresql/{{ pg_version_old }}"
+      register: pg_old_config_dir
+
+    - fail: msg="Wait! The previous action, `pg_dropcluster`, should have removed this."
+      when: pg_old_config_dir.stat.exists
