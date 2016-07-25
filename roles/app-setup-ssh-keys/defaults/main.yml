@@ -1,0 +1,36 @@
+---
+# vars file for setup-ssh-keys
+
+# Default behavior is to create ssh keys
+CREATE_SSH: true
+
+# Default behavior is to generate ssh config
+GENERATE_SSH_CONFIG: true
+
+CREATED_SSH_KEY_NAME: id_rsa   # you can change this to another name e.g. atmosphere_id_rsa
+
+# overidden by definition in the env_file
+SSH_PRIV_KEY:
+SSH_PUB_KEY:
+
+# Note - the file name for this is forced to `id_rsa` in the local.py within
+# Atmophere as of the following:
+# - https://github.com/iPlantCollaborativeOpenSource/atmosphere/blob/e0295b794b3186c9891b9684fc8220e766497d1f/atmosphere/settings/local.py.j2#L114-L117
+#
+# Changing this will cause the files to be placed in `extras/ssh`, but *not*
+# used by Celery tasks or Atmosphere API functionality
+SSH_PRIV_NAME: id_rsa
+SSH_PUB_NAME: "{{SSH_PRIV_NAME}}.pub"
+# ^ FIXME: change Atmosphere to allow private keyfile naming
+
+# From: atmosphere/settings/local.py.j2
+#
+# ATMOSPHERE_PRIVATE_KEYFILE = os.path.join(PROJECT_ROOT, 'extras/ssh/id_rsa')
+# ATMOSPHERE_KEYPAIR_FILE = os.path.join(PROJECT_ROOT, 'extras/ssh/id_rsa.pub')
+# ATMOSPHERE_KEYPAIR_NAME = '{{ DEPLOYMENT_KEYPAIR_NAME }}'
+#
+# Should be:
+#
+# ATMOSPHERE_PRIVATE_KEYFILE = os.path.join(PROJECT_ROOT, 'extras/ssh/', KEYFILE_PRIV_NAME)
+# ATMOSPHERE_KEYPAIR_FILE = os.path.join(PROJECT_ROOT, 'extras/ssh/', KEYFILE_PUB_NAME)
+# ATMOSPHERE_KEYPAIR_NAME = '{{ DEPLOYMENT_KEYPAIR_NAME }}'
