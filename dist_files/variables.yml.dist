@@ -194,7 +194,7 @@ ATMO:
         DJANGO_JENKINS: False
         # in seconds, 2 days: 2 * 24 * 60 * 60
         SESSION_COOKIE_AGE: 172800
-        SSLSERVER: True
+        SSLSERVER: False
         TESTING: True
         SAML_SSO: ""
         SAML_SSO_KEYFILE: ""
@@ -367,7 +367,7 @@ TROPO:
         DATABASE_HOST: localhost
         DATABASE_PORT: 5432
         DJANGO_JENKINS: ""
-        SSLSERVER: True
+        SSLSERVER: False
 
         MOCK_USER: "{{  MOCK_USERNAME }}"
         USE_MOCK_AUTH: True
