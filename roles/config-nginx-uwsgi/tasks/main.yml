@@ -20,6 +20,18 @@
   tags:
     - deploy
 
+- block:
+
+  - stat: path="{{ nginx_vars_context.COMBINED_CERT_PATH }}"
+    register: combined_cert_path
+
+  - name: generate a combined certificate - {{ nginx_vars_context.COMBINED_CERT_FILE }}
+    command: >
+      cat {{ SSL_CERTIFICATE }} {{ BUNDLE_CERT }} > {{ nginx_vars_context.COMBINED_CERT_PATH }}
+    when: combined_cert_path.stat.exists == False
+
+  when: "{{ nginx_vars_context }}"
+
 - debug: var=output.stdout_lines
   when: "{{ CLANK_VERBOSE | default(False) }}"
 
