@@ -18,10 +18,6 @@
         DATABASE_FILE_TO_BE_LOADED: "{{ ATMO_DATA.SQL_DUMP_FILE }}",
         tags: ['atmosphere', 'data-load'] }
 
-    - { role: logrotate-files,
-        LOGROTATE_FILES: "{{ ATMOSPHERE_LOCATION }}/extras/logrotate.atmosphere",
-        tags: ['atmosphere', 'logrotate'] }
-
     - { role: delete-files,
         LOCATION: "{{ ATMOSPHERE_LOCATION }}",
         GLOB: "*.pyc",
@@ -89,3 +85,10 @@
         UWSGI_APP_NAME: 'atmosphere',
         UWSGI_INI_SRC_NAME: 'extras/uwsgi/atmo.uwsgi.ini',
         tags: ['atmosphere', 'deploy', 'nginx-uwsgi'] }
+      
+    # The logrotate-files role must come after the config-nginx-uwsgi role.
+    # This is because config-nginx-uwsgi sets the permissions on all files in that directory the 
+    # to the WEBSERVER_USER user, while logrotate requires root
+    - { role: logrotate-files,
+        LOGROTATE_FILES: "{{ ATMOSPHERE_LOCATION }}/extras/logrotate.atmosphere",
+        tags: ['atmosphere', 'logrotate'] }
