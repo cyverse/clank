@@ -25,11 +25,10 @@
 
     - { role: app-pip-install-requirements,
         APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION }}",
-        REQUIREMENTS_FILE_NAME: 'requirements.txt',
+        REQUIREMENTS_FILE_NAME: 'dev_requirements.txt',
         VIRTUAL_ENV: "{{ VIRTUAL_ENV_ATMOSPHERE }}",
         PIP_EXTRA_ARGS: '--no-cache-dir',
-        INSTALL_JENKINS: "{{ JENKINS | default(false) }}",
-        tags: ['atmosphere']}
+        tags: ['atmosphere', 'pip-install-requirements']}
 
     - { role: app-config-logging,
         APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION }}",
@@ -85,9 +84,14 @@
         UWSGI_APP_NAME: 'atmosphere',
         UWSGI_INI_SRC_NAME: 'extras/uwsgi/atmo.uwsgi.ini',
         tags: ['atmosphere', 'deploy', 'nginx-uwsgi'] }
-      
-    # The logrotate-files role must come after the config-nginx-uwsgi role.
-    # This is because config-nginx-uwsgi sets the permissions on all files in that directory the 
+
+     - { role: setup-webserver-user-group,
+        APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION }}",
+        WEBSERVER_USER: "www-data",
+        tags: ['atmosphere','set-permissions'] }
+     
+    # The logrotate-files role must come after the setup-webserver-user-group role.
+    # This is because setup-webserver-user-group sets the permissions on all files in that directory the 
     # to the WEBSERVER_USER user, while logrotate requires root
     - { role: logrotate-files,
         LOGROTATE_FILES: "{{ ATMOSPHERE_LOCATION }}/extras/logrotate.atmosphere",
