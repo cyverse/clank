@@ -25,10 +25,35 @@
   - stat: path="{{ nginx_vars_context.COMBINED_CERT_PATH }}"
     register: combined_cert_path
 
+  - name: redefine variables definition for SSL_CERTIFICATE
+    set_fact:
+      nginx_ssl_cert: "{{ nginx_vars_context.CERT_DIR }}/{{ nginx_vars_context.CERT_FILE }}"
+    when: not SSL_CERTIFICATE
+
+  - name: set variables definition from SSL_CERTIFICATE
+    set_fact:
+      nginx_ssl_cert: "{{ SSL_CERTIFICATE }}"
+    when: "{{ SSL_CERTIFICATE is not none }}"
+
+  - name: redefine variable definition for BUNDLE_CERT
+    set_fact:
+      nginx_bundle_cert: "{{ nginx_vars_context.CERT_DIR }}/{{ nginx_vars_context.BUNDLE_FILE }}"
+    when: not BUNDLE_CERT
+
+  - name: set variables definition from BUNDLE_CERT
+    set_fact:
+      nginx_bundle_cert: "{{ BUNDLE_CERT }}"
+    when: "{{ BUNDLE_CERT is not none }}"
+
   - name: generate a combined certificate - {{ nginx_vars_context.COMBINED_CERT_FILE }}
     command: >
-      cat {{ SSL_CERTIFICATE }} {{ BUNDLE_CERT }} > {{ nginx_vars_context.COMBINED_CERT_PATH }}
+      cat {{ nginx_ssl_cert }} {{ nginx_bundle_cert }}
+    register: combined_cert_source
     when: combined_cert_path.stat.exists == False
+
+  - name: local_action copy to - {{ nginx_vars_context.COMBINED_CERT_FILE }}
+    local_action: copy content={{ combined_cert_source.stdout_lines }} dest={{ nginx_vars_context.COMBINED_CERT_PATH }}
+    when: "{{ combined_cert_source.stdout_lines is defined }}"
 
   when: "{{ nginx_vars_context }}"
 
