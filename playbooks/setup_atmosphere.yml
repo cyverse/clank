@@ -18,10 +18,6 @@
         DATABASE_FILE_TO_BE_LOADED: "{{ ATMO_DATA.SQL_DUMP_FILE }}",
         tags: ['atmosphere', 'data-load'] }
 
-    - { role: logrotate-files,
-        LOGROTATE_FILES: "{{ ATMOSPHERE_LOCATION }}/extras/logrotate.atmosphere",
-        tags: ['atmosphere', 'logrotate'] }
-
     - { role: delete-files,
         LOCATION: "{{ ATMOSPHERE_LOCATION }}",
         GLOB: "*.pyc",
@@ -93,3 +89,10 @@
         APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION }}",
         WEBSERVER_USER: "www-data",
         tags: ['atmosphere','set-permissions'] }
+     
+    # The logrotate-files role must come after the setup-webserver-user-group role.
+    # This is because setup-webserver-user-group sets the permissions on all files in that directory the 
+    # to the WEBSERVER_USER user, while logrotate requires root
+    - { role: logrotate-files,
+        LOGROTATE_FILES: "{{ ATMOSPHERE_LOCATION }}/extras/logrotate.atmosphere",
+        tags: ['atmosphere', 'logrotate'] }
