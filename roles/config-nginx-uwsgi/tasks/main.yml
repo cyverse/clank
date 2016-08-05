@@ -52,7 +52,7 @@
     when: combined_cert_path.stat.exists == False
 
   - name: local_action copy to - {{ nginx_vars_context.COMBINED_CERT_FILE }}
-    local_action: copy content={{ combined_cert_source.stdout_lines }} dest={{ nginx_vars_context.COMBINED_CERT_PATH }}
+    local_action: copy content={{ combined_cert_source.stdout }} dest={{ nginx_vars_context.COMBINED_CERT_PATH }}
     when: "{{ combined_cert_source.stdout_lines is defined }}"
 
   when: "{{ nginx_vars_context }}"
