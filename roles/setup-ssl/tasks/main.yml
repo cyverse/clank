@@ -52,7 +52,8 @@
         -out {{ SSL_LOCATION }}/certs/{{ item.name }}.crt
     args:
       creates: "{{ SSL_CERTIFICATE }}/certs/{{ item.name }}.crt"
-    with_items: "{{ OPENSSL_SELF_SIGNED }}"
+    with_items:
+      - "{{ OPENSSL_SELF_SIGNED }}"
     when: not (self_signed_crt_path.stat.exists and self_signed_key_path.stat.exists)
 
   - name: Copy over empty bundle file
