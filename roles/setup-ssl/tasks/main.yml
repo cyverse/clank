@@ -34,6 +34,12 @@
 ########################################
 - block:
 
+  - stat: path="{{ SSL_LOCATION }}/private/{{ OPENSSL_SELF_SIGNED.name }}.key"
+    register: self_signed_key_path
+
+  - stat: path="{{ SSL_LOCATION }}/certs/{{ OPENSSL_SELF_SIGNED.name }}.crt"
+    register: self_signed_crt_path
+
   - name: Creating self-signed server SSL cert
     command: >
       openssl req -new
@@ -47,6 +53,7 @@
     args:
       creates: "{{ SSL_CERTIFICATE }}/certs/{{ item.name }}.crt"
     with_items: "{{ OPENSSL_SELF_SIGNED }}"
+    when: not (self_signed_crt_path.stat.exists and self_signed_key_path.stat.exists)
 
   - name: Copy over empty bundle file
     file: path={{ SSL_LOCATION }}/certs/empty_bundle.crt state=touch
