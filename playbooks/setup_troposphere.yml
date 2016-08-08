@@ -54,6 +54,7 @@
     - { role: config-nginx-uwsgi,
         APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION }}",
         UWSGI_APP_NAME: 'troposphere',
+        nginx_vars_context: "{{ TROPO['nginx'] }}",
         tags: ['troposphere', 'nginx-uwsgi'] }
 
     - { role: install-airport-ui-assets,

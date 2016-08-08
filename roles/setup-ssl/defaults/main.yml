@@ -7,11 +7,11 @@ SSL_KEY:
 SSL_LOCATION: /etc/ssl
 
 OPENSSL_SELF_SIGNED:
-  - { name: 'self-signed',
-      country: 'US',
-      state: 'Arizona',
-      city: 'Tucson',
-      organization: 'Local Development',
-      unit: '',
-      email: 'local@atmo.cloud',
-      days: 3650 }
+  name: 'self-signed'
+  country: 'US'
+  state: 'Arizona'
+  city: 'Tucson'
+  organization: 'Local Development'
+  unit: ''
+  email: 'local@atmo.cloud'
+  days: 365
