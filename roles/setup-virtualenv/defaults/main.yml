@@ -1,2 +1,5 @@
 ---
 # defaults file for setup-virtualenv
+VIRTUAL_ENV_NAME:
+VIRTUAL_ENV_BASE_DIR: /opt/env
+VIRTUAL_ENV_FULL_PATH: "{{ VIRTUAL_ENV_BASE_DIR }}/{{ VIRTUAL_ENV_NAME }}"
