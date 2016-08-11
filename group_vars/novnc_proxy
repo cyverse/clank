@@ -1,0 +1,21 @@
+# variables for local_settings.py.j2
+
+nginx_novnc_auth_debug: False
+web_desktop_signing_secret_key: "{{ TROPO['local.py'].WEB_DESKTOP_SIGNING_SECRET_KEY }}"
+web_desktop_signing_salt: "{{ TROPO['local.py'].WEB_DESKTOP_SIGNING_SALT }}"
+web_desktop_fp_secret_key: "{{ TROPO['local.py'].WEB_DESKTOP_FP_SECRET_KEY }}"
+web_desktop_fp_salt: "{{ TROPO['local.py'].WEB_DESKTOP_FP_SALT }}"
+
+# uWSGI
+
+NGINX_NOVNC_AUTH_PATH: "/opt/dev/nginx_novnc_auth"
+NGINX_NOVNC_AUTH_VENV: "/opt/env/nginx_novnc_auth"
+UWSGI_USER: www-data
+UWSGI_GROUP: www-data
+UWSGI_LOG_PATH: "/var/log/uwsgi/app/novnc_auth.log"
+
+# nginx
+
+FULLCHAIN_PEM_PATH: "{{ nginx_fullchain_pem }}"
+PRIVKEY_PATH: "{{ nginx_privkey_pem }}"
+DHPARAM: "{{ dhparam_pem }}"
