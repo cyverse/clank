@@ -1,2 +1,10 @@
 ---
 # defaults file for app-django-manage-collectstatic
+
+APP_BASE_DIR:
+
+VIRTUAL_ENV:
+
+DJANGO_SETTINGS_MODULE:
+
+STATIC_DIR_PATH:

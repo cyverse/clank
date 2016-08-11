@@ -1,0 +1,7 @@
+---
+# defaults file for setup-celery
+
+VIRTUAL_ENV_DIR_ATMOSPHERE: /opt/env
+VIRTUAL_ENV_ATMOSPHERE: "{{ VIRTUAL_ENV_DIR_ATMOSPHERE }}/atmo"
+ATMOSPHERE_DIR: /opt/dev
+ATMOSPHERE_LOCATION: "{{ ATMOSPHERE_DIR }}/atmosphere"

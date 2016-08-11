@@ -1,8 +1,23 @@
+APT_REPOSITORIES_TO_REMOVE:
+  packages:
+    - ppa:chris-lea/node.js
+
+APT_KEYS_TO_ADD:
+  packages:
+    - https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+    - https://www.postgresql.org/media/keys/ACCC4CF8.asc
+
+APT_REPOSITORIES_TO_ADD:
+  packages:
+    - ppa:nginx/stable
+    - deb https://deb.nodesource.com/node_4.x {{ ansible_distribution_release }} main
+    - deb http://apt.postgresql.org/pub/repos/apt/ {{ ansible_distribution_release }}-pgdg main
+    - ppa:chris-lea/redis-server
+
 INITIAL_PACKAGES:
   packages:
     - software-properties-common
     - python-software-properties
-  state: latest
 
 DEV_PACKAGES:
   packages:
@@ -26,11 +41,9 @@ DEV_PACKAGES:
     - libssl-dev
     - git
     - nodejs
-    - ruby1.9.1
     - python-pip
     - python-setuptools
     - ufw
-  state: latest
 
 LIB_PACKAGES:
   packages:
@@ -38,13 +51,11 @@ LIB_PACKAGES:
     - libxslt1-dev
     - python-tk
     - zlib1g-dev
-  state: latest
 
 NGINX_PACKAGES:
   packages:
     - uwsgi
     - uwsgi-plugin-python
     - nginx-full
-  state: latest
 
 APACHE: apache2

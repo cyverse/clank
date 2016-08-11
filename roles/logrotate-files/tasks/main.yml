@@ -2,8 +2,15 @@
 # tasks file for logrotate
 # requires a file or list of files to link to the logrotate conf.d dir
 
-- name: link {{ LOGROTATE_FILES | default('') }} file to {{ LOGROATE_CONFD_DIR }}
-  file: src={{ item }} dest={{ LOGROATE_CONFD_DIR }}/{{ item | basename }} state=link
+- name: link {{ LOGROTATE_FILES | default('') }} file to {{ LOGROTATE_CONFD_DIR }}
+  file: src={{ item }} dest={{ LOGROTATE_CONFD_DIR }}/{{ item | basename }} state=link
+  with_items:
+    - "{{ LOGROTATE_FILES }}"
+  tags:
+    - deploy
+
+- name: change ownership of the logrotate file to {{ LOGROTATE_USER | default('') }}
+  file: path={{ item }} owner={{ LOGROTATE_USER }} group={{ LOGROTATE_USER }}  
   with_items:
     - "{{ LOGROTATE_FILES }}"
   tags:

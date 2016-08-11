@@ -58,9 +58,7 @@ target/
 \#*\#
 *.swp
 
-ansible.cfg
 #Keep secrets from getting commited
-vars/*
 variables.yml
 roles/app-generate-ini-config/files/*_variables.ini
 roles/atmosphere-setup-atmosphere/files/atmosphere_variables.ini

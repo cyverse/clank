@@ -1,3 +1,5 @@
 ---
 # defaults file for logrotate-file
-LOGROATE_CONFD_DIR: /etc/logrotate.d
+LOGROTATE_CONFD_DIR: /etc/logrotate.d
+
+LOGROTATE_USER: root

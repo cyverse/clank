@@ -77,8 +77,8 @@ class CallbackModule(CallbackBase):
             else:
                 return " ".join(real_output)
 
-        # Otherwise it's a string, just return it
-        return output
+        # Otherwise it's a string (int, float, bool), just return it
+        return str(output)
 
     def on_any(self, *args, **kwargs):
         pass

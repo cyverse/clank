@@ -1,6 +1,0 @@
-IdentityFile /root/.ssh/id_rsa
-IdentityFile {{ ATMOSPHERE_LOCATION }}/extras/ssh/{{ ID_RSA | basename }}
-
-Host *
-    StrictHostKeyChecking no
-    UserKnownHostsFile=/dev/null

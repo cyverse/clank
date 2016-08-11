@@ -1,0 +1,4 @@
+---
+# defaults file for app-backup-postgres
+
+database_names: []
