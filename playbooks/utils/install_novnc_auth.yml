@@ -144,9 +144,14 @@
     - name: Create location directory in /etc/nginx
       file: path=/etc/nginx/locations state=directory
 
+    - name: Capture dhparam path
+      stat: path={{ dhparam }}
+      register: dhparam_path
+
     - name: Generate DH Param file
       command: >
         openssl dhparam -out {{ dhparam }} {{ key_size }} creates={{ dhparam }}
+      when: not dhparam_path.stat.exists
 
     - name: Capture combined certificate path
       stat: path={{ fullchain_pem }}
