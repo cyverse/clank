@@ -104,7 +104,7 @@
 
     - { role: app-pip-install-requirements,
         APP_BASE_DIR: "/opt/dev/nginx_novnc_auth",
-        VIRTUAL_ENV: "/opt/dev/nginx_novnc_auth",
+        VIRTUAL_ENV: "/opt/env/nginx_novnc_auth",
         REQUIREMENTS_FILE_NAME: 'requirements.txt',
         RUN_WHEEL_SCRIPTS: False,
         tags: ['pip'] }
