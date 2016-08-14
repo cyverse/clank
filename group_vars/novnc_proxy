@@ -16,6 +16,7 @@ UWSGI_LOG_PATH: "/var/log/uwsgi/app/novnc_auth.log"
 
 # nginx
 
+PROXY_SERVER_URL: "{{ SERVER_NAME | default(ansible_fdn) }}"
 FULLCHAIN_PEM_PATH: "{{ nginx_fullchain_pem }}"
 PRIVKEY_PATH: "{{ nginx_privkey_pem }}"
 DHPARAM: "{{ dhparam_pem }}"
