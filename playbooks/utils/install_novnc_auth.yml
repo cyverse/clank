@@ -17,7 +17,6 @@
       - python-pip
       - python-setuptools
       - python-virtualenv
-      - nginx-full
       - nginx-extras
       - uwsgi
       - uwsgi-plugin-python
