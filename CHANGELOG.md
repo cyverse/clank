@@ -1,6 +1,10 @@
 # CHANGELOG
 
-## v2.0 (2016-08-08)
+## v2.0.0 (2016-08-17)
+- Change logrotate file permissions to 644
+  ([#109](https://github.com/iPlantCollaborativeOpenSource/clank/pull/109))
+- Defines playbook for install/config of `nginx_novnc_auth` within atmosphere
+  ([#104](https://github.com/iPlantCollaborativeOpenSource/clank/pull/104))
 - Added conditional combined certification generation
   ([#102](https://github.com/iPlantCollaborativeOpenSource/clank/pull/102))
 - Lograte conf file permissions
