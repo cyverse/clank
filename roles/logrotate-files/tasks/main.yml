@@ -10,7 +10,7 @@
     - deploy
 
 - name: change ownership of the logrotate file to {{ LOGROTATE_USER | default('') }}
-  file: path={{ item }} owner={{ LOGROTATE_USER }} group={{ LOGROTATE_USER }}  
+  file: path={{ item }} owner={{ LOGROTATE_USER }} group={{ LOGROTATE_USER }} mode=0644
   with_items:
     - "{{ LOGROTATE_FILES }}"
   tags:
