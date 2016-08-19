@@ -31,12 +31,11 @@ Usage
 =====
 
 ```bash
+cd clank
 ./clank.py --env_file $VARIABLES_YML_FILE
 ```
 
-An example of the [`$VARIABLES_YML_FILE`](dist_files/variables.yml.dist) can be
-found in the [dist_files](dist_files) directory.
-=======
+An example of the [`$VARIABLES_YML_FILE`](dist_files/variables.yml.dist) can be found in the [dist_files](dist_files) directory.
 
 ###### Running Portions of Clank
 
