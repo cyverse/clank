@@ -126,7 +126,7 @@
       file: src=/usr/share/novnc/ dest=/var/www/html/vncws state=link
 
     - name: Symlink in index.html for NoVNC asset directory
-      file: src=/var/www/html/vncws/vnc_auto.html dest=/var/www/html/vncws/index.html
+      file: src=/var/www/html/vncws/vnc_auto.html dest=/var/www/html/vncws/index.html state=link
 
 
 - name: Perform Nginx Configuration
