@@ -18,7 +18,7 @@ Role Variables
 setup scenario it can still be overidden by a variable in `extra_vars`. It
 likely will seem out-of-place, or unneeded. However, if a playbook (like, say,
 `setup-troposphere.yaml`) wants to optionally avoid _data loading_, then having
-it present in a parameterized meaner gives the ability to skip the role.
+it present in a parameterized manner gives the ability to skip the role.
 
 Dependencies
 ------------
