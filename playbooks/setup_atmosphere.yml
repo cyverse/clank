@@ -13,7 +13,7 @@
         tags: ['atmosphere', 'database'] }
 
     - { role: app-load-data-postgres,
-        DBNAME: "{{ ATMO_DBNAME}} ",
+        DBNAME: "{{ ATMO_DBNAME }}",
         LOAD_DATABASE: "{{ ATMO_DATA.LOAD_DATABASE }}",
         DATABASE_FILE_TO_BE_LOADED: "{{ ATMO_DATA.SQL_DUMP_FILE }}",
         tags: ['atmosphere', 'data-load'] }

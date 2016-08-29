@@ -1,6 +1,8 @@
 ---
 # defaults file for app-load-data-postgres
 
+DBNAME:
+
 POSTGRES_SQL_INSTALL_DIRECTORY: /var/lib/postgresql
 
 TARGET_SQL_LOAD_FILE: "{{ POSTGRES_SQL_INSTALL_DIRECTORY }}/{{ DATABASE_FILE_TO_BE_LOADED | basename }}"
