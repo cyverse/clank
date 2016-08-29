@@ -1,10 +1,2 @@
 ---
 # vars file for app-load-data-postgres
-
-DBNAME:
-
-# boolean variable remains in case it is overridden by a higher precedent
-# (mostly at the `extra_vars` level from a _build-env_ file)
-LOAD_DATABASE: False
-
-DATABASE_FILE_TO_BE_LOADED: # an absolute path to SQL dump file
