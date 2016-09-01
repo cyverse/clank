@@ -1,5 +1,3 @@
 ---
 # vars file for app-config-logging
 
-APP_BASE_DIR: ""
-LOG_FILES: []

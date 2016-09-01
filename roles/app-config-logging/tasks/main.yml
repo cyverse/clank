@@ -1,7 +1,6 @@
 ---
 # tasks file for app-config-logging
 
-
 - name: create application log directory
   file: path={{ LOG_DIR_BASE }} state=directory
 
