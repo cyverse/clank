@@ -1,15 +1,6 @@
 ---
 # tasks file for app-load-data-postgres
 
-- name: gather os specific variables
-  include_vars: "{{ item }}"
-  with_first_found:
-    - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
-    - "{{ ansible_distribution }}.yml"
-    - "{{ ansible_os_family }}.yml"
-    - "defaults.yml"
-  tags: vars
-
 - debug: var=LOAD_DATABASE
   when: "{{ DEBUG_OR_TEST_ROLE | default(False) }}"
 
