@@ -1,6 +1,8 @@
 ---
 - name: Setup the Atmosphere API component
   hosts: all
+  vars:
+    production_build: "{{ PRODUCTION_BUILD | default(True) }}"
 
   roles:
     - { role: app-alter-kernel-for-imaging,
@@ -84,6 +86,7 @@
         UWSGI_APP_NAME: 'atmosphere',
         UWSGI_INI_SRC_NAME: 'extras/uwsgi/atmo.uwsgi.ini',
         nginx_vars_context: "{{ ATMO['nginx'] }}",
+        when: production_build,
         tags: ['atmosphere', 'deploy', 'nginx-uwsgi'] }
 
     - { role: setup-webserver-user-group,

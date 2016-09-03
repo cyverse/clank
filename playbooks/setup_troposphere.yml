@@ -1,6 +1,8 @@
 ---
 - name: Setup the Troposphere UI component
   hosts: all
+  vars:
+    production_build: "{{ PRODUCTION_BUILD | default(True) }}"  
 
   roles:
     - { role: app-config-postgres,
@@ -55,6 +57,7 @@
         APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION }}",
         UWSGI_APP_NAME: 'troposphere',
         nginx_vars_context: "{{ TROPO['nginx'] }}",
+        when: production_build,
         tags: ['troposphere', 'nginx-uwsgi'] }
 
     - { role: install-airport-ui-assets,
