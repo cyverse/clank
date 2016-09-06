@@ -7,32 +7,32 @@
 ########################################
 # Tasks related to ssh keys being given
 ########################################
-- name: move over id_rsa private key
-  copy: src={{ SSH_PRIV_KEY }} dest={{ APP_BASE_DIR }}/extras/ssh/
-  when: not CREATE_SSH
+- block:
 
-- name: move over id_rsa public key
-  copy: src={{ SSH_PUB_KEY }} dest={{ APP_BASE_DIR }}/extras/ssh/
+  - name: move over id_rsa private key
+    copy: src={{ SSH_PRIV_KEY }} dest={{ APP_BASE_DIR }}/extras/ssh/{{ SSH_PRIV_NAME }}
+
+  - name: move over id_rsa public key
+    copy: src={{ SSH_PUB_KEY }} dest={{ APP_BASE_DIR }}/extras/ssh/{{ SSH_PUB_NAME }}
+
   when: not CREATE_SSH
 
 ###########################################
 # Tasks related to ssh keys not being given
 ###########################################
-- name: Create a 2048-bit SSH key for user root in {{ APP_BASE_DIR }}/extras/ssh/
-  user: name=root generate_ssh_key=yes ssh_key_bits=2048 ssh_key_file={{ APP_BASE_DIR }}/extras/ssh/{{ CREATED_SSH_KEY_NAME }} # default is id_rsa
+- block:
+
+  - name: Create a 2048-bit SSH key for user root in {{ APP_BASE_DIR }}/extras/ssh/
+    user: name=root generate_ssh_key=yes ssh_key_bits=2048 ssh_key_file={{ APP_BASE_DIR }}/extras/ssh/{{ CREATED_SSH_KEY_NAME }} # default is id_rsa
+
+  - name: set ssh priv key var if they do not supply one
+    set_fact: SSH_PRIV_KEY={{ CREATED_SSH_KEY_NAME }}
+
   when: CREATE_SSH
 
-- name: touch .ssh/config
-  file: path=/root/.ssh/config state=touch mode=0700
-
-- name: insert Host * directive at bottom of .ssh config file 
-  blockinfile: 
-    dest: /root/.ssh/config 
-    insertafter: EOF
-    content: |
-      Host *
-          IdentityFile {{ APP_BASE_DIR }}/extras/ssh/{{ SSH_PRIV_KEY | basename | default('id_rsa') }}
-          StrictHostKeyChecking no
-          UserKnownHostsFile=/dev/null
-  tags:
-    - deploy
+###########################################
+# Genereate ssh config when var is true
+###########################################
+- name: template over system's ssh config
+  template: src=ssh_config.j2 dest=/root/.ssh/config backup=yes
+  when: GENERATE_SSH_CONFIG

@@ -10,8 +10,8 @@
     - "defaults.yml"
   tags: vars
 
-- name: add webserver user for user and group permissions
-  file: path={{ APP_BASE_DIR }} owner={{ WEBSERVER_USER }} group={{ WEBSERVER_USER }} recurse=yes
+- name: add webserver-user for user and group permissions
+  file: path={{ APP_BASE_DIR }} owner={{ WEBSERVER_USER }} group={{ WEBSERVER_USER }} mode="g+rw" recurse=yes
 
 - name: add vagrant user to webserver_user when value present
   user: name=vagrant group={{ WEBSERVER_USER }}

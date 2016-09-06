@@ -1,8 +1,0 @@
-CREATE_SSL_FILES: True
-
-SSL_CERTIFICATE:
-BUNDLE_CERT:
-SSL_KEY:
-
-OPENSSL_SELF_SIGNED:
-  - { name: 'self-signed', country: 'US', state: 'Arizona', city: 'Tucson', organization: 'My Org', unit: '', email: 'foo@bar.com', days: 3650 }

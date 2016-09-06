@@ -1,0 +1,5 @@
+colorama
+ansible==2.1.0.0
+
+# This can be removed if and when https://github.com/ansible/ansible/pull/16723 gets resolved
+setuptools>=11.3 

@@ -1,0 +1,252 @@
+---
+- name: Install nginx_novnc_auth dependencies
+  hosts: novnc_proxy
+  become: yes
+  become_user: root
+
+  vars:
+    apt_ppas:
+      - ppa:nginx/development
+    dependencies:
+      - software-properties-common
+      - python-software-properties
+      - build-essential
+      - git-core
+      - python
+      - python-dev
+      - python-pip
+      - python-setuptools
+      - python-virtualenv
+      - nginx-extras
+      - uwsgi
+      - uwsgi-plugin-python
+      - novnc
+
+  tasks:
+
+    - name: add apt repositories
+      apt_repository: repo={{ item }} state=present
+      with_items: "{{ apt_ppas }}"
+      when: ansible_distribution == "Ubuntu"
+
+    # an update to the apt-cache I think is needed prior to install
+
+    - name: install initial packages packages
+      action: >
+        {{ ansible_pkg_mgr }} name={{ item }} state=latest update_cache=yes
+      with_items: "{{ dependencies }}"
+
+
+- name: Verify Nginx configuration
+  hosts: novnc_proxy
+  become: yes
+  become_user: root
+
+  tasks:
+
+    - name: Output Nginx version and module info (verbose)
+      shell: nginx -V 2>&1
+      register: nginx_verbose
+
+    - assert:
+        that:
+          - "'--with-http_auth_request_module' in nginx_verbose.stdout"
+
+- name: Setup SSL
+  hosts: novnc_proxy
+  become: yes
+  remote_user: root
+
+  tags: ['ssl']
+
+  vars:
+
+  pre_tasks:
+
+    - fail: msg="SSL_CERTIFICATE required. Include your build_env/variables.yml for the definition"
+      when: not CREATE_SSL and not SSL_CERTIFICATE
+
+    - fail: msg="BUNDLE_CERT required. Include your build_env/variables.yml for the definition"
+      when: not CREATE_SSL and not BUNDLE_CERT
+
+    - fail: msg="SSL_KEY required. Include your build_env/variables.yml for the definition"
+      when: not CREATE_SSL and not SSL_KEY
+
+  roles:
+    - { role: setup-ssl,
+        CREATE_SSL_FILES: "{{ CREATE_SSL | default(True) }}",
+        tags: ['ssl'] }
+
+
+- name: Setup Python environment
+  hosts: novnc_proxy
+  become: yes
+  remote_user: root
+
+  pre_tasks:
+
+    - name: pip install freshest `pip` available
+      pip: name=pip extra_args="--upgrade"
+
+    - name: pip install freshest virtualenv available
+      pip: name=virtualenv extra_args="--upgrade"
+
+  roles:
+    - { role: setup-virtualenv,
+        VIRTUAL_ENV_NAME: "nginx_novnc_auth" }
+
+    - { role: clone-repo,
+        REPO_BASE_DIR: "/opt/dev/",
+        CLONE_TARGET: "/opt/dev/nginx_novnc_auth",
+        SPECIFIC_BRANCH: "master",
+        REPO_URI: "https://github.com/cyverse/nginx_novnc_auth.git",
+        tags: ['clone-repo'] }
+
+    - { role: app-pip-install-requirements,
+        APP_BASE_DIR: "/opt/dev/nginx_novnc_auth",
+        VIRTUAL_ENV: "/opt/env/nginx_novnc_auth",
+        REQUIREMENTS_FILE_NAME: 'requirements.txt',
+        RUN_WHEEL_SCRIPTS: False,
+        tags: ['pip'] }
+
+
+- name: Install NoVNC assets in web server document root
+  hosts: novnc_proxy
+  become: yes
+  remote_user: root
+
+  tags: ['novnc-assets']
+
+  tasks:
+    - name: Capture NoVNC directory
+      stat: path=/usr/share/novnc
+      register: novnc_path
+
+    - name: Symlink NoVNC asset into Nginx document root
+      file: src=/usr/share/novnc/ dest=/var/www/html/vncws state=link
+
+    - name: Symlink in index.html for NoVNC asset directory
+      file: src=/var/www/html/vncws/vnc_auto.html dest=/var/www/html/vncws/index.html state=link
+
+
+- name: Perform Nginx Configuration
+  hosts: novnc_proxy
+  become: yes
+  remote_user: root
+  vars:
+    dhparam: "/etc/ssl/certs/dhparam.pem"
+    key_size: 2048
+    privkey_pem: "{{ ATMO.nginx.KEY_PATH }}/{{ ATMO.nginx.KEY_FILE }}"
+    fullchain_pem: "{{ ATMO.nginx.COMBINED_CERT_PATH | default('/etc/ssl/certs/self_signed_combined.crt') }}"
+    ssl_cert: "{{ SSL_CERTIFICATE | default('/etc/ssl/certs/self-signed.crt') }}"
+    bundle_cert: "{{ BUNDLE_CERT | default('/etc/ssl/certs/empty_bundle.crt') }}"
+
+  tags: ['nginx-config']
+
+  tasks:
+    - name: Create location directory in /etc/nginx
+      file: path=/etc/nginx/locations state=directory
+
+    - name: Capture dhparam path
+      stat: path={{ dhparam }}
+      register: dhparam_path
+
+    - name: Generate DH Param file
+      command: >
+        openssl dhparam -out {{ dhparam }} {{ key_size }} creates={{ dhparam }}
+      when: not dhparam_path.stat.exists
+
+    - name: Capture combined certificate path
+      stat: path={{ fullchain_pem }}
+      register: combined_cert_path
+
+    - debug: msg="what is ssl_cert? {{ ssl_cert }}"
+    - debug: msg="what is the other one? {{ bundle_cert }}"
+
+    - name: Concatenate certificate and bundle
+      shell: >
+        cat {{ ssl_cert }} {{ bundle_cert }} > {{ fullchain_pem }}
+      when: not combined_cert_path.stat.exists
+
+  post_tasks:
+    - set_fact:
+        nginx_fullchain_pem: "{{ fullchain_pem }}"
+        nginx_privkey_pem: "{{ privkey_pem }}"
+        dhparam_pem: "{{ dhparam }}"
+
+
+- name: Clone Git repo for templates
+  hosts: localhost
+  connection: local
+
+  tags: ['render-templates']
+
+  tasks:
+
+    - name: Performing clone to controller system
+      git:
+        repo: "https://github.com/cyverse/nginx_novnc_auth.git"
+        dest: "/tmp/clank/nginx_novnc_auth"
+
+
+- name: Locally render templates for nginx_novnc_auth
+  hosts: novnc_proxy
+  become: yes
+  remote_user: root
+
+  tags: ['render-templates']
+
+  vars:
+    local_repo: "/tmp/clank/nginx_novnc_auth"
+    remote_path: "/opt/dev/nginx_novnc_auth"
+    local_settings:
+      src: "{{ local_repo }}/extras/config/local_settings.py.j2"
+      dest: "{{ remote_path }}/local_settings.py"
+    uwsgi_ini:
+      src: "{{ local_repo }}/extras/uwsgi/novnc_auth.uwsgi.ini.j2"
+      dest: "{{ remote_path }}/extras/uwsgi/novnc_auth.uwsgi.ini"
+    site_conf:
+      src: "{{ local_repo }}/extras/nginx/site.conf.j2"
+      dest: "{{ remote_path }}/extras/nginx/site.conf"
+
+  tasks:
+
+    - name: Create local file for settings
+      template: src={{ local_settings.src }} dest={{ local_settings.dest }}
+
+    - name: Create uWSGI ini file
+      template: src={{ uwsgi_ini.src }} dest={{ uwsgi_ini.dest }}
+
+    - name: Create Nginx site config file
+      template: src={{ site_conf.src }} dest={{ site_conf.dest }}
+
+
+- name: Symlink templates into /etc/ locations
+  hosts: novnc_proxy
+  become: yes
+  remote_user: root
+
+  vars:
+    remote_path: "/opt/dev/nginx_novnc_auth"
+    local_settings: "{{ remote_path }}/local_settings.py"
+    uwsgi_ini: "{{ remote_path }}/extras/uwsgi/novnc_auth.uwsgi.ini"
+    site_conf: "{{ remote_path }}/extras/nginx/site.conf"
+    location_conf: "{{ remote_path }}/extras/nginx/locations/novnc.conf"
+
+  tasks:
+    - name: Remove the default site
+      file: path=/etc/nginx/sites-enabled/default state=absent
+
+    - name: Capture information for current /etc/nginx/site.conf
+      stat: path=/etc/nginx/sites-enabled/site.conf
+      register: nginx_site_conf
+
+    - name: Symlink site.conf is not already present
+      file: src={{ site_conf }} dest=/etc/nginx/sites-enabled/site.conf state=link
+      when: not nginx_site_conf.stat.exists
+
+    - name: Symlink nonvc.conf location into place
+      file: src={{ location_conf }} dest=/etc/nginx/locations/novnc.conf state=link
+
+    - name: Symlink uWSGI ini into place
+      file: src={{ uwsgi_ini }} dest=/etc/uwsgi/apps-enabled/novnc_auth.ini state=link

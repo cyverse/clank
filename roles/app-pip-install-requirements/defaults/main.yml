@@ -1,7 +1,14 @@
 ---
 # defaults file for app-pip-install-requirements
+APP_BASE_DIR: ""
+
+VIRTUAL_ENV: ""
+
+REQUIREMENTS_FILE_NAME: 'dev_requirements.txt'
 
 REQUIREMENTS_NAME: "{{ APP_BASE_DIR }}/{{ REQUIREMENTS_FILE_NAME }}"
+
+PIP_EXTRA_ARGS: ""
 
 RUN_WHEEL_SCRIPTS: False
 

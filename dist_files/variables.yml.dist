@@ -72,17 +72,36 @@ TROPO_DATA:
                                             # loaded /root/some_sql.sql
 
 # SSL RELATED VARS
+GENERATE_SSH_CONFIG: true                  # Set this to false if you wish to keep your .ssh/config
+
 CREATE_SSL: true                           # Set this to false if you wish to pass in your own certs
+
 # If the above variable is set to true, don't edit next three vars below
 SSL_CERTIFICATE:    #Absolute Path Recommended
 BUNDLE_CERT:        #Absolute Path Recommended
 SSL_KEY:            #Absolute Path Recommended
-BUNDLE_CERT: "{{ BUNDLE_CERT | default(empty_bundle.crt) }}"       # Based on var above
+
 
 # SSH KEYS
 CREATE_SSH_KEYS: true                     # Set this to false if you wish to pass in your own ssh keys
 ID_RSA:             #Absolute Path Recommended
 ID_RSA_PUB:         #Absolute Path Recommended
+
+# uncomment if using New Relic to monitoring applications
+#
+#NEW_RELIC:
+#    # license key
+#    LICENSE: a1number30m3h43h00000000000
+#    # name that will appear within New Relic site in APM
+#    ATMO_LABEL: 'Atmosphere Python (atmobeta)'
+#    # name that will appear within New Relic site in APM
+#    TROPO_LABEL: 'Troposphere Python (atmobeta)'
+#    # new relic environment: 'production' or 'atmobeta'
+#    ENVIRONMENT: 'atmobeta'
+#    # partial path to New Relic Browser snippet
+#    # - relative path from `troposphere/templates`
+#    BROWSER: 'partials/__new_relic_browser.html'
+
 
 ###################################
 #
@@ -174,7 +193,7 @@ ATMO:
         DJANGO_JENKINS: False
         # in seconds, 2 days: 2 * 24 * 60 * 60
         SESSION_COOKIE_AGE: 172800
-        SSLSERVER: True
+        SSLSERVER: False
         TESTING: True
         SAML_SSO: ""
         SAML_SSO_KEYFILE: ""
@@ -223,6 +242,7 @@ ATMO:
         INSTANCE_HOSTNAMING_FORMAT: vm%(three)s-%(four)s.%(domain)s
         DEPLOYMENT_KEYPAIR_NAME: # keypair name inject by atmo-ansible during instance deploy
         CELERYBEAT_SCHEDULE: {"monitor_instances": {"schedule": 'timedelta(minutes=5)',}}
+        VALIDATION_PLUGINS: 
 
     secrets.py:
         IRODS_HOST:
@@ -347,7 +367,7 @@ TROPO:
         DATABASE_HOST: localhost
         DATABASE_PORT: 5432
         DJANGO_JENKINS: ""
-        SSLSERVER: True
+        SSLSERVER: False
 
         MOCK_USER: "{{  MOCK_USERNAME }}"
         USE_MOCK_AUTH: True

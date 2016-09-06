@@ -1,0 +1,11 @@
+---
+# tasks file for delete file
+# requires a location and a glob
+
+- name: list all files matching at a location with a glob
+  shell: find {{ LOCATION }} -name "{{ GLOB }}" -exec /bin/rm {} \;
+  register: output
+
+- name: debug list
+  debug: var=output.stdout_lines
+  when: "{{ CLANK_VERBOSE | default(False) }}"

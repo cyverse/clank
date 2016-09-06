@@ -15,14 +15,17 @@
         DATABASE_FILE_TO_BE_LOADED: "{{ TROPO_DATA.SQL_DUMP_FILE }}",
         tags: ['troposphere', 'data-load'] }
 
+    - { role: delete-files,
+        LOCATION: "{{ TROPOSPHERE_LOCATION }}",
+        GLOB: "*.pyc",
+        tags: ['troposphere'] }
+
     - { role: app-pip-install-requirements,
         APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION }}",
+        REQUIREMENTS_FILE_NAME: 'dev_requirements.txt',
         VIRTUAL_ENV: "{{ VIRTUAL_ENV_TROPOSPHERE }}",
-        tags: ['troposphere']}
-
-    - { role: logrotate-files,
-        LOGROTATE_FILES: "{{ TROPOSPHERE_LOCATION }}/extras/logrotate.troposphere",
-        tags: ['troposphere', 'logrotate'] }
+        PIP_EXTRA_ARGS: '--no-cache-dir',
+        tags: ['troposphere', 'pip-install-requirements']}
 
     - { role: app-config-logging,
         APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION }}",
@@ -33,25 +36,26 @@
         template_vars: "{{ TROPO }}",
         APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION }}",
         VIRTUAL_ENV: "{{ VIRTUAL_ENV_TROPOSPHERE }}",
-        tags: ['troposphere'] }
+        tags: ['troposphere', 'generate-config'] }
 
     - { role: app-django-manage-collectstatic,
         APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION }}",
         VIRTUAL_ENV: "{{ VIRTUAL_ENV_TROPOSPHERE }}",
         STATIC_DIR_PATH: 'troposphere/tropo-static',
         DJANGO_SETTINGS_MODULE: 'troposphere.settings',
-        tags: ['troposphere']}
+        tags: ['troposphere', 'manage-collectstatic']}
 
     - { role: app-django-manage-migrate,
         APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION }}",
         VIRTUAL_ENV: "{{ VIRTUAL_ENV_TROPOSPHERE }}",
         DJANGO_SETTINGS_MODULE: 'troposphere.settings',
-        tags: ['troposphere', 'migrate'] }
+        tags: ['troposphere', 'migrate', 'manage-migrate'] }
 
     - { role: config-nginx-uwsgi,
         APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION }}",
         UWSGI_APP_NAME: 'troposphere',
-        tags: ['troposphere'] }
+        nginx_vars_context: "{{ TROPO['nginx'] }}",
+        tags: ['troposphere', 'nginx-uwsgi'] }
 
     - { role: install-airport-ui-assets,
         AIRPORT_SOURCE: "{{ TROPOSPHERE_LOCATION }}",
@@ -66,3 +70,9 @@
         APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION }}",
         WEBSERVER_USER: "www-data",
         tags: ['troposphere', 'set-permissions'] }
+
+    # The logrotate-files role must come after the setup-webserver-user-group role.                                         # This is because setup-webserver-user-group sets the permissions on all files in that directory the
+    # to the WEBSERVER_USER user, while logrotate requires root
+    - { role: logrotate-files,
+        LOGROTATE_FILES: "{{ TROPOSPHERE_LOCATION }}/extras/logrotate.troposphere",
+        tags: ['troposphere', 'logrotate'] }
