@@ -1,0 +1,205 @@
+atmosphere_database_name: jetstream_new
+atmosphere_database_password: atmosphere
+atmosphere_database_user: atmo_app
+atmosphere_directory_name: atmosphere
+# line below can be removed soon
+atmosphere_ansible_directory_path: "{{workspace}}/atmosphere-ansible"
+atmosphere_github_repo: https://github.com/iPlantCollaborativeOpenSource/atmosphere.git
+atmosphere_virtualenv_name: atmo
+atmosphere_directory_path: "{{workspace}}/{{atmosphere_directory_name}}"
+atmosphere_virtualenv_path: "{{virtualenv_dir}}/{{atmosphere_virtualenv_name}}"
+atmosphere_server_name: "{{ ansible_fqdn }}"
+atmosphere_server_url: "https://{{ atmosphere_server_name }}"
+
+###################################
+#
+# ATMOSPHERE VARS
+#
+###################################
+ATMO_LOG_FILES:
+  - 'atmosphere.log'
+  - 'atmosphere_status.log'
+
+ATMO:
+    COMMON:
+        SERVER_URL: "{{ atmosphere_server_url }}"
+        LDAP_SERVER: ldap://
+        LDAP_SERVER_DN:
+        TOKEN_EXPIRY_TIME_DAYS: 1
+        DJANGO_SERVER_URL: "{{ atmosphere_server_url }}"
+
+    nginx:
+        ENABLE_HTTP2: True
+        ATMOSPHERE_PATH: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}"
+        BUNDLE_FILE: gd_bundle.crt
+        CERT_DIR: /etc/ssl/certs
+        CERT_FILE:
+        COMBINED_CERT_FILE:
+        COMBINED_CERT_PATH: "/etc/ssl/certs/{{ combined_cert_file }}"
+        DHPARAM: /etc/ssl/certs/dhparam.pem
+        KEY_FILE: 
+        KEY_PATH: /etc/ssl/private
+        KEY_SIZE: 1024
+        LEADERBOARD_URL: 
+        LOCATIONS_DIR:  /etc/nginx/locations
+        SITES_ENABLED_DIR: /etc/nginx/sites-enabled
+        SITES_AVAILABLE_DIR: /etc/nginx/sites-available
+        SERVER_URL: "{{ atmosphere_server_url }}"
+        VIRTUALENV_PATH: "{{ VIRTUAL_ENV_ATMOSPHERE | default(atmosphere_virtualenv_path) }}"
+
+    uwsgi.ini:
+        LOCAL_DEV: False
+        PATH_TO_ATMOSPHERE: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}"
+        VIRTUALENV_PATH: "{{ VIRTUAL_ENV_ATMOSPHERE | default(atmosphere_virtualenv_path) }}"
+        UWSGI_USER: www-data
+        UWSGI_GROUP: www-data
+        UWSGI_LOG_PATH: /var/log/uwsgi/atmosphere-uwsgi.log
+
+    local.py:
+        ANSIBLE_ROOT: "{{ ANSIBLE_DEPLOY_LOCATION | default(atmosphere_ansible_directory_path) }}"
+        AUTH_USE_OVERRIDE:
+        AUTH_ENABLE_CAS:
+        AUTH_ENABLE_GLOBUS:
+        AUTH_ENABLE_LDAP:
+        AUTH_ENABLE_MOCK:
+        AUTH_ENABLE_JWT:
+        AUTH_MOCK_USER:
+        LOGOUT_REDIRECT_URL: /logout
+        CAS_AUTH_PREFIX:
+        CAS_SERVER:
+        OAUTH_ISSUE_USER: ""
+        LDAP_SERVER:
+        LDAP_SERVER_DN:
+        JWT_INSTALL:
+        JWT_PUBLIC_KEY:
+        JWT_CLIENT_KEY:
+        JWT_CLIENT_SECRET:
+        GLOBUS_OAUTH_ID:
+        GLOBUS_OAUTH_SECRET:
+        GLOBUS_OAUTH_CREDENTIALS_SCOPE:
+        GLOBUS_OAUTH_ATMOSPHERE_SCOPE:
+        GLOBUS_TOKENINFO_URL:
+        GLOBUS_TOKEN_URL:
+        GLOBUS_AUTH_URL:
+        OAUTH_CLIENT_KEY:
+        OAUTH_CLIENT_SECRET:
+        DATABASE_CONN_MAX_AGE: "{{ conn_max_age }}"
+        DATABASE_ENGINE: "{{ database_engine }}"
+        DATABASE_HOST: localhost
+        DATABASE_NAME: "{{ ATMO_DBNAME | default(atmosphere_database_name) }}"
+        DATABASE_PASSWORD: "{{ atmosphere_database_password }}"
+        DATABASE_PORT: 5432
+        DATABASE_USER: "{{ atmosphere_database_user }}"
+        DJANGO_DEBUG: True
+        ENFORCING: False
+        DJANGO_JENKINS: False
+        SESSION_COOKIE_AGE:
+        SSLSERVER: True
+        TESTING: True
+        SAML_SSO:
+        SAML_SSO_KEYFILE:
+        SAML_SSO_CERTFILE:
+        SAML_IDP_URL:
+        SAML_IDP_OAUTH_URL:
+        SSO_OAUTH_KEY:
+        SSO_OAUTH_SECRET:
+        SAML_ENTITY_ID:
+        DJANGO_TEMPLATE_DEBUG: True
+        LOG_LIBCLOUD: True
+        LOGGING_DEP_LEVEL: logging.WARNING
+        LOGGING_LEVEL: logging.DEBUG
+        LOGSTASH_HOST:
+        LOGSTASH_PORT:
+        METRIC_SERVER:
+        SELF_SIGNED_CERT: True
+        TEST_RUNNER: atmosphere.test_runner.CeleryDiscoverTestSuiteRunner
+        TEST_RUNNER_PASS:
+        TEST_RUNNER_USER:
+        #local.py - site configuration
+        SITE_NAME:
+        TIME_ZONE:
+        AUTO_CREATE_NEW_ACCOUNTS: True
+        USE_JETSTREAM_PLUGIN: False
+        USE_ALLOCATION_SOURCE: False
+        TACC_API_USER:
+        TACC_API_PASS:
+        TACC_API_URL:
+        DEFAULT_ALLOCATION_THRESHOLD:
+        DEFAULT_ALLOCATION_DELTA:
+        DEFAULT_EMAIL_DOMAIN:
+        DEFAULT_IP_LOOKUP:
+        DEFAULT_PASSWORD_LOOKUP:
+        DEFAULT_PASSWORD_UPDATE:
+        DEFAULT_KEYSTONE_ROLE:
+        DEFAULT_QUOTA:
+        ADMINS_EMAIL_TUPLE:
+        ATMO_SUPPORT_EMAIL_TUPLE:
+        SUPPORT_EMAIL:
+        SUPPORT_EMAIL_SIGNATURE:
+        SUPPORT_LINKS:
+        MONTHLY_RESET_PROVIDER_LOCATIONS:
+        REPLICATION_PROVIDER_LOCATION:
+        EMAIL_LOOKUP_METHOD:
+        USER_EMAIL_LOOKUP_METHOD:
+        INSTANCE_HOSTNAMING_DOMAIN:
+        INSTANCE_HOSTNAMING_FORMAT:
+        DEPLOYMENT_KEYPAIR_NAME:
+        CELERYBEAT_SCHEDULE:
+        VALIDATION_PLUGINS:
+    secrets.py:
+        IRODS_HOST:
+        IRODS_PORT:
+        IRODS_ZONE:
+        IRODS_ADMIN_USER:
+        IRODS_ADMIN_PASS:
+        LOCAL_STORAGE: /Storage
+        CHROMO_DEPLOYMENT_KEY:
+        CHROMO_EXTRA_IMAGE_METADATA: {}
+        OPENSTACK_PROVIDER_KEY: OpenStack
+        OPENSTACK_ADMIN_KEY:
+        OPENSTACK_ADMIN_SECRET:
+        OPENSTACK_AUTH_URL:
+        OPENSTACK_ADMIN_TENANT:
+        OPENSTACK_DEFAULT_REGION:
+        OPENSTACK_DEFAULT_ROUTER:
+        OPENSTACK_USER_ROLE:
+        OPENSTACK_ADMIN_ROLE:
+        ATMOSPHERE_SUPERUSER:
+        ATMOSPHERE_VNC_LICENSE:
+        ATMOSPHERE_SECRET_SEED:
+
+    celeryd.default:
+        VIRTUALENV_PATH: "{{ VIRTUAL_ENV_ATMOSPHERE | default(atmosphere_virtualenv_path) }}"
+        ATMOSPHERE_LOCATION: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}"
+        SSL_LOCATION: /etc/ssl
+        SSL_CERTIFICATE:
+        SSL_KEY:
+        USE_PRODUCTION: True
+        FLOWER_AUTH_SCHEME: "basic"
+        # Required if auth_scheme is 'basic'
+        FLOWER_BASIC_USERNAME: "flower_user"
+        FLOWER_BASIC_PASSWORD: "flower_pass"
+        # Required if auth_scheme is 'google'
+        FLOWER_EMAIL_ACCESS_LIST:
+        FLOWER_OAUTH2_CLIENT_ID:
+        FLOWER_OAUTH2_CLIENT_SECRET:
+        FLOWER_OAUTH2_REDIRECT_URI:
+
+###################################
+#
+# ATMOSPHERE ANSIBLE VARIABLES
+#
+###################################
+ATMOSPHERE_ANSIBLE:
+    COMMON:
+        ATMOSPHERE_ANSIBLE_DIR: "{{ atmosphere_ansible_directory_path }}"
+        ATMOSPHERE_ANSIBLE_LOG_DIR: "{{ atmosphere_directory_path }}/logs"
+    ansible.cfg:
+        ANSIBLE_FACT_CACHE_BACKEND: redis
+        ANSIBLE_FACT_CACHE_TIMEOUT: 14400
+        ANSIBLE_MANAGED_STR: "Ansible managed: {file} modified on %Y-%m-%d %H:%M:%S by {uid} on {host}"
+        ANSIBLE_SSH_TIMEOUT: 10
+        SUBSPACE_PLUGINS_DIR: /opt2/env/atmo/lib/python2.7/site-packages/subspace/plugins
+        SUBSPACE_CALLBACK_WHITELIST: play_logger
+        SUBSPACE_COW_SELECTION: random
+        SUBSPACE_NO_COWS: 1

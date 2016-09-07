@@ -46,7 +46,8 @@
         REPO_URI: "{{ ATMOSPHERE_REPO | default(atmosphere_github_repo) }}",
         tags: [ 'atmosphere', 'clone-repo'] }
 
-- include: ./setup_atmosphere.yml
+- name: Include setup atmosphere
+  include: ./setup_atmosphere.yml
 
 - name: Setup celery for Atmosphere
   hosts: atmosphere

@@ -1,0 +1,137 @@
+troposphere_database_name: troposphere
+troposphere_database_password: atmosphere
+troposphere_database_user: atmo_app
+troposphere_directory_name: troposphere
+troposphere_github_repo: https://github.com/iPlantCollaborativeOpenSource/troposphere.git
+troposphere_virtualenv_name: troposphere
+troposphere_theme_name: troposphere_theme
+troposphere_virtualenv_path: "{{virtualenv_dir}}/{{troposphere_virtualenv_name}}"
+troposphere_directory_path: "{{workspace}}/{{troposphere_directory_name}}"
+troposphere_build: development
+troposphere_server_name: "{{ ansible_fqdn }}"
+troposphere_server_url: "https://{{ troposphere_server_name }}"
+
+###################################
+#
+# TROPOSPHERE VARS
+#
+###################################
+TROPO_LOG_FILES:
+  - 'troposphere.log'
+TROPO:
+    COMMON:
+        ASSETS_PATH: "{{ TROPOSPHERE_LOCATION | default(troposphere_directory_path) }}/troposphere/assets"
+        THEME_PATH: "{{ TROPOSPHERE_LOCATION | default(troposphere_directory_path) }}/troposphere/themes"
+        THEME_NAME: "{{ troposphere_theme_name }}"
+        DJANGO_SERVER_URL: "{{ troposphere_server_url }}"
+        SERVER_URL: "{{ troposphere_server_url }}"
+        LDAP_SERVER:
+        LDAP_SERVER_DN:
+        TOKEN_EXPIRY_TIME_DAYS: 1
+
+    nginx:
+        ENABLE_HTTP2: True
+        TROPOSPHERE_PATH: "{{ TROPOSPHERE_LOCATION | default(troposphere_directory_path) }}"
+        LOCATIONS_DIR: /etc/nginx/locations
+        SITES_AVAILABLE_DIR: /etc/nginx/sites-available
+        SITES_ENABLED_DIR: /etc/nginx/sites-enabled
+        SERVER_URL: "{{ troposphere_server_name }}"
+        BUNDLE_FILE:
+        CERT_DIR: /etc/ssl/certs
+        CERT_FILE:
+        COMBINED_CERT_FILE:
+        COMBINED_CERT_PATH:
+        DHPARAM:
+        KEY_FILE:
+        KEY_PATH: /etc/ssl/private/
+        KEY_SIZE:
+        VIRTUALENV_PATH: "{{ VIRTUAL_ENV_TROPOSPHERE | default(troposphere_virtualenv_path) }}"
+
+    uwsgi.ini:
+        LOCAL_DEV: False
+        PATH_TO_TROPOSPHERE: "{{ TROPOSPHERE_LOCATION | default(troposphere_directory_path) }}"
+        VIRTUALENV_PATH: "{{ VIRTUAL_ENV_TROPOSPHERE | default(troposphere_virtualenv_path) }}"
+        UWSGI_USER: www-data
+        UWSGI_GROUP: www-data
+        UWSGI_LOG_PATH: /var/log/uwsgi/troposphere-uwsgi.log
+
+    local.py:
+        DEBUG: True
+        SECRET_KEY:
+        THEME_NAME: "{{ troposphere_theme_name }}"
+        SITE_TITLE: Atmosphere
+        SITE_FOOTER:
+        ORG_NAME:
+        API_SERVER: "{{ troposphere_server_url }}"
+        SUPPORT_EMAIL:
+        BASE_URL: ""
+        ENABLE_WEBPACK_LOADER_CACHE: True
+        DYNAMIC_ASSET_LOADING: True
+
+        DATABASE_NAME: "{{ TROPO_DBNAME | default(troposphere_database_name) }}"
+        DATABASE_ENGINE: "{{ database_engine }}"
+        DATABASE_USER: "{{ troposphere_database_user }}"
+        DATABASE_CONN_MAX_AGE: "{{ conn_max_age }}"
+        DATABASE_PASSWORD: "{{ troposphere_database_password }}"
+        DATABASE_HOST: localhost
+        DATABASE_PORT: 5432
+        DJANGO_JENKINS: False
+        SSLSERVER: True
+
+        MOCK_USER:
+        USE_MOCK_AUTH:
+        AUTH_USE_OVERRIDE:
+        AUTH_ENABLE_CAS:
+        AUTH_ENABLE_GLOBUS:
+        AUTH_ENABLE_LDAP:
+        AUTH_ENABLE_MOCK:
+        AUTH_ENABLE_MODEL:
+        AUTH_ENABLE_OAUTH:
+        LOGOUT_REDIRECT_URL: /logout
+        CAS_SERVER:
+        CAS_AUTH_PREFIX:
+        SESSION_COOKIE_AGE:
+        OAUTH_CLIENT_KEY:
+        OAUTH_CLIENT_SECRET:
+        OAUTH_CLIENT_CALLBACK:
+        GLOBUS_OAUTH_ID:
+        GLOBUS_OAUTH_SECRET:
+        GLOBUS_OAUTH_CREDENTIALS_SCOPE:
+        GLOBUS_OAUTH_ATMOSPHERE_SCOPE:
+        GLOBUS_TOKENINFO_URL:
+        GLOBUS_TOKEN_URL:
+        GLOBUS_AUTH_URL:
+        OAUTH_ISSUE_USER:
+
+        STAFF_LIST_USERNAMES:
+
+        BADGES_ENABLED:
+        BADGE_SECRET:
+        BADGE_HOST:
+        BADGE_API_HOST:
+        BADGE_SYSTEM_NAME:
+        BADGE_SYSTEM_SLUG:
+        SHOW_INSTANCE_METRICS: False
+
+        INTERCOM_APP_ID:
+        INTERCOM_COMPANY_ID:
+        INTERCOM_COMPANY_NAME:
+
+        USE_ALLOCATION_SOURCES: False
+        USE_MOCK_DATA: False
+        USE_GATE_ONE_API: False
+        GATE_ONE_API_KEY:
+        GATE_ONE_API_SECRET:
+        # must be localhost or route-able domain
+        WEB_SH_ROUTE: "{{ troposphere_server_url }}/web_shell"
+        WEB_SH_BASE_URL:
+        WEB_SH_JS_FILE: "static/gateone.js"
+        # settings for noVNC transparent proxying
+        WEB_DESKTOP_SIGNING_SALT:
+        WEB_DESKTOP_FP_SALT:
+        WEB_DESKTOP_SIGNING_SECRET_KEY:
+        WEB_DESKTOP_FP_SECRET_KEY:
+        WEB_DESKTOP_INCLUDE_LINK: False
+        WEB_DESKTOP_PROXY_URL:
+        WEB_DESKTOP_PROXY_DOMAIN:
+
