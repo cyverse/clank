@@ -58,8 +58,9 @@ def execute_ansible_playbook(args):
     virtualenv_dir = os.environ["VIRTUAL_ENV"]
     ansible_exec = '{}/bin/ansible-playbook'.format(virtualenv_dir)
     ansible_play = '{}/playbooks/deploy_stack.yml'.format(cur_dir)
-    command = '{} "{}" --flush-cache -c local -e "@{}" -i "localhost,"'.format(
-        ansible_exec, ansible_play, args.env_file
+    ansible_hosts = '{}/hosts'.format(cur_dir)
+    command = '{} "{}" --flush-cache -c local -e "@{}" -i {}'.format(
+        ansible_exec, ansible_play, args.env_file, ansible_hosts
     )
 
     if args.skip_tags:
