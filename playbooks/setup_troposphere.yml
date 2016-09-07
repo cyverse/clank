@@ -52,10 +52,11 @@
         DJANGO_SETTINGS_MODULE: 'troposphere.settings',
         tags: ['troposphere', 'migrate', 'manage-migrate'] }
 
-    - { role: config-nginx-uwsgi,
+    - { role: create-nginx-uwsgi,
         APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION | default(troposphere_directory_path) }}",
         UWSGI_APP_NAME: 'troposphere',
-        nginx_vars_context: "{{ TROPO['nginx'] }}",
+        UWSGI_INI_SRC_NAME: 'extras/troposphere.uwsgi.ini',
+        NGINX_COMBINED_CERT_PATH: "{{ COMBINED_CERT }}",
         tags: ['troposphere', 'nginx-uwsgi'] }
 
     - { role: install-airport-ui-assets,
