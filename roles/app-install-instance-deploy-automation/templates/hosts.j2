@@ -1,7 +1,10 @@
 ########
-#
-# Example of how to complete the necessary `hosts` file. 
-# 
+# {{ ansible_managed }}
+# WARNING: This is a generated example of how to complete the necessary `hosts` file. 
+# If you do not modify this file, your instances will not make it past 'active - networking'!
+# After modifying this file, save it somewhere else and provide it to clank as the ANSIBLE_HOSTS_FILE
+# Additionally, you will want to repeat this process for the group_vars directory
+# For details on how to fill out the hosts file, read below:
 ########
 #
 # Conceptual Hierarchy:
@@ -31,9 +34,9 @@
 # 
 # ```
 # [atmosphere-provider1]
-# vms-10-[2:255] ansible_ssh_host=0.0.0.0 ansible_ssh_port=22
-# vms-11-[2:255] ansible_ssh_host=0.0.0.0 ansible_ssh_port=22
-# 100.100.[10:11].[2:255] ansible_ssh_host=0.0.0.0 ansible_ssh_port=22
+# vms-10-[2:255] ansible_host=0.0.0.0 ansible_port=22
+# vms-11-[2:255] ansible_host=0.0.0.0 ansible_port=22
+# 100.100.[10:11].[2:255] ansible_host=0.0.0.0 ansible_port=22
 #
 # [atmosphere:children]
 # atmosphere-provider1
@@ -53,23 +56,23 @@
 
 # You could consider the following template and the "placeholders":
 #
-# [atmosphere-{{cloud_provider_name}}]
-# {{common-hostname-prefix}}[2:255] ansible_ssh_host=0.0.0.0 ansible_ssh_port=22
-# {{project-owned-IP-prefix1}}.2.[2:255] ansible_ssh_host=0.0.0.0 ansible_ssh_port=22
-# {{project-owned-IP-prefix2}}.2.[2:255] ansible_ssh_host=0.0.0.0 ansible_ssh_port=22
+# [atmosphere-$cloud_provider_name]
+# $common-hostname-prefix[2:255] ansible_host=0.0.0.0 ansible_port=22
+# $project-owned-IP-prefix1.2.[2:255] ansible_host=0.0.0.0 ansible_port=22
+# $project-owned-IP-prefix2.2.[2:255] ansible_host=0.0.0.0 ansible_port=22
 #
 # The "placeholders" are determined by your infrastructure:
 #
 # For provider1
-# - {{cloud_provider_name}} = provider1 
-# - {{common-hostname-prefix}} = pr1-
-# - {{project-owned-IP-prefix1}} = 100.100.10
-# - {{project-owned-IP-prefix2}} = 100.100.11
+# - $cloud_provider_name = provider1 
+# - $common-hostname-prefix = pr1-
+# - $project-owned-IP-prefix1 = 100.100.10
+# - $project-owned-IP-prefix2 = 100.100.11
 #
 # For provider2
-# - {{cloud_provider_name}} = provider2
-# - {{common-hostname-prefix}} = pr2-
-# - {{project-owned-IP-prefix1}} = 100.100.110
+# - $cloud_provider_name = provider2
+# - $common-hostname-prefix = pr2-
+# - $project-owned-IP-prefix1 = 100.100.110
 
 #
 # Example (continued) - multiple provider:
@@ -77,15 +80,15 @@
 
 # Example Provider1
 [atmosphere-provider1]
-pr1-10-[2:255] ansible_ssh_host=0.0.0.0 ansible_ssh_port=22
-pr1-11-[2:255] ansible_ssh_host=0.0.0.0 ansible_ssh_port=22
-100.100.[10:11].[2:255] ansible_ssh_host=0.0.0.0 ansible_ssh_port=22
+pr1-10-[2:255] ansible_host=0.0.0.0 ansible_port=22
+pr1-11-[2:255] ansible_host=0.0.0.0 ansible_port=22
+100.100.[10:11].[2:255] ansible_host=0.0.0.0 ansible_port=22
 
 
 # Example Provider2
 [atmosphere-provider2]
-pr2-110-[2:255] ansible_ssh_host=0.0.0.0 ansible_ssh_port=22
-111.111.110.[2:255] ansible_ssh_host=0.0.0.0 ansible_ssh_port=22
+pr2-110-[2:255] ansible_host=0.0.0.0 ansible_port=22
+111.111.110.[2:255] ansible_host=0.0.0.0 ansible_port=22
 
 # Example - including providers
 [atmosphere:children]
@@ -94,4 +97,4 @@ atmosphere-provider2
 
 # Example host
 [gateone-hosts]
-gateone-dev ansible_ssh_host=100.1.2.3 ansible_ssh_port=22
+gateone-dev ansible_host=100.1.2.3 ansible_port=22

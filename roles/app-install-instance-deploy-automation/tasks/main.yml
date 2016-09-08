@@ -2,12 +2,24 @@
 # tasks file for app-install-instance-deploy-automation
 # Installation is *NOT* complete until the app-generate-ini role
 
-- name: move over completed hosts file
+- name: If hosts file is missing, create hosts and move to ansible directory
+  local_action: >
+    template src={{ role_path }}/templates/hosts.j2 dest={{ INSTANCE_DEPLOY_AUTOMATION_DIR }}/ansible/hosts
+  when: "{{ INSTANCE_DEPLOY_AUTOMATION_HOSTS_FILE is undefined or INSTANCE_DEPLOY_AUTOMATION_HOSTS_FILE == '' }}"
+
+- name: If hosts file is given, move to ansible directory
   copy: >
     src={{ INSTANCE_DEPLOY_AUTOMATION_HOSTS_FILE }}
     dest={{ INSTANCE_DEPLOY_AUTOMATION_DIR }}/ansible
+  when: "{{ INSTANCE_DEPLOY_AUTOMATION_HOSTS_FILE }}"
 
-- name: move over completed group_vars folder
+- name: If group_vars dir is missing, copy the directory from files to ansible directory
+  copy: >
+    src={{ role_path }}/files/group_vars dest={{ INSTANCE_DEPLOY_AUTOMATION_DIR }}/ansible
+  when: "{{ INSTANCE_DEPLOY_AUTOMATION_GROUP_VARS_FOLDER is undefined or INSTANCE_DEPLOY_AUTOMATION_GROUP_VARS_FOLDER == '' }}"
+
+- name: If group_vars dir is given, move over completed group_vars folder
   copy: >
     src={{ INSTANCE_DEPLOY_AUTOMATION_GROUP_VARS_FOLDER }}
     dest={{ INSTANCE_DEPLOY_AUTOMATION_DIR }}/ansible
+  when: "{{ INSTANCE_DEPLOY_AUTOMATION_GROUP_VARS_FOLDER }}"
