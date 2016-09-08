@@ -32,19 +32,20 @@ TROPO:
     nginx:
         ENABLE_HTTP2: True
         TROPOSPHERE_PATH: "{{ TROPOSPHERE_LOCATION | default(troposphere_directory_path) }}"
+        DHPARAM: /etc/ssl/certs/dhparam.pem
         LOCATIONS_DIR: /etc/nginx/locations
         SITES_AVAILABLE_DIR: /etc/nginx/sites-available
         SITES_ENABLED_DIR: /etc/nginx/sites-enabled
         SERVER_URL: "{{ troposphere_server_name }}"
-        BUNDLE_FILE:
+        BUNDLE_FILE: gd_bundle.crt
         CERT_DIR: /etc/ssl/certs
         CERT_FILE:
-        COMBINED_CERT_FILE:
-        COMBINED_CERT_PATH:
-        DHPARAM:
-        KEY_FILE:
+        #NOTE: The combined cert and key doesn't have to exist, we just need a name for their final destinations
+        COMBINED_CERT_FILE: "combined_ssl_certificate.pem"
+        COMBINED_CERT_PATH: "/etc/ssl/certs/combined_ssl_certificate.pem"
+        KEY_FILE: atmosphere_nginx.key
         KEY_PATH: /etc/ssl/private/
-        KEY_SIZE:
+        KEY_SIZE: 1024
         VIRTUALENV_PATH: "{{ VIRTUAL_ENV_TROPOSPHERE | default(troposphere_virtualenv_path) }}"
 
     uwsgi.ini:

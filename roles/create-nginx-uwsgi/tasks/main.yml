@@ -22,6 +22,9 @@
 
 - block:
 
+  - stat: path={{ NGINX_SSL_KEY_PATH }}
+    register: ssl_key_path
+
   - stat: path={{ NGINX_COMBINED_CERT_PATH }}
     register: combined_cert_path
 
@@ -45,7 +48,16 @@
       nginx_bundle_cert: "{{ BUNDLE_CERT }}"
     when: "{{ BUNDLE_CERT is not none }}"
 
-  - name: generate a combined certificate - combined_cert_source
+
+  - name: SSL Key exists - copy from NGINX_SSL_KEY_PATH to NGINX_SSL_KEY_DEST
+    copy: src={{ NGINX_SSL_KEY_PATH }} dest={{ NGINX_SSL_KEY_DEST }}
+    when: ssl_key_path.stat.exists == True
+
+  - name: Combined cert exists - copy NGINX_COMBINED_CERT_PATH to NGINX_COMBINED_CERT_DEST listed
+    copy: src={{ NGINX_COMBINED_CERT_PATH }} dest={{ NGINX_COMBINED_CERT_DEST }}
+    when: combined_cert_path.stat.exists == True
+
+  - name: No combined cert - generate a combined certificate - combined_cert_source
     command: >
       cat {{ nginx_ssl_cert }} {{ nginx_bundle_cert }}
     register: combined_cert_source

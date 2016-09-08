@@ -3,5 +3,5 @@
   hosts: full_deploy
   strategy: debug
 
-- include: ./deploy_atmosphere.yml
+#- include: ./deploy_atmosphere.yml
 - include: ./deploy_troposphere.yml
