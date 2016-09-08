@@ -38,6 +38,7 @@ ATMO:
         SERVER_URL: "{{ atmosphere_server_name }}"
         BUNDLE_FILE: gd_bundle.crt
         CERT_DIR: /etc/ssl/certs
+        # Marked for deletion
         CERT_FILE:
         LEADERBOARD_URL:
         #NOTE: The combined cert and key doesn't have to exist, we just need a name for their final destinations
@@ -58,32 +59,33 @@ ATMO:
 
     local.py:
         ANSIBLE_ROOT: "{{ ANSIBLE_DEPLOY_LOCATION | default(atmosphere_ansible_directory_path) }}"
-        AUTH_USE_OVERRIDE:
-        AUTH_ENABLE_CAS:
-        AUTH_ENABLE_GLOBUS:
-        AUTH_ENABLE_LDAP:
-        AUTH_ENABLE_MOCK:
-        AUTH_ENABLE_JWT:
-        AUTH_MOCK_USER:
+        #Authorization and Authentication
+        AUTH_USE_OVERRIDE: "{{ AUTH_USE_OVERRIDE | default(False) }}"
+        AUTH_ENABLE_CAS: "{{ AUTH_ENABLE_CAS | default(False) }}"
+        AUTH_ENABLE_GLOBUS: "{{ AUTH_ENABLE_GLOBUS | default(False) }}"
+        AUTH_ENABLE_LDAP: "{{ AUTH_ENABLE_LDAP | default(False) }}"
+        AUTH_ENABLE_MOCK: "{{ AUTH_ENABLE_MOCK | default(False) }}"
+        AUTH_ENABLE_JWT: "{{ AUTH_ENABLE_JWT | default(False) }}"
+        AUTH_MOCK_USER: "{{ AUTH_MOCK_USER | default('atmosphere_user') }}"
         LOGOUT_REDIRECT_URL: /logout
-        CAS_AUTH_PREFIX:
-        CAS_SERVER:
-        OAUTH_ISSUE_USER: ""
-        LDAP_SERVER:
-        LDAP_SERVER_DN:
-        JWT_INSTALL:
-        JWT_PUBLIC_KEY:
-        JWT_CLIENT_KEY:
-        JWT_CLIENT_SECRET:
-        GLOBUS_OAUTH_ID:
-        GLOBUS_OAUTH_SECRET:
-        GLOBUS_OAUTH_CREDENTIALS_SCOPE:
-        GLOBUS_OAUTH_ATMOSPHERE_SCOPE:
-        GLOBUS_TOKENINFO_URL:
-        GLOBUS_TOKEN_URL:
-        GLOBUS_AUTH_URL:
-        OAUTH_CLIENT_KEY:
-        OAUTH_CLIENT_SECRET:
+        CAS_SERVER: "{{ CAS_SERVER | default('') }}"
+        CAS_AUTH_PREFIX: "{{ CAS_AUTH_PREFIX | default('/cas') }}"
+        OAUTH_ISSUE_USER: "{{ OAUTH_ISSUE_USER | default('') }}"
+        LDAP_SERVER: "{{ LDAP_SERVER | default('') }}"
+        LDAP_SERVER_DN: "{{ LDAP_SERVER_DN | default('') }}"
+        JWT_INSTALL: "{{ JWT_INSTALL | default(False) }}"
+        JWT_PUBLIC_KEY: "{{ JWT_PUBLIC_KEY | default('') }}"
+        JWT_CLIENT_KEY: "{{ JWT_CLIENT_KEY | default('') }}"
+        JWT_CLIENT_SECRET: "{{ JWT_CLIENT_SECRET | default('') }}"
+        GLOBUS_OAUTH_ID: "{{ GLOBUS_OAUTH_ID | default('') }}"
+        GLOBUS_OAUTH_SECRET: "{{ GLOBUS_OAUTH_SECRET | default('') }}"
+        GLOBUS_OAUTH_CREDENTIALS_SCOPE: "{{ GLOBUS_OAUTH_CREDENTIALS_SCOPE | default('auth:login') }}"
+        GLOBUS_OAUTH_ATMOSPHERE_SCOPE: "{{ GLOBUS_OAUTH_ATMOSPHERE_SCOPE | default('') }}"
+        GLOBUS_TOKENINFO_URL: "{{ GLOBUS_TOKENINFO_URL | default('https://auth.globus.org/v2/oauth2/token/introspect') }}"
+        GLOBUS_TOKEN_URL: "{{ GLOBUS_TOKEN_URL | default('https://auth.globus.org/v2/oauth2/token') }}"
+        GLOBUS_AUTH_URL: "{{ GLOBUS_AUTH_URL | default('https://auth.globus.org/v2/oauth2/authorize') }}"
+        OAUTH_CLIENT_KEY: "{{ ATMO_OAUTH_CLIENT_KEY | default('') }}"
+        OAUTH_CLIENT_SECRET: "{{ ATMO_OAUTH_CLIENT_SECRET | default('') }}"
         DATABASE_CONN_MAX_AGE: "{{ conn_max_age }}"
         DATABASE_ENGINE: "{{ database_engine }}"
         DATABASE_HOST: localhost
@@ -92,11 +94,12 @@ ATMO:
         DATABASE_PORT: 5432
         DATABASE_USER: "{{ atmosphere_database_user }}"
         DJANGO_DEBUG: True
-        ENFORCING: False
-        DJANGO_JENKINS: False
+        ENFORCING: "{{ ENFORCING | default(False) }}"
+        DJANGO_JENKINS: "{{ DJANGO_JENKINS | default(False) }}"
         SESSION_COOKIE_AGE:
-        SSLSERVER: True
-        TESTING: True
+        SSLSERVER: "{{ SSLSERVER | default(True) }}"
+        TESTING: "{{ TESTING | default(False) }}"
+        # Marked for removal because SAML-SSO is not feature-complete
         SAML_SSO:
         SAML_SSO_KEYFILE:
         SAML_SSO_CERTFILE:
@@ -105,57 +108,65 @@ ATMO:
         SSO_OAUTH_KEY:
         SSO_OAUTH_SECRET:
         SAML_ENTITY_ID:
-        DJANGO_TEMPLATE_DEBUG: True
-        LOG_LIBCLOUD: True
+        # END
+        DJANGO_TEMPLATE_DEBUG: "{{ DJANGO_TEMPLATE_DEBUG | default(True) }}"
+        LOG_LIBCLOUD: "{{ LOG_LIBCLOUD | default(True) }}"
         LOGGING_DEP_LEVEL: logging.WARNING
         LOGGING_LEVEL: logging.DEBUG
-        LOGSTASH_HOST:
-        LOGSTASH_PORT:
-        METRIC_SERVER:
+        LOGSTASH_HOST: "{{ LOGSTASH_HOST | default('') }}"
+        LOGSTASH_PORT: "{{ LOGSTASH_PORT | default('') }}"
+        METRIC_SERVER: "{{ METRIC_SERVER | default('') }}"
         SELF_SIGNED_CERT: True
         TEST_RUNNER: atmosphere.test_runner.CeleryDiscoverTestSuiteRunner
         TEST_RUNNER_PASS:
         TEST_RUNNER_USER:
         #local.py - site configuration
-        SITE_NAME:
-        TIME_ZONE:
+        SITE_NAME: "{{ SITE_NAME | default('') }}"
+        TIME_ZONE: "{{ TIME_ZONE | default('') }}"
         AUTO_CREATE_NEW_ACCOUNTS: True
-        USE_JETSTREAM_PLUGIN: False
-        USE_ALLOCATION_SOURCE: False
-        TACC_API_USER:
-        TACC_API_PASS:
-        TACC_API_URL:
+        # Jetstream specific
+        USE_JETSTREAM_PLUGIN: "{{ USE_JETSTREAM_PLUGIN | default('') }}"
+        USE_ALLOCATION_SOURCE: "{{ USE_ALLOCATION_SOURCES | default('') }}"
+        TACC_API_USER: "{{ TACC_API_USER | default('') }}"
+        TACC_API_PASS: "{{ TACC_API_PASS | default('') }}"
+        TACC_API_URL: "{{ TACC_API_URL | default('') }}"
+        # Marked for deletion POST "Per-Provider defaults"
         DEFAULT_ALLOCATION_THRESHOLD:
         DEFAULT_ALLOCATION_DELTA:
+        DEFAULT_QUOTA:
         DEFAULT_EMAIL_DOMAIN:
         DEFAULT_IP_LOOKUP:
         DEFAULT_PASSWORD_LOOKUP:
         DEFAULT_PASSWORD_UPDATE:
         DEFAULT_KEYSTONE_ROLE:
-        DEFAULT_QUOTA:
-        ADMINS_EMAIL_TUPLE:
-        ATMO_SUPPORT_EMAIL_TUPLE:
-        SUPPORT_EMAIL:
-        SUPPORT_EMAIL_SIGNATURE:
-        SUPPORT_LINKS:
-        MONTHLY_RESET_PROVIDER_LOCATIONS:
-        REPLICATION_PROVIDER_LOCATION:
-        EMAIL_LOOKUP_METHOD:
-        USER_EMAIL_LOOKUP_METHOD:
         INSTANCE_HOSTNAMING_DOMAIN:
         INSTANCE_HOSTNAMING_FORMAT:
-        DEPLOYMENT_KEYPAIR_NAME:
-        CELERYBEAT_SCHEDULE:
-        VALIDATION_PLUGINS:
+        # Support and Admin
+        ADMINS_EMAIL_TUPLE: "{{ ADMINS_EMAIL_TUPLE | default('') }}"
+        ATMO_SUPPORT_EMAIL_TUPLE: "{{ ATMO_SUPPORT_EMAIL_TUPLE | default('') }}"
+        SUPPORT_EMAIL: "{{ SUPPORT_EMAIL | default('') }}"
+        SUPPORT_EMAIL_SIGNATURE: "{{ SUPPORT_EMAIL_SIGNATURE | default('') }}"
+        SUPPORT_LINKS: "{{ SUPPORT_LINKS | default('') }}"
+        MONTHLY_RESET_PROVIDER_LOCATIONS: "{{ MONTHLY_RESET_PROVIDER_LOCATIONS | default('') }}"
+        REPLICATION_PROVIDER_LOCATION: "{{ REPLICATION_PROVIDER_LOCATION | default('') }}"
+        EMAIL_LOOKUP_METHOD: "{{ EMAIL_LOOKUP_METHOD | default('') }}"
+        USER_EMAIL_LOOKUP_METHOD: "{{ USER_EMAIL_LOOKUP_METHOD | default('') }}"
+        DEPLOYMENT_KEYPAIR_NAME: "{{ DEPLOYMENT_KEYPAIR_NAME | default('') }}"
+        CELERYBEAT_SCHEDULE: "{{ CELERYBEAT_SCHEDULE | default('') }}"
+        VALIDATION_PLUGINS: "{{ VALIDATION_PLUGINS | default('') }}"
     secrets.py:
-        IRODS_HOST:
-        IRODS_PORT:
-        IRODS_ZONE:
-        IRODS_ADMIN_USER:
-        IRODS_ADMIN_PASS:
+        IRODS_HOST: "{{ IRODS_HOST | default('') }}"
+        IRODS_PORT: "{{ IRODS_PORT | default('') }}"
+        IRODS_ZONE: "{{ IRODS_ZONE | default('') }}"
+        IRODS_ADMIN_USER: "{{ IRODS_ADMIN_USER | default('') }}"
+        IRODS_ADMIN_PASS: "{{ IRODS_ADMIN_PASS | default('') }}"
         LOCAL_STORAGE: /Storage
-        CHROMO_DEPLOYMENT_KEY:
+        #FIXME: Make this use the keyfile path given in ID_RSA_PUB
+        CHROMO_DEPLOYMENT_KEY: "{{ CHROMO_DEPLOYMENT_KEY | default('') }}"
         CHROMO_EXTRA_IMAGE_METADATA: {}
+        ATMOSPHERE_VNC_LICENSE:
+        ATMOSPHERE_SECRET_SEED: "{{ ATMOSPHERE_SECRET_SEED | default('') }}"
+        # Marked for deletion
         OPENSTACK_PROVIDER_KEY: OpenStack
         OPENSTACK_ADMIN_KEY:
         OPENSTACK_ADMIN_SECRET:
@@ -166,25 +177,24 @@ ATMO:
         OPENSTACK_USER_ROLE:
         OPENSTACK_ADMIN_ROLE:
         ATMOSPHERE_SUPERUSER:
-        ATMOSPHERE_VNC_LICENSE:
-        ATMOSPHERE_SECRET_SEED:
 
     celeryd.default:
         VIRTUALENV_PATH: "{{ VIRTUAL_ENV_ATMOSPHERE | default(atmosphere_virtualenv_path) }}"
         ATMOSPHERE_LOCATION: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}"
+        # FIXME: These values won't work
         SSL_LOCATION: /etc/ssl
-        SSL_CERTIFICATE:
-        SSL_KEY:
-        USE_PRODUCTION: True
-        FLOWER_AUTH_SCHEME: "basic"
+        SSL_CERTIFICATE: "/etc/ssl/certs/flower_ssh_cert.pem"
+        SSL_KEY: "/etc/ssl/private/flower_ssh_cert.key"
+        USE_PRODUCTION: "{{ FLOWER_USE_PRODUCTION | default(False) }}"
+        FLOWER_AUTH_SCHEME: "{{ FLOWER_AUTH_SCHEME | default('basic') }}"
         # Required if auth_scheme is 'basic'
         FLOWER_BASIC_USERNAME: "flower_user"
         FLOWER_BASIC_PASSWORD: "flower_pass"
         # Required if auth_scheme is 'google'
-        FLOWER_EMAIL_ACCESS_LIST:
-        FLOWER_OAUTH2_CLIENT_ID:
-        FLOWER_OAUTH2_CLIENT_SECRET:
-        FLOWER_OAUTH2_REDIRECT_URI:
+        FLOWER_EMAIL_ACCESS_LIST: "{{ FLOWER_EMAIL_ACCESS_LIST | default('') }}"
+        FLOWER_OAUTH2_CLIENT_ID: "{{ FLOWER_OAUTH2_CLIENT_ID | default('') }}"
+        FLOWER_OAUTH2_CLIENT_SECRET: "{{ FLOWER_OAUTH2_CLIENT_SECRET | default('') }}"
+        FLOWER_OAUTH2_REDIRECT_URI: "{{ FLOWER_OAUTH2_REDIRECT_URI | default('') }}"
 
 ###################################
 #

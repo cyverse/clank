@@ -47,5 +47,5 @@
          MODULE_NAME: 'troposphere',
          new_relic_browser: True,
          new_relic_app_name: "{{ NEW_RELIC.TROPO_LABEL }}",
-         when: "{{ NEW_RELIC is defined and NEW_RELIC.TROPO_LABEL is defined }}",
+         when: "{{ NEW_RELIC is defined and NEW_RELIC.ATMO_LABEL and NEW_RELIC.LICENSE }}",
          tags: ['troposphere', 'new-relic', 'monitoring'] }

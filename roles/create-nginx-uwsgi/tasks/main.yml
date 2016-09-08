@@ -48,14 +48,10 @@
       nginx_bundle_cert: "{{ BUNDLE_CERT }}"
     when: "{{ BUNDLE_CERT is not none }}"
 
-
+  # FIXME: If 'When:' criteria is False -- we need to run the generation role (Or should we have done that before now?)
   - name: SSL Key exists - copy from NGINX_SSL_KEY_PATH to NGINX_SSL_KEY_DEST
     copy: src={{ NGINX_SSL_KEY_PATH }} dest={{ NGINX_SSL_KEY_DEST }}
     when: ssl_key_path.stat.exists == True
-
-  - name: Combined cert exists - copy NGINX_COMBINED_CERT_PATH to NGINX_COMBINED_CERT_DEST listed
-    copy: src={{ NGINX_COMBINED_CERT_PATH }} dest={{ NGINX_COMBINED_CERT_DEST }}
-    when: combined_cert_path.stat.exists == True
 
   - name: No combined cert - generate a combined certificate - combined_cert_source
     command: >
@@ -66,6 +62,15 @@
   - name: local_action copy combined_cert_source to the NGINX_COMBINED_CERT_PATH listed
     local_action: copy content={{ combined_cert_source.stdout }} dest={{ NGINX_COMBINED_CERT_PATH }}
     when: "{{ combined_cert_source.stdout_lines is defined }}"
+
+  - stat: path={{ NGINX_COMBINED_CERT_PATH }}
+    register: combined_cert_path
+
+  - name: Combined cert exists - copy NGINX_COMBINED_CERT_PATH to NGINX_COMBINED_CERT_DEST listed
+    copy: src={{ NGINX_COMBINED_CERT_PATH }} dest={{ NGINX_COMBINED_CERT_DEST }}
+    when: combined_cert_path.stat.exists == True
+
+
 
 - debug: var=output.stdout_lines
   when: "{{ CLANK_VERBOSE | default(False) }}"
