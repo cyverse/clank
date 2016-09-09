@@ -10,6 +10,12 @@ atmosphere_directory_path: "{{workspace}}/{{atmosphere_directory_name}}"
 atmosphere_virtualenv_path: "{{virtualenv_dir}}/{{atmosphere_virtualenv_name}}"
 atmosphere_server_name: "{{ ansible_fqdn }}"
 atmosphere_server_url: "https://{{ atmosphere_server_name }}"
+nginx_combined_cert_dir: "/etc/ssl/certs"
+nginx_combined_cert_file: "combined_atmo_ssl_cert.pem"
+nginx_combined_cert_path: "{{nginx_combined_cert_dir}}/{{nginx_combined_cert_file}}"
+nginx_key_dir: /etc/ssl/private
+nginx_key_file: atmo_ssl_cert.key
+nginx_key_path: "{{nginx_key_dir}}/{{nginx_key_file}}"
 
 ###################################
 #
@@ -42,10 +48,10 @@ ATMO:
         CERT_FILE:
         LEADERBOARD_URL:
         #NOTE: The combined cert and key doesn't have to exist, we just need a name for their final destinations
-        COMBINED_CERT_FILE: "combined_ssl_certificate.pem"
-        COMBINED_CERT_PATH: "/etc/ssl/certs/combined_ssl_certificate.pem"
-        KEY_FILE: atmosphere_nginx.key
-        KEY_PATH: /etc/ssl/private
+        COMBINED_CERT_FILE: "{{ nginx_combined_cert_file }}"
+        COMBINED_CERT_PATH: "{{ nginx_combined_cert_path }}"
+        KEY_FILE: "{{ nginx_key_file }}"
+        KEY_PATH: "{{ nginx_key_dir }}"
         KEY_SIZE: 1024
         VIRTUALENV_PATH: "{{ VIRTUAL_ENV_ATMOSPHERE | default(atmosphere_virtualenv_path) }}"
 
@@ -183,8 +189,8 @@ ATMO:
         ATMOSPHERE_LOCATION: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}"
         # FIXME: These values won't work
         SSL_LOCATION: /etc/ssl
-        SSL_CERTIFICATE: "/etc/ssl/certs/flower_ssh_cert.pem"
-        SSL_KEY: "/etc/ssl/private/flower_ssh_cert.key"
+        SSL_CERTIFICATE: "{{ nginx_combined_cert_file }}"
+        SSL_KEY: "{{ nginx_key_file }}"
         USE_PRODUCTION: "{{ FLOWER_USE_PRODUCTION | default(False) }}"
         FLOWER_AUTH_SCHEME: "{{ FLOWER_AUTH_SCHEME | default('basic') }}"
         # Required if auth_scheme is 'basic'
