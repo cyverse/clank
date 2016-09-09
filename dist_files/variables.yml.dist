@@ -14,19 +14,24 @@ VIRTUAL_ENV_DIR: "/opt/env"
 SECRETS_REPO: "/path/to/secret/clank_init"
 
 ###
-# SSL Certificates that EXIST
+# Don't have SSL Certificates ? Use this:
 ###
-CREATE_SSL: False
-SSL_CERTIFICATE: "{{ SECRETS_REPO }}/my_ssl_cert.org.crt"  #Absolute Path Recommended
-COMBINED_CERT: "{{ SECRETS_REPO }}/my_combined_cert.crt"           #Absolute Path Recommended
-BUNDLE_CERT: "{{ SECRETS_REPO }}/bundle.crt" #Absolute Path Recommended
-SSL_KEY: "{{ SECRETS_REPO }}/my_private_ssl_cert.key"        #Absolute Path Recommended
+CREATE_SSL: True
+
+###
+# SSL Certificates that EXIST? Use this:
+###
+# CREATE_SSL: False
+# SSL_CERTIFICATE: "{{ SECRETS_REPO }}/my_ssl_cert.org.crt"  #Absolute Path Recommended
+# COMBINED_CERT: "{{ SECRETS_REPO }}/my_combined_cert.crt"           #Absolute Path Recommended
+# BUNDLE_CERT: "{{ SECRETS_REPO }}/bundle.crt" #Absolute Path Recommended
+# SSL_KEY: "{{ SECRETS_REPO }}/my_private_ssl_cert.key"        #Absolute Path Recommended
 
 ###
 # SSH KEYPAIR to be used for Instance Deployment
 ###
-ID_RSA: "{{ SECRETS_REPO }}/id_rsa"
-ID_RSA_PUB: "{{ SECRETS_REPO }}/id_rsa.pub"
+# ID_RSA: "{{ SECRETS_REPO }}/id_rsa"
+# ID_RSA_PUB: "{{ SECRETS_REPO }}/id_rsa.pub"
 
 
 ###############################
@@ -41,3 +46,12 @@ AUTH_USE_OVERRIDE: True
 #[MOCK] - Use this if you are a developer or evaluating Atmosphere
 AUTH_ENABLE_MOCK: True
 AUTH_MOCK_USER: "atmosphere_user"
+
+#Specific overrides of group_vars/atmosphere go here:
+atmosphere_database_name: local_atmosphere
+
+#Specific overrides of group_vars/troposphere go here:
+troposphere_theme_name: troposphere_theme
+
+#Specific overrides of group_vars/atmosphere-ansible go here:
+atmosphere_ansible_github_repo: https://github.com/iPlantCollaborativeOpenSource/atmosphere-ansible.git
