@@ -45,9 +45,8 @@
 
     - { role: app-setup-ssh-keys,
         APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}",
-        CREATE_SSH: "{{ CREATE_SSH_KEYS | default(true) }}",
-        SSH_PRIV_KEY: "{{ ID_RSA }}",
-        SSH_PUB_KEY: "{{ ID_RSA_PUB }}",
+        SSH_PRIV_KEY: "{{ ID_RSA | default('') }}",
+        SSH_PUB_KEY: "{{ ID_RSA_PUB | default('') }}",
         tags: ['atmosphere', 'ansible-deploy', 'setup-ssh-keys'] }
     #FIXME: when -- INSTANCE...HOSTS_FILE and GROUP_VARS_FOLDER exist..
     - { role: app-install-instance-deploy-automation,
