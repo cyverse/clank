@@ -3,5 +3,10 @@
   hosts: full_deploy
   strategy: debug
 
+  roles:
+    - { role: print-all-variables,
+        tags: ['print-vars'] }
+
+
 - include: ./deploy_atmosphere.yml
 - include: ./deploy_troposphere.yml

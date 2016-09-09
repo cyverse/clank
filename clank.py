@@ -67,11 +67,10 @@ def execute_ansible_playbook(args):
        command += ' --skip-tags="%s"' % args.skip_tags
     if args.tags:
         command += ' --tags "%s"' % args.tags  
-    if args.verbose:
+    if args.verbose or args.debug:
         command += ' -vvvvv -e"CLANK_VERBOSE=true"'
     if args.debug:
-        print "[DEBUG] Command to execute: {}".format(command)
-	sys.exit(0)
+        command += ' --tags print-vars'
     (out, err, returncode) = live_run(command, cwd=cur_dir)
     if returncode is not 0:
         print Fore.RED + "%s" % command
