@@ -1,7 +1,7 @@
 database_engine: django.db.backends.postgresql_psycopg2
 conn_max_age: 60
-workspace: /opt2/dev
+workspace: "{{WORKSPACE | default('/opt/dev')}}"
 secrets_repo: /opt/dev/clank_workspace/atmo-extras
-virtualenv_dir: /opt2/env
+virtualenv_dir: "{{VIRTUAL_ENV_DIR | default('/opt/env')}}"
 github_branch: master
 db_version: 9.5
