@@ -68,7 +68,7 @@ def execute_ansible_playbook(args):
     if args.tags:
         command += ' --tags "%s"' % args.tags  
     if args.verbose:
-        command += ' -e"CLANK_VERBOSE=true"'
+        command += ' -vvvvv -e"CLANK_VERBOSE=true"'
     if args.debug:
         print "[DEBUG] Command to execute: {}".format(command)
 	sys.exit(0)
