@@ -1,4 +1,4 @@
-atmosphere_database_name: jetstream_new
+atmosphere_database_name: atmosphere
 atmosphere_database_password: atmosphere
 atmosphere_database_user: atmo_app
 atmosphere_directory_name: atmosphere
