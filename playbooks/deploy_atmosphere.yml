@@ -16,8 +16,7 @@
 
     - { role: setup-ssl,
         CREATE_SSL_FILES: "{{ CREATE_SSL | default(True) }}",
-        when: "{{ SSL_CERTIFICATE is undefined or BUNDLE_CERT is undefined or SSL_KEY is undefined }}",
-        tags: ['dependencies', 'ssl'] }
+        tags: ['dependencies', 'create-nginx-uwsgi', 'ssl'] }
 
 - name: Clone Atmosphere Ansible
   hosts: atmosphere_ansible

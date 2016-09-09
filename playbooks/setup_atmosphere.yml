@@ -89,7 +89,7 @@
         NGINX_COMBINED_CERT_PATH: "{{ COMBINED_CERT }}",
         NGINX_SSL_KEY_DEST: "{{ ATMO.nginx.KEY_PATH }}",
         NGINX_COMBINED_CERT_DEST: "{{ ATMO.nginx.COMBINED_CERT_PATH }}",
-        tags: ['atmosphere', 'deploy', 'nginx-uwsgi'] }
+        tags: ['atmosphere', 'deploy', 'create-nginx-uwsgi', 'nginx-uwsgi'] }
 
     - { role: setup-webserver-user-group,
         APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}",
