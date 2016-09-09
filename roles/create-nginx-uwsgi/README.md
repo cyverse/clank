@@ -1,7 +1,11 @@
-Role Name
+Create nginx and uWSGI SSL files
 =========
 
-A brief description of the role goes here.
+Runs make from extras/nginx, creates uwsgi directories and copies conf into place
+
+At the end of execution, the required nginx ssl variables will be created and set as facts, or used in the location provided.
+
+This role is different from its -nginx-uwsgi sister because it will save either one to a single destination, listed in the defaults
 
 Requirements
 ------------
@@ -27,9 +31,14 @@ Including an example of how to use your role (for instance, with variables passe
 ```
     - hosts: all
       roles:
-        - { role: config-nginx-uwsgi,
-            APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION }}",
+        - { role: create-nginx-uwsgi,
+            APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION | default(troposphere_directory_path) }}",
             UWSGI_APP_NAME: 'troposphere',
+            UWSGI_INI_SRC_NAME: 'extras/troposphere.uwsgi.ini',
+            NGINX_SSL_KEY_PATH: "{{ SSL_KEY }}",
+            NGINX_COMBINED_CERT_PATH: "{{ COMBINED_CERT }}",
+            NGINX_SSL_KEY_DEST: "{{ TROPO.nginx.KEY_PATH }}",
+            NGINX_COMBINED_CERT_DEST: "{{ TROPO.nginx.COMBINED_CERT_PATH }}",
             tags: ['troposphere'] }
 ```
 
@@ -38,9 +47,14 @@ or
 ```
     - hosts: all
       roles:
-        - { role: config-nginx-uwsgi,
-            APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION }}",
+        - { role: create-nginx-uwsgi,
+            APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}",
             UWSGI_APP_NAME: 'atmosphere',
+            UWSGI_INI_SRC_NAME: 'extras/uwsgi/atmo.uwsgi.ini',
+            NGINX_SSL_KEY_PATH: "{{ SSL_KEY }}",
+            NGINX_COMBINED_CERT_PATH: "{{ COMBINED_CERT }}",
+            NGINX_SSL_KEY_DEST: "{{ ATMO.nginx.KEY_PATH }}",
+            NGINX_COMBINED_CERT_DEST: "{{ ATMO.nginx.COMBINED_CERT_PATH }}",
             tags: ['atmosphere'] }
 ```
 
