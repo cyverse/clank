@@ -8,7 +8,7 @@ atmosphere_github_repo: https://github.com/iPlantCollaborativeOpenSource/atmosph
 atmosphere_virtualenv_name: atmo
 atmosphere_directory_path: "{{workspace}}/{{atmosphere_directory_name}}"
 atmosphere_virtualenv_path: "{{virtualenv_dir}}/{{atmosphere_virtualenv_name}}"
-atmosphere_server_name: "{{ ansible_fqdn }}"
+atmosphere_server_name: "{{ server_name }}"
 atmosphere_server_url: "https://{{ atmosphere_server_name }}"
 nginx_combined_cert_dir: "/etc/ssl/certs"
 nginx_combined_cert_file: "combined_atmo_ssl_cert.pem"
