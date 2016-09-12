@@ -47,6 +47,10 @@ AUTH_USE_OVERRIDE: True
 AUTH_ENABLE_MOCK: True
 AUTH_MOCK_USER: "atmosphere_user"
 
+###############################
+#3. App-specific overrides
+###############################
+
 #Specific overrides of group_vars/atmosphere go here:
 atmosphere_database_name: local_atmosphere
 
