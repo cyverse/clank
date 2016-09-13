@@ -45,6 +45,11 @@ def setup_arguments():
         type=str,
         help="the environment file to load when running ansible-playbook")
 
+    parser.add_argument("-x", "--extra",
+        required=False,
+        action='append', default=[],
+        help="This can be used to pass additional extra-vars to ansible-playbook. This is *not* required.")
+
     return parser
 
 def live_run(command, **kwargs):
@@ -72,7 +77,8 @@ def execute_ansible_playbook(args):
     if args.debug:
         command += ' --tags print-vars'
     if args.extra:
-        command += '-e"%s"' % args.extra
+        for extra_arg in args.extra:
+            command += ' -e"%s"' % extra_arg
     (out, err, returncode) = live_run(command, cwd=cur_dir)
     if returncode is not 0:
         print Fore.RED + "%s" % command
