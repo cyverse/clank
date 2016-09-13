@@ -8,7 +8,7 @@ atmosphere_github_repo: https://github.com/iPlantCollaborativeOpenSource/atmosph
 atmosphere_github_branch: master
 atmosphere_virtualenv_name: atmo
 atmosphere_directory_path: "{{workspace}}/{{atmosphere_directory_name}}"
-atmosphere_virtualenv_path: "{{virtualenv_dir}}/{{atmosphere_virtualenv_name}}"
+atmosphere_virtualenv_path: "{{ VIRTUAL_ENV_ATMOSPHERE | default(virtualenv_dir+'/'+atmosphere_virtualenv_name) }}"
 atmosphere_server_name: "{{ server_name }}"
 atmosphere_server_url: "https://{{ atmosphere_server_name }}"
 nginx_combined_cert_dir: "/etc/ssl/certs"
@@ -54,12 +54,12 @@ ATMO:
         KEY_FILE: "{{ nginx_key_file }}"
         KEY_PATH: "{{ nginx_key_dir }}"
         KEY_SIZE: 1024
-        VIRTUALENV_PATH: "{{ VIRTUAL_ENV_ATMOSPHERE | default(atmosphere_virtualenv_path) }}"
+        VIRTUALENV_PATH: "{{ atmosphere_virtualenv_path }}"
 
     uwsgi.ini:
         LOCAL_DEV: False
         PATH_TO_ATMOSPHERE: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}"
-        VIRTUALENV_PATH: "{{ VIRTUAL_ENV_ATMOSPHERE | default(atmosphere_virtualenv_path) }}"
+        VIRTUALENV_PATH: "{{ atmosphere_virtualenv_path }}"
         UWSGI_USER: www-data
         UWSGI_GROUP: www-data
         UWSGI_LOG_PATH: /var/log/uwsgi/atmosphere-uwsgi.log
@@ -185,7 +185,7 @@ ATMO:
         ATMOSPHERE_SUPERUSER:
 
     celeryd.default:
-        VIRTUALENV_PATH: "{{ VIRTUAL_ENV_ATMOSPHERE | default(atmosphere_virtualenv_path) }}"
+        VIRTUALENV_PATH: "{{ atmosphere_virtualenv_path }}"
         ATMOSPHERE_LOCATION: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}"
         # FIXME: These values won't work
         SSL_LOCATION: /etc/ssl
