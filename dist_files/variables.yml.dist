@@ -1,17 +1,49 @@
 ###############################
-#1. Installation configuration
+#0. Welcome to Clanks variables.yml configuration file!
+#
+# NOTE: There are a LOT of options available to you in this file!
+# However, if you are just starting out with Clank, Atmosphere, and Troposphere
+# you can go ahead and ignore the commented out sections of code.
+#
+# At a minimum, you should define the following:
+# Section 1 - WORKSPACE, VIRTUAL_ENV_DIR
+# Section 2 - Define the Authentication plugin you intend to use _OR_
+#             set AUTH_MOCK_USER If you intend to skip the authentication check
 ###############################
 
-###
-# Required for Installation
-###
-#NOTE: This is where atmosphere/troposphere reside.
-WORKSPACE: /opt/dev
-#NOTE: This is where atmosphere/troposphere python packages reside.
-VIRTUAL_ENV_DIR: "/opt/env"
+###############################
+#1. Required configuration
+###############################
+WORKSPACE: /opt/dev  #NOTE: This is where atmosphere/troposphere directories reside.
+VIRTUAL_ENV_DIR: "/opt/env"  #NOTE: This is where atmosphere/troposphere virtualenv directories reside.
 
-#NOTE: This repo contains the SSH Keys, SSL Certs, and an atmosphere-ansible directory (including hosts file and group_vars directory)
-SECRETS_REPO: "/path/to/secret/clank_init"
+###
+# SECRETS_REPO - This repo should contain the SSH Keys, SSL Certs, and an atmosphere-ansible directory (including hosts file and group_vars directory) that you intend to use when installing Atmosphere.
+###
+# SECRETS_REPO: "/path/to/secrets_repo/clank_init"
+
+
+###
+# ANSIBLE_HOSTS_FILE and ANSIBLE_GROUP_VARS_FOLDER are required if you intend on properly
+# deploying to instances with Atmosphere.
+#
+# Don't have a hosts or group_vars file handy? We will generate one for you as part of the process.
+# Before launching an instance, you will want to confirm:
+# * The IP Address given to new instances is inside the range listed in the `hosts` file.
+# * The group_vars for each group that matches the IP address range is valid for your cloud.
+###
+#ANSIBLE_HOSTS_FILE: "{{ SECRETS_REPO }}/atmosphere-ansible/hosts"
+#ANSIBLE_GROUP_VARS_FOLDER: "{{ SECRETS_REPO }}/atmosphere-ansible/group_vars"
+
+###
+# SSH KEYPAIR - This public key will be used by Atmosphere to take over the deployment process once an instance has been launched and networked appropriately. After the key is injected in the instance and Atmosphere has run the instance deployment playbook in atmosphere-ansible, the instance will be made available to the user.
+###
+#GENERATE_SSH_CONFIG: False
+#CREATE_SSH_KEYS: False
+#DEPLOYMENT_KEYPAIR_NAME: atmosphere_keypair_1
+#ID_RSA: "{{ SECRETS_REPO }}/atmosphere_keypair_1"
+#ID_RSA_PUB: "{{ SECRETS_REPO }}/atmosphere_keypair_1.pub"
+
 
 ###
 # Don't have SSL Certificates ? Use this:
@@ -19,43 +51,187 @@ SECRETS_REPO: "/path/to/secret/clank_init"
 CREATE_SSL: True
 
 ###
-# SSL Certificates that EXIST? Use this:
+# Bringing your own SSL Certificates? Use this:
 ###
-# CREATE_SSL: False
-# SSL_CERTIFICATE: "{{ SECRETS_REPO }}/my_ssl_cert.org.crt"  #Absolute Path Recommended
-# COMBINED_CERT: "{{ SECRETS_REPO }}/my_combined_cert.crt"           #Absolute Path Recommended
-# BUNDLE_CERT: "{{ SECRETS_REPO }}/bundle.crt" #Absolute Path Recommended
-# SSL_KEY: "{{ SECRETS_REPO }}/my_private_ssl_cert.key"        #Absolute Path Recommended
-
-###
-# SSH KEYPAIR to be used for Instance Deployment
-###
-# ID_RSA: "{{ SECRETS_REPO }}/id_rsa"
-# ID_RSA_PUB: "{{ SECRETS_REPO }}/id_rsa.pub"
-
+#CREATE_SSL: False
+#SSL_CERTIFICATE: "{{ SECRETS_REPO }}/cert.pem"    #Absolute Path Recommended
+#BUNDLE_CERT: "{{ SECRETS_REPO }}/chain.pem"       #Absolute Path Recommended
+#SSL_KEY: "{{ SECRETS_REPO }}/privkey.pem"         #Absolute Path Recommended
+#COMBINED_CERT: "{{ SECRETS_REPO }}/fullchain.pem" #Absolute Path Recommended
 
 ###############################
-#2. Optional configuration
+# 2. Authentication:
+# LDAP, JWT, and SAML are additional protocols that support Atmosphere API Only.
+# Select *one* Authentication protocol from "Single Sign On Integrations"
 ###############################
-
-###
-#2a: Authentication
-###
 AUTH_USE_OVERRIDE: True
 
 #[MOCK] - Use this if you are a developer or evaluating Atmosphere
+#############
+# First, A WARNING about using Mock Authentication
+# WARNING: You should only use Mock authentication in a secure environment.
+# Running Mock authentication on an instance that is connected to the outside world
+# would allow anyone who visits the webpage to create, edit, or destroy resources on an enabled cloud provider. You could additionally leak your credentials. USE AT YOUR OWN RISK.
+#############
 AUTH_ENABLE_MOCK: True
 AUTH_MOCK_USER: "atmosphere_user"
 
+#[LDAP]
+# AUTH_ENABLE_LDAP: True
+# LDAP_SERVER: ldap://ldap.iplantcollaborative.org
+# LDAP_SERVER_DN: ou=people,dc=iplantcollaborative,dc=org
+
+#[JWT]
+# AUTH_ENABLE_JWT: True
+# JWT_INSTALL: True  #FIXME: drop this var.
+# JWT_PUBLIC_KEY: /opt/dev/atmosphere/tacc_pub_key.pub # Not required for most installs?
+# JWT_CLIENT_KEY: 1nfmGUUfnxvJGoqsnlEWYdbucb8a
+# JWT_CLIENT_SECRET: b0vqMKQVnPFMEq9dMcF_xGur7CIa
+
+#[SAML] - Incomplete Auth. Ignore.
+# SAML_SSO: ""
+# SAML_SSO_KEYFILE: ""
+# SAML_SSO_CERTFILE: ""
+# SAML_IDP_URL: https://52.3.10.15:9563
+# SAML_IDP_OAUTH_URL: https://52.3.10.15:9563/oauth2/token
+# SSO_OAUTH_KEY: EJESpDRqUWEpNPYZhe6y_sxcUaEa
+# SSO_OAUTH_SECRET: jBd5FovIXdVcuXWIjdewxLUN2iYa
+# SAML_ENTITY_ID: atmomickey
+
+###
+#Single Sign On Integations: *Pick one*
+###
+
+#[CAS]
+# AUTH_ENABLE_CAS: True
+# CAS_AUTH_PREFIX: /cas4
+# CAS_SERVER: https://auth.iplantcollaborative.org
+# ATMO_OAUTH_CLIENT_KEY: atmosphere_mickey
+# ATMO_OAUTH_CLIENT_SECRET: atmosphere_secret
+# TROPO_OAUTH_CLIENT_KEY: troposphere_mickey
+# TROPO_OAUTH_CLIENT_SECRET: troposphere_secret
+# CAS_OAUTH_CLIENT_CALLBACK: https://mickey.iplantc.org/cas/oauth2.0
+
+#[GLOBUS]
+# AUTH_ENABLE_GLOBUS: False
+# GLOBUS_TOKENINFO_URL: https://auth.globus.org/v2/oauth2/token/introspect
+# GLOBUS_TOKEN_URL: https://auth.globus.org/v2/oauth2/token
+# GLOBUS_AUTH_URL: https://auth.globus.org/v2/oauth2/authorize
+# GLOBUS_OAUTH_ID: cc18e2dd-eff6-4b2f-b108-b740355efab1
+# GLOBUS_OAUTH_SECRET: 5bYFoq4KYMmWAtc92nrpaEJuuxC4wgxzrUz1xYM4H6Yu
+# GLOBUS_OAUTH_CREDENTIALS_SCOPE: auth:login
+# GLOBUS_OAUTH_ATMOSPHERE_SCOPE: atmosphere:all
+
 ###############################
-#3. App-specific overrides
+#3. GLOBAL OVERRIDES
+###############################
+#
+###
+# 3a. Site specific configuration
+###
+# SITE_NAME: Atmosphere
+# SITE_FOOTER: Powered by Clank
+# ORG_NAME: Atmosphere
+# TIME_ZONE: America/Phoenix
+# DEFAULT_EMAIL_DOMAIN: cyverse.org
+
+# NOTE: At least one valid email is requried for admin. If given, this user will be emailed when errors occur in Atmosphere, Troposphere, and for user contact/feedback.
+# ADMINS_EMAIL_TUPLE: [['Atmosphere Admin', 'valid-email@required'], ['Admin Two', 'valid-email@required']]
+
+###
+# 3b: Support
+# Looking to separate support email from the Sys.Admin error emails?
+# ATMO_SUPPORT_EMAIL_TUPLE: [['Support Team', 'valid-email@required'], ] # can have more than one
+# SUPPORT_EMAIL: support-email@required
+# SUPPORT_EMAIL_SIGNATURE: Support Team
+# SUPPORT_LINKS: {'getting_started': "https://google.com/",'new_provider': "https://google.com"}
+
+###############################
+#4. Optional Plugins
+#   These features are NOT required to run Atmosphere+Troposphere
+#   But they do make interacting with the UI easier for end-users.
+###############################
+
+###
+# Gate One
+###
+# USE_GATE_ONE_API: False
+# GATE_ONE_API_KEY:
+# GATE_ONE_API_SECRET:
+
+###
+# Web Shell
+###
+# WEB_SH_ROUTE:
+# WEB_SH_BASE_URL:
+# WEB_SH_JS_FILE: "static/gateone.js"
+
+###
+# Web Desktop
+###
+# WEB_DESKTOP_SIGNING_SALT: ""
+# WEB_DESKTOP_FP_SALT: ""
+# WEB_DESKTOP_SIGNING_SECRET_KEY: ""
+# WEB_DESKTOP_FP_SECRET_KEY: ""
+# WEB_DESKTOP_INCLUDE_LINK: False
+# WEB_DESKTOP_PROXY_URL: ""
+# WEB_DESKTOP_PROXY_DOMAIN: ""
+
+###
+# VNC
+###
+# ATMOSPHERE_VNC_LICENSE: ""
+
+###
+# Logstash: ELK install required.
+###
+# LOGSTASH_HOST: ""
+# LOGSTASH_PORT: ""
+
+###
+# Metrics: WeatherBalloon Server requried
+###
+# SHOW_INSTANCE_METRICS: False
+# METRIC_SERVER:
+
+###
+# Badges:
+###
+# BADGES_ENABLED: False
+# BADGE_SECRET: ""
+# BADGE_HOST: ""
+# BADGE_API_HOST: ""
+# BADGE_SYSTEM_NAME: My_System
+# BADGE_SYSTEM_SLUG: my_system
+
+###
+# Intercom:
+###
+# INTERCOM_APP_ID: ""
+# INTERCOM_COMPANY_ID: ""
+# INTERCOM_COMPANY_NAME: ""
+
+###
+# New Relic:
+###
+# NEW_RELIC:
+#     LICENSE: ""
+#     ATMO_LABEL: ""
+#     TROPO_LABEL: ""
+#     ENVIRONMENT: ""
+#     BROWSER: 'partials/__new_relic_browser.html'
+
+###############################
+#5. App-specific overrides
 ###############################
 
 #Specific overrides of group_vars/atmosphere go here:
-atmosphere_database_name: local_atmosphere
+# atmosphere_database_name: local_atmosphere
+# atmosphere_github_branch: "master"
 
 #Specific overrides of group_vars/troposphere go here:
-troposphere_theme_name: troposphere_theme
+# troposphere_theme_name: troposphere_theme
+# troposphere_github_branch: "master"
 
 #Specific overrides of group_vars/atmosphere-ansible go here:
-atmosphere_ansible_github_repo: https://github.com/iPlantCollaborativeOpenSource/atmosphere-ansible.git
+# atmosphere_ansible_github_repo: https://github.com/iPlantCollaborativeOpenSource/atmosphere-ansible.git
