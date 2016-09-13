@@ -5,6 +5,7 @@ atmosphere_directory_name: atmosphere
 # line below can be removed soon
 atmosphere_ansible_directory_path: "{{workspace}}/atmosphere-ansible"
 atmosphere_github_repo: https://github.com/iPlantCollaborativeOpenSource/atmosphere.git
+atmosphere_github_branch: master
 atmosphere_virtualenv_name: atmo
 atmosphere_directory_path: "{{workspace}}/{{atmosphere_directory_name}}"
 atmosphere_virtualenv_path: "{{virtualenv_dir}}/{{atmosphere_virtualenv_name}}"
@@ -131,16 +132,16 @@ ATMO:
         TIME_ZONE: "{{ TIME_ZONE | default('') }}"
         AUTO_CREATE_NEW_ACCOUNTS: True
         # Jetstream specific
-        USE_JETSTREAM_PLUGIN: "{{ USE_JETSTREAM_PLUGIN | default('') }}"
-        USE_ALLOCATION_SOURCE: "{{ USE_ALLOCATION_SOURCES | default('') }}"
+        USE_JETSTREAM_PLUGIN: "{{ USE_JETSTREAM_PLUGIN | default(False) }}"
+        USE_ALLOCATION_SOURCE: "{{ USE_ALLOCATION_SOURCES | default(False) }}"
         TACC_API_USER: "{{ TACC_API_USER | default('') }}"
         TACC_API_PASS: "{{ TACC_API_PASS | default('') }}"
         TACC_API_URL: "{{ TACC_API_URL | default('') }}"
         # Marked for deletion POST "Per-Provider defaults"
+        DEFAULT_EMAIL_DOMAIN: "{{ DEFAULT_EMAIL_DOMAIN | default('') }}"
         DEFAULT_ALLOCATION_THRESHOLD:
         DEFAULT_ALLOCATION_DELTA:
         DEFAULT_QUOTA:
-        DEFAULT_EMAIL_DOMAIN:
         DEFAULT_IP_LOOKUP:
         DEFAULT_PASSWORD_LOOKUP:
         DEFAULT_PASSWORD_UPDATE:

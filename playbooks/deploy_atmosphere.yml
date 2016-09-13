@@ -25,7 +25,7 @@
     - { role: clone-repo,
         REPO_BASE_DIR: "{{ ANSIBLE_DEPLOY_DIR | default(workspace) }}",
         CLONE_TARGET: "{{ ANSIBLE_DEPLOY_LOCATION | default(atmosphere_ansible_directory_path) }}",
-        SPECIFIC_BRANCH: "{{ ATMOSPHERE_ANSIBLE_BRANCH | default('master') }}",
+        SPECIFIC_BRANCH: "{{ atmosphere_ansible_github_branch }}",
         REPO_URI: "{{ ANSIBLE_REPO | default(atmosphere_ansible_github_repo) }}",
         tags: [ 'atmosphere', 'clone-repo'] }
 
@@ -41,7 +41,7 @@
     - { role: clone-repo,
         REPO_BASE_DIR: "{{ workspace }}",
         CLONE_TARGET: "{{ atmosphere_directory_path }}",
-        SPECIFIC_BRANCH: "{{ ATMOSPHERE_BRANCH  | default('master') }}",
+        SPECIFIC_BRANCH: "{{ atmosphere_github_branch }}",
         REPO_URI: "{{ ATMOSPHERE_REPO | default(atmosphere_github_repo) }}",
         tags: [ 'atmosphere', 'clone-repo'] }
 

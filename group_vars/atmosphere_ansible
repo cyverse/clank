@@ -1,4 +1,5 @@
 atmosphere_ansible_github_repo: https://github.com/iPlantCollaborativeOpenSource/atmosphere-ansible.git
+atmosphere_ansible_github_branch: master
 atmosphere_ansible_directory_name: atmosphere-ansible
 atmosphere_ansible_directory_path: "{{workspace}}/{{atmosphere_ansible_directory_name}}"
 atmosphere_ansible_inventory_filename: hosts
