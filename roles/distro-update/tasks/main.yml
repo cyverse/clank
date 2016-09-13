@@ -1,0 +1,16 @@
+---
+
+- name: APT
+  apt:
+    update_cache: yes
+    upgrade: dist
+  when: ansible_pkg_mgr == "apt"
+  tags: ['apt-install']
+
+- name: Yum
+  yum:
+    update_cache: yes
+    name: "*"
+    state: latest
+  when: ansible_pkg_mgr == "yum"
+  tags: ['apt-install']

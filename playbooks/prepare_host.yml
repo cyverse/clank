@@ -1,0 +1,7 @@
+---
+- name: Ensure distro is up-to-date
+  hosts: all
+  roles:
+    - distro-update
+  tags:
+    - distro-update

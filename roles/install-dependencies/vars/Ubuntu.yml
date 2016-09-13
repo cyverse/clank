@@ -4,8 +4,8 @@ APT_REPOSITORIES_TO_REMOVE:
 
 APT_KEYS_TO_ADD:
   packages:
-    - https://deb.nodesource.com/gpgkey/nodesource.gpg.key
-    - https://www.postgresql.org/media/keys/ACCC4CF8.asc
+    - "{{ role_path }}/files/nodesource.gpg.key"
+    - "{{ role_path }}/files/postgresql_ACCC4CF8.asc"
 
 APT_REPOSITORIES_TO_ADD:
   packages:

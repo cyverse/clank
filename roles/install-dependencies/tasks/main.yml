@@ -25,7 +25,7 @@
   when: ansible_distribution == "Ubuntu"
 
 - name: add apt keys
-  apt_key: url={{ item }} state=present
+  apt_key: file={{ item }} state=present
   with_items: "{{ APT_KEYS_TO_ADD.packages }}"
   when: ansible_distribution == "Ubuntu" 
 
