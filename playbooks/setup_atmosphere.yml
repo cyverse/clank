@@ -86,7 +86,7 @@
         UWSGI_INI_SRC_NAME: 'extras/uwsgi/atmo.uwsgi.ini',
         NGINX_SSL_KEY_PATH: "{{ SSL_KEY }}",
         NGINX_COMBINED_CERT_PATH: "{{ COMBINED_CERT }}",
-        NGINX_SSL_KEY_DEST: "{{ ATMO.nginx.KEY_PATH }}",
+        NGINX_SSL_KEY_DEST: "{{ ATMO.nginx.KEY_PATH }}/{{ ATMO.nginx.KEY_FILE }}",
         NGINX_COMBINED_CERT_DEST: "{{ ATMO.nginx.COMBINED_CERT_PATH }}",
         tags: ['atmosphere', 'deploy', 'create-nginx-uwsgi', 'nginx-uwsgi'] }
 

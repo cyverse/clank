@@ -11,12 +11,6 @@ atmosphere_directory_path: "{{workspace}}/{{atmosphere_directory_name}}"
 atmosphere_virtualenv_path: "{{ VIRTUAL_ENV_ATMOSPHERE | default(virtualenv_dir+'/'+atmosphere_virtualenv_name) }}"
 atmosphere_server_name: "{{ server_name }}"
 atmosphere_server_url: "https://{{ atmosphere_server_name }}"
-nginx_combined_cert_dir: "/etc/ssl/certs"
-nginx_combined_cert_file: "combined_atmo_ssl_cert.pem"
-nginx_combined_cert_path: "{{nginx_combined_cert_dir}}/{{nginx_combined_cert_file}}"
-nginx_key_dir: /etc/ssl/private
-nginx_key_file: atmo_ssl_cert.key
-nginx_key_path: "{{nginx_key_dir}}/{{nginx_key_file}}"
 
 ###################################
 #
