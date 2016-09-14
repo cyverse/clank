@@ -25,3 +25,8 @@
   with_items: "{{ database_names }}"
   command: >
     pg_dump {{ item }} -f "{{ ansible_hostname }}-{{ item }}-backup-{{ ansible_date_time.date }}-{{ ansible_date_time.epoch }}.sql"
+
+# The following task is helpful for copying the backup directory to a location that the postgresql user normally can't copy to
+- name: Copy backup to specific location when NEW_BACKUP_LOCATION var is defined
+  command: mv "{{ BACKUP_PATH }}/{{ ansible_date_time.date }}" {{ NEW_BACKUP_LOCATION }}
+  when: NEW_BACKUP_LOCATION is defined
