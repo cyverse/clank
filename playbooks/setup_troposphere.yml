@@ -62,10 +62,6 @@
         NGINX_COMBINED_CERT_DEST: "{{ TROPO.nginx.COMBINED_CERT_PATH }}",
         tags: ['troposphere', 'nginx-uwsgi'] }
 
-    - { role: install-airport-ui-assets,
-        AIRPORT_SOURCE: "{{ TROPOSPHERE_LOCATION | default(troposphere_directory_path) }}",
-        tags: ['troposphere', 'airport'] }
-
     - { role: build-install-troposphere-ui-assets,
         NPM_APP_DIR: "{{ TROPOSPHERE_LOCATION | default(troposphere_directory_path) }}",
         NPM_BUILD_TYPE: "{{ TROPOSPHERE_BUILD | default('production') }}",
