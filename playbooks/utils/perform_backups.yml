@@ -4,7 +4,7 @@
   vars:
     example:
       - "-e \"{database_names: ['atmosphere', 'troposphere']}\""
-      - "-e \"BACKUP_PATH=/root/db-backups\""
+      - "-e \"BACKUP_PATH=/var/lib/postgresql/backups\""
   tasks:
 
     - debug: msg="Consider passing in `database_names`"
