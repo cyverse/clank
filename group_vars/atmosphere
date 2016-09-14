@@ -2,6 +2,7 @@ atmosphere_database_name: atmosphere
 atmosphere_database_password: atmosphere
 atmosphere_database_user: atmo_app
 atmosphere_directory_name: atmosphere
+celery_use_production: False
 # line below can be removed soon
 atmosphere_ansible_directory_path: "{{workspace}}/atmosphere-ansible"
 atmosphere_github_repo: https://github.com/iPlantCollaborativeOpenSource/atmosphere.git
@@ -185,7 +186,7 @@ ATMO:
         SSL_LOCATION: /etc/ssl
         SSL_CERTIFICATE: "{{ nginx_combined_cert_file }}"
         SSL_KEY: "{{ nginx_key_file }}"
-        USE_PRODUCTION: "{{ FLOWER_USE_PRODUCTION | default(False) }}"
+        USE_PRODUCTION: "{{ celery_use_production | default(False) }}"
         FLOWER_AUTH_SCHEME: "{{ FLOWER_AUTH_SCHEME | default('basic') }}"
         # Required if auth_scheme is 'basic'
         FLOWER_BASIC_USERNAME: "flower_user"
