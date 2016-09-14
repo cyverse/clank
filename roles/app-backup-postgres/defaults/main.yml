@@ -2,3 +2,4 @@
 # defaults file for app-backup-postgres
 
 database_names: []
+BACKUP_PATH: /var/lib/postgresql/backups
