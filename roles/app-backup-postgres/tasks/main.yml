@@ -3,7 +3,7 @@
 
 - name: Create "backups" directory
   file:
-    path: /var/lib/postgresql/backups/{{ ansible_date_time.date }}
+    path: "{{ BACKUP_PATH }}/{{ ansible_date_time.date }}"
     state: directory
     owner: postgres
     group: postgres
@@ -13,7 +13,7 @@
   become: yes
   become_user: postgres
   args:
-    chdir: /var/lib/postgresql/backups/{{ ansible_date_time.date }}
+    chdir: "{{ BACKUP_PATH }}/{{ ansible_date_time.date }}"
   command: >
     pg_dumpall -f "{{ ansible_hostname }}-all-backup-{{ ansible_date_time.date }}-{{ ansible_date_time.epoch }}.sql"
 
@@ -21,7 +21,7 @@
   become: yes
   become_user: postgres
   args:
-    chdir: /var/lib/postgresql/backups/{{ ansible_date_time.date }}
+    chdir: "{{ BACKUP_PATH }}/{{ ansible_date_time.date }}"
   with_items: "{{ database_names }}"
   command: >
     pg_dump {{ item }} -f "{{ ansible_hostname }}-{{ item }}-backup-{{ ansible_date_time.date }}-{{ ansible_date_time.epoch }}.sql"
