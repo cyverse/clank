@@ -78,13 +78,13 @@ AUTH_MOCK_USER: "atmosphere_user"
 
 #[LDAP]
 # AUTH_ENABLE_LDAP: True
-# LDAP_SERVER: ldap://ldap.iplantcollaborative.org
-# LDAP_SERVER_DN: ou=people,dc=iplantcollaborative,dc=org
+# LDAP_SERVER: ldap://ldap.server.org
+# LDAP_SERVER_DN: ou=people,dc=LdapServer,dc=org
 
 #[JWT]
 # AUTH_ENABLE_JWT: True
 # JWT_INSTALL: True
-# JWT_PUBLIC_KEY: /opt/dev/atmosphere/tacc_pub_key.pub # Not required for most installs?
+# JWT_PUBLIC_KEY: /path/to/jwt_public_key.pub
 # JWT_CLIENT_KEY: 1nfmGUUfnxvJGoqsnlEWYdbucb8a
 # JWT_CLIENT_SECRET: b0vqMKQVnPFMEq9dMcF_xGur7CIa
 
@@ -104,21 +104,21 @@ AUTH_MOCK_USER: "atmosphere_user"
 
 #[CAS]
 # AUTH_ENABLE_CAS: True
-# CAS_AUTH_PREFIX: /cas4
-# CAS_SERVER: https://auth.iplantcollaborative.org
-# ATMO_OAUTH_CLIENT_KEY: atmosphere_mickey
-# ATMO_OAUTH_CLIENT_SECRET: atmosphere_secret
-# TROPO_OAUTH_CLIENT_KEY: troposphere_mickey
-# TROPO_OAUTH_CLIENT_SECRET: troposphere_secret
-# CAS_OAUTH_CLIENT_CALLBACK: https://mickey.iplantc.org/cas/oauth2.0
+# CAS_AUTH_PREFIX: /cas
+# CAS_SERVER: https://cas.server.org
+# ATMO_OAUTH_CLIENT_KEY: oauth_client_key
+# ATMO_OAUTH_CLIENT_SECRET: oauth_client_secret
+# TROPO_OAUTH_CLIENT_KEY: troposphere_oauth_client_key
+# TROPO_OAUTH_CLIENT_SECRET: troposphere_oauth_client_secret
+# CAS_OAUTH_CLIENT_CALLBACK: "https://{{server_name}}/cas/oauth2.0"
 
 #[GLOBUS]
 # AUTH_ENABLE_GLOBUS: False
 # GLOBUS_TOKENINFO_URL: https://auth.globus.org/v2/oauth2/token/introspect
 # GLOBUS_TOKEN_URL: https://auth.globus.org/v2/oauth2/token
 # GLOBUS_AUTH_URL: https://auth.globus.org/v2/oauth2/authorize
-# GLOBUS_OAUTH_ID: cc18e2dd-eff6-4b2f-b108-b740355efab1
-# GLOBUS_OAUTH_SECRET: 5bYFoq4KYMmWAtc92nrpaEJuuxC4wgxzrUz1xYM4H6Yu
+# GLOBUS_OAUTH_ID: 1-2-3-4
+# GLOBUS_OAUTH_SECRET: 5678
 # GLOBUS_OAUTH_CREDENTIALS_SCOPE: auth:login
 # GLOBUS_OAUTH_ATMOSPHERE_SCOPE: atmosphere:all
 

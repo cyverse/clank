@@ -2,21 +2,16 @@ atmosphere_database_name: atmosphere
 atmosphere_database_password: atmosphere
 atmosphere_database_user: atmo_app
 atmosphere_directory_name: atmosphere
+celery_use_production: False
 # line below can be removed soon
 atmosphere_ansible_directory_path: "{{workspace}}/atmosphere-ansible"
 atmosphere_github_repo: https://github.com/iPlantCollaborativeOpenSource/atmosphere.git
 atmosphere_github_branch: master
 atmosphere_virtualenv_name: atmo
 atmosphere_directory_path: "{{workspace}}/{{atmosphere_directory_name}}"
-atmosphere_virtualenv_path: "{{virtualenv_dir}}/{{atmosphere_virtualenv_name}}"
+atmosphere_virtualenv_path: "{{ VIRTUAL_ENV_ATMOSPHERE | default(virtualenv_dir+'/'+atmosphere_virtualenv_name) }}"
 atmosphere_server_name: "{{ server_name }}"
 atmosphere_server_url: "https://{{ atmosphere_server_name }}"
-nginx_combined_cert_dir: "/etc/ssl/certs"
-nginx_combined_cert_file: "combined_atmo_ssl_cert.pem"
-nginx_combined_cert_path: "{{nginx_combined_cert_dir}}/{{nginx_combined_cert_file}}"
-nginx_key_dir: /etc/ssl/private
-nginx_key_file: atmo_ssl_cert.key
-nginx_key_path: "{{nginx_key_dir}}/{{nginx_key_file}}"
 
 ###################################
 #
@@ -54,12 +49,12 @@ ATMO:
         KEY_FILE: "{{ nginx_key_file }}"
         KEY_PATH: "{{ nginx_key_dir }}"
         KEY_SIZE: 1024
-        VIRTUALENV_PATH: "{{ VIRTUAL_ENV_ATMOSPHERE | default(atmosphere_virtualenv_path) }}"
+        VIRTUALENV_PATH: "{{ atmosphere_virtualenv_path }}"
 
     uwsgi.ini:
         LOCAL_DEV: False
         PATH_TO_ATMOSPHERE: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}"
-        VIRTUALENV_PATH: "{{ VIRTUAL_ENV_ATMOSPHERE | default(atmosphere_virtualenv_path) }}"
+        VIRTUALENV_PATH: "{{ atmosphere_virtualenv_path }}"
         UWSGI_USER: www-data
         UWSGI_GROUP: www-data
         UWSGI_LOG_PATH: /var/log/uwsgi/atmosphere-uwsgi.log
@@ -185,12 +180,12 @@ ATMO:
         ATMOSPHERE_SUPERUSER:
 
     celeryd.default:
-        VIRTUALENV_PATH: "{{ VIRTUAL_ENV_ATMOSPHERE | default(atmosphere_virtualenv_path) }}"
+        VIRTUALENV_PATH: "{{ atmosphere_virtualenv_path }}"
         ATMOSPHERE_LOCATION: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}"
         SSL_LOCATION: /etc/ssl
         SSL_CERTIFICATE: "{{ nginx_combined_cert_file }}"
         SSL_KEY: "{{ nginx_key_file }}"
-        USE_PRODUCTION: "{{ FLOWER_USE_PRODUCTION | default(False) }}"
+        USE_PRODUCTION: "{{ celery_use_production }}"
         FLOWER_AUTH_SCHEME: "{{ FLOWER_AUTH_SCHEME | default('basic') }}"
         # Required if auth_scheme is 'basic'
         FLOWER_BASIC_USERNAME: "{{ FLOWER_USERNAME | default('flower_user')"
