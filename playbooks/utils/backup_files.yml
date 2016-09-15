@@ -1,0 +1,7 @@
+---
+- name: Backup all files
+  hosts: all
+
+  roles:
+    - { role: app-backup-files,
+        tags: ['data-backup', 'backup', 'files'] }
