@@ -49,10 +49,45 @@ None.
 Example Playbook
 ----------------
 
+Example using default variables:
+
     - hosts: all
       roles:
          - { role: app-backup-files,
              tags: ['data-backup', 'backup', 'files'] }
+
+Example defining an alternative back up location:
+
+    - hosts: all
+      roles:
+         - { role: app-backup-files,
+             BACKUP_PATH: /root/backups_are_important,
+             tags: ['data-backup', 'backup', 'files'] }
+
+Example defining a collection of files to be backed up:
+
+    - hosts: all
+      vars:
+        MY_BACKUPS:
+            # Copy out Atmosphere specific confs
+            - NAME: atmosphere
+            PROJECT_NAME: atmo
+            FILES:
+              - /opt/dev/atmosphere/variables.ini
+              - /opt/dev/atmosphere/atmosphere/settings/local.py
+
+            # Copy out troposphere specific conf
+            - NAME: troposphere
+            PROJECT_NAME: tropo
+            FILES:
+              - /opt/dev/troposphere/variables.ini
+
+      roles:
+         - { role: app-backup-files,
+             LIST_OF_BACKUPS : MY_BACKUPS, 
+             tags: ['data-backup', 'backup', 'files'] }
+
+This will create a backup directory containing two dirs (atmo, tropo). Each of those dirs will contain their respective files for safe keeping.  
 
 License
 -------
