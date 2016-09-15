@@ -83,7 +83,7 @@ AUTH_MOCK_USER: "atmosphere_user"
 
 #[JWT]
 # AUTH_ENABLE_JWT: True
-# JWT_INSTALL: True  #FIXME: drop this var.
+# JWT_INSTALL: True
 # JWT_PUBLIC_KEY: /opt/dev/atmosphere/tacc_pub_key.pub # Not required for most installs?
 # JWT_CLIENT_KEY: 1nfmGUUfnxvJGoqsnlEWYdbucb8a
 # JWT_CLIENT_SECRET: b0vqMKQVnPFMEq9dMcF_xGur7CIa

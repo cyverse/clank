@@ -36,7 +36,7 @@
         APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}",
         LOG_FILES: "{{ ATMO_LOG_FILES }}",
         tags: ['atmosphere', 'logging']}
-    # Stopping here for the day. Reminder: We can't shrink variables down until this is dealt with. Tomorrow I will create this nested structure in group_vars..
+
     - { role: app-generate-ini-config,
         template_vars: "{{ ATMO }}",
         APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}",
@@ -48,7 +48,7 @@
         SSH_PRIV_KEY: "{{ ID_RSA | default('') }}",
         SSH_PUB_KEY: "{{ ID_RSA_PUB | default('') }}",
         tags: ['atmosphere', 'ansible-deploy', 'setup-ssh-keys'] }
-    #FIXME: when -- INSTANCE...HOSTS_FILE and GROUP_VARS_FOLDER exist..
+
     - { role: app-install-instance-deploy-automation,
         APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}",
         INSTANCE_DEPLOY_AUTOMATION_DIR: "{{ ANSIBLE_DEPLOY_LOCATION | default(atmosphere_ansible_directory_path) }}",

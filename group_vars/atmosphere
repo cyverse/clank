@@ -187,15 +187,14 @@ ATMO:
     celeryd.default:
         VIRTUALENV_PATH: "{{ VIRTUAL_ENV_ATMOSPHERE | default(atmosphere_virtualenv_path) }}"
         ATMOSPHERE_LOCATION: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}"
-        # FIXME: These values won't work
         SSL_LOCATION: /etc/ssl
         SSL_CERTIFICATE: "{{ nginx_combined_cert_file }}"
         SSL_KEY: "{{ nginx_key_file }}"
         USE_PRODUCTION: "{{ FLOWER_USE_PRODUCTION | default(False) }}"
         FLOWER_AUTH_SCHEME: "{{ FLOWER_AUTH_SCHEME | default('basic') }}"
         # Required if auth_scheme is 'basic'
-        FLOWER_BASIC_USERNAME: "flower_user"
-        FLOWER_BASIC_PASSWORD: "flower_pass"
+        FLOWER_BASIC_USERNAME: "{{ FLOWER_USERNAME | default('flower_user')"
+        FLOWER_BASIC_PASSWORD: "{{ FLOWER_PASSWORD | default('flower_pass')"
         # Required if auth_scheme is 'google'
         FLOWER_EMAIL_ACCESS_LIST: "{{ FLOWER_EMAIL_ACCESS_LIST | default('') }}"
         FLOWER_OAUTH2_CLIENT_ID: "{{ FLOWER_OAUTH2_CLIENT_ID | default('') }}"
