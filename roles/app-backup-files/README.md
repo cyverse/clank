@@ -1,7 +1,7 @@
-app-backup-postgres
+app-backup-files
 ===================
 
-Using PostgreSQL executables to dump the contents the database to a single file.
+Using a nested list data structure, dump the files in said data structure to a remote directory as a backup.
 
 Requirements
 ------------
@@ -10,9 +10,37 @@ None.
 
 Role Variables
 --------------
+- `BACKUP_PATH`     - Path of where you want the backedup files dumped to    
+- `LIST_OF_BACKUPS` - List of lists that contains files along with a name of the project they belong to.
 
-- `database_names` - list of names of databases (defaults to `[]`)
-- 'BACKUP_PATH' - a path that resides underneath the postgres user owernship
+    An example of the variable:
+  
+    LIST_OF_BACKUPS:
+      # Copy out Atmosphere specific confs
+      - NAME: atmosphere
+        PROJECT_NAME: atmo
+        FILES:
+            - /opt/dev/atmosphere/variables.ini
+            - /opt/dev/atmosphere/atmosphere/settings/local.py
+            - /opt/dev/atmosphere/atmosphere/settings/secrets.py
+
+        # Copy out troposphere specific conf
+      - NAME: troposphere
+        PROJECT_NAME: tropo
+        FILES:
+          - /opt/dev/troposphere/variables.ini
+          - /opt/dev/troposphere/package.json
+          - /opt/dev/troposphere/troposphere/settings/local.py
+
+        # Copy out nginx/uswgi confs
+      - NAME: web_confs
+        PROJECT_NAME: web_confs
+        FILES:
+          - /etc/nginx/sites-enabled
+          - /etc/nginx/locations
+          - /etc/uwsgi/apps-enabled
+          - /etc/default/celeryd  
+
 Dependencies
 ------------
 
@@ -21,40 +49,12 @@ None.
 Example Playbook
 ----------------
 
-If a specific database within the PostgreSQL server is not identified, a full backup will be made with `pg_dumpall` to a file named off the hostname of the server.
-
-    - hosts: dbservers
+    - hosts: all
       roles:
-         - { role: app-backup-postgres,
-             tags: ['atmosphere', 'data-backup', 'backup'] }
-
-In addition to a full backup, a single file will be created for foreach string in `database_names`.
-
-    - hosts: dbservers
-      roles:
-         - { role: app-backup-postgres,
-             database_names: ["{{ DBNAME }}"],
-             tags: ['atmosphere', 'data-backup', 'backup'] }
-
-Or, you can list multiple databases by name
-
-    - hosts: dbservers
-      roles:
-        - { role: app-backup-postgres,
-            database_names: ['atmo_prod', 'troposphere'],
-            tags: ['atmosphere', 'data-backup', 'backup'] }
-
-Specifing a path for the dumps to be save to. Be sure that path given resides under the postgresql's owernship
-
-    - hosts: dbservers
-      roles:
-        - { role: app-backup-postgres,
-            BACKUP_PATH: /var/lib/postgresql/backups_are_important
-            database_names: ['atmo_prod', 'troposphere'],
-            tags: ['atmosphere', 'data-backup', 'backup'] }
+         - { role: app-backup-files,
+             tags: ['data-backup', 'backup', 'files'] }
 
 License
 -------
 
 BSD
-

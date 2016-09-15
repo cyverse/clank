@@ -27,4 +27,4 @@ LIST_OF_BACKUPS:
       - /etc/nginx/sites-enabled
       - /etc/nginx/locations
       - /etc/uwsgi/apps-enabled
-      #- /etc/default/celeryd
+      - /etc/default/celeryd
