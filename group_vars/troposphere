@@ -1,0 +1,140 @@
+troposphere_database_name: troposphere
+troposphere_database_password: atmosphere
+troposphere_database_user: atmo_app
+troposphere_directory_name: troposphere
+troposphere_github_repo: https://github.com/iPlantCollaborativeOpenSource/troposphere.git
+troposphere_github_branch: master
+troposphere_virtualenv_name: troposphere
+troposphere_theme_name: troposphere_theme
+troposphere_virtualenv_path: "{{virtualenv_dir}}/{{troposphere_virtualenv_name}}"
+troposphere_directory_path: "{{workspace}}/{{troposphere_directory_name}}"
+troposphere_build: development
+troposphere_server_name: "{{ server_name }}"
+troposphere_server_url: "https://{{ troposphere_server_name }}"
+
+###################################
+#
+# TROPOSPHERE VARS
+#
+###################################
+TROPO_LOG_FILES:
+  - 'troposphere.log'
+TROPO:
+    COMMON:
+        ASSETS_PATH: "{{ TROPOSPHERE_LOCATION | default(troposphere_directory_path) }}/troposphere/assets"
+        THEME_PATH: "{{ TROPOSPHERE_LOCATION | default(troposphere_directory_path) }}/troposphere/themes"
+        THEME_NAME: "{{ troposphere_theme_name }}"
+        DJANGO_SERVER_URL: "{{ troposphere_server_url }}"
+        SERVER_URL: "{{ troposphere_server_url }}"
+        LDAP_SERVER: "{{ LDAP_SERVER | default('') }}"
+        LDAP_SERVER_DN: "{{ LDAP_SERVER_DN | default('') }}"
+        TOKEN_EXPIRY_TIME_DAYS: 1
+
+    nginx:
+        ENABLE_HTTP2: True
+        TROPOSPHERE_PATH: "{{ TROPOSPHERE_LOCATION | default(troposphere_directory_path) }}"
+        DHPARAM: /etc/ssl/certs/dhparam.pem
+        LOCATIONS_DIR: /etc/nginx/locations
+        SITES_AVAILABLE_DIR: /etc/nginx/sites-available
+        SITES_ENABLED_DIR: /etc/nginx/sites-enabled
+        SERVER_URL: "{{ troposphere_server_name }}"
+        BUNDLE_FILE: gd_bundle.crt
+        CERT_DIR: /etc/ssl/certs
+        CERT_FILE:
+        #NOTE: The combined cert and key doesn't have to exist, we just need a name for their final destinations
+        COMBINED_CERT_FILE: "{{ nginx_combined_cert_file }}"
+        COMBINED_CERT_PATH: "{{ nginx_combined_cert_path }}"
+        KEY_FILE: "{{ nginx_key_file }}"
+        KEY_PATH: "{{ nginx_key_dir }}"
+        KEY_SIZE: 1024
+        VIRTUALENV_PATH: "{{ VIRTUAL_ENV_TROPOSPHERE | default(troposphere_virtualenv_path) }}"
+
+    uwsgi.ini:
+        LOCAL_DEV: False
+        PATH_TO_TROPOSPHERE: "{{ TROPOSPHERE_LOCATION | default(troposphere_directory_path) }}"
+        VIRTUALENV_PATH: "{{ VIRTUAL_ENV_TROPOSPHERE | default(troposphere_virtualenv_path) }}"
+        UWSGI_USER: www-data
+        UWSGI_GROUP: www-data
+        UWSGI_LOG_PATH: /var/log/uwsgi/troposphere-uwsgi.log
+
+    local.py:
+        DEBUG: True
+        SECRET_KEY:
+        THEME_NAME: "{{ THEME_NAME | default(troposphere_theme_name) }}"
+        SITE_TITLE: "{{ SITE_TITLE | default('Atmosphere') }}"
+        SITE_FOOTER: "{{ SITE_FOOTER | default('Atmosphere') }}"
+        ORG_NAME: "{{ ORG_NAME | default('') }}"
+        API_SERVER: "{{ troposphere_server_url }}"
+        SUPPORT_EMAIL: "{{ SUPPORT_EMAIL | default('') }}"
+        BASE_URL: "{{ BASE_URL | default('') }}"
+        ENABLE_WEBPACK_LOADER_CACHE: True
+        DYNAMIC_ASSET_LOADING: True
+
+        DATABASE_NAME: "{{ TROPO_DBNAME | default(troposphere_database_name) }}"
+        DATABASE_ENGINE: "{{ database_engine }}"
+        DATABASE_USER: "{{ troposphere_database_user }}"
+        DATABASE_CONN_MAX_AGE: "{{ conn_max_age }}"
+        DATABASE_PASSWORD: "{{ troposphere_database_password }}"
+        DATABASE_HOST: localhost
+        DATABASE_PORT: 5432
+        DJANGO_JENKINS: False
+        SSLSERVER: True
+        SESSION_COOKIE_AGE:
+        #Authorization and Authentication
+        AUTH_USE_OVERRIDE: "{{ AUTH_USE_OVERRIDE | default(False) }}"
+        AUTH_ENABLE_CAS: "{{ AUTH_ENABLE_CAS | default(False) }}"
+        AUTH_ENABLE_GLOBUS: "{{ AUTH_ENABLE_GLOBUS | default(False) }}"
+        AUTH_ENABLE_LDAP: "{{ AUTH_ENABLE_LDAP | default(False) }}"
+        AUTH_ENABLE_MOCK: "{{ AUTH_ENABLE_MOCK | default(False) }}"
+        AUTH_ENABLE_MODEL: "{{ AUTH_ENABLE_MODEL | default(True) }}"
+        AUTH_ENABLE_OAUTH: "{{ AUTH_ENABLE_OAUTH | default(False) }}"
+        USE_MOCK_AUTH: "{{ USE_MOCK_AUTH | default(False) }}"
+        MOCK_USER: "{{ AUTH_MOCK_USER | default('atmosphere_user') }}"
+        LOGOUT_REDIRECT_URL: /logout
+        CAS_SERVER: "{{ CAS_SERVER | default('') }}"
+        CAS_AUTH_PREFIX: "{{ CAS_AUTH_PREFIX | default('/cas') }}"
+        OAUTH_ISSUE_USER: "{{ OAUTH_ISSUE_USER | default('') }}"
+        GLOBUS_OAUTH_ID: "{{ GLOBUS_OAUTH_ID | default('')}}"
+        GLOBUS_OAUTH_SECRET: "{{ GLOBUS_OAUTH_SECRET | default('')}}"
+        GLOBUS_OAUTH_CREDENTIALS_SCOPE: "{{ GLOBUS_OAUTH_CREDENTIALS_SCOPE | default('auth:login')}}"
+        GLOBUS_OAUTH_ATMOSPHERE_SCOPE: "{{ GLOBUS_OAUTH_ATMOSPHERE_SCOPE | default('')}}"
+        GLOBUS_TOKENINFO_URL: "{{ GLOBUS_TOKENINFO_URL | default('https://auth.globus.org/v2/oauth2/token/introspect') }}"
+        GLOBUS_TOKEN_URL: "{{ GLOBUS_TOKEN_URL | default('https://auth.globus.org/v2/oauth2/token') }}"
+        GLOBUS_AUTH_URL: "{{ GLOBUS_AUTH_URL | default('https://auth.globus.org/v2/oauth2/authorize') }}"
+        OAUTH_CLIENT_KEY: "{{ TROPO_OAUTH_CLIENT_KEY | default('') }}"
+        OAUTH_CLIENT_SECRET: "{{ TROPO_OAUTH_CLIENT_SECRET | default('') }}"
+        OAUTH_CLIENT_CALLBACK: "{{ CAS_OAUTH_CLIENT_CALLBACK | default('') }}"
+
+        STAFF_LIST_USERNAMES: "{{ STAFF_LIST_USERNAMES | default([]) }}"
+
+        BADGES_ENABLED: "{{ BADGES_ENABLED | default(False) }}"
+        BADGE_SECRET: "{{ BADGE_SECRET | default('') }}"
+        BADGE_HOST: "{{ BADGE_HOST | default('') }}"
+        BADGE_API_HOST: "{{ BADGE_API_HOST | default('') }}"
+        BADGE_SYSTEM_NAME: "{{ BADGE_SYSTEM_NAME | default('') }}"
+        BADGE_SYSTEM_SLUG: "{{ BADGE_SYSTEM_SLUG | default('') }}"
+
+        SHOW_INSTANCE_METRICS: "{{ SHOW_INSTANCE_METRICS | default(False) }}"
+
+        INTERCOM_APP_ID: "{{ INTERCOM_APP_ID | default('') }}"
+        INTERCOM_COMPANY_ID: "{{ INTERCOM_COMPANY_ID | default('') }}"
+        INTERCOM_COMPANY_NAME: "{{ INTERCOM_COMPANY_NAME | default('') }}"
+
+        USE_ALLOCATION_SOURCES: "{{ USE_ALLOCATION_SOURCES | default(False) }}"
+        USE_MOCK_DATA: "{{ USE_MOCK_DATA | default(False) }}"
+        USE_GATE_ONE_API: "{{ USE_GATE_ONE_API | default(False) }}"
+        GATE_ONE_API_KEY: "{{ GATE_ONE_API_KEY | default('') }}"
+        GATE_ONE_API_SECRET: "{{ GATE_ONE_API_SECRET | default('') }}"
+        # must be localhost or route-able domain
+        WEB_SH_ROUTE: "{{ troposphere_server_url }}/web_shell"
+        WEB_SH_BASE_URL: "{{ WEB_SH_BASE_URL | default('') }}"
+        WEB_SH_JS_FILE: "static/gateone.js"
+        # settings for noVNC transparent proxying
+        WEB_DESKTOP_SIGNING_SALT: "{{ WEB_DESKTOP_SIGNING_SALT | default('') }}"
+        WEB_DESKTOP_FP_SALT: "{{ WEB_DESKTOP_FP_SALT | default('') }}"
+        WEB_DESKTOP_SIGNING_SECRET_KEY: "{{ WEB_DESKTOP_SIGNING_SECRET_KEY | default('') }}"
+        WEB_DESKTOP_FP_SECRET_KEY: "{{ WEB_DESKTOP_FP_SECRET_KEY | default('') }}"
+        WEB_DESKTOP_INCLUDE_LINK: "{{ WEB_DESKTOP_INCLUDE_LINK | default(False) }}"
+        WEB_DESKTOP_PROXY_URL: "{{ WEB_DESKTOP_PROXY_URL | default('') }}"
+        WEB_DESKTOP_PROXY_DOMAIN: "{{ WEB_DESKTOP_PROXY_DOMAIN | default('') }}"
+

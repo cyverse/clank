@@ -1,4 +1,12 @@
 ---
+- name: Create an Atmosphere and Troposphere stack
+  hosts: full_deploy
+
+  roles:
+    - { role: print-all-variables,
+        tags: ['print-vars'] }
+
+
 - include: ./prepare_host.yml
 - include: ./deploy_atmosphere.yml
 - include: ./deploy_troposphere.yml

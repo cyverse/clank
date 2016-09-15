@@ -1,0 +1,31 @@
+---
+# defaults file for create-nginx-uwsgi
+
+# Is this legal?
+APP_BASE_DIR: "{{ atmosphere_directory_path }}"
+
+UWSGI_APP_NAME: atmosphere
+
+UWSGI_INI_SRC_NAME: "extras/{{ UWSGI_APP_NAME }}.uwsgi.ini"
+
+UWSGI_APPS_ENABLED_PATH: /etc/uwsgi/apps-enabled/
+
+UWSGI_APP_SRC: "{{ APP_BASE_DIR }}/{{ UWSGI_INI_SRC_NAME }}"
+
+UWSGI_APP_DEST: "{{ UWSGI_APPS_ENABLED_PATH }}/{{ UWSGI_APP_NAME }}.ini"
+
+UWSGI_USER: www-data
+UWSGI_GROUP: www-data
+
+NGINX_CERT_DIR: /etc/ssl/certs
+
+NGINX_DHPARAM: /etc/ssl/certs/dhparam.pem
+
+NGINX_KEY_PATH: /etc/ssl/private
+
+NGINX_LOCATIONS_DIR:  /etc/nginx/locations
+
+NGINX_SITES_ENABLED_DIR: /etc/nginx/sites-enabled
+
+NGINX_SITES_AVAILABLE_DIR: /etc/nginx/sites-available
+

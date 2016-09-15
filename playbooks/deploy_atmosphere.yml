@@ -1,6 +1,6 @@
 ---
 - name: Install and setup required dependencies for Atmosphere
-  hosts: all
+  hosts: atmosphere
   vars:
     clean_target: "{{ CLEAN_TARGET | default(True) }}"
 
@@ -11,60 +11,61 @@
 
     - { role: setup-postgres,
         when: clean_target,
-        DBUSER: "{{ ATMO_DBUSER }}",
+        DBUSER: "{{ ATMO_DBUSER | default(atmosphere_database_user) }}",
         tags: ['dependencies', 'database'] }
 
     - { role: setup-ssl,
         CREATE_SSL_FILES: "{{ CREATE_SSL | default(True) }}",
-        when: clean_target,
-        tags: ['dependencies', 'ssl'] }
+        tags: ['dependencies', 'create-nginx-uwsgi', 'ssl'] }
 
 - name: Clone Atmosphere Ansible
-  hosts: all
+  hosts: atmosphere_ansible
 
   roles:
     - { role: clone-repo,
-        REPO_BASE_DIR: "{{ ANSIBLE_DEPLOY_DIR }}",
-        CLONE_TARGET: "{{ ANSIBLE_DEPLOY_LOCATION }}",
-        SPECIFIC_BRANCH: "{{ ATMOSPHERE_ANSIBLE_BRANCH | default('master', true) }}",
-        REPO_URI: "{{ ANSIBLE_REPO }}",
+        REPO_BASE_DIR: "{{ ANSIBLE_DEPLOY_DIR | default(workspace) }}",
+        CLONE_TARGET: "{{ ANSIBLE_DEPLOY_LOCATION | default(atmosphere_ansible_directory_path) }}",
+        SPECIFIC_BRANCH: "{{ atmosphere_ansible_github_branch }}",
+        REPO_URI: "{{ ANSIBLE_REPO | default(atmosphere_ansible_github_repo) }}",
         tags: [ 'atmosphere', 'clone-repo'] }
 
 - name: Setup virtualenv and clone Atmosphere
-  hosts: all
+  hosts: atmosphere
 
   roles:
     - { role: setup-virtualenv,
-        VIRTUAL_ENV_NAME: 'atmo',
-        VIRTUAL_ENV_BASE_DIR: "{{ VIRTUAL_ENV_DIR_ATMOSPHERE }}",
+        VIRTUAL_ENV_NAME: "{{ atmosphere_virtualenv_name }}",
+        VIRTUAL_ENV_BASE_DIR: "{{ virtualenv_dir }}",
         tags: [ 'atmosphere', 'setup-virtualenv'] }
 
     - { role: clone-repo,
-        REPO_BASE_DIR: "{{ ATMOSPHERE_DIR }}",
-        CLONE_TARGET: "{{ ATMOSPHERE_LOCATION }}",
-        SPECIFIC_BRANCH: "{{ ATMOSPHERE_BRANCH  | default('master', true) }}",
-        REPO_URI: "{{ ATMOSPHERE_REPO }}",
+        REPO_BASE_DIR: "{{ workspace }}",
+        CLONE_TARGET: "{{ atmosphere_directory_path }}",
+        SPECIFIC_BRANCH: "{{ atmosphere_github_branch }}",
+        REPO_URI: "{{ ATMOSPHERE_REPO | default(atmosphere_github_repo) }}",
         tags: [ 'atmosphere', 'clone-repo'] }
 
-- include: ./setup_atmosphere.yml
+- name: Include setup atmosphere
+  include: ./setup_atmosphere.yml
 
 - name: Setup celery for Atmosphere
-  hosts: all
+  hosts: atmosphere
 
   roles:
     - { role: setup-celery,
         tags: ['atmosphere', 'celery'] }
 
     - { role: logrotate-files,
-        LOGROTATE_FILES: "{{ ATMOSPHERE_LOCATION }}/extras/logrotate.celery",
+        LOGROTATE_FILES: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_name) }}/extras/logrotate.celery",
         tags: ['atmosphere', 'celery', 'logrotate'] }
 
 - name: Enable New Relic agent
-  hosts: all
+  hosts: atmosphere
 
   roles:
      - { role: noc-enable-new-relic,
-         TARGET_HOME: "{{ ATMOSPHERE_LOCATION }}",
+         TARGET_HOME: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}",
          MODULE_NAME: 'atmosphere',
          new_relic_app_name: "{{ NEW_RELIC.ATMO_LABEL }}",
+         when: "{{ NEW_RELIC is defined and NEW_RELIC.ATMO_LABEL | default('') != '' and NEW_RELIC.LICENSE | default('') != '' }}",
          tags: ['atmosphere', 'new-relic', 'monitoring'] }

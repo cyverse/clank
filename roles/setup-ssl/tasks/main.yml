@@ -59,4 +59,11 @@
   - name: Copy over empty bundle file
     file: path={{ SSL_LOCATION }}/certs/empty_bundle.crt state=touch
 
+  - name: Set fact for Variables as if the user had already made them available.
+    set_fact:
+      SSL_CERTIFICATE: "{{ SSL_LOCATION }}/certs/{{OPENSSL_SELF_SIGNED.name}}.crt"
+      SSL_KEY: "{{ SSL_LOCATION }}/private/{{OPENSSL_SELF_SIGNED.name}}.key"
+      BUNDLE_CERT: "{{ SSL_LOCATION }}/certs/empty_bundle.crt"
+      COMBINED_CERT: "{{ SSL_LOCATION }}/certs/{{OPENSSL_SELF_SIGNED.name}}_combined.crt"
+
   when: CREATE_SSL_FILES

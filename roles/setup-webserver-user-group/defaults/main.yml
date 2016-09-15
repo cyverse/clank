@@ -2,4 +2,3 @@
 # defaults file for setup-webserver-user-group
 
 WEBSERVER_USER: www-data
-VAGRANT: False

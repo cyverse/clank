@@ -1,93 +1,96 @@
 ---
 - name: Setup the Atmosphere API component
-  hosts: all
+  hosts: atmosphere
 
   roles:
     - { role: app-alter-kernel-for-imaging,
         tags: ['atmosphere'] }
 
     - { role: app-config-postgres,
-        DBNAME: "{{ ATMO_DBNAME }}",
-        DBUSER: "{{ ATMO_DBUSER }}",
-        DBPASSWORD: "{{ ATMO_DBPASSWORD }}",
+        DBNAME: "{{ ATMO_DBNAME | default(atmosphere_database_name) }}",
+        DBUSER: "{{ ATMO_DBUSER | default(atmosphere_database_user) }}",
+        DBPASSWORD: "{{ ATMO_DBPASSWORD | default(atmosphere_database_password) }}",
         tags: ['atmosphere', 'database'] }
 
     - { role: app-load-data-postgres,
-        DBNAME: "{{ ATMO_DBNAME }}",
+        DBNAME: "{{ ATMO_DBNAME | default(atmosphere_database_name) }}",
         LOAD_DATABASE: "{{ ATMO_DATA.LOAD_DATABASE }}",
         DATABASE_FILE_TO_BE_LOADED: "{{ ATMO_DATA.SQL_DUMP_FILE }}",
+        when: "{{ ATMO_DATA is defined and ATMO_DATA.SQL_DUMP_FILE is defined and ATMO_DATA.LOAD_DATABASE }}",
         tags: ['atmosphere', 'data-load'] }
 
     - { role: delete-files,
-        LOCATION: "{{ ATMOSPHERE_LOCATION }}",
+        LOCATION: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}",
         GLOB: "*.pyc",
         tags: ['atmosphere'] }
 
     - { role: app-pip-install-requirements,
-        APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION }}",
+        APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}",
         REQUIREMENTS_FILE_NAME: 'dev_requirements.txt',
-        VIRTUAL_ENV: "{{ VIRTUAL_ENV_ATMOSPHERE }}",
+        VIRTUAL_ENV: "{{ VIRTUAL_ENV_ATMOSPHERE | default(atmosphere_virtualenv_path) }}",
         PIP_EXTRA_ARGS: '--no-cache-dir',
         tags: ['atmosphere', 'pip-install-requirements']}
 
     - { role: app-config-logging,
-        APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION }}",
+        APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}",
         LOG_FILES: "{{ ATMO_LOG_FILES }}",
         tags: ['atmosphere', 'logging']}
 
     - { role: app-generate-ini-config,
         template_vars: "{{ ATMO }}",
-        APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION }}",
-        VIRTUAL_ENV: "{{ VIRTUAL_ENV_ATMOSPHERE }}",
+        APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}",
+        VIRTUAL_ENV: "{{ VIRTUAL_ENV_ATMOSPHERE | default(atmosphere_virtualenv_path) }}",
         tags: ['atmosphere', 'generate-config'] }
 
     - { role: app-setup-ssh-keys,
-        APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION }}",
-        CREATE_SSH: "{{ CREATE_SSH_KEYS | default(true) }}",
-        SSH_PRIV_KEY: "{{ ID_RSA }}",
-        SSH_PUB_KEY: "{{ ID_RSA_PUB }}",
+        APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}",
+        SSH_PRIV_KEY: "{{ ID_RSA | default('') }}",
+        SSH_PUB_KEY: "{{ ID_RSA_PUB | default('') }}",
         tags: ['atmosphere', 'ansible-deploy', 'setup-ssh-keys'] }
 
     - { role: app-install-instance-deploy-automation,
-        APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION }}",
-        INSTANCE_DEPLOY_AUTOMATION_DIR: "{{ ANSIBLE_DEPLOY_LOCATION }}",
-        INSTANCE_DEPLOY_AUTOMATION_HOSTS_FILE: "{{ ANSIBLE_HOSTS_FILE }}",
-        INSTANCE_DEPLOY_AUTOMATION_GROUP_VARS_FOLDER: "{{ ANSIBLE_GROUP_VARS_FOLDER }}",
+        APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}",
+        INSTANCE_DEPLOY_AUTOMATION_DIR: "{{ ANSIBLE_DEPLOY_LOCATION | default(atmosphere_ansible_directory_path) }}",
+        INSTANCE_DEPLOY_AUTOMATION_HOSTS_FILE: "{{ ANSIBLE_HOSTS_FILE | default('') }}",
+        INSTANCE_DEPLOY_AUTOMATION_GROUP_VARS_FOLDER: "{{ ANSIBLE_GROUP_VARS_FOLDER | default('') }}",
         tags: ['atmosphere', 'ansible-deploy'] }
 
     - { role: app-generate-ini-config,
         template_vars: "{{ ATMOSPHERE_ANSIBLE }}",
-        APP_BASE_DIR: "{{ ANSIBLE_DEPLOY_LOCATION }}",
-        VIRTUAL_ENV: "{{ VIRTUAL_ENV_ATMOSPHERE }}",
+        APP_BASE_DIR: "{{ ANSIBLE_DEPLOY_LOCATION | default(atmosphere_ansible_directory_path) }}",
+        VIRTUAL_ENV: "{{ VIRTUAL_ENV_ATMOSPHERE | default(atmosphere_ansible_virtualenv_path) }}",
         tags: ['atmosphere', 'ansible-deploy'] }
 
     - { role: app-django-manage-collectstatic,
-        APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION }}",
-        VIRTUAL_ENV: "{{ VIRTUAL_ENV_ATMOSPHERE }}",
+        APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}",
+        VIRTUAL_ENV: "{{ VIRTUAL_ENV_ATMOSPHERE | default(atmosphere_virtualenv_path) }}",
         DJANGO_SETTINGS_MODULE: 'atmosphere.settings',
         tags: ['atmosphere', 'manage-collectstatic'] }
 
     - { role: app-django-manage-migrate,
-        APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION }}",
-        VIRTUAL_ENV: "{{ VIRTUAL_ENV_ATMOSPHERE }}",
+        APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}",
+        VIRTUAL_ENV: "{{ VIRTUAL_ENV_ATMOSPHERE | default(atmosphere_virtualenv_path) }}",
         DJANGO_SETTINGS_MODULE: 'atmosphere.settings',
         tags: ['atmosphere', 'manage-migrate'] }
 
     - { role: app-django-manage-load-tables,
-        APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION }}",
-        VIRTUAL_ENV: "{{ VIRTUAL_ENV_ATMOSPHERE }}",
+        APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}",
+        VIRTUAL_ENV: "{{ VIRTUAL_ENV_ATMOSPHERE | default(atmosphere_virtualenv_path) }}",
         DJANGO_SETTINGS_MODULE: 'atmosphere.settings',
         tags: ['atmosphere','manage-load-tables'] }
 
-    - { role: config-nginx-uwsgi,
-        APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION }}",
+    - { role: create-nginx-uwsgi,
+        APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}",
         UWSGI_APP_NAME: 'atmosphere',
         UWSGI_INI_SRC_NAME: 'extras/uwsgi/atmo.uwsgi.ini',
-        nginx_vars_context: "{{ ATMO['nginx'] }}",
-        tags: ['atmosphere', 'deploy', 'nginx-uwsgi'] }
+        NGINX_SSL_KEY_PATH: "{{ SSL_KEY }}",
+        NGINX_COMBINED_CERT_PATH: "{{ COMBINED_CERT }}",
+        NGINX_SSL_KEY_DEST: "{{ ATMO.nginx.KEY_PATH }}/{{ ATMO.nginx.KEY_FILE }}",
+        NGINX_COMBINED_CERT_DEST: "{{ ATMO.nginx.COMBINED_CERT_PATH }}",
+        tags: ['atmosphere', 'deploy', 'create-nginx-uwsgi', 'nginx-uwsgi'] }
 
     - { role: setup-webserver-user-group,
-        APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION }}",
+        APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}",
         WEBSERVER_USER: "www-data",
         tags: ['atmosphere','set-permissions'] }
 
@@ -95,5 +98,5 @@
     # This is because setup-webserver-user-group sets the permissions on all files in that directory the
     # to the WEBSERVER_USER user, while logrotate requires root
     - { role: logrotate-files,
-        LOGROTATE_FILES: "{{ ATMOSPHERE_LOCATION }}/extras/logrotate.atmosphere",
+        LOGROTATE_FILES: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}/extras/logrotate.atmosphere",
         tags: ['atmosphere', 'logrotate'] }

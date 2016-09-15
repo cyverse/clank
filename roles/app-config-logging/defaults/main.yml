@@ -4,10 +4,3 @@
 LOG_DIR_NAME: 'logs'
 
 LOG_DIR_BASE: "{{ APP_BASE_DIR }}/{{ LOG_DIR_NAME }}"
-
-ATMO_LOG_FILES:
-  - 'atmosphere.log'
-  - 'atmosphere_status.log'
-
-TROPO_LOG_FILES:
-  - 'troposphere.log'

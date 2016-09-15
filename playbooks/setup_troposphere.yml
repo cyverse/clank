@@ -1,78 +1,79 @@
 ---
 - name: Setup the Troposphere UI component
-  hosts: all
+  hosts: troposphere
 
   roles:
     - { role: app-config-postgres,
-        DBNAME: "{{ TROPO_DBNAME }}",
-        DBUSER: "{{ TROPO_DBUSER }}",
-        DBPASSWORD: "{{ TROPO_DBPASSWORD }}",
+        DBNAME: "{{ TROPO_DBNAME | default(troposphere_database_name) }}",
+        DBUSER: "{{ TROPO_DBUSER | default(troposphere_database_user) }}",
+        DBPASSWORD: "{{ TROPO_DBPASSWORD | default(troposphere_database_password) }}",
         tags: ['troposphere', 'database'] }
 
     - { role: app-load-data-postgres,
-        DBNAME: "{{ TROPO_DBNAME}} ",
+        DBNAME: "{{ TROPO_DBNAME | default(troposphere_database_name) }}",
         LOAD_DATABASE: "{{ TROPO_DATA.LOAD_DATABASE }}",
         DATABASE_FILE_TO_BE_LOADED: "{{ TROPO_DATA.SQL_DUMP_FILE }}",
+        when: "{{ TROPO_DATA is defined and TROPO_DATA.SQL_DUMP_FILE is defined and TROPO_DATA.LOAD_DATABASE }}",
         tags: ['troposphere', 'data-load'] }
 
     - { role: delete-files,
-        LOCATION: "{{ TROPOSPHERE_LOCATION }}",
+        LOCATION: "{{ TROPOSPHERE_LOCATION | default(troposphere_directory_path) }}",
         GLOB: "*.pyc",
         tags: ['troposphere'] }
 
     - { role: app-pip-install-requirements,
-        APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION }}",
+        APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION | default(troposphere_directory_path) }}",
         REQUIREMENTS_FILE_NAME: 'dev_requirements.txt',
-        VIRTUAL_ENV: "{{ VIRTUAL_ENV_TROPOSPHERE }}",
+        VIRTUAL_ENV: "{{ VIRTUAL_ENV_TROPOSPHERE | default(troposphere_virtualenv_path) }}",
         PIP_EXTRA_ARGS: '--no-cache-dir',
         tags: ['troposphere', 'pip-install-requirements']}
 
     - { role: app-config-logging,
-        APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION }}",
+        APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION | default(troposphere_directory_path) }}",
         LOG_FILES: "{{ TROPO_LOG_FILES }}",
         tags: ['troposphere', 'logging']}
 
     - { role: app-generate-ini-config,
         template_vars: "{{ TROPO }}",
-        APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION }}",
-        VIRTUAL_ENV: "{{ VIRTUAL_ENV_TROPOSPHERE }}",
+        APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION | default(troposphere_directory_path) }}",
+        VIRTUAL_ENV: "{{ VIRTUAL_ENV_TROPOSPHERE | default(troposphere_virtualenv_path) }}",
         tags: ['troposphere', 'generate-config'] }
 
     - { role: app-django-manage-collectstatic,
-        APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION }}",
-        VIRTUAL_ENV: "{{ VIRTUAL_ENV_TROPOSPHERE }}",
+        APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION | default(troposphere_directory_path) }}",
+        VIRTUAL_ENV: "{{ VIRTUAL_ENV_TROPOSPHERE | default(troposphere_virtualenv_path) }}",
         STATIC_DIR_PATH: 'troposphere/tropo-static',
         DJANGO_SETTINGS_MODULE: 'troposphere.settings',
         tags: ['troposphere', 'manage-collectstatic']}
 
     - { role: app-django-manage-migrate,
-        APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION }}",
-        VIRTUAL_ENV: "{{ VIRTUAL_ENV_TROPOSPHERE }}",
+        APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION | default(troposphere_directory_path) }}",
+        VIRTUAL_ENV: "{{ VIRTUAL_ENV_TROPOSPHERE | default(troposphere_virtualenv_path) }}",
         DJANGO_SETTINGS_MODULE: 'troposphere.settings',
         tags: ['troposphere', 'migrate', 'manage-migrate'] }
 
-    - { role: config-nginx-uwsgi,
-        APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION }}",
+    - { role: create-nginx-uwsgi,
+        APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION | default(troposphere_directory_path) }}",
         UWSGI_APP_NAME: 'troposphere',
-        nginx_vars_context: "{{ TROPO['nginx'] }}",
+        UWSGI_INI_SRC_NAME: 'extras/troposphere.uwsgi.ini',
+        NGINX_SSL_KEY_PATH: "{{ SSL_KEY }}",
+        NGINX_COMBINED_CERT_PATH: "{{ COMBINED_CERT }}",
+        NGINX_SSL_KEY_DEST: "{{ TROPO.nginx.KEY_PATH }}/{{ ATMO.nginx.KEY_FILE }}",
+        NGINX_COMBINED_CERT_DEST: "{{ TROPO.nginx.COMBINED_CERT_PATH }}",
         tags: ['troposphere', 'nginx-uwsgi'] }
 
-    - { role: install-airport-ui-assets,
-        AIRPORT_SOURCE: "{{ TROPOSPHERE_LOCATION }}",
-        tags: ['troposphere', 'airport'] }
-
     - { role: build-install-troposphere-ui-assets,
-        NPM_APP_DIR: "{{ TROPOSPHERE_LOCATION }}",
+        NPM_APP_DIR: "{{ TROPOSPHERE_LOCATION | default(troposphere_directory_path) }}",
         NPM_BUILD_TYPE: "{{ TROPOSPHERE_BUILD | default('production') }}",
         tags: ['troposphere', 'npm'] }
 
     - { role: setup-webserver-user-group,
-        APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION }}",
+        APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION | default(troposphere_directory_path) }}",
         WEBSERVER_USER: "www-data",
         tags: ['troposphere', 'set-permissions'] }
 
     # The logrotate-files role must come after the setup-webserver-user-group role.                                         # This is because setup-webserver-user-group sets the permissions on all files in that directory the
     # to the WEBSERVER_USER user, while logrotate requires root
     - { role: logrotate-files,
-        LOGROTATE_FILES: "{{ TROPOSPHERE_LOCATION }}/extras/logrotate.troposphere",
+        LOGROTATE_FILES: "{{ TROPOSPHERE_LOCATION | default(troposphere_directory_path) }}/extras/logrotate.troposphere",
         tags: ['troposphere', 'logrotate'] }
