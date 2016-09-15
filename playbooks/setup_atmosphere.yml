@@ -1,7 +1,6 @@
 ---
 - name: Setup the Atmosphere API component
   hosts: atmosphere
-  strategy: debug
 
   roles:
     - { role: app-alter-kernel-for-imaging,
