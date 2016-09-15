@@ -142,12 +142,12 @@ ATMO:
         DEFAULT_ALLOCATION_THRESHOLD:
         DEFAULT_ALLOCATION_DELTA:
         DEFAULT_QUOTA:
-        DEFAULT_IP_LOOKUP:
+        DEFAULT_IP_LOOKUP: "{{ DEFAULT_IP_LOOKUP | default('iplant_hostname') }}"
         DEFAULT_PASSWORD_LOOKUP:
-        DEFAULT_PASSWORD_UPDATE:
-        DEFAULT_KEYSTONE_ROLE:
-        INSTANCE_HOSTNAMING_DOMAIN:
-        INSTANCE_HOSTNAMING_FORMAT:
+        DEFAULT_PASSWORD_UPDATE: "{{ DEFAULT_PASSWORD_UPDATE | default('keystone_password_update') }}"
+        DEFAULT_KEYSTONE_ROLE: "{{ DEFAULT_KEYSTONE_ROLE | default('_member_') }}"
+        INSTANCE_HOSTNAMING_DOMAIN: "{{ INSTANCE_HOSTNAMING_DOMAIN | default('iplantcollaborative.org') }}"
+        INSTANCE_HOSTNAMING_FORMAT: "{{ INSTANCE_HOSTNAMING_FORMAT | default('vm%(three)s-%(four)s.%(domain)s') }}"
         # Support and Admin
         ADMINS_EMAIL_TUPLE: "{{ ADMINS_EMAIL_TUPLE | default('') }}"
         ATMO_SUPPORT_EMAIL_TUPLE: "{{ ATMO_SUPPORT_EMAIL_TUPLE | default('') }}"
@@ -215,7 +215,7 @@ ATMOSPHERE_ANSIBLE:
         ANSIBLE_FACT_CACHE_TIMEOUT: 14400
         ANSIBLE_MANAGED_STR: "Ansible managed: {file} modified on %Y-%m-%d %H:%M:%S by {uid} on {host}"
         ANSIBLE_SSH_TIMEOUT: 10
-        SUBSPACE_PLUGINS_DIR: /opt2/env/atmo/lib/python2.7/site-packages/subspace/plugins
+        SUBSPACE_PLUGINS_DIR: "{{ atmosphere_virtualenv_path }}/lib/python2.7/site-packages/subspace/plugins"
         SUBSPACE_CALLBACK_WHITELIST: play_logger
         SUBSPACE_COW_SELECTION: random
         SUBSPACE_NO_COWS: 1
