@@ -10,10 +10,11 @@
 
 - name: Test the id_rsa_pub_path exists
   stat: path={{ SSH_PUB_KEY }}
-  register: id_rsa_pub_path_path
+  register: id_rsa_pub_path
 
-- name: Set fact to CREATE_SSH based on existence of id_rsa private/public keypair
-  set_fact: CREATE_SSH=id_rsa_path.stat.exists and id_rsa_pub_path.stat.exists
+- name: Set CREATE_SSH True if either id_rsa_path/id_rsa_pub_path *do not exist*
+  set_fact: CREATE_SSH={{ not id_rsa_path.stat.exists or not id_rsa_pub_path.stat.exists }}
+
 ########################################
 # Tasks related to ssh keys being given
 ########################################
