@@ -1,5 +1,5 @@
 ---
-# tasks file for app-backup-postgres
+# tasks file for app-backup-files
 
 - name: Create "backups" directory
   file:
@@ -7,10 +7,9 @@
     state: directory
     mode: 0770
   with_items: LIST_OF_BACKUPS
-    
-  # The following task is helpful for copying the backup directory to a location that the postgresql user normally can't copy to
+
 - name: Copy backup to specific location
-  command: cp -r {{ item.1 }} {{ BACKUP_PATH }}/{{ ansible_date_time.date }}/{{ item.0.PROJECT_NAME }}
+  command: cp -Lr {{ item.1 }} {{ BACKUP_PATH }}/{{ ansible_date_time.date }}/{{ item.0.PROJECT_NAME }}
   with_subelements:
     - LIST_OF_BACKUPS
     - FILES
