@@ -1,419 +1,237 @@
-##########################################
-# Required vars to be filled out by user
-##########################################
-
-# Server url of the instance Atmosphere and/or Troposphere
-# will be installed
-SERVER_URL:                       # myhostname.org
-SERVERNAME: {{SERVER_URL}}
-
-# "mock" used only for development
-MOCK_USERNAME: # valid user within system; should against on cloud providers
-
-# Ansible Related Files
-ANSIBLE_HOSTS_FILE:               #Absolute Path Recommended
-ANSIBLE_GROUP_VARS_FOLDER:        #Absolute Path Recommended
-
 ###############################
+#0. Welcome to Clanks variables.yml configuration file!
 #
-# CLANK VARS
+# NOTE: There are a LOT of options available to you in this file!
+# However, if you are just starting out with Clank, Atmosphere, and Troposphere
+# you can go ahead and ignore the commented out sections of code.
 #
+# At a minimum, you should define the following:
+# Section 1 - WORKSPACE, VIRTUAL_ENV_DIR
+# Section 2 - Define the Authentication plugin you intend to use _OR_
+#             set AUTH_MOCK_USER If you intend to skip the authentication check
 ###############################
 
-# ATMO
-VIRTUAL_ENV_DIR_ATMOSPHERE: /opt/env
-VIRTUAL_ENV_ATMOSPHERE: "{{ VIRTUAL_ENV_DIR_ATMOSPHERE }}/atmo"
+###############################
+#1. Required configuration
+###############################
+WORKSPACE: /opt/dev  #NOTE: This is where atmosphere/troposphere directories reside.
+VIRTUAL_ENV_DIR: "/opt/env"  #NOTE: This is where atmosphere/troposphere virtualenv directories reside.
 
-ATMOSPHERE_DIR: /opt/dev
-ATMOSPHERE_LOCATION: "{{ ATMOSPHERE_DIR }}/atmosphere"
-ATMOSPHERE_REPO: https://github.com/iPlantCollaborativeOpenSource/atmosphere.git
-# Placeholder for defining the atmosphere branch:
-ATMOSPHERE_BRANCH: ""
-
-# ATMOSPHERE ANSIBLE
-ANSIBLE_DEPLOY_DIR: "{{ ATMOSPHERE_DIR }}"
-ANSIBLE_DEPLOY_LOCATION: "{{ ANSIBLE_DEPLOY_DIR }}/atmosphere-ansible"
-# Placeholder for defining the atmosphere-ansible branch:
-ANSIBLE_DEPLOY_BRANCH: ""
-ANSIBLE_REPO: https://github.com/iPlantCollaborativeOpenSource/atmosphere-ansible.git
-# Placeholder for defining the atmosphere-ansible branch:
-ATMOSPHERE_ANSIBLE_BRANCH: ""
-
-# TROPO
-VIRTUAL_ENV_DIR_TROPOSPHERE: /opt/env
-VIRTUAL_ENV_TROPOSPHERE: "{{ VIRTUAL_ENV_DIR_TROPOSPHERE }}/troposphere"
-
-TROPOSPHERE_DIR: /opt/dev
-TROPOSPHERE_LOCATION: "{{ TROPOSPHERE_DIR }}/troposphere"
-TROPOSPHERE_REPO: https://github.com/iplantcollaborativeOpenSource/troposphere.git
-TROPOSPHERE_BUILD: "production"
-# Placeholder for defining the troposphere branch:
-TROPOSPHERE_BRANCH: ""
-
-# POSTGRESQL DB INFORMATION
-DB_VERSION: 9.3 # Currently defaults to 9.3
-
-ATMO_DBNAME:    atmosphere
-ATMO_DBUSER:    atmosphere_app
-ATMO_DBPASSWORD: mySECRETpassword
-
-ATMO_DATA:
-    LOAD_DATABASE: False                    # set this to true when you want to load postgres with sql files
-    SQL_DUMP_FILE:                          # an absolute path to sql script that you want
-                                            # loaded /root/some_sql.sql
-
-TROPO_DBNAME:   troposphere
-TROPO_DBUSER:   troposphere_app
-TROPO_DBPASSWORD: mySECRETpassword
-
-TROPO_DATA:
-    LOAD_DATABASE: False                    # set this to true when you want to load postgres with sql files
-    SQL_DUMP_FILE:                          # an absolute path to sql script that you want
-                                            # loaded /root/some_sql.sql
-
-# SSL RELATED VARS
-GENERATE_SSH_CONFIG: true                  # Set this to false if you wish to keep your .ssh/config
-
-CREATE_SSL: true                           # Set this to false if you wish to pass in your own certs
-
-# If the above variable is set to true, don't edit next three vars below
-SSL_CERTIFICATE:    #Absolute Path Recommended
-BUNDLE_CERT:        #Absolute Path Recommended
-SSL_KEY:            #Absolute Path Recommended
+###
+# SECRETS_REPO - This repo should contain the SSH Keys, SSL Certs, and an atmosphere-ansible directory (including hosts file and group_vars directory) that you intend to use when installing Atmosphere.
+###
+# SECRETS_REPO: "/path/to/secrets_repo/clank_init"
 
 
-# SSH KEYS
-CREATE_SSH_KEYS: true                     # Set this to false if you wish to pass in your own ssh keys
-ID_RSA:             #Absolute Path Recommended
-ID_RSA_PUB:         #Absolute Path Recommended
-
-# uncomment if using New Relic to monitoring applications
+###
+# ANSIBLE_HOSTS_FILE and ANSIBLE_GROUP_VARS_FOLDER are required if you intend on properly
+# deploying to instances with Atmosphere.
 #
-#NEW_RELIC:
-#    # license key
-#    LICENSE: a1number30m3h43h00000000000
-#    # name that will appear within New Relic site in APM
-#    ATMO_LABEL: 'Atmosphere Python (atmobeta)'
-#    # name that will appear within New Relic site in APM
-#    TROPO_LABEL: 'Troposphere Python (atmobeta)'
-#    # new relic environment: 'production' or 'atmobeta'
-#    ENVIRONMENT: 'atmobeta'
-#    # partial path to New Relic Browser snippet
-#    # - relative path from `troposphere/templates`
-#    BROWSER: 'partials/__new_relic_browser.html'
+# Don't have a hosts or group_vars file handy? We will generate one for you as part of the process.
+# Before launching an instance, you will want to confirm:
+# * The IP Address given to new instances is inside the range listed in the `hosts` file.
+# * The group_vars for each group that matches the IP address range is valid for your cloud.
+###
+#ANSIBLE_HOSTS_FILE: "{{ SECRETS_REPO }}/atmosphere-ansible/hosts"
+#ANSIBLE_GROUP_VARS_FOLDER: "{{ SECRETS_REPO }}/atmosphere-ansible/group_vars"
+
+###
+# SSH KEYPAIR - This public key will be used by Atmosphere to take over the deployment process once an instance has been launched and networked appropriately. After the key is injected in the instance and Atmosphere has run the instance deployment playbook in atmosphere-ansible, the instance will be made available to the user.
+###
+#GENERATE_SSH_CONFIG: False
+#CREATE_SSH_KEYS: False
+#DEPLOYMENT_KEYPAIR_NAME: atmosphere_keypair_1
+#ID_RSA: "{{ SECRETS_REPO }}/atmosphere_keypair_1"
+#ID_RSA_PUB: "{{ SECRETS_REPO }}/atmosphere_keypair_1.pub"
 
 
-###################################
+###
+# Don't have SSL Certificates ? Use this:
+###
+CREATE_SSL: True
+
+###
+# Bringing your own SSL Certificates? Use this:
+###
+#CREATE_SSL: False
+#SSL_CERTIFICATE: "{{ SECRETS_REPO }}/cert.pem"    #Absolute Path Recommended
+#BUNDLE_CERT: "{{ SECRETS_REPO }}/chain.pem"       #Absolute Path Recommended
+#SSL_KEY: "{{ SECRETS_REPO }}/privkey.pem"         #Absolute Path Recommended
+#COMBINED_CERT: "{{ SECRETS_REPO }}/fullchain.pem" #Absolute Path Recommended
+
+###############################
+# 2. Authentication:
+# LDAP, JWT, and SAML are additional protocols that support Atmosphere API Only.
+# Select *one* Authentication protocol from "Single Sign On Integrations"
+###############################
+AUTH_USE_OVERRIDE: True
+
+#[MOCK] - Use this if you are a developer or evaluating Atmosphere
+#############
+# First, A WARNING about using Mock Authentication
+# WARNING: You should only use Mock authentication in a secure environment.
+# Running Mock authentication on an instance that is connected to the outside world
+# would allow anyone who visits the webpage to create, edit, or destroy resources on an enabled cloud provider. You could additionally leak your credentials. USE AT YOUR OWN RISK.
+#############
+AUTH_ENABLE_MOCK: True
+AUTH_MOCK_USER: "atmosphere_user"
+
+#[LDAP]
+# AUTH_ENABLE_LDAP: True
+# LDAP_SERVER: ldap://ldap.server.org
+# LDAP_SERVER_DN: ou=people,dc=LdapServer,dc=org
+
+#[JWT]
+# AUTH_ENABLE_JWT: True
+# JWT_INSTALL: True
+# JWT_PUBLIC_KEY: /path/to/jwt_public_key.pub
+# JWT_CLIENT_KEY: 1nfmGUUfnxvJGoqsnlEWYdbucb8a
+# JWT_CLIENT_SECRET: b0vqMKQVnPFMEq9dMcF_xGur7CIa
+
+#[SAML] - Incomplete Auth. Ignore.
+# SAML_SSO: ""
+# SAML_SSO_KEYFILE: ""
+# SAML_SSO_CERTFILE: ""
+# SAML_IDP_URL: https://52.3.10.15:9563
+# SAML_IDP_OAUTH_URL: https://52.3.10.15:9563/oauth2/token
+# SSO_OAUTH_KEY: EJESpDRqUWEpNPYZhe6y_sxcUaEa
+# SSO_OAUTH_SECRET: jBd5FovIXdVcuXWIjdewxLUN2iYa
+# SAML_ENTITY_ID: atmomickey
+
+###
+#Single Sign On Integations: *Pick one*
+###
+
+#[CAS]
+# AUTH_ENABLE_CAS: True
+# CAS_AUTH_PREFIX: /cas
+# CAS_SERVER: https://cas.server.org
+# ATMO_OAUTH_CLIENT_KEY: oauth_client_key
+# ATMO_OAUTH_CLIENT_SECRET: oauth_client_secret
+# TROPO_OAUTH_CLIENT_KEY: troposphere_oauth_client_key
+# TROPO_OAUTH_CLIENT_SECRET: troposphere_oauth_client_secret
+# CAS_OAUTH_CLIENT_CALLBACK: "https://{{server_name}}/cas/oauth2.0"
+
+#[GLOBUS]
+# AUTH_ENABLE_GLOBUS: False
+# GLOBUS_TOKENINFO_URL: https://auth.globus.org/v2/oauth2/token/introspect
+# GLOBUS_TOKEN_URL: https://auth.globus.org/v2/oauth2/token
+# GLOBUS_AUTH_URL: https://auth.globus.org/v2/oauth2/authorize
+# GLOBUS_OAUTH_ID: 1-2-3-4
+# GLOBUS_OAUTH_SECRET: 5678
+# GLOBUS_OAUTH_CREDENTIALS_SCOPE: auth:login
+# GLOBUS_OAUTH_ATMOSPHERE_SCOPE: atmosphere:all
+
+###############################
+#3. GLOBAL OVERRIDES
+###############################
 #
-# COMMON BETWEEN ATMO AND TROP VARS
-#
-###################################
-#COMMON:
+###
+# 3a. Site specific configuration
+###
+# SITE_NAME: Atmosphere
+# SITE_FOOTER: Powered by Clank
+# ORG_NAME: Atmosphere
+# TIME_ZONE: America/Phoenix
+# DEFAULT_EMAIL_DOMAIN: cyverse.org
 
-###################################
-#
-# ATMOSPHERE VARS
-#
-###################################
+# NOTE: At least one valid email is requried for admin. If given, this user will be emailed when errors occur in Atmosphere, Troposphere, and for user contact/feedback.
+# ADMINS_EMAIL_TUPLE: [['Atmosphere Admin', 'valid-email@required'], ['Admin Two', 'valid-email@required']]
 
-ATMO:
-    COMMON:
-        SERVER_URL: "{{ SERVERNAME }}"
-        LDAP_SERVER:
-        LDAP_SERVER_DN:
-        TOKEN_EXPIRY_TIME_DAYS: 1
-        DJANGO_SERVER_URL: "{{ SERVERNAME }}"
+###
+# 3b: Support
+# Looking to separate support email from the Sys.Admin error emails?
+# ATMO_SUPPORT_EMAIL_TUPLE: [['Support Team', 'valid-email@required'], ] # can have more than one
+# SUPPORT_EMAIL: support-email@required
+# SUPPORT_EMAIL_SIGNATURE: Support Team
+# SUPPORT_LINKS: {'getting_started': "https://google.com/",'new_provider': "https://google.com"}
 
-    nginx:
-        ENABLE_HTTP2: False
-        ATMOSPHERE_PATH: "{{ ATMOSPHERE_LOCATION }}"
-        BUNDLE_FILE: "empty_bundle.crt"
-        CERT_DIR: /etc/ssl/certs
-        CERT_FILE: self-signed.crt
-        COMBINED_CERT_FILE: self_signed_combined.crt
-        COMBINED_CERT_PATH: /etc/ssl/certs/self_signed_combined.crt
-        DHPARAM: /etc/ssl/certs/dhparam.pem
-        KEY_FILE: self-signed.key
-        KEY_PATH: /etc/ssl/private
-        KEY_SIZE: 2048
-        LOCATIONS_DIR: /etc/nginx/locations
-        SITES_ENABLED_DIR: /etc/nginx/sites-enabled
-        SITES_AVAILABLE_DIR: /etc/nginx/sites-available
-        SERVER_URL: "{{ SERVERNAME }}"
-        VIRTUALENV_PATH: "{{ VIRTUAL_ENV_ATMOSPHERE }}"
+###############################
+#4. Optional Plugins
+#   These features are NOT required to run Atmosphere+Troposphere
+#   But they do make interacting with the UI easier for end-users.
+###############################
 
-    uwsgi.ini:
-        LOCAL_DEV: False
-        PATH_TO_ATMOSPHERE: "{{ ATMOSPHERE_LOCATION }}"
-        VIRTUALENV_PATH: "{{ VIRTUAL_ENV_ATMOSPHERE }}"
-        UWSGI_USER: www-data
-        UWSGI_GROUP: www-data
-        UWSGI_LOG_PATH: /var/log/uwsgi/app/atmosphere.log
+###
+# Gate One
+###
+# USE_GATE_ONE_API: False
+# GATE_ONE_API_KEY:
+# GATE_ONE_API_SECRET:
 
-    local.py:
-        ANSIBLE_ROOT: "{{ ANSIBLE_DEPLOY_LOCATION }}"
-        AUTH_USE_OVERRIDE: True
-        AUTH_ENABLE_CAS: False
-        AUTH_ENABLE_GLOBUS: False
-        AUTH_ENABLE_LDAP: False
-        AUTH_ENABLE_MOCK: True
-        AUTH_ENABLE_JWT: False
-        USE_MOCK_AUTH: True # Retained for Legacy purposes
-        AUTH_MOCK_USER: "{{ MOCK_USERNAME }}"
-        MOCK_USER: "{{ MOCK_USERNAME }}" # Retained for legacy purposes
-        LOGOUT_REDIRECT_URL: /logout
-        CAS_AUTH_PREFIX:
-        CAS_SERVER:
-        OAUTH_ISSUE_USER: ""
-        LDAP_SERVER:
-        LDAP_SERVER_DN:
-        JWT_INSTALL: True
-        JWT_PUBLIC_KEY:
-        JWT_CLIENT_KEY:
-        JWT_CLIENT_SECRET:
-        GLOBUS_OAUTH_ID:
-        GLOBUS_OAUTH_SECRET:
-        GLOBUS_OAUTH_CREDENTIALS_SCOPE:
-        GLOBUS_OAUTH_ATMOSPHERE_SCOPE:
-        GLOBUS_TOKENINFO_URL:
-        GLOBUS_TOKEN_URL:
-        GLOBUS_AUTH_URL:
-        OAUTH_CLIENT_KEY:
-        OAUTH_CLIENT_SECRET:
-        DATABASE_CONN_MAX_AGE: 60
-        DATABASE_ENGINE: django.db.backends.postgresql_psycopg2
-        DATABASE_HOST: localhost
-        DATABASE_NAME: "{{ATMO_DBNAME}}"
-        DATABASE_PASSWORD: "{{ATMO_DBPASSWORD}}"
-        DATABASE_PORT: 5432
-        DATABASE_USER: "{{ATMO_DBUSER}}"
-        DJANGO_DEBUG: True
-        #NOTE: DO NOT SET ENFORCING UNLESS YOU ARE ON PRODUCTION!!!!
-        ENFORCING: False
-        DJANGO_JENKINS: False
-        # in seconds, 2 days: 2 * 24 * 60 * 60
-        SESSION_COOKIE_AGE: 172800
-        SSLSERVER: False
-        TESTING: True
-        SAML_SSO: ""
-        SAML_SSO_KEYFILE: ""
-        SAML_SSO_CERTFILE: ""
-        SAML_IDP_URL:
-        SAML_IDP_OAUTH_URL:
-        SSO_OAUTH_KEY:
-        SSO_OAUTH_SECRET:
-        SAML_ENTITY_ID:
-        DJANGO_TEMPLATE_DEBUG: True
-        LOG_LIBCLOUD: True
-        LOGGING_DEP_LEVEL: logging.WARNING
-        LOGGING_LEVEL: logging.DEBUG
-        LOGSTASH_HOST:
-        LOGSTASH_PORT:
-        METRIC_SERVER:
-        SECRET_KEY:
-        SELF_SIGNED_CERT: True
-        TEST_RUNNER: atmosphere.test_runner.CeleryDiscoverTestSuiteRunner
-        TEST_RUNNER_PASS:
-        TEST_RUNNER_USER:
-        SITE_NAME: CyVerse
-        TIME_ZONE: America/Phoenix
-        GLOBUS_MAPPING_FILE: ""
-        AUTO_CREATE_NEW_ACCOUNTS: False
-        REPLICATION_PROVIDER_LOCATION:
-        MONTHLY_RESET_PROVIDER_LOCATIONS: ['']
-        DEFAULT_PASSWORD_UPDATE: keystone_password_update
-        DEFAULT_PASSWORD_LOOKUP: crypt_hashpass
-        DEFAULT_ALLOCATION_THRESHOLD: (7 * 24 * 60)  # In Minutes
-        DEFAULT_ALLOCATION_DELTA: (365 * 24 * 60)  # In Minutes
-        DEFAULT_EMAIL_DOMAIN:
-        DEFAULT_IP_LOOKUP: iplant_hostname
-        DEFAULT_KEYSTONE_ROLE: _member_
-        EMAIL_LOOKUP_METHOD: ldapLookupEmail
-        DEFAULT_QUOTA: {'cpu': 16, 'memory': 128, 'storage': 10}
-        ADMINS_EMAIL_TUPLE: [['<name>', '<email>']]
-        SUPPORT_EMAIL:
-        SUPPORT_EMAIL_SIGNATURE: Atmosphere Team
-        SUPPORT_LINKS: {'getting_started': "https://pods.iplantcollaborative.org/wiki/display/atmman/Using+Instances",'new_provider': "https://pods.iplantcollaborative.org/wiki/display/atmman/Changing+Providers"}
-        MONTHLY_RESET_PROVIDER_LOCATIONS: ['',]
-        REPLICATION_PROVIDER_LOCATION:
-        EMAIL_LOOKUP_METHOD: ldapLookupEmail
-        USER_EMAIL_LOOKUP_METHOD: ldap_get_email_info
-        INSTANCE_HOSTNAMING_DOMAIN: # host domain VMs will have
-        INSTANCE_HOSTNAMING_FORMAT: vm%(three)s-%(four)s.%(domain)s
-        DEPLOYMENT_KEYPAIR_NAME: # keypair name inject by atmo-ansible during instance deploy
-        CELERYBEAT_SCHEDULE: {"monitor_instances": {"schedule": 'timedelta(minutes=5)',}}
-        VALIDATION_PLUGINS: 
+###
+# Web Shell
+###
+# WEB_SH_ROUTE:
+# WEB_SH_BASE_URL:
+# WEB_SH_JS_FILE: "static/gateone.js"
 
-    secrets.py:
-        IRODS_HOST:
-        IRODS_PORT:
-        IRODS_ZONE:
-        IRODS_ADMIN_USER:
-        IRODS_ADMIN_PASS:
-        LOCAL_STORAGE: /Storage
-        CHROMO_EXTRA_IMAGE_METADATA: {}
-        CHROMO_DEPLOYMENT_KEY: ""
-        ATMOSPHERE_SUPERUSER:
-        ATMOSPHERE_VNC_LICENSE:
-        ATMOSPHERE_SECRET_SEED:
+###
+# Web Desktop
+###
+# WEB_DESKTOP_SIGNING_SALT: ""
+# WEB_DESKTOP_FP_SALT: ""
+# WEB_DESKTOP_SIGNING_SECRET_KEY: ""
+# WEB_DESKTOP_FP_SECRET_KEY: ""
+# WEB_DESKTOP_INCLUDE_LINK: False
+# WEB_DESKTOP_PROXY_URL: ""
+# WEB_DESKTOP_PROXY_DOMAIN: ""
 
-    celeryd.default:
-        VIRTUAL_ENV_ATMOSPHERE: "{{ VIRTUAL_ENV_ATMOSPHERE }}"
-        ATMOSPHERE_LOCATION: "{{ ATMOSPHERE_LOCATION }}"
-        SSL_LOCATION: /etc/ssl
-        SSL_CERTIFICATE:
-        SSL_KEY: iplantc.key
-        USE_PRODUCTION: False
-        FLOWER_AUTH_SCHEME: "basic"
-        # Required if auth_scheme is 'basic'
-        FLOWER_BASIC_USERNAME: "example-basic-user"
-        FLOWER_BASIC_PASSWORD: "some-security-basic-pass"
-        # Required if auth_scheme is 'google'
-        FLOWER_EMAIL_ACCESS_LIST:
-        FLOWER_OAUTH2_CLIENT_ID:
-        FLOWER_OAUTH2_CLIENT_SECRET:
-        FLOWER_OAUTH2_REDIRECT_URI:
+###
+# VNC
+###
+# ATMOSPHERE_VNC_LICENSE: ""
 
+###
+# Logstash: ELK install required.
+###
+# LOGSTASH_HOST: ""
+# LOGSTASH_PORT: ""
 
-###################################
-#
-# ATMOSPHERE ANSIBLE VARIABLES
-#
-###################################
+###
+# Metrics: WeatherBalloon Server requried
+###
+# SHOW_INSTANCE_METRICS: False
+# METRIC_SERVER:
 
-ATMOSPHERE_ANSIBLE:
-    COMMON:
-        ATMOSPHERE_ANSIBLE_DIR: /opt/dev/atmosphere-ansible
-        ATMOSPHERE_ANSIBLE_LOG_DIR: /opt/dev/atmosphere/logs
-    ansible.cfg:
-        ANSIBLE_FACT_CACHE_BACKEND: redis
-        ANSIBLE_FACT_CACHE_TIMEOUT: 14400
-        ANSIBLE_MANAGED_STR: "Ansible managed: {file} modified on %Y-%m-%d %H:%M:%S by {uid} on {host}"
-        ANSIBLE_SSH_TIMEOUT: 10
-        SUBSPACE_PLUGINS_DIR: /opt/env/atmo/lib/python2.7/site-packages/subspace/plugins
-        SUBSPACE_CALLBACK_WHITELIST: play_logger
-        SUBSPACE_COW_SELECTION: random
-        SUBSPACE_NO_COWS: 1
+###
+# Badges:
+###
+# BADGES_ENABLED: False
+# BADGE_SECRET: ""
+# BADGE_HOST: ""
+# BADGE_API_HOST: ""
+# BADGE_SYSTEM_NAME: My_System
+# BADGE_SYSTEM_SLUG: my_system
 
-###################################
-#
-# TROPOSPHERE VARS
-#
-###################################
+###
+# Intercom:
+###
+# INTERCOM_APP_ID: ""
+# INTERCOM_COMPANY_ID: ""
+# INTERCOM_COMPANY_NAME: ""
 
+###
+# New Relic:
+###
+# NEW_RELIC:
+#     LICENSE: ""
+#     ATMO_LABEL: ""
+#     TROPO_LABEL: ""
+#     ENVIRONMENT: ""
+#     BROWSER: 'partials/__new_relic_browser.html'
 
-TROPO:
-    COMMON:
-        ASSETS_PATH: "{{ TROPOSPHERE_LOCATION }}/troposphere/assets/"
-        THEME_PATH: "{{ TROPOSPHERE_LOCATION }}/troposphere/themes/"
-        DJANGO_SERVER_URL: "https://{{ SERVERNAME }}"
-        SERVER_URL: "https://{{ SERVERNAME }}"
-        LDAP_SERVER:
-        LDAP_SERVER_DN:
-        TOKEN_EXPIRY_TIME_DAYS: 1
+###############################
+#5. App-specific overrides
+###############################
 
-    nginx:
-        ENABLE_HTTP2: False
-        BUNDLE_FILE: "empty_bundle.crt"
-        TROPOSPHERE_PATH: "{{ TROPOSPHERE_LOCATION }}"
-        LOCATIONS_DIR: /etc/nginx/locations
-        SITES_AVAILABLE_DIR: /etc/nginx/sites-available
-        SITES_ENABLED_DIR: /etc/nginx/sites-enabled
-        SERVER_URL: "{{ SERVERNAME }}"
-        CERT_DIR: /etc/ssl/certs
-        CERT_FILE: self-signed.crt
-        COMBINED_CERT_FILE: self_signed_combined.crt
-        COMBINED_CERT_PATH: /etc/ssl/certs/self_signed_combined.crt
-        KEY_FILE: self-signed.key
-        KEY_PATH: /etc/ssl/private/
-        KEY_SIZE: 2048
-        DHPARAM: /etc/ssl/certs/dhparam.pem
-        VIRTUALENV_PATH: "{{ VIRTUAL_ENV_TROPOSPHERE }}"
+#Specific overrides of group_vars/atmosphere go here:
+# atmosphere_database_name: local_atmosphere
+# atmosphere_github_branch: "master"
 
-    uwsgi.ini:
-        LOCAL_DEV: True
-        PATH_TO_TROPOSPHERE: "{{ TROPOSPHERE_LOCATION }}"
-        VIRTUALENV_PATH: "{{ VIRTUAL_ENV_TROPOSPHERE }}"
-        UWSGI_USER: www-data
-        UWSGI_GROUP: www-data
-        UWSGI_LOG_PATH: /var/log/uwsgi/app/troposphere.log
+#Specific overrides of group_vars/troposphere go here:
+# troposphere_theme_name: troposphere_theme
+# troposphere_github_branch: "master"
 
-    local.py:
-        DEBUG: True
-        SECRET_KEY: ""
-        THEME_NAME: troposphere_theme
-        SITE_TITLE: Atmosphere
-        SITE_FOOTER: CyVerse
-        ORG_NAME: CyVerse
-        SUPPORT_EMAIL: "{{ MOCK_USERNAME }}@<email-domain>"
-        API_SERVER: "https://{{SERVERNAME}}"
-        BASE_URL: ""
-        ENABLE_WEBPACK_LOADER_CACHE: False
-        DYNAMIC_ASSET_LOADING: False
-
-        AUTH_USE_OVERRIDE: True
-        AUTH_ENABLE_MOCK: True
-        AUTH_ENABLE_MODEL: False
-        AUTH_ENABLE_GLOBUS: False
-        AUTH_ENABLE_OAUTH: False
-        AUTH_ENABLE_CAS: False
-        AUTH_ENABLE_LDAP: False
-
-        DATABASE_NAME: "{{ TROPO_DBNAME }}"
-        DATABASE_ENGINE: django.db.backends.postgresql_psycopg2
-        DATABASE_USER: "{{ TROPO_DBUSER }}"
-        DATABASE_CONN_MAX_AGE: 60
-        DATABASE_PASSWORD: "{{ TROPO_DBPASSWORD }}"
-        DATABASE_HOST: localhost
-        DATABASE_PORT: 5432
-        DJANGO_JENKINS: ""
-        SSLSERVER: False
-
-        MOCK_USER: "{{  MOCK_USERNAME }}"
-        USE_MOCK_AUTH: True
-        LOGOUT_REDIRECT_URL: /logout
-        CAS_SERVER:
-        CAS_AUTH_PREFIX:
-        OAUTH_CLIENT_KEY:
-        OAUTH_CLIENT_SECRET:
-        OAUTH_CLIENT_CALLBACK: ""
-        GLOBUS_OAUTH_ID: ""
-        GLOBUS_OAUTH_SECRET: ""
-        GLOBUS_OAUTH_CREDENTIALS_SCOPE: ""
-        GLOBUS_OAUTH_ATMOSPHERE_SCOPE: ""
-        GLOBUS_TOKENINFO_URL: ""
-        GLOBUS_TOKEN_URL: ""
-        GLOBUS_AUTH_URL: ""
-        OAUTH_ISSUE_USER: ""
-        SESSION_COOKIE_AGE: 172800
-        # user account names for staff & admins
-        STAFF_LIST_USERNAMES: []
-
-        BADGES_ENABLED: False
-        BADGE_SECRET: ""
-        BADGE_HOST: ""
-        BADGE_API_HOST: ""
-        BADGE_SYSTEM_NAME: ""
-        BADGE_SYSTEM_SLUG: ""
-        SHOW_INSTANCE_METRICS: True
-
-        INTERCOM_APP_ID:
-        INTERCOM_COMPANY_ID:
-        INTERCOM_COMPANY_NAME:
-
-        USE_GATE_ONE_API: False
-        # Key and secret represent atmo-dev credentials
-        GATE_ONE_API_KEY: ""
-        GATE_ONE_API_SECRET: ""
-        # must be localhost or route-able domain
-        WEB_SH_ROUTE: ""
-        WEB_SH_BASE_URL: ""
-        WEB_SH_JS_FILE: static/gateone.js
-        # settings for noVNC transparent proxying
-        WEB_DESKTOP_SIGNING_SALT:
-        WEB_DESKTOP_FP_SALT:
-        WEB_DESKTOP_SIGNING_SECRET_KEY:
-        WEB_DESKTOP_FP_SECRET_KEY:
-        WEB_DESKTOP_INCLUDE_LINK: False
-        WEB_DESKTOP_PROXY_URL:
-        WEB_DESKTOP_PROXY_DOMAIN:
+#Specific overrides of group_vars/atmosphere-ansible go here:
+# atmosphere_ansible_github_repo: https://github.com/iPlantCollaborativeOpenSource/atmosphere-ansible.git

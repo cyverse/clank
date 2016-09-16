@@ -1,12 +1,5 @@
 ---
 # vars file for setup-ssh-keys
-
-# Default behavior is to create ssh keys
-CREATE_SSH: true
-
-# Default behavior is to generate ssh config
-GENERATE_SSH_CONFIG: true
-
 CREATED_SSH_KEY_NAME: id_rsa   # you can change this to another name e.g. atmosphere_id_rsa
 
 # overidden by definition in the env_file

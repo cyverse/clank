@@ -45,6 +45,11 @@ def setup_arguments():
         type=str,
         help="the environment file to load when running ansible-playbook")
 
+    parser.add_argument("-x", "--extra",
+        required=False,
+        action='append', default=[],
+        help="This can be used to pass additional extra-vars to ansible-playbook. This is *not* required.")
+
     return parser
 
 def live_run(command, **kwargs):
@@ -58,19 +63,22 @@ def execute_ansible_playbook(args):
     virtualenv_dir = os.environ["VIRTUAL_ENV"]
     ansible_exec = '{}/bin/ansible-playbook'.format(virtualenv_dir)
     ansible_play = '{}/playbooks/deploy_stack.yml'.format(cur_dir)
-    command = '{} "{}" --flush-cache -c local -e "@{}" -i "localhost,"'.format(
-        ansible_exec, ansible_play, args.env_file
+    ansible_hosts = '{}/hosts'.format(cur_dir)
+    command = '{} "{}" --flush-cache -c local -e "@{}" -i {}'.format(
+        ansible_exec, ansible_play, args.env_file, ansible_hosts
     )
 
     if args.skip_tags:
        command += ' --skip-tags="%s"' % args.skip_tags
     if args.tags:
-        command += ' --tags "%s"' % args.tags  
-    if args.verbose:
-        command += ' -e"CLANK_VERBOSE=true"'
+        command += ' --tags "%s"' % args.tags
+    if args.verbose or args.debug:
+        command += ' -vvvvv -e"CLANK_VERBOSE=true"'
     if args.debug:
-        print "[DEBUG] Command to execute: {}".format(command)
-	sys.exit(0)
+        command += ' --tags print-vars'
+    if args.extra:
+        for extra_arg in args.extra:
+            command += ' -e"%s"' % extra_arg
     (out, err, returncode) = live_run(command, cwd=cur_dir)
     if returncode is not 0:
         print Fore.RED + "%s" % command

@@ -1,6 +1,6 @@
 ---
 - name: Install and setup required dependencies for Troposphere
-  hosts: all
+  hosts: troposphere
   vars:
     clean_target: "{{ CLEAN_TARGET | default(True) }}"
 
@@ -11,7 +11,7 @@
 
     - { role: setup-postgres,
         when: clean_target,
-        DBUSER: "{{ TROPO_DBUSER }}",
+        DBUSER: "{{ TROPO_DBUSER | default(troposphere_database_user) }}",
         tags: ['dependencies', 'database'] }
 
     - { role: setup-ssl,
@@ -20,31 +20,32 @@
 
 
 - name: Setup virtualenv and clone Troposphere
-  hosts: all
+  hosts: troposphere
 
   roles:
     - { role: setup-virtualenv,
-        VIRTUAL_ENV_NAME: 'troposphere',
-        VIRTUAL_ENV_BASE_DIR: "{{ VIRTUAL_ENV_DIR_TROPOSPHERE }}",
+        VIRTUAL_ENV_NAME: "{{ troposphere_virtualenv_name }}",
+        VIRTUAL_ENV_BASE_DIR: "{{ virtualenv_dir }}",
         tags: [ 'troposphere', 'setup-virtualenv'] }
 
     - { role: clone-repo,
-        REPO_BASE_DIR: "{{ TROPOSPHERE_DIR }}",
-        CLONE_TARGET: "{{ TROPOSPHERE_LOCATION }}",
-        SPECIFIC_BRANCH: "{{ TROPOSPHERE_BRANCH | default('master', true) }}",
-        REPO_URI: "{{ TROPOSPHERE_REPO }}",
+        REPO_BASE_DIR: "{{ TROPOSPHERE_DIR | default(workspace) }}",
+        CLONE_TARGET: "{{ TROPOSPHERE_LOCATION | default(troposphere_directory_path) }}",
+        SPECIFIC_BRANCH: "{{ troposphere_github_branch }}",
+        REPO_URI: "{{ TROPOSPHERE_REPO | default(troposphere_github_repo) }}",
         tags: [ 'troposphere', 'clone-repo'] }
 
 # Setup Trososphere
 - include: ./setup_troposphere.yml
 
 - name: Enable New Relic agent
-  hosts: all
+  hosts: troposphere
 
   roles:
      - { role: noc-enable-new-relic,
-         TARGET_HOME: "{{ TROPOSPHERE_LOCATION }}",
+         TARGET_HOME: "{{ TROPOSPHERE_LOCATION | default(troposphere_directory_path) }}",
          MODULE_NAME: 'troposphere',
          new_relic_browser: True,
          new_relic_app_name: "{{ NEW_RELIC.TROPO_LABEL }}",
+         when: "{{ NEW_RELIC is defined and NEW_RELIC.TROPO_LABEL | default('') != '' and NEW_RELIC.LICENSE | default('') != '' }}",
          tags: ['troposphere', 'new-relic', 'monitoring'] }

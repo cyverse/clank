@@ -1,0 +1,17 @@
+[atmosphere]
+localhost
+
+[atmosphere_ansible]
+localhost
+
+[troposphere]
+localhost
+
+[common]
+localhost
+
+[full_deploy:children]
+common
+atmosphere
+atmosphere_ansible
+troposphere

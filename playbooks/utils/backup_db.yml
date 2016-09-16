@@ -1,0 +1,26 @@
+---
+- name: Checking for necessary --extra_vars
+  hosts: all
+  vars:
+    example:
+      - "-e \"{database_names: ['atmosphere', 'troposphere']}\""
+      - "-e \"BACKUP_PATH=/var/lib/postgresql/backups\""
+  tasks:
+
+    - debug: msg="Consider passing in `database_names`"
+      when: "{{ database_names is undefined or database_names == []}}"
+
+- name: Ensure PostgreSQL service available
+  hosts: all
+
+  tasks:
+    - service: name=postgresql state=started
+
+- name: Backup all Postgres tables
+  hosts: all
+
+  roles:
+    - { role: app-backup-postgres,
+        database_names: [ 'atmo_prod', 'troposphere'],
+        tags: ['data-backup', 'backup', 'upgrade'] }
+
