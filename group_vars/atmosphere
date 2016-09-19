@@ -134,8 +134,8 @@ ATMO:
         TACC_API_URL: "{{ TACC_API_URL | default('') }}"
         # Marked for deletion POST "Per-Provider defaults"
         DEFAULT_EMAIL_DOMAIN: "{{ DEFAULT_EMAIL_DOMAIN | default('') }}"
-        DEFAULT_ALLOCATION_THRESHOLD: "{{ DEFAULT_ALLOCATION_THRESHOLD | default(10080) }}"
-        DEFAULT_ALLOCATION_DELTA: "{{ DEFAULT_ALLOCATION_DELTA | default(525600) }}"
+        DEFAULT_ALLOCATION_THRESHOLD: {{ DEFAULT_ALLOCATION_THRESHOLD | default(10080) }}
+        DEFAULT_ALLOCATION_DELTA: {{ DEFAULT_ALLOCATION_DELTA | default(525600) }}
         DEFAULT_QUOTA:
         DEFAULT_IP_LOOKUP: "{{ DEFAULT_IP_LOOKUP | default('iplant_hostname') }}"
         DEFAULT_PASSWORD_LOOKUP:
