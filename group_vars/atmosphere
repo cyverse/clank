@@ -136,7 +136,7 @@ ATMO:
         DEFAULT_EMAIL_DOMAIN: "{{ DEFAULT_EMAIL_DOMAIN | default('') }}"
         DEFAULT_ALLOCATION_THRESHOLD: "{{ DEFAULT_ALLOCATION_THRESHOLD | default(10080) }}"
         DEFAULT_ALLOCATION_DELTA: "{{ DEFAULT_ALLOCATION_DELTA | default(525600) }}"
-        DEFAULT_QUOTA:
+        DEFAULT_QUOTA: "{{ DEFAULT_QUOTA | default('') }}"
         DEFAULT_IP_LOOKUP: "{{ DEFAULT_IP_LOOKUP | default('iplant_hostname') }}"
         DEFAULT_PASSWORD_LOOKUP:
         DEFAULT_PASSWORD_UPDATE: "{{ DEFAULT_PASSWORD_UPDATE | default('keystone_password_update') }}"
