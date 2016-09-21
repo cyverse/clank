@@ -88,9 +88,9 @@ renaming the dist file to relflect the groups you wish to create with ansible.
 The location of these files *must* be stated in your _completed_
 [variables.yml](https://github.com/iPlantCollaborativeOpenSource/clank/blob/master/dist_files/variables.yml.dist#L52-L63).
 
-## Contributing to Clank
-Generally, new roles should use Ansible Galaxy and Travis CI as detailed [here](https://pods.iplantcollaborative.org/wiki/display/csmgmt/Ansible+at+CyVerse#AnsibleatCyVerse-AnsibleGalaxyRoles) (only visible to CyVerse staff), and created using [ansible-role-template](https://github.com/cyverse-ansible/ansible-role-template).
-
+## Contributing to clank
+Generally, new roles should be created using [ansible-role-template](https://github.com/cyverse-ansible/ansible-role-template), using Ansible Galaxy and Travis CI as detailed [here](https://pods.iplantcollaborative.org/wiki/display/csmgmt/Ansible+at+CyVerse#AnsibleatCyVerse-AnsibleGalaxyRoles) (only visible to CyVerse staff).
+k
 License
 =======
 See [LICENSE](LICENSE) file.
