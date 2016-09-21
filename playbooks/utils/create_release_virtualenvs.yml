@@ -1,0 +1,41 @@
+---
+- name: Checking for necessary --extra_vars
+  hosts: all
+  vars:
+    example:
+      - "-e RELEASE_INITIALS=rr"
+
+  tasks:
+
+    - fail: msg="\nMust set RELEASE_INITIALS.\nPass a value in via {{ example[0] }}"
+      when: "{{ RELEASE_INITIALS is undefined }}"
+
+
+- name: Setup virtualenv for atmo
+  hosts: all
+
+  roles:
+    - { role: setup-virtualenv,
+        VIRTUAL_ENV_NAME: "{{ atmosphere_virtualenv_name | default('atmo') }}_{{ RELEASE_INITIALS }}",
+        VIRTUAL_ENV_BASE_DIR: "{{ virtualenv_dir | default('/opt/env') }}"
+      }
+
+- name: create link /opt/env/atmo to new atmo {{ RELEASE_INITIALS }} repo
+  hosts: all
+
+  tasks: 
+    - command: ln -snf {{ atmosphere_virtualenv_name | default('atmo') }}_{{ RELEASE_INITIALS }} /opt/env/atmo
+
+- name: setup virtualenv for tropo
+  hosts: all
+
+  roles:
+    - { role: setup-virtualenv,
+        VIRTUAL_ENV_NAME: "{{ troposphere_virtualenv_name | default('tropo') }}_{{ RELEASE_INITIALS }}",
+        VIRTUAL_ENV_BASE_DIR: "{{ virtualenv_dir | default('/opt/env') }}"
+      } 
+
+- name: create link /opt/env/troposphere to new tropo {{ RELEASE_INITIALS }} repo
+  hosts: all
+  tasks:
+    - command: ln -snf {{ troposphere_virtualenv_name | default('tropo') }}_{{ RELEASE_INITIALS }} /opt/env/troposphere
