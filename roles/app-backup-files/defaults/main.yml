@@ -1,5 +1,5 @@
 ---
-# defaults file for app-backup-postgres
+# defaults file for app-backup-files
 
 BACKUP_PATH: /root/atmo_backups
 
@@ -11,7 +11,7 @@ LIST_OF_BACKUPS:
         - /opt/dev/atmosphere/variables.ini
         - /opt/dev/atmosphere/atmosphere/settings/local.py
         - /opt/dev/atmosphere/atmosphere/settings/secrets.py
-   
+
     # Copy out troposphere specific conf
   - NAME: troposphere
     PROJECT_NAME: tropo
