@@ -10,6 +10,18 @@
     - "defaults.yml"
   tags: vars
 
+- name: Restart Postgresql to kill existing database connections prior to dropping database, if loading from a dump file
+  service:
+    name: postgresql
+    state: restarted
+  when: LOAD_DATABASE
+
+- name: Drop existing database if loading from a dump file
+  become: yes
+  become_user: postgres
+  command: dropdb {{ DBNAME }}
+  when: LOAD_DATABASE
+
 - name: database {{ DBNAME | default("") }} is created
   postgresql_db: name={{ DBNAME }} state=present login_user=postgres
   become: yes
