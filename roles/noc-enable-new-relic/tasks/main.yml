@@ -39,4 +39,11 @@
     local_action: >
       template src={{ role_path }}/templates/app_newrelic.ini.j2 dest={{ role_path }}/files/{{ MODULE_NAME }}_newrelic.ini
 
+  - name: ensure newrelic directory exists
+    local_action: >
+        file path={{ TARGET_HOME }}/{{ NEWRELIC_EXTRAS }} state=directory mode=0755
+
+  - name: Copy /files/..._newrelic.ini to TARGET_HOME
+    copy: src={{ role_path }}/files/{{MODULE_NAME}}_newrelic.ini dest={{ TARGET_HOME }}/{{ NEWRELIC_EXTRAS }}/{{MODULE_NAME}}_newrelic.ini
+
   when: NEW_RELIC is defined

@@ -5,6 +5,7 @@ TARGET_HOME:
 MODULE_NAME:
 
 LOCAL_SETTINGS: settings/local.py
+NEWRELIC_EXTRAS: extras/newrelic
 
 new_relic_browser: False
 new_relic_app_name: "Application"

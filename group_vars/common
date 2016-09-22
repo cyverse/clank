@@ -5,7 +5,7 @@ secrets_repo: "{{ SECRETS_REPO | default('/opt/dev/clank_workspace/atmo-extras')
 virtualenv_dir: "{{VIRTUAL_ENV_DIR | default('/opt/env')}}"
 github_branch: master
 db_version: 9.5
-server_name: "{{ SERVERNAME | default(ansible_fqdn) }}"
+server_name: "{{ SERVER_NAME | default(ansible_fqdn) }}"
 nginx_combined_cert_dir: "/etc/ssl/certs"
 nginx_combined_cert_file: "combined_atmo_ssl_cert.pem"
 nginx_combined_cert_path: "{{nginx_combined_cert_dir}}/{{nginx_combined_cert_file}}"
