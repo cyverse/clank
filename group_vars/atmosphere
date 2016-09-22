@@ -198,7 +198,7 @@ ATMO:
 
 ATMO_DATA:
     LOAD_DATABASE:
-    DATABASE_FILE_TO_BE_LOADED:
+    SQL_DUMP_FILE:
 
 ###################################
 #
