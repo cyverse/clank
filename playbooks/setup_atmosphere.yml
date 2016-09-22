@@ -17,7 +17,7 @@
         DBNAME: "{{ ATMO_DBNAME | default(atmosphere_database_name) }}",
         LOAD_DATABASE: "{{ ATMO_DATA.LOAD_DATABASE | default(False) }}",
         DATABASE_FILE_TO_BE_LOADED: "{{ ATMO_DATA.SQL_DUMP_FILE }}",
-        when: "{{ ATMO_DATA is defined and ATMO_DATA.SQL_DUMP_FILE is defined and ATMO_DATA.LOAD_DATABASE }}",
+        when: "{{ ATMO_DATA is defined and ATMO_DATA.SQL_DUMP_FILE is defined and ATMO_DATA.LOAD_DATABASE is defined }}",
         tags: ['atmosphere', 'data-load'] }
 
     - { role: delete-files,
