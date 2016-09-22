@@ -36,9 +36,17 @@ def setup_arguments():
         action='store_true',
         help="toggle on verbose output for command and shell tasks")
 
+    parser.add_argument("--run-virtualenv",
+        action='store_true',
+        help="Run 'create_release_virtualenvs' utility-playbook, rather than execute deployment playbook")
+
+    parser.add_argument("--run-backup",
+        action='store_true',
+        help="Run 'perform_backup' utility-playbook, rather than execute deployment playbook")
+
     parser.add_argument("--debug",
         action='store_true',
-        help="print rather than execute ansible")
+        help="print rather than execute deployment playbook")
 
     parser.add_argument("-e", "--env_file",
         required=True,
@@ -61,24 +69,31 @@ def execute_ansible_playbook(args):
 
     cur_dir = os.path.abspath(os.path.dirname(__file__))
     virtualenv_dir = os.environ["VIRTUAL_ENV"]
+
     ansible_exec = '{}/bin/ansible-playbook'.format(virtualenv_dir)
     ansible_play = '{}/playbooks/deploy_stack.yml'.format(cur_dir)
     ansible_hosts = '{}/hosts'.format(cur_dir)
-    command = '{} "{}" --flush-cache -c local -e "@{}" -i {}'.format(
-        ansible_exec, ansible_play, args.env_file, ansible_hosts
-    )
-
+    options = ""
     if args.skip_tags:
-       command += ' --skip-tags="%s"' % args.skip_tags
+       options += ' --skip-tags="%s"' % args.skip_tags
     if args.tags:
-        command += ' --tags "%s"' % args.tags
+        options += ' --tags "%s"' % args.tags
     if args.verbose or args.debug:
-        command += ' -vvvvv -e"CLANK_VERBOSE=true"'
+        options += ' -vvvvv -e"CLANK_VERBOSE=true"'
     if args.debug:
-        command += ' --tags print-vars'
+        options += ' --tags print-vars'
+    if args.run_backup:
+        ansible_play = '{}/playbooks/utils/perform_backup.yml'.format(cur_dir)
+    if args.run_virtualenv:
+        ansible_play = '{}/playbooks/utils/create_release_virtualenvs.yml'.format(cur_dir)
     if args.extra:
         for extra_arg in args.extra:
-            command += ' -e"%s"' % extra_arg
+            options += ' -e"%s"' % extra_arg
+
+    command = '{} "{}" --flush-cache -c local -e "@{}" -i {} {}'.format(
+        ansible_exec, ansible_play, args.env_file, ansible_hosts, options
+    )
+
     (out, err, returncode) = live_run(command, cwd=cur_dir)
     if returncode is not 0:
         print Fore.RED + "%s" % command

@@ -5,32 +5,38 @@
     example:
       - "-e RELEASE_INITIALS=rr"
   tasks:
-
-    - fail: msg="\nMust set RELEASE_INITIALS.\nPass a value in via {{ example[0] }}"
+    - fail:
+        msg: "\nMust set RELEASE_INITIALS.\nPass a value in via {{ example[0] }}"
       when: "{{ RELEASE_INITIALS is undefined }}"
 
 - name: Setup virtualenv for atmo
   hosts: atmosphere
   roles:
     - { role: setup-virtualenv,
-        VIRTUAL_ENV_NAME: "{{ atmosphere_virtualenv_path }}_{{ RELEASE_INITIALS }}",
+        VIRTUAL_ENV_NAME: "{{ atmosphere_virtualenv_name }}_{{ RELEASE_INITIALS }}",
         VIRTUAL_ENV_BASE_DIR: "{{ virtualenv_dir }}"
       }
 
 - name: create link /opt/env/atmo to new atmo {{ RELEASE_INITIALS }} repo
   hosts: atmosphere
-  tasks: 
-    - command: ln -snf {{ atmosphere_virtualenv_path }}_{{ RELEASE_INITIALS }} /opt/env/atmo
+  tasks:
+    - file:
+        src: "{{ atmosphere_virtualenv_path }}_{{ RELEASE_INITIALS }}"
+        dest: "{{ virtualenv_dir }}/atmo"
+        state: link
 
 - name: setup virtualenv for tropo
   hosts: troposphere
   roles:
     - { role: setup-virtualenv,
-        VIRTUAL_ENV_NAME: "{{ troposphere_virtualenv_path }}_{{ RELEASE_INITIALS }}",
+        VIRTUAL_ENV_NAME: "{{ troposphere_virtualenv_name }}_{{ RELEASE_INITIALS }}",
         VIRTUAL_ENV_BASE_DIR: "{{ virtualenv_dir }}"
-      } 
+      }
 
 - name: create link /opt/env/troposphere to new tropo {{ RELEASE_INITIALS }} repo
   hosts: troposphere
   tasks:
-    - command: ln -snf {{ troposphere_virtualenv_path }}_{{ RELEASE_INITIALS }} /opt/env/troposphere
+    - file:
+        src: "{{ troposphere_virtualenv_path }}_{{ RELEASE_INITIALS }}"
+        dest: "{{ virtualenv_dir }}/troposphere"
+        state: link
