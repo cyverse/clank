@@ -22,4 +22,4 @@
   register: output
 
 - debug: var=output.stdout_lines
-  when: ({{ CLANK_VERBOSE | default(False) }} and {{ LOAD_DATABASE }})
+  when: (CLANK_VERBOSE | default(False)) and LOAD_DATABASE
