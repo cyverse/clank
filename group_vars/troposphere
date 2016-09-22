@@ -120,7 +120,7 @@ TROPO:
         INTERCOM_COMPANY_ID: "{{ INTERCOM_COMPANY_ID | default('') }}"
         INTERCOM_COMPANY_NAME: "{{ INTERCOM_COMPANY_NAME | default('') }}"
 
-        USE_ALLOCATION_SOURCES: "{{ USE_ALLOCATION_SOURCES | default(False) }}"
+        USE_ALLOCATION_SOURCES: "{{ USE_ALLOCATION_SOURCE | default(False) }}"
         USE_MOCK_DATA: "{{ USE_MOCK_DATA | default(False) }}"
         USE_GATE_ONE_API: "{{ USE_GATE_ONE_API | default(False) }}"
         GATE_ONE_API_KEY: "{{ GATE_ONE_API_KEY | default('') }}"
