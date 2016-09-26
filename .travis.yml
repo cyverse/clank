@@ -1,0 +1,20 @@
+---
+  # use the new container infrastructure
+  sudo: required
+  dist: trusty
+
+  langauge: python
+  python: "2.7"  
+
+  before_install:
+    - sudo apt-get update
+    - sudo apt-get install -y git python python-pip python-dev libffi-dev libssl-dev
+
+  after_install:
+    - pip install -r requirements.txt
+
+  before_script:
+    - cp dist_files/variables.yml.dist variables.yml
+
+  script:
+    - ./clank.py --env_file variables.yml --tags dependencies 
