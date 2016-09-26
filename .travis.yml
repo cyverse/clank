@@ -12,9 +12,13 @@
   before_install:
     - sudo apt-get update
     - sudo apt-get install -y git python python-pip python-dev libffi-dev libssl-dev
+    - pg_dropcluster 9.1 main
+    - pg_dropcluster 9.2 main
+    - pg_dropcluster 9.3 main
+    - pg_dropcluster 9.4 main
+    - pg_lsclusters
 
   before_script:
-    - pg_lsclusters
     - virtualenv clank_env
     - . clank_env/bin/activate
     - pip install -r requirements.txt
@@ -22,6 +26,3 @@
 
   script:
     - clank_env/bin/python ./clank.py --env_file variables.yml -b --tags dependencies 
-   
-  after_script:
-    - pg_lsclusters
