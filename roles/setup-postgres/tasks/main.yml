@@ -21,7 +21,7 @@
     - restart postgresql
     
 - name: PostgreSQL - Ensure PostgreSQL is running
-  service: name=postgresql state=started
+  service: name=postgresql state=started args={{ DB_VERSION }}
   tags:
     - postgres
 
