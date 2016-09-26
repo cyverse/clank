@@ -60,7 +60,7 @@ def setup_arguments():
 
     parser.add_argument("-b", "--become",
         required=False,
-        action='store_true'
+        action='store_true',
         help="This can be used to run operations with become. This is *not* required.")
 
     return parser
