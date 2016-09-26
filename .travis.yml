@@ -17,4 +17,4 @@
     - cp dist_files/variables.yml.dist variables.yml
 
   script:
-    - ./clank.py --env_file variables.yml --tags dependencies 
+    - ./clank.py --env_file variables.yml --tags install-dependencies
