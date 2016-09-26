@@ -12,11 +12,11 @@
   before_install:
     - sudo apt-get update
     - sudo apt-get install -y git python python-pip python-dev libffi-dev libssl-dev
-    - pg_dropcluster --stop 9.1 main
-    - pg_dropcluster --stop 9.2 main
-    - pg_dropcluster --stop 9.3 main
-    - pg_dropcluster --stop 9.4 main
-    - pg_lsclusters
+    - sudo pg_dropcluster --stop 9.1 main
+    - sudo pg_dropcluster --stop 9.2 main
+    - sudo pg_dropcluster --stop 9.3 main
+    - sudo pg_dropcluster --stop 9.4 main
+    - sudo pg_lsclusters
 
   before_script:
     - virtualenv clank_env
