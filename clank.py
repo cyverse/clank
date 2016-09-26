@@ -58,6 +58,11 @@ def setup_arguments():
         action='append', default=[],
         help="This can be used to pass additional extra-vars to ansible-playbook. This is *not* required.")
 
+    parser.add_argument("-b", "--become",
+        required=False,
+        action='store_true'
+        help="This can be used to run operations with become. This is *not* required.")
+
     return parser
 
 def live_run(command, **kwargs):
@@ -89,6 +94,8 @@ def execute_ansible_playbook(args):
     if args.extra:
         for extra_arg in args.extra:
             options += ' -e"%s"' % extra_arg
+    if args.become:
+        options += ' -b'
 
     command = '{} "{}" --flush-cache -c local -e "@{}" -i {} {}'.format(
         ansible_exec, ansible_play, args.env_file, ansible_hosts, options

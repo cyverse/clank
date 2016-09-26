@@ -1,6 +1,6 @@
 ---
   # use the new container infrastructure
-  #sudo: required
+  sudo: required
   dist: trusty
 
   langauge: python
@@ -18,4 +18,4 @@
     - cp dist_files/variables.yml.dist variables.yml
 
   script:
-    - clank_env/bin/python ./clank.py --env_file variables.yml --tags dependencies,atmosphere
+    - clank_env/bin/python ./clank.py --env_file variables.yml -b --tags dependencies,atmosphere 
