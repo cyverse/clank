@@ -17,6 +17,7 @@
     - sudo pg_dropcluster --stop 9.3 main
     - sudo pg_dropcluster --stop 9.4 main
     - sudo service postgresql start 9.5 
+    - sudo pg_lsclusters 
 
   before_script:
     - virtualenv clank_env
