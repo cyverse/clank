@@ -18,4 +18,4 @@
     - cp dist_files/variables.yml.dist variables.yml
 
   script:
-    - clank_env/bin/python ./clank.py --env_file variables.yml --tags install-dependencies
+    - clank_env/bin/python ./clank.py --env_file variables.yml --tags dependencies,atmosphere
