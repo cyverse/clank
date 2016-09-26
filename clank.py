@@ -32,6 +32,10 @@ def setup_arguments():
         default="",
         help="include the tag list e.g. 'dependencies,atmosphere'")
 
+    parser.add_argument("--dry-run",
+        action='store_true',
+        help="Just print the command (Do not actually run the command)")
+
     parser.add_argument("--verbose",
         action='store_true',
         help="toggle on verbose output for command and shell tasks")
@@ -93,6 +97,9 @@ def execute_ansible_playbook(args):
     command = '{} "{}" --flush-cache -c local -e "@{}" -i {} {}'.format(
         ansible_exec, ansible_play, args.env_file, ansible_hosts, options
     )
+    if args.dry_run:
+        print Fore.GREEN + command
+        sys.exit(9)
 
     (out, err, returncode) = live_run(command, cwd=cur_dir)
     if returncode is not 0:
