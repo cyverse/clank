@@ -26,8 +26,4 @@
     - cp dist_files/variables.yml.dist variables.yml
 
   script:
-    - clank_env/bin/python ./clank.py --env_file variables.yml -b --tags dependencies
-
-  after_script:
-    - sudo file /etc/ssl/private/self-signed.key
-    - sudo file /etc/ssl/certs/self-signed.crt
+    - clank_env/bin/python ./clank.py --env_file variables.yml -b --tags dependencies,atmosphere
