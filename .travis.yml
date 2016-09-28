@@ -29,5 +29,5 @@
     - clank_env/bin/python ./clank.py --env_file variables.yml -b --tags dependencies
 
   after_script:
-    - sudo file /etc/ssl/private/self-signed.key
-    - sudo file /etc/ssl/certs/self-signed.crt
+    - sudo ls -al /etc/ssl/private/self-signed.key
+    - sudo ls -al /etc/ssl/certs/self-signed.crt
