@@ -1,3 +1,2 @@
 POSTGRES_SQL_INSTALL_DIRECTORY: /var/lib/postgresql 
 DB_VERSION: 9.5
-

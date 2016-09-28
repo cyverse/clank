@@ -37,7 +37,7 @@ DEV_PACKAGES:
     - libsasl2-dev
     - python-m2crypto
     - swig
-    - redis-server
+    #- redis-server
     - libssl-dev
     - git
     - nodejs
