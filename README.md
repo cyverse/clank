@@ -11,7 +11,7 @@ Installation
 Fetch packages required to build dependencies.
 ```bash
 apt-get update
-apt-get install -y git python python-pip python-dev libffi-dev libssl-dev
+apt-get install -y git python python-pip python-dev libffi-dev libssl-dev python-virtualenv
 ```
 
 Fetch the repository.
