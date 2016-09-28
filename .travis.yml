@@ -26,4 +26,4 @@
     - cp dist_files/variables.yml.dist variables.yml
 
   script:
-    - clank_env/bin/python ./clank.py --env_file variables.yml -b --skip-tags troposphere,apt-install
+    - clank_env/bin/python ./clank.py --env_file variables.yml -b --skip-tags troposphere
