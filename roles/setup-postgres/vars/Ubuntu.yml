@@ -1,2 +1,2 @@
 POSTGRES_SQL_INSTALL_DIRECTORY: /var/lib/postgresql 
-DB_VERSION: {{ db_version | default("9.6") }}
+DB_VERSION: "{{ db_version | default('9.6') }}"
