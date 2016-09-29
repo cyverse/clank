@@ -30,7 +30,7 @@ DEV_PACKAGES:
     - postgresql
     - postgresql-contrib
     - python-psycopg2
-    - postgresql-server-dev-all
+    - postgresql-server-dev-9.5
     - libpq-dev
     - python-dev
     - libldap2-dev
