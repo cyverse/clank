@@ -8,6 +8,6 @@ git clone --branch=master https://github.com/iPlantCollaborativeOpenSource/clank
 cd ./clank
 pip install -U pip virtualenv
 virtualenv clank_env
-. clank_env/bin/activate
-pip install -r clank/requirements.txt
+source /opt/dev/clank/clank_env/bin/activate
+pip install -r /opt/dev/clank/requirements.txt
 echo "You are now ready to run clank.py"
