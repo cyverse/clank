@@ -13,7 +13,7 @@
   service: name={{ APACHE }} state=stopped enabled=no
   failed_when: False
 
-- name: install initial packages packages
+- name: install initial packages
   action: >
     {{ ansible_pkg_mgr }} name={{ item }} state=latest update_cache=yes
   with_items: "{{ INITIAL_PACKAGES.packages }}"
@@ -39,19 +39,19 @@
   when: ansible_distribution == "Ubuntu"
   tags: apt-install
 
-- name: install dev packages packages
+- name: install dev packages
   action: >
     {{ ansible_pkg_mgr }} name={{ item }} state=latest
   with_items: "{{ DEV_PACKAGES.packages }}"
   tags: install, apt-install
 
-- name: install lib packages packages
+- name: install lib packages
   action: >
     {{ ansible_pkg_mgr }} name={{ item }} state=latest
   with_items: "{{ LIB_PACKAGES.packages }}"
   tags: install, apt-install
 
-- name: install nginx packages packages
+- name: install nginx packages
   action: >
     {{ ansible_pkg_mgr }} name={{ item }} state=latest
   with_items: "{{ NGINX_PACKAGES.packages }}"
