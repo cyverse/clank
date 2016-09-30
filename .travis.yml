@@ -11,7 +11,8 @@
 
   before_install:
     - sudo apt-get update
-    - sudo apt-get install -y git python python-pip python-dev libffi-dev libssl-dev redis-server
+    - sudo apt-get install -y git python python-pip python-dev libffi-dev libssl-dev software-properties-common python-software-properties
+    - sudo add-apt-repository ppa:chris-lea/redis-server && sudo apt-get install -y redis-server
     - sudo pg_dropcluster --stop 9.1 main
     - sudo pg_dropcluster --stop 9.2 main
     - sudo pg_dropcluster --stop 9.3 main
