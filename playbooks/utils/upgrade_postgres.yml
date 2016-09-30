@@ -3,8 +3,8 @@
   hosts: all
   vars:
     example:
-      - "-e \"{pg_version: '9.5',  pg_version_old: '9.3'}\""
-      - "-e \"{pg_version: '9.5',  pg_version_old: '9.3'}\""
+      - "-e \"{pg_version: '9.6',  pg_version_old: '9.3'}\""
+      - "-e \"{pg_version: '9.6',  pg_version_old: '9.3'}\""
       - "-e \"{database_names: ['atmosphere', 'troposphere']}\""
 
   tasks:
@@ -72,7 +72,7 @@
   hosts: all
 
   tasks:
-    - service: name=postgresql state=started args=9.5
+    - service: name=postgresql state=started args=9.6
 
     - name: List current postgresql clusters
       shell: pg_lsclusters

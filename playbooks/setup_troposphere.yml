@@ -60,7 +60,7 @@
         NGINX_COMBINED_CERT_PATH: "{{ COMBINED_CERT }}",
         NGINX_SSL_KEY_DEST: "{{ TROPO.nginx.KEY_PATH }}/{{ ATMO.nginx.KEY_FILE }}",
         NGINX_COMBINED_CERT_DEST: "{{ TROPO.nginx.COMBINED_CERT_PATH }}",
-        tags: ['troposphere', 'nginx-uwsgi'] }
+        tags: ['troposphere', 'create-nginx-uwsgi'] }
 
     - { role: build-install-troposphere-ui-assets,
         NPM_APP_DIR: "{{ TROPOSPHERE_LOCATION | default(troposphere_directory_path) }}",

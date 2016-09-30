@@ -6,7 +6,7 @@ import shlex
 import subprocess
 import sys
 import traceback
-
+from datetime import datetime
 try:
     from colorama import init, Fore
 except ImportError:
@@ -31,6 +31,10 @@ def setup_arguments():
         type=str,
         default="",
         help="include the tag list e.g. 'dependencies,atmosphere'")
+
+    parser.add_argument("--dry-run",
+        action='store_true',
+        help="Just print the command (Do not actually run the command)")
 
     parser.add_argument("--verbose",
         action='store_true',
@@ -66,9 +70,11 @@ def setup_arguments():
     return parser
 
 def live_run(command, **kwargs):
-    proc = subprocess.Popen(shlex.split(command), **kwargs) 
+    start = datetime.now()
+    proc = subprocess.Popen(shlex.split(command), **kwargs)
     out, err = proc.communicate()
-    return (out, err, proc.returncode)
+    runtime = datetime.now() - start
+    return (out, err, runtime, proc.returncode)
 
 def execute_ansible_playbook(args):
 
@@ -100,10 +106,14 @@ def execute_ansible_playbook(args):
     command = '{} "{}" --flush-cache -c local -e "@{}" -i {} {}'.format(
         ansible_exec, ansible_play, args.env_file, ansible_hosts, options
     )
+    if args.dry_run:
+        print Fore.GREEN + command
+        sys.exit(9)
 
-    (out, err, returncode) = live_run(command, cwd=cur_dir)
+    (out, err, runtime, returncode) = live_run(command, cwd=cur_dir)
     if returncode is not 0:
         print Fore.RED + "%s" % command
+        print Fore.RED + "Total Runtime: %s" % runtime
         print Fore.RED + "Error Code:" + str(returncode)
         if out:
             print Fore.RED + "Std_out:" + out
@@ -111,7 +121,8 @@ def execute_ansible_playbook(args):
             print Fore.RED + "Std_err:" + err
         sys.exit(returncode)
     else:
-        print Fore.GREEN + command 
+        print Fore.GREEN + "Total Runtime: %s" % runtime
+        print Fore.GREEN + command
 
 def main():
     init(autoreset=True)  # init colorama

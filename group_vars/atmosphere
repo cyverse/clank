@@ -164,7 +164,7 @@ ATMO:
         IRODS_ADMIN_PASS: "{{ IRODS_ADMIN_PASS | default('') }}"
         LOCAL_STORAGE: /Storage
         CHROMO_DEPLOYMENT_KEY: "{{ atmosphere_directory_path }}/extras/ssh/id_rsa.pub"
-        CHROMO_EXTRA_IMAGE_METADATA: {}
+        CHROMO_EXTRA_IMAGE_METADATA: "{{ CHROMOGENIC_INCLUDE_METADATA | default({}) }}"
         ATMOSPHERE_VNC_LICENSE: "{{ ATMOSPHERE_VNC_LICENSE | default('') }}"
         ATMOSPHERE_SECRET_SEED: "{{ ATMOSPHERE_SECRET_SEED | default('') }}"
         # Marked for deletion

@@ -31,7 +31,7 @@
 
     # an update to the apt-cache I think is needed prior to install
 
-    - name: install initial packages packages
+    - name: install initial packages
       action: >
         {{ ansible_pkg_mgr }} name={{ item }} state=latest update_cache=yes
       with_items: "{{ dependencies }}"
