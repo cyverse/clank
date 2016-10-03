@@ -6,18 +6,18 @@
   langauge: python
   python: "2.7"
 
-  addons:
-  postgresql: "9.5"
+  #addons:
+  #postgresql: "9.5"
 
   before_install:
     - sudo apt-get update
     - sudo apt-get install -y git python python-pip python-dev libffi-dev libssl-dev software-properties-common python-software-properties
     - sudo apt-get purge --auto-remove redis-server
-    - sudo pg_dropcluster --stop 9.1 main
-    - sudo pg_dropcluster --stop 9.2 main
-    - sudo pg_dropcluster --stop 9.3 main
-    - sudo pg_dropcluster --stop 9.4 main
-    - sudo service postgresql start 9.5
+    #- sudo pg_dropcluster --stop 9.1 main
+    #- sudo pg_dropcluster --stop 9.2 main
+    #- sudo pg_dropcluster --stop 9.3 main
+    #- sudo pg_dropcluster --stop 9.4 main
+    #- sudo service postgresql start 9.5
     - sudo pg_lsclusters
 
   before_script:
@@ -27,4 +27,4 @@
     - cp dist_files/variables.yml.dist variables.yml
 
   script:
-    - clank_env/bin/python ./clank.py --env_file variables.yml -b --skip-tags "distro-update,create-nginx-uwsgi" -x db_version=9.5
+    - clank_env/bin/python ./clank.py --env_file variables.yml -b --skip-tags "distro-update,create-nginx-uwsgi"
