@@ -7,7 +7,7 @@
   python: "2.7"
 
   addons:
-  postgresql: "9.5"
+  postgresql: "9.6"
 
   before_install:
     - sudo apt-get update
@@ -18,7 +18,8 @@
     - sudo pg_dropcluster --stop 9.3 main
     - sudo pg_dropcluster --stop 9.4 main
     - sudo pg_dropcluster --stop 9.5 main
-    #- sudo service postgresql start 9.6
+    - sudo pg_dropcluster --stop 9.9 main
+    - sudo service postgresql start 9.6
     - sudo pg_lsclusters
 
   before_script:
