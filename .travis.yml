@@ -27,4 +27,4 @@
     - cp dist_files/variables.yml.dist variables.yml
 
   script:
-    - clank_env/bin/python ./clank.py --env_file variables.yml -b --skip-tags "distro-update,create-nginx-uwsgi"
+    - clank_env/bin/python ./clank.py --env_file variables.yml -b --skip-tags "distro-update,create-nginx-uwsgi" -x db_version=9.5
