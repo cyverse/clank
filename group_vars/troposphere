@@ -105,7 +105,8 @@ TROPO:
         OAUTH_CLIENT_SECRET: "{{ TROPO_OAUTH_CLIENT_SECRET | default('') }}"
         OAUTH_CLIENT_CALLBACK: "{{ CAS_OAUTH_CLIENT_CALLBACK | default('') }}"
 
-        STAFF_LIST_USERNAMES: "{{ STAFF_LIST_USERNAMES | default([]) }}"
+        STAFF_LIST_USERNAMES: "{{ maintenance_exempt_usernames }}"
+        MAINTENANCE_EXEMPT_USERNAMES: "{{ maintenance_exempt_usernames }}"
 
         BADGES_ENABLED: "{{ BADGES_ENABLED | default(False) }}"
         BADGE_SECRET: "{{ BADGE_SECRET | default('') }}"
