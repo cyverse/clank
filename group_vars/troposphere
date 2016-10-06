@@ -65,6 +65,8 @@ TROPO:
         SITE_FOOTER: "{{ SITE_FOOTER | default('Atmosphere') }}"
         ORG_NAME: "{{ ORG_NAME | default('') }}"
         API_SERVER: "{{ troposphere_server_url }}"
+        ADMINS_EMAIL_TUPLE: "{{ ADMINS_EMAIL_TUPLE | default('') }}"
+        SERVER_EMAIL: "{{ SERVER_EMAIL | default('') }}"
         SUPPORT_EMAIL: "{{ SUPPORT_EMAIL | default('') }}"
         BASE_URL: "{{ BASE_URL | default('') }}"
         ENABLE_WEBPACK_LOADER_CACHE: True
