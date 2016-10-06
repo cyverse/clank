@@ -87,6 +87,7 @@
     - name: Drop default install postgresql cluster
       command: >
         pg_dropcluster --stop {{ pg_version_old }} main
+      tags: ['drop_default_cluster']
 
     - name: Vacuum existings databases
       become: yes
