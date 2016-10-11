@@ -125,6 +125,7 @@ ATMO:
         #local.py - site configuration
         SITE_NAME: "{{ SITE_NAME | default('') }}"
         TIME_ZONE: "{{ TIME_ZONE | default('') }}"
+        ORG_NAME: "{{ ORG_NAME | default('') }}"
         AUTO_CREATE_NEW_ACCOUNTS: True
         # Jetstream specific
         USE_JETSTREAM_PLUGIN: "{{ USE_JETSTREAM_PLUGIN | default(False) }}"
