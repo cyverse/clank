@@ -8,7 +8,7 @@ REQUIREMENTS_FILE_NAME: 'dev_requirements.txt'
 
 REQUIREMENTS_NAME: "{{ APP_BASE_DIR }}/{{ REQUIREMENTS_FILE_NAME }}"
 
-PIP_EXTRA_ARGS: ""
+PIP_EXTRA_ARGS: "--no-binary pycparser"
 
 RUN_WHEEL_SCRIPTS: False
 
