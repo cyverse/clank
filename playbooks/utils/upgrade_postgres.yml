@@ -72,7 +72,7 @@
   hosts: all
 
   tasks:
-    - service: name=postgresql state=started args=9.6
+    - service: name=postgresql state=started args={{ pg_version }}
 
     - name: List current postgresql clusters
       shell: pg_lsclusters
@@ -87,6 +87,7 @@
     - name: Drop default install postgresql cluster
       command: >
         pg_dropcluster --stop {{ pg_version_old }} main
+      tags: ['drop_default_cluster']
 
     - name: Vacuum existings databases
       become: yes

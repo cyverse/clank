@@ -25,7 +25,7 @@
         APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION | default(troposphere_directory_path) }}",
         REQUIREMENTS_FILE_NAME: 'dev_requirements.txt',
         VIRTUAL_ENV: "{{ VIRTUAL_ENV_TROPOSPHERE | default(troposphere_virtualenv_path) }}",
-        PIP_EXTRA_ARGS: '--no-cache-dir',
+        PIP_EXTRA_ARGS: '--no-cache-dir --no-binary pycparser',
         tags: ['troposphere', 'pip-install-requirements']}
 
     - { role: app-config-logging,

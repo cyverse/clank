@@ -125,6 +125,7 @@ ATMO:
         #local.py - site configuration
         SITE_NAME: "{{ SITE_NAME | default('') }}"
         TIME_ZONE: "{{ TIME_ZONE | default('') }}"
+        ORG_NAME: "{{ ORG_NAME | default('') }}"
         AUTO_CREATE_NEW_ACCOUNTS: True
         # Jetstream specific
         USE_JETSTREAM_PLUGIN: "{{ USE_JETSTREAM_PLUGIN | default(False) }}"
@@ -150,6 +151,7 @@ ATMO:
         SUPPORT_EMAIL: "{{ SUPPORT_EMAIL | default('') }}"
         SUPPORT_EMAIL_SIGNATURE: "{{ SUPPORT_EMAIL_SIGNATURE | default('') }}"
         SUPPORT_LINKS: "{{ SUPPORT_LINKS | default('') }}"
+        MAINTENANCE_EXEMPT_USERNAMES: "{{ maintenance_exempt_usernames }}"
         MONTHLY_RESET_PROVIDER_LOCATIONS: "{{ MONTHLY_RESET_PROVIDER_LOCATIONS | default('') }}"
         REPLICATION_PROVIDER_LOCATION: "{{ REPLICATION_PROVIDER_LOCATION | default('') }}"
         EMAIL_LOOKUP_METHOD: "{{ EMAIL_LOOKUP_METHOD | default('djangoLookupEmail') }}"
