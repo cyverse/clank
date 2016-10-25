@@ -125,6 +125,7 @@ ATMO:
         #local.py - site configuration
         SITE_NAME: "{{ SITE_NAME | default('') }}"
         TIME_ZONE: "{{ TIME_ZONE | default('') }}"
+        ORG_NAME: "{{ ORG_NAME | default('') }}"
         AUTO_CREATE_NEW_ACCOUNTS: True
         # Jetstream specific
         USE_JETSTREAM_PLUGIN: "{{ USE_JETSTREAM_PLUGIN | default(False) }}"
@@ -146,9 +147,11 @@ ATMO:
         # Support and Admin
         ADMINS_EMAIL_TUPLE: "{{ ADMINS_EMAIL_TUPLE | default('') }}"
         ATMO_SUPPORT_EMAIL_TUPLE: "{{ ATMO_SUPPORT_EMAIL_TUPLE | default('') }}"
+        SERVER_EMAIL: "{{ SERVER_EMAIL | default('') }}"
         SUPPORT_EMAIL: "{{ SUPPORT_EMAIL | default('') }}"
         SUPPORT_EMAIL_SIGNATURE: "{{ SUPPORT_EMAIL_SIGNATURE | default('') }}"
         SUPPORT_LINKS: "{{ SUPPORT_LINKS | default('') }}"
+        MAINTENANCE_EXEMPT_USERNAMES: "{{ maintenance_exempt_usernames }}"
         MONTHLY_RESET_PROVIDER_LOCATIONS: "{{ MONTHLY_RESET_PROVIDER_LOCATIONS | default('') }}"
         REPLICATION_PROVIDER_LOCATION: "{{ REPLICATION_PROVIDER_LOCATION | default('') }}"
         EMAIL_LOOKUP_METHOD: "{{ EMAIL_LOOKUP_METHOD | default('djangoLookupEmail') }}"
@@ -164,7 +167,7 @@ ATMO:
         IRODS_ADMIN_PASS: "{{ IRODS_ADMIN_PASS | default('') }}"
         LOCAL_STORAGE: /Storage
         CHROMO_DEPLOYMENT_KEY: "{{ atmosphere_directory_path }}/extras/ssh/id_rsa.pub"
-        CHROMO_EXTRA_IMAGE_METADATA: {}
+        CHROMO_EXTRA_IMAGE_METADATA: "{{ CHROMOGENIC_INCLUDE_METADATA | default({}) }}"
         ATMOSPHERE_VNC_LICENSE: "{{ ATMOSPHERE_VNC_LICENSE | default('') }}"
         ATMOSPHERE_SECRET_SEED: "{{ ATMOSPHERE_SECRET_SEED | default('') }}"
         # Marked for deletion
@@ -188,8 +191,8 @@ ATMO:
         USE_PRODUCTION: "{{ celery_use_production }}"
         FLOWER_AUTH_SCHEME: "{{ FLOWER_AUTH_SCHEME | default('basic') }}"
         # Required if auth_scheme is 'basic'
-        FLOWER_BASIC_USERNAME: "{{ FLOWER_USERNAME | default('flower_user') }}"
-        FLOWER_BASIC_PASSWORD: "{{ FLOWER_PASSWORD | default('flower_pass') }}"
+        FLOWER_BASIC_USERNAME: "{{ FLOWER_BASIC_USERNAME | default('flower_user') }}"
+        FLOWER_BASIC_PASSWORD: "{{ FLOWER_BASIC_PASSWORD | default('flower_pass') }}"
         # Required if auth_scheme is 'google'
         FLOWER_EMAIL_ACCESS_LIST: "{{ FLOWER_EMAIL_ACCESS_LIST | default('') }}"
         FLOWER_OAUTH2_CLIENT_ID: "{{ FLOWER_OAUTH2_CLIENT_ID | default('') }}"

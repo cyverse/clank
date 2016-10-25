@@ -10,7 +10,7 @@
     - "defaults.yml"
   tags: vars
 
-- name: install dev packages packages
+- name: install dev packages
   action: >
     {{ ansible_pkg_mgr }} name={{ item }} state={{ DEV_PACKAGES.state }}
   with_items: DEV_PACKAGES.packages

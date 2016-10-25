@@ -65,6 +65,8 @@ TROPO:
         SITE_FOOTER: "{{ SITE_FOOTER | default('Atmosphere') }}"
         ORG_NAME: "{{ ORG_NAME | default('') }}"
         API_SERVER: "{{ troposphere_server_url }}"
+        ADMINS_EMAIL_TUPLE: "{{ ADMINS_EMAIL_TUPLE | default('') }}"
+        SERVER_EMAIL: "{{ SERVER_EMAIL | default('') }}"
         SUPPORT_EMAIL: "{{ SUPPORT_EMAIL | default('') }}"
         BASE_URL: "{{ BASE_URL | default('') }}"
         ENABLE_WEBPACK_LOADER_CACHE: True
@@ -105,7 +107,8 @@ TROPO:
         OAUTH_CLIENT_SECRET: "{{ TROPO_OAUTH_CLIENT_SECRET | default('') }}"
         OAUTH_CLIENT_CALLBACK: "{{ CAS_OAUTH_CLIENT_CALLBACK | default('') }}"
 
-        STAFF_LIST_USERNAMES: "{{ STAFF_LIST_USERNAMES | default([]) }}"
+        STAFF_LIST_USERNAMES: "{{ maintenance_exempt_usernames }}"
+        MAINTENANCE_EXEMPT_USERNAMES: "{{ maintenance_exempt_usernames }}"
 
         BADGES_ENABLED: "{{ BADGES_ENABLED | default(False) }}"
         BADGE_SECRET: "{{ BADGE_SECRET | default('') }}"
@@ -120,7 +123,7 @@ TROPO:
         INTERCOM_COMPANY_ID: "{{ INTERCOM_COMPANY_ID | default('') }}"
         INTERCOM_COMPANY_NAME: "{{ INTERCOM_COMPANY_NAME | default('') }}"
 
-        USE_ALLOCATION_SOURCES: "{{ USE_ALLOCATION_SOURCES | default(False) }}"
+        USE_ALLOCATION_SOURCES: "{{ USE_ALLOCATION_SOURCE | default(False) }}"
         USE_MOCK_DATA: "{{ USE_MOCK_DATA | default(False) }}"
         USE_GATE_ONE_API: "{{ USE_GATE_ONE_API | default(False) }}"
         GATE_ONE_API_KEY: "{{ GATE_ONE_API_KEY | default('') }}"

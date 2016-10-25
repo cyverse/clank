@@ -70,8 +70,6 @@
     copy: src={{ NGINX_COMBINED_CERT_PATH }} dest={{ NGINX_COMBINED_CERT_DEST }}
     when: combined_cert_path.stat.exists == True
 
-
-
 - debug: var=output.stdout_lines
   when: "{{ CLANK_VERBOSE | default(False) }}"
 

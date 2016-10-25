@@ -28,3 +28,9 @@ LIST_OF_BACKUPS:
       - /etc/nginx/locations
       - /etc/uwsgi/apps-enabled
       - /etc/default/celeryd
+
+  - NAME: atmosphere-ansible
+    PROJECT_NAME: atmosphere-ansible
+    FILES:
+      - /opt/dev/atmosphere-ansible/ansible/hosts
+      - /opt/dev/atmosphere-ansible/ansible/group_vars 
