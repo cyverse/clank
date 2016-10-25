@@ -16,10 +16,13 @@
     state: restarted
   when: LOAD_DATABASE
 
-- name: Drop existing database if loading from a dump file
+- name: Drop any existing database if loading from a dump file
+  postgresql_db:
+    name: "{{ DBNAME }}"
+    state: absent
+    login_user: postgres
   become: yes
   become_user: postgres
-  command: dropdb {{ DBNAME }}
   when: LOAD_DATABASE
 
 - name: database {{ DBNAME | default("") }} is created
