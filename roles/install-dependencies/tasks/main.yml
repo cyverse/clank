@@ -32,7 +32,6 @@
   apt: update_cache=yes
   when:
     - ansible_distribution == "Ubuntu"
-    - faster_dev_rebuild == false
   tags: apt-install
 
 - name: install initial packages
