@@ -1,6 +1,8 @@
 - name: clone git repo with branched defined
-  git: repo={{ REPO_URI }}
-       dest={{ CLONE_TARGET }}
-       clone=yes
-       update=yes
-       version={{ SPECIFIC_BRANCH | default("master", true) }}
+  git:
+    repo: "{{ REPO_URI }}"
+    dest: "{{ CLONE_TARGET }}"
+    clone: yes
+    depth: 1
+    update: yes
+    version: "{{ SPECIFIC_BRANCH | default("master", true) }}"
