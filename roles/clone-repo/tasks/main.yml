@@ -5,4 +5,4 @@
     clone: yes
     depth: 1
     update: yes
-    version: "{{ SPECIFIC_BRANCH | default("master", true) }}"
+    version: "{{ SPECIFIC_BRANCH | default('master', true) }}"
