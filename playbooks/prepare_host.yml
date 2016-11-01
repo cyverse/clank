@@ -3,5 +3,6 @@
   hosts: all
   roles:
     - distro-update
+  when: faster_dev_rebuild == False
   tags:
     - distro-update
