@@ -13,12 +13,6 @@
   service: name={{ APACHE }} state=stopped enabled=no
   failed_when: False
 
-- name: install initial packages
-  action: >
-    {{ ansible_pkg_mgr }} name={{ item }} state=latest update_cache=yes
-  with_items: "{{ INITIAL_PACKAGES.packages }}"
-  tags: install, apt-install
-
 - name: remove old apt respositories
   apt_repository: repo={{ item }} state=absent
   with_items: "{{ APT_REPOSITORIES_TO_REMOVE.packages }}"
@@ -27,17 +21,25 @@
 - name: add apt keys
   apt_key: file={{ item }} state=present
   with_items: "{{ APT_KEYS_TO_ADD.packages }}"
-  when: ansible_distribution == "Ubuntu" 
+  when: ansible_distribution == "Ubuntu"
 
 - name: add apt repositories
   apt_repository: repo={{ item }} state=present
   with_items: "{{ APT_REPOSITORIES_TO_ADD.packages }}"
-  when: ansible_distribution == "Ubuntu" 
+  when: ansible_distribution == "Ubuntu"
 
 - name: update cache as a separate step
   apt: update_cache=yes
-  when: ansible_distribution == "Ubuntu"
+  when:
+    - ansible_distribution == "Ubuntu"
+    - faster_dev_rebuild == false
   tags: apt-install
+
+- name: install initial packages
+  action: >
+    {{ ansible_pkg_mgr }} name={{ item }} state=latest update_cache=no
+  with_items: "{{ INITIAL_PACKAGES.packages }}"
+  tags: install, apt-install
 
 - name: install dev packages
   action: >
