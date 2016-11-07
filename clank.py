@@ -18,8 +18,10 @@ except ImportError:
 
 def setup_arguments():
     parser = argparse.ArgumentParser(
-        description="Deploys Atmosphere and/or Troposphere according to "
-                    "the configuration and overriding arguments.")
+        description="Deploys Atmosphere and/or Troposphere according to the "
+                    "configuration and overriding arguments. Any arguments "
+                    "that Clank doesn't recognize will be passed on to the"
+                    "resulting ansible-playbook command.")
 
     parser.add_argument("--skip-tags",
         type=str,
