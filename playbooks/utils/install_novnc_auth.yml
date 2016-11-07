@@ -187,6 +187,7 @@
       git:
         repo: "https://github.com/cyverse/nginx_novnc_auth.git"
         dest: "/tmp/clank/nginx_novnc_auth"
+        depth: 1
 
 
 - name: Locally render templates for nginx_novnc_auth
