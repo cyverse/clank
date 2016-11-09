@@ -1,5 +1,9 @@
 ---
 # tasks file for app-pip-install-requirements
+- name: update pip
+  shell: "{{ VIRTUAL_ENV }}/bin/pip install pip --upgrade"
+  tags:
+    - pip
 
 - name: pip install requirements
   pip: >
