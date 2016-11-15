@@ -2,6 +2,7 @@
 - name: Ensure distro is up-to-date
   hosts: all
   roles:
-    - distro-update
+    - role: distro-update
+      when: faster_dev_rebuild == False
   tags:
     - distro-update

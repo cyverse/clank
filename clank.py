@@ -18,8 +18,10 @@ except ImportError:
 
 def setup_arguments():
     parser = argparse.ArgumentParser(
-        description="Deploys Atmosphere and/or Troposphere according to "
-                    "the configuration and overriding arguments.")
+        description="Deploys Atmosphere and/or Troposphere according to the "
+                    "configuration and overriding arguments. Any arguments "
+                    "that Clank doesn't recognize will be passed on to the "
+                    "resulting ansible-playbook command.")
 
     parser.add_argument("--skip-tags",
         type=str,
@@ -80,7 +82,7 @@ def live_run(command, **kwargs):
     runtime = datetime.now() - start
     return (out, err, runtime, proc.returncode)
 
-def execute_ansible_playbook(args):
+def execute_ansible_playbook(args, extra_ansible_playbook_args):
 
     cur_dir = os.path.abspath(os.path.dirname(__file__))
     virtualenv_dir = os.environ["VIRTUAL_ENV"]
@@ -109,6 +111,9 @@ def execute_ansible_playbook(args):
             options += ' -e"%s"' % extra_arg
     if args.become:
         options += ' -b'
+    if extra_ansible_playbook_args:
+        for arg in extra_ansible_playbook_args:
+            options += ' %s' % arg
 
     command = '{} "{}" --flush-cache -c local -e "@{}" -i {} {}'.format(
         ansible_exec, ansible_play, args.env_file, ansible_hosts, options
@@ -134,7 +139,7 @@ def execute_ansible_playbook(args):
 def main():
     init(autoreset=True)  # init colorama
     parser = setup_arguments()
-    args = parser.parse_args()
+    args, extra_ansible_playbook_args = parser.parse_known_args()
     try:
         os.environ["VIRTUAL_ENV"]
     except KeyError:
@@ -142,7 +147,7 @@ def main():
         Make sure to run within a virtualenv. See README.md.
         ''')
     try:
-        execute_ansible_playbook(args)
+        execute_ansible_playbook(args, extra_ansible_playbook_args)
     except Exception as exc:
         print Fore.RED + "Error executing clank: %s" % exc.message
         parser.print_help()
@@ -151,3 +156,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

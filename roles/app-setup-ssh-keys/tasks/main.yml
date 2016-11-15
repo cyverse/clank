@@ -26,6 +26,12 @@
   - name: move over id_rsa public key
     copy: src={{ SSH_PUB_KEY }} dest={{ APP_BASE_DIR }}/extras/ssh/{{ SSH_PUB_NAME }}
 
+  - name: set ssh priv key to the destination file above
+    set_fact: ATMO_SSH_PRIV_KEY={{ APP_BASE_DIR }}/extras/ssh/{{ SSH_PRIV_NAME }}
+
+  - name: set ssh public key to the destination file above
+    set_fact: ATMO_SSH_PUB_KEY={{ APP_BASE_DIR }}/extras/ssh/{{ SSH_PUB_NAME }}
+
   when: not CREATE_SSH
 
 ###########################################
@@ -37,10 +43,10 @@
     user: name=root generate_ssh_key=yes ssh_key_bits=2048 ssh_key_file={{ APP_BASE_DIR }}/extras/ssh/{{ CREATED_SSH_KEY_NAME }} # default is id_rsa
 
   - name: set ssh priv key var if they do not supply one
-    set_fact: SSH_PRIV_KEY={{ APP_BASE_DIR }}/extras/ssh/{{ CREATED_SSH_KEY_NAME }}
+    set_fact: ATMO_SSH_PRIV_KEY={{ APP_BASE_DIR }}/extras/ssh/{{ CREATED_SSH_KEY_NAME }}
 
-  - name: set ssh priv key var if they do not supply one
-    set_fact: SSH_PUB_KEY={{ APP_BASE_DIR }}/extras/ssh/{{ CREATED_SSH_KEY_NAME }}.pub
+  - name: set ssh public key var if they do not supply one
+    set_fact: ATMO_SSH_PUB_KEY={{ APP_BASE_DIR }}/extras/ssh/{{ CREATED_SSH_KEY_NAME }}.pub
 
   when: CREATE_SSH
 
@@ -65,7 +71,7 @@
     marker: "# {mark} ANSIBLE MANAGED BLOCK "
     block: |
       Host *
-        IdentityFile "{{ APP_BASE_DIR }}/extras/ssh/{{ SSH_PRIV_KEY | basename | default('id_rsa') }}"
+        IdentityFile "{{ APP_BASE_DIR }}/extras/ssh/{{ ATMO_SSH_PRIV_KEY | basename | default('id_rsa') }}"
         StrictHostKeyChecking no
         UserKnownHostsFile=/dev/null
   when: ssh_config_path.stat.exists
