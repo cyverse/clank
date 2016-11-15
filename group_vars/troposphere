@@ -79,7 +79,7 @@ TROPO:
         DATABASE_PASSWORD: "{{ troposphere_database_password }}"
         DATABASE_HOST: localhost
         DATABASE_PORT: 5432
-        DJANGO_JENKINS: "{{ DJANGO_JENKINS | default(False) }}"
+        DJANGO_JENKINS: "{{ install_jenkins }}"
         SSLSERVER: True
         SESSION_COOKIE_AGE:
         #Authorization and Authentication

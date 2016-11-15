@@ -97,7 +97,7 @@ ATMO:
         DATABASE_USER: "{{ atmosphere_database_user }}"
         DJANGO_DEBUG: True
         ENFORCING: "{{ ENFORCING | default(False) }}"
-        DJANGO_JENKINS: "{{ DJANGO_JENKINS | default(False) }}"
+        DJANGO_JENKINS: "{{ install_jenkins }}"
         SESSION_COOKIE_AGE:
         SSLSERVER: "{{ SSLSERVER | default(True) }}"
         TESTING: "{{ TESTING | default(False) }}"
