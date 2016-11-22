@@ -2,7 +2,7 @@ troposphere_database_name: troposphere
 troposphere_database_password: atmosphere
 troposphere_database_user: atmo_app
 troposphere_directory_name: troposphere
-troposphere_github_repo: https://github.com/iPlantCollaborativeOpenSource/troposphere.git
+troposphere_github_repo: https://github.com/cyverse/troposphere.git
 troposphere_github_branch: master
 troposphere_virtualenv_name: troposphere
 troposphere_theme_name: troposphere_theme
