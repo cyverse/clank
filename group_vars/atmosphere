@@ -5,7 +5,7 @@ atmosphere_directory_name: atmosphere
 celery_use_production: False
 # line below can be removed soon
 atmosphere_ansible_directory_path: "{{workspace}}/atmosphere-ansible"
-atmosphere_github_repo: https://github.com/iPlantCollaborativeOpenSource/atmosphere.git
+atmosphere_github_repo: https://github.com/CyVerse/atmosphere.git
 atmosphere_github_branch: master
 atmosphere_virtualenv_name: atmo
 atmosphere_directory_path: "{{workspace}}/{{atmosphere_directory_name}}"
@@ -127,6 +127,10 @@ ATMO:
         TIME_ZONE: "{{ TIME_ZONE | default('') }}"
         ORG_NAME: "{{ ORG_NAME | default('') }}"
         AUTO_CREATE_NEW_ACCOUNTS: True
+        ACCOUNT_CREATION_PLUGIN: "{{ ACCOUNT_CREATION_PLUGIN | default('atmosphere.plugins.accounts.creation.UserGroup') }}"
+        # CyVerse Specific
+        GROUPER_API: "{{ GROUPER_API | default('') }}"
+        GROUPER_SEARCH_USER: "{{ GROUPER_SEARCH_USER | default('') }}"
         # Jetstream specific
         USE_JETSTREAM_PLUGIN: "{{ USE_JETSTREAM_PLUGIN | default(False) }}"
         USE_ALLOCATION_SOURCE: "{{ USE_ALLOCATION_SOURCES | default(False) }}"

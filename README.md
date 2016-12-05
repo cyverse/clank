@@ -90,7 +90,7 @@ renaming the dist file to relflect the groups you wish to create with ansible.
 * troposphere.sql
 
 The location of these files *must* be stated in your _completed_
-[variables.yml](https://github.com/iPlantCollaborativeOpenSource/clank/blob/master/dist_files/variables.yml.dist#L52-L63).  # FIXME: bad linked-lines.
+[variables.yml](https://github.com/CyVerse/clank/blob/master/dist_files/variables.yml.dist#L52-L63).  # FIXME: bad linked-lines.
 
 ## Contributing to clank
 

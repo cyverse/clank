@@ -2,7 +2,7 @@
 
 ## upgrage_postgres.yml
 
-> Added in [pull request 98](https://github.com/iPlantCollaborativeOpenSource/clank/pull/98)
+> Added in [pull request 98](https://github.com/CyVerse/clank/pull/98)
 
 > Note: playbook assumes _"controller"_ is the **target** (see arguments below `... -c local -i "localhost,"`)
 
@@ -19,7 +19,7 @@ This is a utility playbook to be install an optional component to enhance functi
 
 ### Requirements
 
-- a valid "build_env" variables.yml for Atmosphere (described in Clank [README.md](https://github.com/iPlantCollaborativeOpenSource/clank#list-of-files-needed-before-hand); examples in [dist_files](https://github.com/iPlantCollaborativeOpenSource/clank/blob/master/dist_files/variables.yml.dist))
+- a valid "build_env" variables.yml for Atmosphere (described in Clank [README.md](https://github.com/CyVerse/clank#list-of-files-needed-before-hand); examples in [dist_files](https://github.com/CyVerse/clank/blob/master/dist_files/variables.yml.dist))
 - `hosts` including `[novnc_proxy]` group
 
 ```
