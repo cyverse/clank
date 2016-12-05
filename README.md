@@ -2,7 +2,7 @@
 
 # Clank
 
-Clank is a deployment tool for [Atmosphere](http://www.iplantcollaborative.org/ci/atmosphere).
+Clank is a deployment tool for [Atmosphere](http://www.cyverse.org/atmosphere).
 
 
 ## Installation
@@ -15,7 +15,7 @@ apt-get install -y git python python-pip python-dev libffi-dev libssl-dev
 
 Fetch the repository.
 ```
-git clone https://github.com/iPlantCollaborativeOpenSource/clank.git
+git clone https://github.com/cyverse/clank.git
 ```
 
 Prepare an environment for clank.
