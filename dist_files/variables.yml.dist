@@ -114,11 +114,14 @@ AUTH_MOCK_USER: "atmosphere_user"
 
 #[GLOBUS]
 # AUTH_ENABLE_GLOBUS: False
-# GLOBUS_TOKENINFO_URL: https://auth.globus.org/v2/oauth2/token/introspect
-# GLOBUS_TOKEN_URL: https://auth.globus.org/v2/oauth2/token
-# GLOBUS_AUTH_URL: https://auth.globus.org/v2/oauth2/authorize
-# GLOBUS_OAUTH_ID: 1-2-3-4
-# GLOBUS_OAUTH_SECRET: 5678
+# GLOBUS_OAUTH_SERVER: ""
+# GLOBUS_TOKENINFO_URL: "https://{{GLOBUS_OAUTH_SERVER}}/v2/oauth2/token/introspect"
+# GLOBUS_TOKEN_URL: "https://{{GLOBUS_OAUTH_SERVER}}/v2/oauth2/token"
+# GLOBUS_AUTH_URL: "https://{{GLOBUS_OAUTH_SERVER}}/v2/oauth2/authorize"
+# ATMO_GLOBUS_OAUTH_ID: 1-2-3-4
+# ATMO_GLOBUS_OAUTH_SECRET: 5678
+# TROPO_GLOBUS_OAUTH_ID: 2-3-4-5
+# TROPO_GLOBUS_OAUTH_SECRET: 6789
 # GLOBUS_OAUTH_CREDENTIALS_SCOPE: auth:login
 # GLOBUS_OAUTH_ATMOSPHERE_SCOPE: atmosphere:all
 
