@@ -93,6 +93,7 @@ TROPO:
         USE_MOCK_AUTH: "{{ USE_MOCK_AUTH | default(False) }}"
         MOCK_USER: "{{ AUTH_MOCK_USER | default('atmosphere_user') }}"
         LOGOUT_REDIRECT_URL: /logout
+        DISABLE_PUBLIC_AUTH: False
         CAS_SERVER: "{{ CAS_SERVER | default('') }}"
         CAS_AUTH_PREFIX: "{{ CAS_AUTH_PREFIX | default('/cas') }}"
         OAUTH_ISSUE_USER: "{{ OAUTH_ISSUE_USER | default('') }}"
