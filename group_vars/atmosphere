@@ -95,7 +95,7 @@ ATMO:
         DATABASE_PASSWORD: "{{ atmosphere_database_password }}"
         DATABASE_PORT: 5432
         DATABASE_USER: "{{ atmosphere_database_user }}"
-        DJANGO_DEBUG: True
+        DJANGO_DEBUG: {{ DEBUG | default(True)}}
         ENFORCING: "{{ ENFORCING | default(False) }}"
         DJANGO_JENKINS: "{{ install_jenkins }}"
         SESSION_COOKIE_AGE:
