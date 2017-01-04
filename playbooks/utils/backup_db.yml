@@ -21,6 +21,5 @@
 
   roles:
     - { role: app-backup-postgres,
-        database_names: [ 'atmo_prod', 'troposphere'],
         tags: ['data-backup', 'backup', 'upgrade'] }
 
