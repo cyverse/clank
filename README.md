@@ -1,6 +1,6 @@
 ![clanklogo](media/logoClank-01.png)
 
-# Clank
+# Clank  [![Build Status](https://travis-ci.org/cyverse/clank.svg?branch=master)](https://travis-ci.org/cyverse/clank)
 
 Clank is a deployment tool for [Atmosphere](http://www.cyverse.org/atmosphere).
 
