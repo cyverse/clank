@@ -172,13 +172,18 @@ AUTH_MOCK_USER: "atmosphere_user"
 ###
 # Web Desktop
 ###
+# Salts for signing/verifying authentication tokens and creating/decoding browser fingerprints
 # WEB_DESKTOP_SIGNING_SALT: ""
 # WEB_DESKTOP_FP_SALT: ""
+# Shared secrets for signing/verifying authentication tokens and creating/decoding browser fingerprints
 # WEB_DESKTOP_SIGNING_SECRET_KEY: ""
 # WEB_DESKTOP_FP_SECRET_KEY: ""
-# WEB_DESKTOP_INCLUDE_LINK: False
+# Troposphere feature flag to enable Web Desktop?
+# WEB_DESKTOP_INCLUDE_LINK: False  
+# Should be set to "https://my-novnc-gateway-server.com/vncws"
 # WEB_DESKTOP_PROXY_URL: ""
-# WEB_DESKTOP_PROXY_DOMAIN: ""
+# Should be set to ".my-novnc-gateway-server.com", allows Troposphere to set a cross-domain cookie readable by your NoVNC gateway server
+# WEB_DESKTOP_PROXY_DOMAIN: ""  
 
 ###
 # VNC
