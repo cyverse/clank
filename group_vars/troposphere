@@ -58,7 +58,7 @@ TROPO:
         UWSGI_LOG_PATH: /var/log/uwsgi/troposphere-uwsgi.log
 
     local.py:
-        DEBUG: True
+        DEBUG: "{{ DEBUG | default(False) }}"
         SECRET_KEY:
         THEME_NAME: "{{ THEME_NAME | default(troposphere_theme_name) }}"
         SITE_TITLE: "{{ SITE_TITLE | default('Atmosphere') }}"
