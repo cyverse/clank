@@ -1,4 +1,5 @@
-# tasks to install LDAP
+---
+
 - name: gather os specific variables
   include_vars: "{{ item }}"
   with_first_found:
@@ -34,11 +35,12 @@
 ########################################
 - block:
 
-  - stat: path="{{ SSL_LOCATION }}/private/{{ OPENSSL_SELF_SIGNED.name }}.key"
-    register: self_signed_key_path
-
-  - stat: path="{{ SSL_LOCATION }}/certs/{{ OPENSSL_SELF_SIGNED.name }}.crt"
-    register: self_signed_crt_path
+  - name: Set variables as if the user had already made them available.
+    set_fact:
+      SSL_CERTIFICATE: "{{ SSL_LOCATION }}/certs/{{OPENSSL_SELF_SIGNED.name}}.crt"
+      SSL_KEY: "{{ SSL_LOCATION }}/private/{{OPENSSL_SELF_SIGNED.name}}.key"
+      BUNDLE_CERT: "{{ SSL_LOCATION }}/certs/empty_bundle.crt"
+      COMBINED_CERT: "{{ SSL_LOCATION }}/certs/{{OPENSSL_SELF_SIGNED.name}}_combined.crt"
 
   - name: Creating self-signed server SSL cert
     command: >
@@ -47,23 +49,18 @@
         -nodes
         -extensions v3_ca
         -days {{ item.days|default(3650) }}
-        -subj "/C={{ item.country|default('') }}/ST={{ item.state|default('') }}/L={{ item.city|default('') }}/O={{ item.organization|default('') }}/OU={{ item.unit|default('') }}{% if item.domains is defined %}{% for domain in item.domains %}/CN={{ domain }}{% endfor %}{% else %}/CN={{ item.name }}{% endif %}/emailAddress={{ item.email|default('') }}"
-        -keyout {{ SSL_LOCATION }}/private/{{ item.name }}.key
-        -out {{ SSL_LOCATION }}/certs/{{ item.name }}.crt
+        -subj "/C={{ item.country }}/ST={{ item.state }}/L={{ item.city }}/O={{ item.organization }}/OU={{ item.unit }}/emailAddress={{ item.email }}"
+        -keyout {{ SSL_KEY }}
+        -out {{ SSL_CERTIFICATE }}
     args:
-      creates: "{{ SSL_CERTIFICATE }}/certs/{{ item.name }}.crt"
+      creates: "{{ SSL_CERTIFICATE }}"
     with_items:
       - "{{ OPENSSL_SELF_SIGNED }}"
-    when: not (self_signed_crt_path.stat.exists and self_signed_key_path.stat.exists)
 
-  - name: Copy over empty bundle file
-    file: path={{ SSL_LOCATION }}/certs/empty_bundle.crt state=touch
+  - name: Create empty bundle file
+    file: path={{ BUNDLE_CERT }} state=touch
 
-  - name: Set fact for Variables as if the user had already made them available.
-    set_fact:
-      SSL_CERTIFICATE: "{{ SSL_LOCATION }}/certs/{{OPENSSL_SELF_SIGNED.name}}.crt"
-      SSL_KEY: "{{ SSL_LOCATION }}/private/{{OPENSSL_SELF_SIGNED.name}}.key"
-      BUNDLE_CERT: "{{ SSL_LOCATION }}/certs/empty_bundle.crt"
-      COMBINED_CERT: "{{ SSL_LOCATION }}/certs/{{OPENSSL_SELF_SIGNED.name}}_combined.crt"
+  - name: Create combined certificate (just SSL_CERT since bundle is empty)
+    copy: src={{ SSL_CERTIFICATE }} dest={{ COMBINED_CERT }}
 
   when: CREATE_SSL_FILES
