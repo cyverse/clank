@@ -39,8 +39,8 @@ ATMO:
         SITES_ENABLED_DIR: /etc/nginx/sites-enabled
         SERVER_URL: "{{ atmosphere_server_name }}"
         LEADERBOARD_URL:
-        NGINX_TLS_PRIVKEY_DEST: "{{ TLS_PRIVKEY_DEST_DIR }}/{{ TLS_DEST_BASENAME }}.key",
-        NGINX_TLS_FULLCHAIN_DEST: "{{ TLS_CERT_DEST_DIR }}/{{ TLS_DEST_BASENAME }}.fullchain.crt",
+        NGINX_TLS_PRIVKEY_DEST: "{{ TLS_PRIVKEY_DEST_DIR }}/{{ TLS_DEST_BASENAME }}.key"
+        NGINX_TLS_FULLCHAIN_DEST: "{{ TLS_CERT_DEST_DIR }}/{{ TLS_DEST_BASENAME }}.fullchain.crt"
         VIRTUALENV_PATH: "{{ atmosphere_virtualenv_path }}"
 
     uwsgi.ini:
