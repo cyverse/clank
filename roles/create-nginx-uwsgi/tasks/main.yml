@@ -1,5 +1,4 @@
 ---
-# tasks file for config-nginx-uwsgi
 
 - debug: var=UWSGI_INI_SRC_NAME
   when: "{{ DEBUG_OR_TEST_ROLE | default(False) }}"
@@ -72,4 +71,3 @@
 
 - debug: var=output.stdout_lines
   when: "{{ CLANK_VERBOSE | default(False) }}"
-
