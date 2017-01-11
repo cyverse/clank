@@ -34,6 +34,7 @@ ATMO:
         ENABLE_HTTP2: True
         ATMOSPHERE_PATH: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}"
         DHPARAM: /etc/ssl/certs/dhparam.pem
+        DHPARAM_KEY_SIZE: 1024
         LOCATIONS_DIR:  /etc/nginx/locations
         SITES_AVAILABLE_DIR: /etc/nginx/sites-available
         SITES_ENABLED_DIR: /etc/nginx/sites-enabled
