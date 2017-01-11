@@ -17,15 +17,10 @@ UWSGI_APP_DEST: "{{ UWSGI_APPS_ENABLED_PATH }}/{{ UWSGI_APP_NAME }}.ini"
 UWSGI_USER: www-data
 UWSGI_GROUP: www-data
 
-NGINX_CERT_DIR: /etc/ssl/certs
-
 NGINX_DHPARAM: /etc/ssl/certs/dhparam.pem
-
-NGINX_KEY_PATH: /etc/ssl/private
 
 NGINX_LOCATIONS_DIR:  /etc/nginx/locations
 
 NGINX_SITES_ENABLED_DIR: /etc/nginx/sites-enabled
 
 NGINX_SITES_AVAILABLE_DIR: /etc/nginx/sites-available
-

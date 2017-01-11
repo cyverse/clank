@@ -18,7 +18,7 @@ WORKSPACE: /opt/dev  #NOTE: This is where atmosphere/troposphere directories res
 VIRTUAL_ENV_DIR: "/opt/env"  #NOTE: This is where atmosphere/troposphere virtualenv directories reside.
 
 ###
-# SECRETS_REPO - This repo should contain the SSH Keys, SSL Certs, and an atmosphere-ansible directory (including hosts file and group_vars directory) that you intend to use when installing Atmosphere.
+# SECRETS_REPO - This repo should contain the SSH Keys, TLS certificates, and an atmosphere-ansible directory (including hosts file and group_vars directory) that you intend to use when installing Atmosphere.
 ###
 # SECRETS_REPO: "/path/to/secrets_repo/clank_init"
 
@@ -44,20 +44,10 @@ VIRTUAL_ENV_DIR: "/opt/env"  #NOTE: This is where atmosphere/troposphere virtual
 #ID_RSA: "{{ SECRETS_REPO }}/atmosphere_keypair_1"
 #ID_RSA_PUB: "{{ SECRETS_REPO }}/atmosphere_keypair_1.pub"
 
-
-###
-# Don't have SSL Certificates ? Use this:
-###
-CREATE_SSL: True
-
-###
-# Bringing your own SSL Certificates? Use this:
-###
-#CREATE_SSL: False
-#SSL_CERTIFICATE: "{{ SECRETS_REPO }}/cert.pem"    #Absolute Path Recommended
-#BUNDLE_CERT: "{{ SECRETS_REPO }}/chain.pem"       #Absolute Path Recommended
-#SSL_KEY: "{{ SECRETS_REPO }}/privkey.pem"         #Absolute Path Recommended
-#COMBINED_CERT: "{{ SECRETS_REPO }}/fullchain.pem" #Absolute Path Recommended
+# Define these if you are providing your own TLS (SSL) certificates, otherwise a self-signed certificate will be created for you
+# TLS_PRIVKEY_SRC_FILE: "{{ SECRETS_REPO }}/example.com.key"
+# TLS_CERT_SRC_FILE: "{{ SECRETS_REPO }}/example.com.crt"
+# TLS_CACHAIN_SRC_FILE: "{{ SECRETS_REPO }}/example.com.cachain.crt"
 
 ###############################
 # 2. Authentication:
@@ -179,11 +169,11 @@ AUTH_MOCK_USER: "atmosphere_user"
 # WEB_DESKTOP_SIGNING_SECRET_KEY: ""
 # WEB_DESKTOP_FP_SECRET_KEY: ""
 # Troposphere feature flag to enable Web Desktop?
-# WEB_DESKTOP_INCLUDE_LINK: False  
+# WEB_DESKTOP_INCLUDE_LINK: False
 # Should be set to "https://my-novnc-gateway-server.com/vncws"
 # WEB_DESKTOP_PROXY_URL: ""
 # Should be set to ".my-novnc-gateway-server.com", allows Troposphere to set a cross-domain cookie readable by your NoVNC gateway server
-# WEB_DESKTOP_PROXY_DOMAIN: ""  
+# WEB_DESKTOP_PROXY_DOMAIN: ""
 
 ###
 # VNC

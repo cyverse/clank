@@ -38,17 +38,9 @@ ATMO:
         SITES_AVAILABLE_DIR: /etc/nginx/sites-available
         SITES_ENABLED_DIR: /etc/nginx/sites-enabled
         SERVER_URL: "{{ atmosphere_server_name }}"
-        BUNDLE_FILE: gd_bundle.crt
-        CERT_DIR: /etc/ssl/certs
-        # Marked for deletion
-        CERT_FILE:
         LEADERBOARD_URL:
-        #NOTE: The combined cert and key doesn't have to exist, we just need a name for their final destinations
-        COMBINED_CERT_FILE: "{{ nginx_combined_cert_file }}"
-        COMBINED_CERT_PATH: "{{ nginx_combined_cert_path }}"
-        KEY_FILE: "{{ nginx_key_file }}"
-        KEY_PATH: "{{ nginx_key_dir }}"
-        KEY_SIZE: 1024
+        NGINX_TLS_PRIVKEY_DEST: "{{ TLS_PRIVKEY_DEST_DIR }}/{{ TLS_DEST_BASENAME }}.key",
+        NGINX_TLS_FULLCHAIN_DEST: "{{ TLS_CERT_DEST_DIR }}/{{ TLS_DEST_BASENAME }}.fullchain.crt",
         VIRTUALENV_PATH: "{{ atmosphere_virtualenv_path }}"
 
     uwsgi.ini:

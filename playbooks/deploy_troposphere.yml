@@ -14,7 +14,7 @@
         DBUSER: "{{ TROPO_DBUSER | default(troposphere_database_user) }}",
         tags: ['dependencies', 'database'] }
 
-    - { role: setup-ssl,
+    - { role: tls-cert,
         when: clean_target,
         tags: ['dependencies', 'ssl'] }
 

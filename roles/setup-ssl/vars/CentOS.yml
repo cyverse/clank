@@ -1,4 +1,0 @@
----
-# centos var file for setup-ssl
-
-SSL_LOCATION: /etc/pki/tls
