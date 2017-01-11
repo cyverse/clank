@@ -182,9 +182,8 @@ ATMO:
     celeryd.default:
         VIRTUALENV_PATH: "{{ atmosphere_virtualenv_path }}"
         ATMOSPHERE_LOCATION: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}"
-        SSL_LOCATION: /etc/ssl
-        SSL_CERTIFICATE: "{{ nginx_combined_cert_file }}"
-        SSL_KEY: "{{ nginx_key_file }}"
+        CELERYD_TLS_PRIVKEY_DEST: "{{ TLS_PRIVKEY_DEST_DIR }}/{{ TLS_DEST_BASENAME }}.key"
+        CELERYD_TLS_CERT_DEST: "{{ TLS_CERT_DEST_DIR }}/{{ TLS_DEST_BASENAME }}.crt"
         USE_PRODUCTION: "{{ celery_use_production }}"
         FLOWER_AUTH_SCHEME: "{{ FLOWER_AUTH_SCHEME | default('basic') }}"
         # Required if auth_scheme is 'basic'
