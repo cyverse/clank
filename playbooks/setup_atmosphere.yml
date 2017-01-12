@@ -84,8 +84,6 @@
         APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}",
         UWSGI_APP_NAME: 'atmosphere',
         UWSGI_INI_SRC_NAME: 'extras/uwsgi/atmo.uwsgi.ini',
-        NGINX_SSL_KEY_DEST: "{{ TLS_PRIVKEY_DEST_DIR }}/{{ TLS_DEST_BASENAME }}.key",
-        NGINX_COMBINED_CERT_DEST: "{{ TLS_CERT_DEST_DIR }}/{{ TLS_DEST_BASENAME }}.fullchain.crt",
         tags: ['atmosphere', 'deploy', 'create-nginx-uwsgi', 'nginx-uwsgi'] }
 
     - { role: setup-webserver-user-group,
