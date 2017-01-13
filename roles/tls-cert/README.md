@@ -28,20 +28,19 @@ Role Variables
 
 | Variable                | Required | Default             | Choices     | Comments                                   |
 |-------------------------|----------|---------------------|-------------|--------------------------------------------|
-| TLS_PRIVKEY_SRC_FILE    | no       | false               |             | Path to private key on deployer system     |
-| TLS_CERT_SRC_FILE       | no       | false               |             | Path to certificate on deployer system     |
-| TLS_CACHAIN_SRC_FILE    | no       | false               |             | Path to CA chain on deployer system        |
+| TLS_PRIVKEY_SRC_FILE    | no       |                     |             | Path to private key on deployer system     |
+| TLS_CERT_SRC_FILE       | no       |                     |             | Path to certificate on deployer system     |
+| TLS_CACHAIN_SRC_FILE    | no       |                     |             | Path to CA chain on deployer system        |
 | TLS_DEST_BASENAME       | no       | provided cert CN*   |             | Base filename of installed certificate     |
 | TLS_CREATE_SELFSIGNED   | no       | false               | true, false | Explicitly creates self-signed certificate |
 | TLS_CERT_DEST_DIR       | no       | (distro-specific)   |             | Directory for certificates on target host  |
 | TLS_PRIVKEY_DEST_DIR    | no       | (distro-specific)   |             | Directory for private keys on target host  |
 
-If you specify at least a TLS_PRIVKEY_SRC_FILE and a TLS_CERT_SRC_FILE, then the provided files will be installed to the target. (Ansible will look in "files" directory relative to playbook if you specify a bare filename or relative path.) If these variables are not set by the deployer, then the role will create a self-signed certificate instead, with files selfsigned.crt and selfsigned.key. You can explicitly set `TLS_CREATE_SELFSIGNED: true` to override the default behavior and force creation of a self-signed certificate.
+If you specify at least a TLS_PRIVKEY_SRC_FILE, TLS_CERT_SRC_FILE, and TLS_CACHAIN_SRC_FILE, then the provided files will be installed to the target. (Ansible will look in "files" directory relative to playbook if you specify a bare filename or relative path.) If these variables are not set by the deployer, then the role will create a self-signed certificate instead, with files selfsigned.crt and selfsigned.key. You can explicitly set `TLS_CREATE_SELFSIGNED: true` to override the default behavior and force creation of a self-signed certificate.
 
-`*` If the deployer provides a certificate, then the certificate's indicated CN (domain) will be used as the base name of the files on the target (e.g. `example.com.key`, `example.com.crt`, `example.com.chain.crt`, and `example.com.fullchain.crt` for example.com). If this role creates a self-signed certificate, the files will be named with "selfsigned" as the base name. In either case, setting `TLS_DEST_BASENAME` overrides this filename.
+`*` If the deployer provides a certificate, then the certificate's indicated CN (domain) will be used as the base name of the files on the target (e.g. `example.com.key`, `example.com.crt`, `example.com.cachain.crt`, and `example.com.fullchain.crt` for example.com). If this role creates a self-signed certificate, the files will be named with "selfsigned" as the base name. In either case, setting `TLS_DEST_BASENAME` overrides this filename.
 
 `**` By default, certificates and private keys are placed in the distro-specific system-wide default directories (but this can be overridden).
-
 
 Dependencies
 ------------
