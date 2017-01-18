@@ -15,7 +15,7 @@
         tags: ['dependencies', 'database'] }
 
     - { role: tls-cert,
-        tags: ['dependencies', 'create-nginx-uwsgi', 'ssl'] }
+        tags: ['dependencies', 'ssl'] }
 
 - name: Clone Atmosphere Ansible
   hosts: atmosphere_ansible
