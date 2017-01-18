@@ -34,19 +34,13 @@ TROPO:
         ENABLE_HTTP2: True
         TROPOSPHERE_PATH: "{{ TROPOSPHERE_LOCATION | default(troposphere_directory_path) }}"
         DHPARAM: /etc/ssl/certs/dhparam.pem
+        DHPARAM_KEY_SIZE: 1024
         LOCATIONS_DIR: /etc/nginx/locations
         SITES_AVAILABLE_DIR: /etc/nginx/sites-available
         SITES_ENABLED_DIR: /etc/nginx/sites-enabled
         SERVER_URL: "{{ troposphere_server_name }}"
-        BUNDLE_FILE: gd_bundle.crt
-        CERT_DIR: /etc/ssl/certs
-        CERT_FILE:
-        #NOTE: The combined cert and key doesn't have to exist, we just need a name for their final destinations
-        COMBINED_CERT_FILE: "{{ nginx_combined_cert_file }}"
-        COMBINED_CERT_PATH: "{{ nginx_combined_cert_path }}"
-        KEY_FILE: "{{ nginx_key_file }}"
-        KEY_PATH: "{{ nginx_key_dir }}"
-        KEY_SIZE: 1024
+        NGINX_TLS_PRIVKEY_DEST: "{{ TLS_PRIVKEY_DEST_DIR }}/{{ TLS_DEST_BASENAME }}.key"
+        NGINX_TLS_FULLCHAIN_DEST: "{{ TLS_CERT_DEST_DIR }}/{{ TLS_DEST_BASENAME }}.fullchain.crt"
         VIRTUALENV_PATH: "{{ VIRTUAL_ENV_TROPOSPHERE | default(troposphere_virtualenv_path) }}"
 
     uwsgi.ini:
@@ -141,4 +135,3 @@ TROPO:
         WEB_DESKTOP_INCLUDE_LINK: "{{ WEB_DESKTOP_INCLUDE_LINK | default(False) }}"
         WEB_DESKTOP_PROXY_URL: "{{ WEB_DESKTOP_PROXY_URL | default('') }}"
         WEB_DESKTOP_PROXY_DOMAIN: "{{ WEB_DESKTOP_PROXY_DOMAIN | default('') }}"
-

@@ -14,9 +14,8 @@
         DBUSER: "{{ ATMO_DBUSER | default(atmosphere_database_user) }}",
         tags: ['dependencies', 'database'] }
 
-    - { role: setup-ssl,
-        CREATE_SSL_FILES: "{{ CREATE_SSL | default(True) }}",
-        tags: ['dependencies', 'create-nginx-uwsgi', 'ssl'] }
+    - { role: tls-cert,
+        tags: ['dependencies', 'ssl'] }
 
 - name: Clone Atmosphere Ansible
   hosts: atmosphere_ansible
