@@ -6,11 +6,27 @@
     - pip
 
 - name: pip install requirements
+  when: not "{{ USE_PIP_TOOLS_SYNC | default(False) }}"
   pip: >
     requirements={{ REQUIREMENTS_NAME }}
     virtualenv={{ VIRTUAL_ENV }}
     extra_args={{ PIP_EXTRA_ARGS }}
     state=latest
+
+- name: pip install pip-tools
+  when: "{{ USE_PIP_TOOLS_SYNC | default(False) }}"
+  pip:
+    name: pip-tools
+    version: 1.8.0
+    virtualenv: "{{ VIRTUAL_ENV }}"
+
+- name: pip-sync requirements
+  when: "{{ USE_PIP_TOOLS_SYNC | default(False) }}"
+  shell: |
+    . {{ VIRTUAL_ENV }}/bin/activate
+    {{ VIRTUAL_ENV }}/bin/pip-sync {{ REQUIREMENTS_NAME }}
+  tags:
+    - pip
 
 - name: wheel install requirements
   command: "{{ VIRTUAL_ENV_ATMOSPHERE }}/bin/wheel install-scripts {{ item }}"
