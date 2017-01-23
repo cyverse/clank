@@ -4,7 +4,7 @@ APP_BASE_DIR: ""
 
 VIRTUAL_ENV: ""
 
-REQUIREMENTS_FILE_NAME: 'dev_requirements.txt'
+REQUIREMENTS_FILE_NAME: 'requirements.txt'
 
 REQUIREMENTS_NAME: "{{ APP_BASE_DIR }}/{{ REQUIREMENTS_FILE_NAME }}"
 
