@@ -31,11 +31,12 @@
         USE_PIP_TOOLS_SYNC: True,
         VIRTUAL_ENV: "{{ VIRTUAL_ENV_ATMOSPHERE | default(atmosphere_virtualenv_path) }}",
         PIP_EXTRA_ARGS: '{% if faster_dev_rebuild == false %}--no-cache-dir {% endif %}--no-binary pycparser',
-        tags: ['atmosphere', 'pip-install-requirements']}
+        tags: ['atmosphere', 'pip-install-requirements'],
+        when: "{{ installation_type is not defined or installation_type != 'development' }}" }
 
     - { role: app-pip-install-requirements,
         APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}",
-        REQUIREMENTS_FILE_NAME: 'dev_requirements.txt',
+        REQUIREMENTS_FILE_NAME: 'requirements.txt dev_requirements.txt',
         USE_PIP_TOOLS_SYNC: True,
         VIRTUAL_ENV: "{{ VIRTUAL_ENV_ATMOSPHERE | default(atmosphere_virtualenv_path) }}",
         PIP_EXTRA_ARGS: '{% if faster_dev_rebuild == false %}--no-cache-dir {% endif %}--no-binary pycparser',
