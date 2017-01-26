@@ -31,7 +31,7 @@
 
     - { role: app-pip-install-requirements,
         APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION | default(troposphere_directory_path) }}",
-        REQUIREMENTS_FILE_NAME: 'dev_requirements.txt',
+        REQUIREMENTS_FILE_NAME: 'requirements.txt dev_requirements.txt',
         USE_PIP_TOOLS_SYNC: True,
         VIRTUAL_ENV: "{{ VIRTUAL_ENV_TROPOSPHERE | default(troposphere_virtualenv_path) }}",
         PIP_EXTRA_ARGS: '{% if faster_dev_rebuild == false %}--no-cache-dir {% endif %}--no-binary pycparser',

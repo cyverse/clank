@@ -8,7 +8,8 @@
 - name: pip install requirements
   when: not "{{ USE_PIP_TOOLS_SYNC | default(False) }}"
   pip: >
-    requirements={{ REQUIREMENTS_NAME }}
+    chdir={{ APP_BASE_DIR }}
+    requirements={{ REQUIREMENTS_FILE_NAME }}
     virtualenv={{ VIRTUAL_ENV }}
     extra_args={{ PIP_EXTRA_ARGS }}
     state=latest
@@ -23,8 +24,9 @@
 - name: pip-sync requirements
   when: "{{ USE_PIP_TOOLS_SYNC | default(False) }}"
   shell: |
+    cd {{ APP_BASE_DIR }}
     . {{ VIRTUAL_ENV }}/bin/activate
-    {{ VIRTUAL_ENV }}/bin/pip-sync {{ REQUIREMENTS_NAME }}
+    {{ VIRTUAL_ENV }}/bin/pip-sync {{ REQUIREMENTS_FILE_NAME }}
   tags:
     - pip
 
