@@ -61,6 +61,7 @@ ATMO:
         AUTH_ENABLE_LDAP: "{{ AUTH_ENABLE_LDAP | default(False) }}"
         AUTH_ENABLE_MOCK: "{{ AUTH_ENABLE_MOCK | default(False) }}"
         AUTH_ENABLE_JWT: "{{ AUTH_ENABLE_JWT | default(False) }}"
+        AUTH_ENABLE_OPENSTACK: "{{ AUTH_ENABLE_OPENSTACK | default(False) }}"
         AUTH_MOCK_USER: "{{ AUTH_MOCK_USER | default('atmosphere_user') }}"
         LOGOUT_REDIRECT_URL: /logout
         CAS_SERVER: "{{ CAS_SERVER | default('') }}"
@@ -68,6 +69,8 @@ ATMO:
         OAUTH_ISSUE_USER: "{{ OAUTH_ISSUE_USER | default('') }}"
         LDAP_SERVER: "{{ LDAP_SERVER | default('') }}"
         LDAP_SERVER_DN: "{{ LDAP_SERVER_DN | default('') }}"
+        KEYSTONE_SERVER: "{{ KEYSTONE_SERVER | default('') }}"
+        KEYSTONE_DOMAIN_NAME: "{{ KEYSTONE_DOMAIN_NAME | default('') }}"
         JWT_INSTALL: "{{ JWT_INSTALL | default(False) }}"
         JWT_PUBLIC_KEY: "{{ JWT_PUBLIC_KEY | default('') }}"
         JWT_CLIENT_KEY: "{{ JWT_CLIENT_KEY | default('') }}"

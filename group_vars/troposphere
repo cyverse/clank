@@ -84,12 +84,16 @@ TROPO:
         AUTH_ENABLE_MOCK: "{{ AUTH_ENABLE_MOCK | default(False) }}"
         AUTH_ENABLE_MODEL: "{{ AUTH_ENABLE_MODEL | default(True) }}"
         AUTH_ENABLE_OAUTH: "{{ AUTH_ENABLE_OAUTH | default(False) }}"
+        AUTH_ENABLE_OPENSTACK: "{{ AUTH_ENABLE_OPENSTACK | default(False) }}"
         USE_MOCK_AUTH: "{{ USE_MOCK_AUTH | default(False) }}"
         MOCK_USER: "{{ AUTH_MOCK_USER | default('atmosphere_user') }}"
         LOGOUT_REDIRECT_URL: /logout
         DISABLE_PUBLIC_AUTH: False
+        USE_LOGIN_SELECTION: "{{ USE_LOGIN_SELECTION | default(False) }}"
         CAS_SERVER: "{{ CAS_SERVER | default('') }}"
         CAS_AUTH_PREFIX: "{{ CAS_AUTH_PREFIX | default('/cas') }}"
+        KEYSTONE_SERVER: "{{ KEYSTONE_SERVER | default('') }}"
+        KEYSTONE_DOMAIN_NAME: "{{ KEYSTONE_DOMAIN_NAME | default('') }}"
         OAUTH_ISSUE_USER: "{{ OAUTH_ISSUE_USER | default('') }}"
         GLOBUS_OAUTH_ID: "{{ TROPO_GLOBUS_OAUTH_ID | default('')}}"
         GLOBUS_OAUTH_SECRET: "{{ TROPO_GLOBUS_OAUTH_SECRET | default('')}}"
