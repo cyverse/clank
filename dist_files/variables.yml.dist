@@ -70,8 +70,8 @@ AUTH_MOCK_USER: "atmosphere_user"
 
 #[OPENSTACK-KEYSTONE] - Use these variables to enable an experience that allows Identities to be authenticated/identified by 'auth_token' rather than password
 # AUTH_ENABLE_OPENSTACK: True
-# KEYSTONE_TOKEN_LOGIN: True
-# KEYSTONE_SERVER: https://my-openstack.cloud.org:5000
+# USE_LOGIN_SELECTION: True
+# KEYSTONE_SERVER: "https://my-openstack.cloud.org:5000"
 # KEYSTONE_DOMAIN_NAME: "default"
 
 #[LDAP]
