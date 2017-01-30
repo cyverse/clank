@@ -3,6 +3,6 @@
     repo: "{{ REPO_URI }}"
     dest: "{{ CLONE_TARGET }}"
     clone: yes
-    depth: 1
+    depth: "{{ GIT_CLONE_DEPTH | default(1) }}"
     update: yes
     version: "{{ SPECIFIC_BRANCH | default('master', true) }}"
