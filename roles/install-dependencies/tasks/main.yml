@@ -13,7 +13,7 @@
   service: name={{ APACHE }} state=stopped enabled=no
   failed_when: False
 
-- name: remove old apt respositories
+- name: remove old apt repositories
   apt_repository: repo={{ item }} state=absent
   with_items: "{{ APT_REPOSITORIES_TO_REMOVE.packages }}"
   when: ansible_distribution == "Ubuntu"
