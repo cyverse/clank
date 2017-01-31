@@ -240,7 +240,7 @@ AUTH_MOCK_USER: "atmosphere_user"
 # troposphere_github_branch: "master"
 
 #Specific overrides of group_vars/atmosphere-ansible go here:
-# atmosphere_ansible_github_repo: https://github.com/iPlantCollaborativeOpenSource/atmosphere-ansible.git
+# atmosphere_ansible_github_repo: https://github.com/cyverse/atmosphere-ansible.git
 
 ###############################
 #5. Overrides for Clank Execution
