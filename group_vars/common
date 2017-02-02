@@ -17,3 +17,4 @@ maintenance_exempt_usernames: "{{ MAINTENANCE_EXEMPT_USERNAMES | default(staff_l
 install_jenkins: "{{ DJANGO_JENKINS | default(False) }}"
 installation_type: "{{ INSTALLATION_TYPE | default('development') }}"
 faster_dev_rebuild: false
+shallow_clone: true
