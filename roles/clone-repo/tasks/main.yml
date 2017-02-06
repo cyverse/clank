@@ -1,18 +1,8 @@
-- name: clone git repo with branched defined (shallow)
+- name: clone git repo with branched defined 
   git:
     repo: "{{ REPO_URI }}"
     dest: "{{ CLONE_TARGET }}"
     clone: yes
-    depth: 1
+    depth: "{%- if shallow_clone -%}1{%- else -%}0{%- endif -%}"
     update: yes
     version: "{{ SPECIFIC_BRANCH | default('master', true) }}"
-  when: "{{ shallow_clone }}"
-
-- name: clone git repo with branched defined (deep)
-  git:
-    repo: "{{ REPO_URI }}"
-    dest: "{{ CLONE_TARGET }}"
-    clone: yes
-    update: yes
-    version: "{{ SPECIFIC_BRANCH | default('master', true) }}"
-  when: "{{ not shallow_clone }}"
