@@ -10,8 +10,8 @@ Clank is a deployment tool for [Atmosphere](http://www.cyverse.org/atmosphere).
 Fetch packages required to build dependencies.
 ```bash
 apt-get update
-apt-get install -y git python python-pip python-dev libffi-dev libssl-dev 
-pip install virtualenv
+apt-get install -y git python python-pip python-dev libffi-dev libssl-dev python-virtualenv
+
 ```
 
 Fetch the repository.
