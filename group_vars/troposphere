@@ -71,7 +71,7 @@ TROPO:
         DATABASE_USER: "{{ troposphere_database_user }}"
         DATABASE_CONN_MAX_AGE: "{{ conn_max_age }}"
         DATABASE_PASSWORD: "{{ troposphere_database_password }}"
-        DATABASE_HOST: localhost
+        DATABASE_HOST: ""
         DATABASE_PORT: 5432
         DJANGO_JENKINS: "{{ install_jenkins }}"
         SSLSERVER: True

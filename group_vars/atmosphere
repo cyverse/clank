@@ -86,7 +86,7 @@ ATMO:
         OAUTH_CLIENT_SECRET: "{{ ATMO_OAUTH_CLIENT_SECRET | default('') }}"
         DATABASE_CONN_MAX_AGE: "{{ conn_max_age }}"
         DATABASE_ENGINE: "{{ database_engine }}"
-        DATABASE_HOST: localhost
+        DATABASE_HOST: ""
         DATABASE_NAME: "{{ ATMO_DBNAME | default(atmosphere_database_name) }}"
         DATABASE_PASSWORD: "{{ atmosphere_database_password }}"
         DATABASE_PORT: 5432
