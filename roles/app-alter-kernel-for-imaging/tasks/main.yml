@@ -23,5 +23,9 @@
   lineinfile: dest=/etc/rc.local insertbefore=EOF line="exit 0"
 
 - name: add modprobe nbd for imaging to /etc/rc.local for subsequent reboots
-  lineinfile: dest=/etc/rc.local insertbefore="exit 0" line="modprobe {{ item.name }} {{ item.params | default(omit) }}"
+  lineinfile:
+    dest: /etc/rc.local
+    insertbefore: "exit 0"
+    line: "modprobe {{ item.name }} {{ item.params | default(omit) }}"
+    regexp: "modprobe {{ item.name }}"
   with_items: MODPROBE_PACKAGES.packages

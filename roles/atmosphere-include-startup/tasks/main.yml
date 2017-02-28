@@ -1,0 +1,11 @@
+---
+# tasks file for atmosphere-include-startup
+- name: make sure there is an exit 0 at end of /etc/rc.local
+  lineinfile: dest=/etc/rc.local insertbefore=EOF line="exit 0"
+
+- name: add modprobe nbd for imaging to /etc/rc.local for subsequent reboots
+  lineinfile:
+    dest: /etc/rc.local
+    insertbefore: "exit 0"
+    line: "service atmosphere start"
+    regexp: "^service atmosphere"
