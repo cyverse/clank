@@ -1,5 +1,5 @@
 ---
-- name: Ensure distro is up-to-date
+- name: Post deployment of atmosphere/troposphere
   hosts: all
   roles:
     - { role: atmosphere-include-startup,
