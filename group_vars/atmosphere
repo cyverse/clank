@@ -159,6 +159,7 @@ ATMO:
         DEPLOYMENT_KEYPAIR_NAME: "{{ DEPLOYMENT_KEYPAIR_NAME | default('') }}"
         CELERYBEAT_SCHEDULE: "{{ CELERYBEAT_SCHEDULE | default('') }}"
         VALIDATION_PLUGINS: "{{ VALIDATION_PLUGINS | default('') }}"
+        EXPIRATION_PLUGINS: "{{ EXPIRATION_PLUGINS | default('') }}"
     secrets.py:
         IRODS_HOST: "{{ IRODS_HOST | default('') }}"
         IRODS_PORT: "{{ IRODS_PORT | default('') }}"
