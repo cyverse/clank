@@ -22,14 +22,23 @@ TROPO_LOG_FILES:
 TROPO:
     COMMON:
         ASSETS_PATH: "{{ TROPOSPHERE_LOCATION | default(troposphere_directory_path) }}/troposphere/assets"
-        THEME_PATH: "{{ TROPOSPHERE_LOCATION | default(troposphere_directory_path) }}/troposphere/themes"
-        THEME_NAME: "{{ troposphere_theme_name }}"
         DJANGO_SERVER_URL: "{{ troposphere_server_url }}"
         SERVER_URL: "{{ troposphere_server_url }}"
         LDAP_SERVER: "{{ LDAP_SERVER | default('') }}"
         LDAP_SERVER_DN: "{{ LDAP_SERVER_DN | default('') }}"
         TOKEN_EXPIRY_TIME_DAYS: 1
-
+    theme:
+        USE_THEME_IMAGES: "{{ THEME_IMAGES_PATH is defined }}"
+        PRIMARY_ONE_COLOR: "{{ PRIMARY_ONE_COLOR | default('')}}" 
+        PRIMARY_TWO_COLOR: "{{ PRIMARY_TWO_COLOR | default('')}}" 
+        ACCENT_ONE_COLOR: "{{ ACCENT_ONE_COLOR | default('') }}"
+        PICKER_HEADER_COLOR: "{{ PICKER_HEADER_COLOR | default('') }}"
+        DANGER_COLOR: "{{ DANGER_COLOR | default('') }}"
+        SUCCESS_COLOR: "{{ SUCCESS_COLOR | default('') }}"
+        HEADER_COLOR: "{{ HEADER_COLOR | default('') }}"
+        HEADER_BORDER_COLOR: "{{ HEADER_BORDER_COLOR | default('') }}"
+        HEADER_LINK_COLOR: "{{ HEADER_LINK_COLOR | default('') }}"
+        LINK_COLOR: "{{ LINK_COLOR | default('') }}"
     nginx:
         ENABLE_HTTP2: True
         TROPOSPHERE_PATH: "{{ TROPOSPHERE_LOCATION | default(troposphere_directory_path) }}"
