@@ -139,3 +139,5 @@ TROPO:
         WEB_DESKTOP_INCLUDE_LINK: "{{ WEB_DESKTOP_INCLUDE_LINK | default(False) }}"
         WEB_DESKTOP_PROXY_URL: "{{ WEB_DESKTOP_PROXY_URL | default('') }}"
         WEB_DESKTOP_PROXY_DOMAIN: "{{ WEB_DESKTOP_PROXY_DOMAIN | default('') }}"
+        GUACAMOLE_SECRET_KEY: "{{ GUACAMOLE_SECRET_KEY | default('') }}"
+        GUACAMOLE_SERVER_URL: "{{ GUACAMOLE_SERVER_URL | default('') }}"
