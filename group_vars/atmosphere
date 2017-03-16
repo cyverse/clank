@@ -13,6 +13,8 @@ atmosphere_virtualenv_path: "{{ VIRTUAL_ENV_ATMOSPHERE | default(virtualenv_dir+
 atmosphere_server_name: "{{ server_name }}"
 atmosphere_server_url: "https://{{ atmosphere_server_name }}"
 
+SENTRY_DICT: "{{ SENTRY | default({}) }}"
+
 ###################################
 #
 # ATMOSPHERE VARS
@@ -108,8 +110,8 @@ ATMO:
         SAML_ENTITY_ID:
         # END
         # Sentry
-        SENTRY_ENABLED: "{{ SENTRY.ENABLED | default(False) }}"
-        SENTRY_DSN: "{{ SENTRY.ATMOSPHERE_DSN | default('') }}"
+        SENTRY_ENABLED: "{{ SENTRY_DICT.ENABLED | default(False) }}"
+        SENTRY_DSN: "{{ SENTRY_DICT.ATMOSPHERE_DSN | default('') }}"
         DJANGO_TEMPLATE_DEBUG: "{{ DJANGO_TEMPLATE_DEBUG | default(True) }}"
         LOG_LIBCLOUD: "{{ LOG_LIBCLOUD | default(True) }}"
         LOGGING_DEP_LEVEL: logging.WARNING
