@@ -1,0 +1,8 @@
+---
+- name: Post deployment of atmosphere/troposphere
+  hosts: all
+  roles:
+    - { role: atmosphere-include-startup,
+        tags: ['post-install','atmosphere'] }
+  tags:
+    - post-install

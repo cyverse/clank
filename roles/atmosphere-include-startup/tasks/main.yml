@@ -1,0 +1,6 @@
+---
+# tasks file for atmosphere-include-startup
+- name: Include atmosphere in the startup process
+  service:
+    name: 'atmosphere'
+    enabled: 'yes'
