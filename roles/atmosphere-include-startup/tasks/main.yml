@@ -4,3 +4,4 @@
   service:
     name: 'atmosphere'
     enabled: 'yes'
+  tags: enable-services
