@@ -17,6 +17,9 @@ troposphere_server_url: "https://{{ troposphere_server_name }}"
 # TROPOSPHERE VARS
 #
 ###################################
+
+SENTRY_DICT: "{{ SENTRY | default({}) }}"
+
 TROPO_LOG_FILES:
   - 'troposphere.log'
 TROPO:
@@ -118,6 +121,8 @@ TROPO:
 
         SHOW_INSTANCE_METRICS: "{{ SHOW_INSTANCE_METRICS | default(False) }}"
 
+        SENTRY_ENABLED: "{{ SENTRY_DICT.ENABLED | default(False) }}"
+        SENTRY_DSN: "{{ SENTRY_DICT.TROPOSPHERE_DSN | default('') }}"
         INTERCOM_APP_ID: "{{ INTERCOM_APP_ID | default('') }}"
         INTERCOM_COMPANY_ID: "{{ INTERCOM_COMPANY_ID | default('') }}"
         INTERCOM_COMPANY_NAME: "{{ INTERCOM_COMPANY_NAME | default('') }}"
