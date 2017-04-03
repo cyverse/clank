@@ -69,6 +69,9 @@
         UWSGI_INI_SRC_NAME: 'extras/troposphere.uwsgi.ini',
         tags: ['troposphere', 'create-nginx-uwsgi'] }
 
+    - { role: install-theme,
+        tags: ['troposphere', 'theme'] }
+
     - { role: build-install-troposphere-ui-assets,
         NPM_APP_DIR: "{{ TROPOSPHERE_LOCATION | default(troposphere_directory_path) }}",
         NPM_BUILD_TYPE: "{{ TROPOSPHERE_BUILD | default('production') }}",

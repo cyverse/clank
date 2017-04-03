@@ -1,8 +1,8 @@
 # {{ ansible_managed }}
 
-{% for section_name in template_vars %}
+{% for section_name in template_vars|sort %}
 [{{ section_name }}]
-{% for var_name in template_vars[section_name] %}
+{% for var_name in template_vars[section_name]|sort %}
 {% if template_vars[section_name][var_name] is number %}
 {{var_name}} = {{template_vars[section_name][var_name] | default('')}}
 {% elif template_vars[section_name][var_name] is sameas True or template_vars[section_name][var_name] is sameas False %}

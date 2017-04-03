@@ -1,0 +1,7 @@
+- file:
+    src: "{{ THEME_IMAGES_PATH }}"
+    dest: /opt/dev/troposphere/troposphere/static/theme/themeImages
+    owner: www-data
+    group: www-data
+    state: link
+  when: "{{ THEME_IMAGES_PATH is defined }}"
