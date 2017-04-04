@@ -149,12 +149,14 @@ AUTH_MOCK_USER: "atmosphere_user"
 
 ###
 # 3c: Theme configuration
+# Set custom colors and images for your instance of Troposphere leaving undefined will default to the Cyverse Troposphere theme.
 ###
 
 ###
 # THEME_IMAGES_PATH, expects an absolute path to an images directory
-# Find the included theme-images directory
-# Replace any image with a new image of equal size and name
+# We recommend making a copy of the themeImagesDefault directory in Troposphere 
+# <projectDir>/troposphere/static/theme/themeImagesDefault
+# Place it in an init directory and replace any image with a new image of equal size and name
 # Uncomment the variable below.
 ###
 
