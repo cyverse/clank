@@ -63,17 +63,6 @@ Any arguments that Clank itself doesn't recognize will be passed to the resultin
 
 * variables.yml (See [variables dist](dist_files/variables.yml.dist) for blank template)
 
-### Completed Ansible hosts file
-
-* hosts (See [hosts dist](dist_files/hosts.dist) for blank template)  #FIXME: Bad path
-
-### Completed Ansible group_vars directory
-
-* group_vars (See [group_vars dist](dist_files/group_vars) for blank template)  #FIXME: Bad path
-
-The hosts and group_vars files should reflect one another. This would include
-renaming the dist file to relflect the groups you wish to create with ansible.
-
 ### SSL configuration files (Not required)
 
 * A organizational cert
