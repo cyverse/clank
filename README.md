@@ -82,6 +82,32 @@ Any arguments that Clank itself doesn't recognize will be passed to the resultin
 The location of these files *must* be stated in your _completed_
 [variables.yml](https://github.com/CyVerse/clank/blob/master/dist_files/variables.yml.dist#L52-L63).  # FIXME: bad linked-lines.
 
+## Custom Theme
+
+You can change the images and colors used in [troposphere](https://github.com/cyverse/troposphere) to reflect your own institution's  branding.
+
+### Theme Images
+To change images like the logo or favicon, add the absolute path to your theme images folder to the variable `THEME_IMAGES_PATH` in `variables.yml`.
+```
+THEME_MAGES_PATH: "/absoulte/path/to/your-images"
+```
+We recomened copying the `defaultThemeImages` folder found in Troposphere
+`<projectRoot>/troposphere/static/theme/themeImagesDefault`
+
+Replace any image in the folder with your new image keeping the same name and file type. It is important that the new image has the same dimensions and uses a transparent background or it may not display correctly. Your image may not be the same ratio as the image you are replacing but the file should be. For example, your logo might be shorter in length given the same height. Without distorting the logo ratio, align it to the left of the file and export the file at the same dimensions of the original file.
+ 
+
+```
+File Dimentions
++++++++++++++++++++++++++++
++--------------------     +
++| Logo Dimentions  |     +
++--------------------     +
++++++++++++++++++++++++++++
+```
+### Theme Colors
+To change the theme colors edit the color variable. Colors are used by cyverse-ui and Material-ui for components like buttons, toggles, radios, etc... See [Our Style Guide](https://cyverse.github.io/cyverse-ui/) for more information on how colors are used by components.
+
 ## Contributing to clank
 
 Generally, new roles should be created using [ansible-role-template](https://github.com/cyverse-ansible/ansible-role-template), using Ansible Galaxy and Travis CI as detailed [here](https://pods.iplantcollaborative.org/wiki/display/csmgmt/Ansible+at+CyVerse#AnsibleatCyVerse-AnsibleGalaxyRoles) (only visible to CyVerse staff).
