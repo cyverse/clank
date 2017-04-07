@@ -147,6 +147,38 @@ AUTH_MOCK_USER: "atmosphere_user"
 # SUPPORT_EMAIL_SIGNATURE: Support Team
 # SUPPORT_LINKS: {'getting_started': "https://google.com/",'new_provider': "https://google.com"}
 
+###
+# 3c: Theme configuration
+# Set custom colors and images for your instance of Troposphere leaving undefined will default to the Cyverse Troposphere theme.
+###
+
+###
+# THEME_IMAGES_PATH, expects an absolute path to an images directory
+# We recommend making a copy of the themeImagesDefault directory in Troposphere 
+# <projectDir>/troposphere/static/theme/themeImagesDefault
+# Place it in an init directory and replace any image with a new image of equal size and name
+# Uncomment the variable below.
+###
+
+#THEME_IMAGES_PATH: ""
+
+###
+# The Theme Colors below, expect hex color strings
+# Change the look of Troposphere by defining your own colors
+# Visit https://cyverse.github.io/cyverse-ui/ for more information on how these colors are used
+###
+
+#PRIMARY_ONE_COLOR: "#ed174b"
+#PRIMARY_TWO_COLOR: "#46afc8"
+#HEADER_BORDER_COLOR: "#ed174b"
+#HEADER_LINK_COLOR: "black"
+#PICKER_HEADER_COLOR: "#46afc8"
+#HEADER_COLOR: "white"
+#LINK_COLOR: "#46afc8"
+#ACCENT_ONE_COLOR: "#46afc8"
+#SUCCESS_COLOR: ""
+#DANGER_COLOR: ""
+
 ###############################
 #4. Optional Plugins
 #   These features are NOT required to run Atmosphere+Troposphere
