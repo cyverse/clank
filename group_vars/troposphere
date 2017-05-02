@@ -138,7 +138,7 @@ TROPO:
 
         USE_ALLOCATION_SOURCES: "{{ USE_ALLOCATION_SOURCE | default(False) }}"
         EXTERNAL_ALLOCATION: "{{ EXTERNAL_ALLOCATION | default(True) }}"
-        ALLOCATION_UNIT_NAME: "{{ ALLOCATION_UNIT_NAME | default('Atmosphere Units') }}"
+        ALLOCATION_UNIT_NAME: "{{ ALLOCATION_UNIT_NAME | default('Allocation Units') }}"
         ALLOCATION_UNIT_ABBREV: "{{ ALLOCATION_UNIT_ABBREV | default('AU') }}"
         USE_MOCK_DATA: "{{ USE_MOCK_DATA | default(False) }}"
         USE_GATE_ONE_API: "{{ USE_GATE_ONE_API | default(False) }}"
