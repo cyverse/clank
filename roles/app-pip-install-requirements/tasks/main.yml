@@ -15,14 +15,14 @@
     state=latest
 
 - name: pip install pip-tools
-  when: "{{ USE_PIP_TOOLS_SYNC | default(False) }}"
+  when: USE_PIP_TOOLS_SYNC | default(False)
   pip:
     name: pip-tools
     version: 1.8.0
     virtualenv: "{{ VIRTUAL_ENV }}"
 
 - name: pip-sync requirements
-  when: "{{ USE_PIP_TOOLS_SYNC | default(False) }}"
+  when: USE_PIP_TOOLS_SYNC | default(False)
   shell: |
     cd {{ APP_BASE_DIR }}
     . {{ VIRTUAL_ENV }}/bin/activate
@@ -37,4 +37,4 @@
   register: output
 
 - debug: var=output.results
-  when: "{{ CLANK_VERBOSE | default(False) }}"
+  when: CLANK_VERBOSE | default(False)

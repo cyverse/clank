@@ -4,4 +4,4 @@
     owner: www-data
     group: www-data
     state: link
-  when: "{{ THEME_IMAGES_PATH is defined }}"
+  when: THEME_IMAGES_PATH is defined

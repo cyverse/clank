@@ -1,8 +1,9 @@
 ---
 - name: Install and setup required dependencies for Atmosphere
+  strategy: debug
   hosts: atmosphere
   vars:
-    clean_target: "{{ CLEAN_TARGET | default(True) }}"
+    clean_target: CLEAN_TARGET | default(True)
 
   roles:
     - { role: install-dependencies,
@@ -66,5 +67,5 @@
          TARGET_HOME: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}",
          MODULE_NAME: 'atmosphere',
          new_relic_app_name: "{{ NEW_RELIC.ATMO_LABEL }}",
-         when: "{{ NEW_RELIC is defined and NEW_RELIC.ATMO_LABEL | default('') != '' and NEW_RELIC.LICENSE | default('') != '' }}",
+         when: NEW_RELIC is defined and NEW_RELIC.ATMO_LABEL | default('') != '' and NEW_RELIC.LICENSE | default('') != '',
          tags: ['atmosphere', 'new-relic', 'monitoring'] }

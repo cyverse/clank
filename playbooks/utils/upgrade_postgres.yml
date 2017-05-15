@@ -10,13 +10,13 @@
   tasks:
 
     - fail: msg="\nMust set pg_version.\nPass a value in via `-e` as JSON -\n\t {{example[0]}}"
-      when: "{{ pg_version is undefined }}"
+      when: pg_version is undefined
 
     - fail: msg="\nMust set pg_version_old.\nPass a value in via `-e` as JSON -\n\t {{example[1]}}"
-      when: "{{ pg_version_old is undefined }}"
+      when: pg_version_old is undefined
 
     - debug: msg="Consider passing in `database_names`.\nPass a value in via `-e` as JSON -\n\t {{example[2]}}"
-      when: "{{ database_names is undefined or database_names == []}}"
+      when: database_names is undefined or database_names == []
 
 
 - name: Ensure PostgreSQL service available
