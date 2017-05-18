@@ -1,0 +1,22 @@
+RANDFILE        = $ENV::HOME/.rnd
+
+[ CA_default ]
+database        = {{ role_path }}/build/index.txt   # Database index file
+serial          = {{ role_path }}/build/serial.txt  # The current serial number
+copy_extensions = copy          # Required to copy SANs from CSR to cert
+unique_subject  = no
+
+[ signing_req ]
+subjectKeyIdentifier=hash
+authorityKeyIdentifier=keyid,issuer
+basicConstraints = CA:FALSE
+keyUsage = digitalSignature, keyEncipherment
+
+[ signing_policy ]
+countryName            = optional
+stateOrProvinceName    = optional
+localityName           = optional
+organizationName       = optional
+organizationalUnitName = optional
+commonName             = supplied
+emailAddress           = optional

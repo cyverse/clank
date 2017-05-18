@@ -1,0 +1,38 @@
+---
+- name: Create a directory to store temporary files
+  file:
+    path: "{{ role_path }}/build"
+    state: directory
+
+- template:
+    src: "{{ role_path }}/templates/openssl-ca.cnf.j2"
+    dest: "{{ role_path }}/build/openssl-ca.cnf"
+
+- name: Create empty initial CA index
+  copy:
+    content: ""
+    dest: "{{ role_path }}/build/index.txt"
+    force: yes
+
+- name: Create CA serial file
+  copy:
+    content: "01"
+    dest: "{{ role_path }}/build/serial.txt"
+    force: no
+
+- name: Produce a signed certificate
+  command: >
+    openssl ca
+      -config "{{ role_path }}/build/openssl-ca.cnf"
+      -outdir "{{ role_path }}/build"
+      -policy signing_policy
+      -extensions signing_req
+      -days 1000
+      -md sha256
+      -name CA_default
+      -noemailDN
+      -batch
+      -cert {{ TLS_CA_CERT_DEST }}
+      -keyfile {{ TLS_CA_KEY_DEST }}
+      -out {{ TLS_SIGNED_CERT_DEST }}
+      -infiles {{ TLS_CERT_REQUEST_DEST }}
