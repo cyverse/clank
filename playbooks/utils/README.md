@@ -7,9 +7,8 @@
 > Note: playbook assumes _"controller"_ is the **target** (see arguments below `... -c local -i "localhost,"`)
 
 ```
-ansible-playbook playbooks/utils/upgrade_postgres.yml \
-  --flush-cache -c local -i "localhost," \
-    -e "{pg_version: '9.5',  pg_version_old: '9.3', database_names: ['atmosphere', 'troposphere']}"
+./clank.py --playbook playbooks/utils/upgrade_postgres.yml \
+    --extra "{pg_version: '9.5',  pg_version_old: '9.3', database_names: ['atmosphere', 'troposphere']}"
 ```
 
 
@@ -23,7 +22,7 @@ This is a utility playbook to be install an optional component to enhance functi
 - `hosts` including `[novnc_proxy]` group
 
 ```
-ansible-playbook playbooks/utils/install_novnc_auth.yml \
+./clank.py --playbook playbooks/utils/install_novnc_auth.yml \
   -i hosts -e @/vagrant/clank_init/build_env/variables.yml
 ```
 
