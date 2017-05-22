@@ -24,8 +24,6 @@
     -days 3650
     -keyout {{ TLS_PRIVKEY_DEST_DIR }}/{{ TLS_DEST_BASENAME }}.key
     -out {{ TLS_CERT_DEST_DIR }}/{{ TLS_DEST_BASENAME }}.crt
-  args:
-    creates: "{{ TLS_CERT_DEST_DIR }}/{{ TLS_DEST_BASENAME }}.crt"
 
 - name: Empty CA chain file created
   tags: [selfsigned-empty-bundle-created]
