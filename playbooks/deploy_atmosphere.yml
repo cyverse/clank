@@ -16,6 +16,7 @@
         tags: ['dependencies', 'database'] }
 
     - { role: tls-cert,
+        TLS_SUBJECT_ALTERNATE_NAME: "{{ atmosphere_server_name }}",
         tags: ['dependencies', 'ssl'] }
 
 - name: Clone Atmosphere Ansible
