@@ -149,10 +149,6 @@ TROPO:
         WEB_SH_BASE_URL: "{{ WEB_SH_BASE_URL | default('') }}"
         WEB_SH_JS_FILE: "static/gateone.js"
         # settings for noVNC transparent proxying
-        WEB_DESKTOP_SIGNING_SALT: "{{ WEB_DESKTOP_SIGNING_SALT | default('') }}"
-        WEB_DESKTOP_FP_SALT: "{{ WEB_DESKTOP_FP_SALT | default('') }}"
-        WEB_DESKTOP_SIGNING_SECRET_KEY: "{{ WEB_DESKTOP_SIGNING_SECRET_KEY | default('') }}"
-        WEB_DESKTOP_FP_SECRET_KEY: "{{ WEB_DESKTOP_FP_SECRET_KEY | default('') }}"
         WEB_DESKTOP_INCLUDE_LINK: "{{ WEB_DESKTOP_INCLUDE_LINK | default(False) }}"
         WEB_DESKTOP_PROXY_URL: "{{ WEB_DESKTOP_PROXY_URL | default('') }}"
         WEB_DESKTOP_PROXY_DOMAIN: "{{ WEB_DESKTOP_PROXY_DOMAIN | default('') }}"
