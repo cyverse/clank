@@ -11,21 +11,6 @@
   tags:
     - deploy
 
-- block:
-    - name: Link uwsgi.service systemd file to /etc/systemd
-      file:
-        src: "{{ APP_BASE_DIR }}/extras/systemd/uwsgi.service"
-        dest: "/etc/systemd/system/uwsgi.service"
-        state: link
-
-    - name: Comment out 'socket' line of default uwsgi ini
-      lineinfile:
-        dest: /usr/share/uwsgi/conf/default.ini
-        regexp: "^socket ="
-        line: "#socket = /run/uwsgi/%(deb-confnamespace)/%(deb-confname)/socket"
-        state: present
-  when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version >= "16") or (ansible_distribution == "CentOS" and ansible_distribution_major_version >= "7")
-
 - name: make nginx configuration files
   shell: make
   args:

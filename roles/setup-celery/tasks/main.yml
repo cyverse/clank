@@ -50,10 +50,19 @@
         - celerybeat.service
         - flower.service
         - atmosphere.service
+        - uwsgi.service
 
     - name: link default celeryd.defult to /etc/default
       file:
         src: "{{ ATMOSPHERE_LOCATION }}/extras/systemd/celeryd.default"
         dest: /etc/default/celeryd
         state: link
+
+    - name: Comment out 'socket' line of default uwsgi ini
+      lineinfile:
+        dest: /usr/share/uwsgi/conf/default.ini
+        regexp: "^socket ="
+        line: "#socket = /run/uwsgi/%(deb-confnamespace)/%(deb-confname)/socket"
+        state: present
+
   when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version >= "16") or (ansible_distribution == "CentOS" and ansible_distribution_major_version >= "7")
