@@ -1,6 +1,6 @@
 # Utility Playbooks
 
-## upgrage_postgres.yml
+## upgrade_postgres.yml
 
 > Added in [pull request 98](https://github.com/CyVerse/clank/pull/98)
 
