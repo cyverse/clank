@@ -20,7 +20,7 @@
 
     - name: Comment out 'socket' line of default uwsgi ini
       lineinfile:
-        path: /usr/share/uwsgi/conf/default.ini
+        dest: /usr/share/uwsgi/conf/default.ini
         regexp: "^socket ="
         line: "#socket = /run/uwsgi/%(deb-confnamespace)/%(deb-confname)/socket"
         state: present
