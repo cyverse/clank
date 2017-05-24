@@ -8,22 +8,53 @@
   tags: vars
 
 - name: copy over celery ufw file
-  copy: src=celery dest=/etc/ufw/applications.d/
+  copy:
+    src: celery
+    dest: /etc/ufw/applications.d/
 
-- name: allow celery firewall access 
-  ufw: name=celery policy=allow
+- name: allow celery firewall access
+  ufw:
+    name: celery
+    policy: allow
 
-- name: link celeryd init.d script
-  file: src={{ ATMOSPHERE_LOCATION }}/extras/init.d/{{ CELERYD }} dest={{ INIT_LOCATION }}/celeryd state=link 
-  tags:
-    - deploy
+- tags: deploy
+  block:
+    - name: link celeryd init.d script
+      file:
+        src: "{{ ATMOSPHERE_LOCATION }}/extras/init.d/{{ CELERYD }}"
+        dest: "{{ INIT_LOCATION }}/celeryd"
+        state: link
 
-- name: link celerybeat init.d script
-  file: src={{ ATMOSPHERE_LOCATION }}/extras/init.d/{{ CELERYBEAT }} dest={{ INIT_LOCATION }}/celerybeat state=link 
-  tags:
-    - deploy
+    - name: link celerybeat init.d script
+      file:
+        src: "{{ ATMOSPHERE_LOCATION }}/extras/init.d/{{ CELERYBEAT }}"
+        dest: "{{ INIT_LOCATION }}/celerybeat"
+        state: link
 
-- name: link default celeryd.defult.dist to /etc/default
-  file: src={{ ATMOSPHERE_LOCATION }}/extras/init.d/celeryd.default dest=/etc/default/celeryd state=link
-  tags:
-    - deploy
+    - name: link default celeryd.defult.dist to /etc/default
+      file:
+        src: "{{ ATMOSPHERE_LOCATION }}/extras/init.d/celeryd.default"
+        dest: /etc/default/celeryd
+        state: link
+  when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version < "16") or (ansible_distribution == "CentOS" and ansible_distribution_major_version < "7")
+
+  - tags: deploy
+    block:
+      - name: link celeryd systemd script
+        file:
+          src: "{{ ATMOSPHERE_LOCATION }}/extras/systemd/celeryd"
+          dest: "{{ SYSD_LOCATION }}/celeryd"
+          state: link
+
+      - name: link celerybeat init.d script
+        file:
+          src: "{{ ATMOSPHERE_LOCATION }}/extras/systemd/celerybeat"
+          dest: "{{ SYSD_LOCATION }}/celerybeat"
+          state: link
+
+      - name: link default celeryd.defult.dist to /etc/default
+        file:
+          src: "{{ ATMOSPHERE_LOCATION }}/extras/systemd/celeryd.default.dist"
+          dest: /etc/default/celeryd
+          state: link
+    when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version >= "16") or (ansible_distribution == "CentOS" and ansible_distribution_major_version >= "7")
