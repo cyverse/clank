@@ -49,7 +49,6 @@
         - celeryd.service
         - celerybeat.service
         - flower.service
-        - uwsgi.service
         - atmosphere.service
 
     - name: link default celeryd.defult.dist to /etc/default
