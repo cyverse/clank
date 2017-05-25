@@ -52,9 +52,12 @@
         - atmosphere.service
         - uwsgi.service
 
+    # When Clank starts using Ansible 2.4, the name attribute can be removed.
+    # For previous versions, the name attribute is always required
     - name: Run daemon-reload to read new scripts
       systemd:
         daemon_reload: yes
+        name: ""
 
     - name: ink default celeryd.defult to /etc/default
       file:
