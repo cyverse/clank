@@ -27,8 +27,6 @@ ATMO_LOG_FILES:
 ATMO:
     COMMON:
         SERVER_URL: "{{ atmosphere_server_url }}"
-        LDAP_SERVER: ldap://
-        LDAP_SERVER_DN:
         TOKEN_EXPIRY_TIME_DAYS: 1
         DJANGO_SERVER_URL: "{{ atmosphere_server_url }}"
 
