@@ -165,6 +165,9 @@ ATMO:
         CELERYBEAT_SCHEDULE: "{{ CELERYBEAT_SCHEDULE | default('') }}"
         VALIDATION_PLUGINS: "{{ VALIDATION_PLUGINS | default('') }}"
         EXPIRATION_PLUGINS: "{{ EXPIRATION_PLUGINS | default('') }}"
+        # Guacamole
+        GUACAMOLE_SECRET_KEY: "{{ GUACAMOLE_SECRET_KEY | default('') }}"
+        GUACAMOLE_SERVER_URL: "{{ GUACAMOLE_SERVER_URL | default('') }}"
     secrets.py:
         IRODS_HOST: "{{ IRODS_HOST | default('') }}"
         IRODS_PORT: "{{ IRODS_PORT | default('') }}"
