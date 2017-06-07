@@ -6,7 +6,7 @@
     - pip
 
 - name: pip install requirements
-  when: not "{{ USE_PIP_TOOLS_SYNC | default(False) }}"
+  when: not "USE_PIP_TOOLS_SYNC | default(False)"
   pip: >
     chdir={{ APP_BASE_DIR }}
     requirements={{ REQUIREMENTS_FILE_NAME }}
