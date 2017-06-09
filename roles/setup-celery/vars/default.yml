@@ -1,3 +1,4 @@
-INIT_LOCATION: /etc/init.d 
+INIT_LOCATION: /etc/init.d
+SYSD_LOCATION: /etc/systemd/system
 CELERYD: celeryd.default.dist
 CELERYBEAT: celerybeat.default
