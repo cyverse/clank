@@ -66,15 +66,4 @@
         daemon_reload: yes
         name: ""
 
-    - name: Comment out init.d specific lines of default uwsgi ini
-      lineinfile:
-        dest: /usr/share/uwsgi/conf/default.ini
-        regexp: "{{ item.regexp }}"
-        line: "{{ item.line }}"
-        backrefs: yes
-        state: present
-      with_items:
-        - { regexp: "^socket =", line: "#socket = /run/uwsgi/%(deb-confnamespace)/%(deb-confname)/socket" }
-        - { regexp: "^pidfile =", line: "#pidfile = /run/uwsgi/%(deb-confnamespace)/%(deb-confname)/pid" }
-
   when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version >= "16") or (ansible_distribution == "CentOS" and ansible_distribution_major_version >= "7")
