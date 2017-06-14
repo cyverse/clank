@@ -50,7 +50,7 @@
         - celerybeat.service
         - flower.service
         - atmosphere.service
-        - atmosphere-celery.service
+        - atmosphere-full.service
         - uwsgi.service
 
     - name: Link default celeryd.defult to /etc/default
