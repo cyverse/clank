@@ -1,6 +1,5 @@
 ---
 - name: Create an Atmosphere and Troposphere stack
-  strategy: debug
   hosts: full_deploy
 
   roles:
