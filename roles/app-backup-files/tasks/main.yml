@@ -6,10 +6,11 @@
     path: "{{ BACKUP_PATH }}/{{ ansible_date_time.date }}/{{ item.PROJECT_NAME }}"
     state: directory
     mode: 0770
-  with_items: LIST_OF_BACKUPS
+  with_items:
+      - "{{ LIST_OF_BACKUPS }}"
 
 - name: Copy backup to specific location
   command: cp -Lr {{ item.1 }} {{ BACKUP_PATH }}/{{ ansible_date_time.date }}/{{ item.0.PROJECT_NAME }}
   with_subelements:
-    - LIST_OF_BACKUPS
+    - "{{ LIST_OF_BACKUPS }}"
     - FILES
