@@ -1,6 +1,5 @@
 ---
 - name: Install and setup required dependencies for Atmosphere
-  strategy: debug
   hosts: atmosphere
   vars:
     clean_target: CLEAN_TARGET | default(True)
