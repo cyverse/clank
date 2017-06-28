@@ -4,4 +4,5 @@
   service:
     name: 'atmosphere'
     enabled: 'yes'
+  when: ansible_distribution == "Ubuntu" and ansible_distribution_major_version < "16"
   tags: enable-services

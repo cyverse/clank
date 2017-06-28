@@ -42,17 +42,9 @@ def setup_arguments():
         action='store_true',
         help="toggle on verbose output for command and shell tasks")
 
-    parser.add_argument("--run-virtualenv",
-        action='store_true',
-        help="Run 'create_release_virtualenvs' utility-playbook, rather than execute deployment playbook")
-
-    parser.add_argument("--run-upgrade-postgres",
-        action='store_true',
-        help="Run 'upgrade_postgres' utility-playbook, rather than execute deployment playbook")
-
-    parser.add_argument("--run-backup",
-        action='store_true',
-        help="Run 'perform_backup' utility-playbook, rather than execute deployment playbook")
+    parser.add_argument("--playbook",
+        type=str,
+        help="Run a specific playbook, rather than the default deployment playbook")
 
     parser.add_argument("--debug",
         action='store_true',
@@ -99,13 +91,8 @@ def execute_ansible_playbook(args, extra_ansible_playbook_args):
         options += ' -vvvvv -e"CLANK_VERBOSE=true"'
     if args.debug:
         options += ' --tags print-vars'
-    #FIXME: Before adding another 'ansible_play =' line, convert this call to `--run-utility X`
-    if args.run_backup:
-        ansible_play = '{}/playbooks/utils/perform_backup.yml'.format(cur_dir)
-    if args.run_virtualenv:
-        ansible_play = '{}/playbooks/utils/create_release_virtualenvs.yml'.format(cur_dir)
-    if args.run_upgrade_postgres:
-        ansible_play = '{}/playbooks/utils/upgrade_postgres.yml'.format(cur_dir)
+    if args.playbook:
+        ansible_play = args.playbook
     if args.extra:
         for extra_arg in args.extra:
             options += ' -e"%s"' % extra_arg

@@ -2,7 +2,7 @@
 - name: Install and setup required dependencies for Troposphere
   hosts: troposphere
   vars:
-    clean_target: "{{ CLEAN_TARGET | default(True) }}"
+    clean_target: CLEAN_TARGET | default(True)
 
   roles:
     - { role: install-dependencies,
@@ -15,6 +15,7 @@
         tags: ['dependencies', 'database'] }
 
     - { role: tls-cert,
+        TLS_SUBJECT_ALTERNATE_NAME: "{{ troposphere_server_name }}",
         when: clean_target,
         tags: ['dependencies', 'ssl'] }
 
@@ -47,5 +48,5 @@
          MODULE_NAME: 'troposphere',
          new_relic_browser: True,
          new_relic_app_name: "{{ NEW_RELIC.TROPO_LABEL }}",
-         when: "{{ NEW_RELIC is defined and NEW_RELIC.TROPO_LABEL | default('') != '' and NEW_RELIC.LICENSE | default('') != '' }}",
+         when: NEW_RELIC is defined and NEW_RELIC.TROPO_LABEL | default('') != '' and NEW_RELIC.LICENSE | default('') != '',
          tags: ['troposphere', 'new-relic', 'monitoring'] }

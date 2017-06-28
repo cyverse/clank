@@ -1,0 +1,35 @@
+RANDFILE = $ENV::HOME/.rnd
+
+[ req ]
+prompt = no
+distinguished_name = server_distinguished_name
+req_extensions     = server_req_extensions
+string_mask        = utf8only
+
+[ server_distinguished_name ]
+C            = {{ COUNTRY_NAME           | default('US') }}
+ST           = {{ STATE_OR_PROVINCE_NAME | default('Arizona') }}
+L            = {{ LOCALITY_NAME          | default('Tucson') }}
+O            = {{ ORG_NAME               | default('Organization Name') }}
+OU           = {{ ORG_UNIT_NAME          | default('Organization Division') }}
+CN           = {{ COMMON_NAME            | default(DOMAIN_NAME) }}
+emailAddress = {{ EMAIL_ADDRESS          | default('test@example.com') }}
+
+[ server_req_extensions ]
+subjectKeyIdentifier = hash
+basicConstraints     = CA:FALSE
+keyUsage             = digitalSignature, keyEncipherment
+subjectAltName       = @alternate_names
+nsComment            = "OpenSSL Generated Certificate"
+
+[ alternate_names ]
+DNS.1 = {{ DNS_1 | default(DOMAIN_NAME) }}
+{% if DNS_2 is defined %}
+DNS.2 = {{ DNS_2 }}
+{% endif %}
+{% if DNS_3 is defined %}
+DNS.3 = {{ DNS_3 }}
+{% endif %}
+{% if DNS_4 is defined %}
+DNS.4 = {{ DNS_4 }}
+{% endif %}

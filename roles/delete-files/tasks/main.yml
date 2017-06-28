@@ -8,4 +8,4 @@
 
 - name: debug list
   debug: var=output.stdout_lines
-  when: "{{ CLANK_VERBOSE | default(False) }}"
+  when: CLANK_VERBOSE | default(False)

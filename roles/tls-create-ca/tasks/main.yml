@@ -1,0 +1,24 @@
+---
+- name: Create a directory to store temporary files
+  file:
+    path: "{{ role_path }}/build"
+    state: directory
+
+- template:
+    src: "{{ role_path }}/templates/openssl-ca.cnf.j2"
+    dest: "{{ role_path }}/build/openssl-ca.cnf"
+
+- name: Create root CA certificate and key
+  command: >
+    openssl req
+      -x509
+      -config "{{ role_path }}/build/openssl-ca.cnf"
+      -newkey rsa:4096
+      -sha256
+      -nodes
+      -out "{{ TLS_CA_CERT_DEST }}"
+      -keyout "{{ TLS_CA_KEY_DEST }}"
+      -outform PEM
+
+- name: Print root CA certificate
+  command: openssl x509 -in "{{ TLS_CA_CERT_DEST }}" -text -noout

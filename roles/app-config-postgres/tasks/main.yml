@@ -47,7 +47,7 @@
   register: output
 
 - debug: var=output.stdout_lines
-  when: "{{ CLANK_VERBOSE | default(False) }}"
+  when: CLANK_VERBOSE | default(False)
 
 - name: add {{ DBUSER | default("") }} user connect privileges to {{ DBNAME | default("") }} database
   become: yes
@@ -56,4 +56,4 @@
   register: output
 
 - debug: var=output.stdout_lines
-  when: "{{ CLANK_VERBOSE | default(False) }}"
+  when: CLANK_VERBOSE | default(False)

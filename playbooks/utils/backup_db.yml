@@ -8,7 +8,7 @@
   tasks:
 
     - debug: msg="Consider passing in `database_names`"
-      when: "{{ database_names is undefined or database_names == []}}"
+      when: database_names is undefined or database_names == []
 
 - name: Ensure PostgreSQL service available
   hosts: all

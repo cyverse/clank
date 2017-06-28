@@ -53,6 +53,16 @@ Supported tags: `dependencies`, `atmosphere`, `troposphere`
 You can actually specify any tag you may find in the roles and playbooks. Clank
 is a thin-wrapper over ansible.
 
+### Running Clank Utilities
+
+Clank comes with several useful [utilities](playbooks/utils/README.md) located
+in `./playbooks/utils/*`.
+
+To run a particular utility use the `--playbook` flag:
+```bash
+./clank.py -env_file $VARIABLES_YML_FILE --playbook playbooks/utils/upgrade_postgres.yml
+```
+
 ### Passing extra arguments to ansible-playbook
 
 Any arguments that Clank itself doesn't recognize will be passed to the resulting `ansible-playbook` run, which exposes the full capabilities of the `ansible-playbook` command. For example, if you have secrets that are encrypted with Ansible Vault, you can append `--ask-vault-pass` to your Clank command, and Ansible will prompt you for a password interactively.
@@ -110,8 +120,7 @@ To change the theme colors edit the color variable. Colors are used by cyverse-u
 
 ## Contributing to clank
 
-Generally, new roles should be created using [ansible-role-template](https://github.com/cyverse-ansible/ansible-role-template), using Ansible Galaxy and Travis CI as detailed [here](https://pods.iplantcollaborative.org/wiki/display/csmgmt/Ansible+at+CyVerse#AnsibleatCyVerse-AnsibleGalaxyRoles) (only visible to CyVerse staff).
-k
+See [HACKING.md](./HACKING.md)
 
 ## License
 

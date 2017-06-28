@@ -10,7 +10,7 @@
   register: result
   
 - debug: var=result.stdout_lines
-  when: "{{ CLANK_VERBOSE | default(False) }}"
+  when: CLANK_VERBOSE | default(False)
 
 - name: run npm install
   action: shell npm install
@@ -33,7 +33,7 @@
   when: first_run.rc != 0 
 
 - debug: var=result.stdout_lines
-  when: "{{ CLANK_VERBOSE | default(False) }}"
+  when: CLANK_VERBOSE | default(False)
 
 - name: run npm build
   args:
@@ -42,4 +42,4 @@
   register: output
 
 - debug: var=output.stdout_lines
-  when: "{{ CLANK_VERBOSE | default(False) }}"
+  when: CLANK_VERBOSE | default(False)

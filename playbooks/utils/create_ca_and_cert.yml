@@ -1,0 +1,12 @@
+---
+- hosts: all
+  vars:
+       TLS_CA_CERT_DEST: "./{{ server_name }}.ca.cert.pem"
+       TLS_CA_KEY_DEST: "./{{ server_name }}.ca.key.pem"
+       TLS_CERT_REQUEST_DEST: "./{{ server_name }}.server.csr.pem"
+       TLS_CERT_PRIVATE_KEY_DEST: "./{{ server_name }}.server.key.pem"
+       TLS_SIGNED_CERT_DEST: "./{{ server_name }}.server.cert.pem"
+  roles:
+   - { role: tls-create-ca, DOMAIN_NAME: "{{ server_name }} CA" }
+   - { role: tls-create-csr, DOMAIN_NAME: "{{ server_name }}" }
+   - tls-ca-sign-csr

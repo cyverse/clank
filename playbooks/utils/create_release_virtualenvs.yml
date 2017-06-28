@@ -7,7 +7,7 @@
   tasks:
     - fail:
         msg: "\nMust set RELEASE_INITIALS.\nPass a value in via {{ example[0] }}"
-      when: "{{ RELEASE_INITIALS is undefined }}"
+      when: RELEASE_INITIALS is undefined
 
 - name: Setup virtualenv for atmo
   hosts: atmosphere

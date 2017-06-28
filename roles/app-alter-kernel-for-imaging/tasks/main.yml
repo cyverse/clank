@@ -13,11 +13,11 @@
 - name: install dev packages
   action: >
     {{ ansible_pkg_mgr }} name={{ item }} state={{ DEV_PACKAGES.state }}
-  with_items: DEV_PACKAGES.packages
+  with_items: "{{ DEV_PACKAGES.packages }}"
 
 - name: run modprobe for the first time
   modprobe: name={{ item.name }} state=present params={{ item.params }}
-  with_items: MODPROBE_PACKAGES.packages
+  with_items: "{{ MODPROBE_PACKAGES.packages }}"
 
 - name: make sure there is an exit 0 at end of /etc/rc.local
   lineinfile: dest=/etc/rc.local insertbefore=EOF line="exit 0"
@@ -28,4 +28,4 @@
     insertbefore: "exit 0"
     line: "modprobe {{ item.name }} {{ item.params | default(omit) }}"
     regexp: "modprobe {{ item.name }}"
-  with_items: MODPROBE_PACKAGES.packages
+  with_items: "{{ MODPROBE_PACKAGES.packages }}"

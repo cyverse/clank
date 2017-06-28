@@ -1,4 +1,5 @@
 REPO_BASE_DIR:              #  /opt/dev
 CLONE_TARGET:         # "{{ ATMOSPHERE_DIR }}/atmosphere"
+REMOTE_TARGET: "origin"   # name of the remote
 SPECIFIC_BRANCH:           # bald-eagle
 REPO_URI:             # https://github.com/CyVerse/atmosphere.git

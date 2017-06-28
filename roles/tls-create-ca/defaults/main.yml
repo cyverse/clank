@@ -1,0 +1,3 @@
+---
+TLS_CA_CERT_DEST: ca_cert.pem
+TLS_CA_KEY_DEST: ca_cert_key.pem

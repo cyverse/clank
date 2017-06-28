@@ -27,8 +27,6 @@ ATMO_LOG_FILES:
 ATMO:
     COMMON:
         SERVER_URL: "{{ atmosphere_server_url }}"
-        LDAP_SERVER: ldap://
-        LDAP_SERVER_DN:
         TOKEN_EXPIRY_TIME_DAYS: 1
         DJANGO_SERVER_URL: "{{ atmosphere_server_url }}"
 
@@ -128,7 +126,7 @@ ATMO:
         TIME_ZONE: "{{ TIME_ZONE | default('') }}"
         ORG_NAME: "{{ ORG_NAME | default('') }}"
         AUTO_CREATE_NEW_ACCOUNTS: True
-        ACCOUNT_CREATION_PLUGIN: "{{ ACCOUNT_CREATION_PLUGIN | default('atmosphere.plugins.accounts.creation.UserGroup') }}"
+        ACCOUNT_CREATION_PLUGINS: "{{ ACCOUNT_CREATION_PLUGINS | default(['atmosphere.plugins.accounts.creation.UserGroup']) }}"
         # CyVerse Specific
         GROUPER_API: "{{ GROUPER_API | default('') }}"
         GROUPER_SEARCH_USER: "{{ GROUPER_SEARCH_USER | default('') }}"

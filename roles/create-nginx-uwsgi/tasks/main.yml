@@ -1,7 +1,7 @@
 ---
 
 - debug: var=UWSGI_INI_SRC_NAME
-  when: "{{ DEBUG_OR_TEST_ROLE | default(False) }}"
+  when: DEBUG_OR_TEST_ROLE | default(False)
 
 - name: create apps-enabled directory
   file: path={{ UWSGI_APPS_ENABLED_PATH }} state=directory
@@ -20,4 +20,4 @@
     - deploy
 
 - debug: var=output.stdout_lines
-  when: "{{ CLANK_VERBOSE | default(False) }}"
+  when: CLANK_VERBOSE | default(False)

@@ -77,6 +77,9 @@ TROPO:
         BASE_URL: "{{ BASE_URL | default('') }}"
         ENABLE_WEBPACK_LOADER_CACHE: True
         DYNAMIC_ASSET_LOADING: True
+        INTERCOM_REPORT_INSTANCES: "{{ INTERCOM_REPORT_INSTANCES | default(True) }}"
+        INTERCOM_REPORT_VOLUMES: "{{ INTERCOM_REPORT_VOLUMES | default(True) }}"
+        COLLECT_ANALYTICS: "{{ COLLECT_ANALYTICS | default(False) }}"
 
         DATABASE_NAME: "{{ TROPO_DBNAME | default(troposphere_database_name) }}"
         DATABASE_ENGINE: "{{ database_engine }}"
