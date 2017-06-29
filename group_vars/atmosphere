@@ -13,13 +13,14 @@ atmosphere_virtualenv_path: "{{ VIRTUAL_ENV_ATMOSPHERE | default(virtualenv_dir+
 atmosphere_server_name: "{{ server_name }}"
 atmosphere_server_url: "https://{{ atmosphere_server_name }}"
 
-SENTRY_DICT: "{{ SENTRY | default({}) }}"
-
 ###################################
 #
 # ATMOSPHERE VARS
 #
 ###################################
+
+SENTRY_DICT: "{{ SENTRY | default({}) }}"
+
 ATMO_LOG_FILES:
   - 'atmosphere.log'
   - 'atmosphere_status.log'
