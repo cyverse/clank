@@ -11,6 +11,7 @@ troposphere_directory_path: "{{workspace}}/{{troposphere_directory_name}}"
 troposphere_build: development
 troposphere_server_name: "{{ server_name }}"
 troposphere_server_url: "https://{{ troposphere_server_name }}"
+troposphere_uwsgi_processes: 12
 
 ###################################
 #
@@ -59,6 +60,7 @@ TROPO:
         LOCAL_DEV: False
         PATH_TO_TROPOSPHERE: "{{ TROPOSPHERE_LOCATION | default(troposphere_directory_path) }}"
         VIRTUALENV_PATH: "{{ VIRTUAL_ENV_TROPOSPHERE | default(troposphere_virtualenv_path) }}"
+        NUM_PROCESSES: "{{ troposphere_uwsgi_processes }}"
         UWSGI_USER: www-data
         UWSGI_GROUP: www-data
         UWSGI_LOG_PATH: /var/log/uwsgi/troposphere-uwsgi.log

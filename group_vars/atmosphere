@@ -12,14 +12,16 @@ atmosphere_directory_path: "{{workspace}}/{{atmosphere_directory_name}}"
 atmosphere_virtualenv_path: "{{ VIRTUAL_ENV_ATMOSPHERE | default(virtualenv_dir+'/'+atmosphere_virtualenv_name) }}"
 atmosphere_server_name: "{{ server_name }}"
 atmosphere_server_url: "https://{{ atmosphere_server_name }}"
-
-SENTRY_DICT: "{{ SENTRY | default({}) }}"
+atmosphere_uwsgi_processes: 24
 
 ###################################
 #
 # ATMOSPHERE VARS
 #
 ###################################
+
+SENTRY_DICT: "{{ SENTRY | default({}) }}"
+
 ATMO_LOG_FILES:
   - 'atmosphere.log'
   - 'atmosphere_status.log'
@@ -48,6 +50,7 @@ ATMO:
         LOCAL_DEV: False
         PATH_TO_ATMOSPHERE: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}"
         VIRTUALENV_PATH: "{{ atmosphere_virtualenv_path }}"
+        NUM_PROCESSES: "{{ atmosphere_uwsgi_processes }}"
         UWSGI_USER: www-data
         UWSGI_GROUP: www-data
         UWSGI_LOG_PATH: /var/log/uwsgi/atmosphere-uwsgi.log
