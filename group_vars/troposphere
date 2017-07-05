@@ -151,3 +151,6 @@ TROPO:
         WEB_SH_ROUTE: "{{ troposphere_server_url }}/web_shell"
         WEB_SH_BASE_URL: "{{ WEB_SH_BASE_URL | default('') }}"
         WEB_SH_JS_FILE: "static/gateone.js"
+        # Enable/Disable Web Desktop and Guacamole for VNC/Shell functionality
+        WEB_DESKTOP_ENABLED: "{{ WEB_DESKTOP_ENABLED | default(False) }}"
+        GUACAMOLE_ENABLED: "{{ GUACAMOLE_ENABLED | default(False) }}"
