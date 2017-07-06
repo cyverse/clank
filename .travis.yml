@@ -3,7 +3,7 @@
   sudo: required
   dist: trusty
 
-  # Use an older version of trusty until quirks are figured out. 
+  # Use an older version of trusty until quirks are figured out.
   # https://blog.travis-ci.com/2017-06-21-trusty-updates-2017-Q2-launch
   group: deprecated-2017Q2
 
@@ -27,4 +27,13 @@
     - cp dist_files/variables.yml.dist variables.yml
 
   script:
-    - clank_env/bin/python ./clank.py --env_file variables.yml -b --skip-tags "distro-update,create-nginx-uwsgi,enable-services"
+    # Warp YAML into submission to run clank
+    - >-
+      clank_env/bin/python ./clank.py
+      --env_file variables.yml
+      -x 'atmosphere_github_branch="zesty-zapdos"'
+      -x 'atmosphere_github_repo="https://github.com/CyVerse/atmosphere.git"'
+      -x 'troposphere_github_branch="external-allocation-config"'
+      -x 'troposphere_github_repo="https://github.com/cdosborn/troposphere.git"'
+      --skip-tags "distro-update,create-nginx-uwsgi,enable-services"
+      -b
