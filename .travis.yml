@@ -3,9 +3,11 @@
   sudo: required
   dist: trusty
 
-  # Use an older version of trusty until quirks are figured out. 
+  # Use an older version of trusty until quirks are figured out.
   # https://blog.travis-ci.com/2017-06-21-trusty-updates-2017-Q2-launch
   group: deprecated-2017Q2
+
+  cache: pip
 
   language: python
   python: "2.7"
@@ -27,4 +29,13 @@
     - cp dist_files/variables.yml.dist variables.yml
 
   script:
-    - clank_env/bin/python ./clank.py --env_file variables.yml -b --skip-tags "distro-update,create-nginx-uwsgi,enable-services"
+    # Warp YAML into submission to run clank
+    - >-
+      clank_env/bin/python ./clank.py
+      --env_file variables.yml
+      -x "atmosphere_github_branch=\"${ATMO_GITHUB_BRANCH:-master}\""
+      -x "atmosphere_github_repo=\"${ATMO_GITHUB_REPO:-https://github.com/CyVerse/atmosphere.git}\""
+      -x "troposphere_github_branch=\"${TROPO_GITHUB_BRANCH:-master}\""
+      -x "troposphere_github_repo=\"${TROPO_GITHUB_REPO:-https://github.com/CyVerse/troposphere.git}\""
+      --skip-tags "distro-update,create-nginx-uwsgi,enable-services"
+      -b
