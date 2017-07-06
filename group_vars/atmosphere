@@ -166,7 +166,11 @@ ATMO:
         CELERYBEAT_SCHEDULE: "{{ CELERYBEAT_SCHEDULE | default('') }}"
         VALIDATION_PLUGINS: "{{ VALIDATION_PLUGINS | default('') }}"
         EXPIRATION_PLUGINS: "{{ EXPIRATION_PLUGINS | default('') }}"
-        # settings for noVNC transparent proxying
+        # Guacamole
+        GUACAMOLE_ENABLED: "{{ GUACAMOLE_ENABLED | default(False) }}"
+        GUACAMOLE_SECRET_KEY: "{{ GUACAMOLE_SECRET_KEY | default('') }}"
+        GUACAMOLE_SERVER_URL: "{{ GUACAMOLE_SERVER_URL | default('') }}"
+        # Web Desktop
         WEB_DESKTOP_SIGNING_SALT: "{{ WEB_DESKTOP_SIGNING_SALT | default('') }}"
         WEB_DESKTOP_FP_SALT: "{{ WEB_DESKTOP_FP_SALT | default('') }}"
         WEB_DESKTOP_SIGNING_SECRET_KEY: "{{ WEB_DESKTOP_SIGNING_SECRET_KEY | default('') }}"

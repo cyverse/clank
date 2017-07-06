@@ -202,6 +202,7 @@ AUTH_MOCK_USER: "atmosphere_user"
 ###
 # Web Desktop
 ###
+# WEB_DESKTOP_ENABLED:
 # Salts for signing/verifying authentication tokens and creating/decoding browser fingerprints
 # WEB_DESKTOP_SIGNING_SALT: ""
 # WEB_DESKTOP_FP_SALT: ""
@@ -214,6 +215,13 @@ AUTH_MOCK_USER: "atmosphere_user"
 # WEB_DESKTOP_PROXY_URL: ""
 # Should be set to ".my-novnc-gateway-server.com", allows Troposphere to set a cross-domain cookie readable by your NoVNC gateway server
 # WEB_DESKTOP_PROXY_DOMAIN: ""
+
+###
+# Guacamole
+###
+# GUACAMOLE_ENABLED:
+# GUACAMOLE_SECRET_KEY: ""
+# GUACAMOLE_SERVER_URL: ""
 
 ###
 # VNC
