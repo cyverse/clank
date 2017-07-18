@@ -100,6 +100,8 @@ ATMO:
         SESSION_COOKIE_AGE:
         SSLSERVER: "{{ SSLSERVER | default(True) }}"
         TESTING: "{{ TESTING | default(False) }}"
+        ENABLE_IMAGE_VALIDATION: "{{ ENABLE_IMAGE_VALIDATION | default(False) }}"
+        ENABLE_PROJECT_SHARING: "{{ ENABLE_PROJECT_SHARING | default(False) }}"
         # Marked for removal because SAML-SSO is not feature-complete
         SAML_SSO:
         SAML_SSO_KEYFILE:

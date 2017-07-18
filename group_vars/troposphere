@@ -91,6 +91,7 @@ TROPO:
         DATABASE_HOST: ""
         DATABASE_PORT: 5432
         DJANGO_JENKINS: "{{ install_jenkins }}"
+        ENABLE_PROJECT_SHARING: "{{ ENABLE_PROJECT_SHARING | default(False) }}"
         SSLSERVER: True
         SESSION_COOKIE_AGE:
         #Authorization and Authentication
