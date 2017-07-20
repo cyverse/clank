@@ -18,7 +18,7 @@
   when: USE_PIP_TOOLS_SYNC | default(False)
   pip:
     name: pip-tools
-    version: 1.8.0
+    version: 1.9.0
     virtualenv: "{{ VIRTUAL_ENV }}"
 
 - name: pip-sync requirements
