@@ -29,6 +29,10 @@ def setup_arguments():
 	metavar="TAGS",
         help="skip the tag list e.g. 'dependencies,atmosphere'")
 
+    parser.add_argument("--rebuild",
+        action='store_true',
+        help="Dramatically speed-up the time it takes to run clank by skipping one-time build steps"),
+
     parser.add_argument("--tags",
         type=str,
         default="",
@@ -87,6 +91,8 @@ def execute_ansible_playbook(args, extra_ansible_playbook_args):
        options += ' --skip-tags="%s"' % args.skip_tags
     if args.tags:
         options += ' --tags "%s"' % args.tags
+    if args.rebuild:
+        options += ' --skip-tags "clone-repo,data-load,npm,pip-install-requirements,apt-install"'
     if args.verbose or args.debug:
         options += ' -vvvvv -e"CLANK_VERBOSE=true"'
     if args.debug:
