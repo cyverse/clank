@@ -13,6 +13,9 @@
 - name: add webserver-user for user and group permissions
   file: path={{ APP_BASE_DIR }} owner={{ WEBSERVER_USER }} group={{ WEBSERVER_USER }} mode="g+rw" recurse=yes
 
+- name: Allow webserver-user read & write permissions on the Django cache directory
+  file: path={{ DJANGO_CACHE_DIRECTORY }} state=directory owner={{ WEBSERVER_USER }} group={{ WEBSERVER_USER }} mode="g+rw" recurse=yes
+
 - name: Register variable to determine if user vagrant exists
   shell: /usr/bin/getent passwd vagrant | awk -F":" '{print $1}'
   register: vagrant_exists
