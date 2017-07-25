@@ -4,7 +4,8 @@
     path: "{{ role_path }}/build"
     state: directory
 
-- template:
+- name: Copy openssl-req Jinja template to the new directory
+  template:
     src: "{{ role_path }}/templates/openssl-req.cnf.j2"
     dest: "{{ role_path }}/build/openssl-req.cnf"
 
