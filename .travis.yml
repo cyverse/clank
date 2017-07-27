@@ -20,14 +20,10 @@
     - sudo service docker restart
     - sleep 5
     - sudo docker pull centos:centos${OS_VERSION}
-    - sudo pg_dropcluster --stop 9.2 main
-    - sudo pg_dropcluster --stop 9.3 main
-    - sudo pg_dropcluster --stop 9.4 main
-    - sudo pg_dropcluster --stop 9.5 main
-    - sudo pg_lsclusters # For testing purposes
+
 
   script:
-    - setup_centos_tests.sh {OS_VERSION}
+    - tests/setup_centos_tests.sh {OS_VERSION}
     # Warp YAML into submission to run clank
 #    - >-
 #      clank_env/bin/python ./clank.py
