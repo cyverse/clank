@@ -100,6 +100,13 @@
     - { role: setup-webserver-user-group,
         APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}",
         WEBSERVER_USER: "www-data",
+        when: ansible_distribution == 'Ubuntu',
+        tags: ['atmosphere','set-permissions'] }
+
+    - { role: setup-webserver-user-group,
+        APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}",
+        WEBSERVER_USER: "nginx",
+        when: ansible_distribution == 'CentOS',
         tags: ['atmosphere','set-permissions'] }
 
     # The logrotate-files role must come after the setup-webserver-user-group role.
