@@ -1,31 +1,32 @@
 ---
 # tasks file for app-alter-kernel-for-imaging
+- block:
+  - name: gather os specific variables
+    include_vars: "{{ item }}"
+    with_first_found:
+      - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+      - "{{ ansible_distribution }}.yml"
+      - "{{ ansible_os_family }}.yml"
+      - "defaults.yml"
+    tags: vars
 
-- name: gather os specific variables
-  include_vars: "{{ item }}"
-  with_first_found:
-    - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
-    - "{{ ansible_distribution }}.yml"
-    - "{{ ansible_os_family }}.yml"
-    - "defaults.yml"
-  tags: vars
+  - name: install dev packages
+    action: >
+      {{ ansible_pkg_mgr }} name={{ item }} state={{ DEV_PACKAGES.state }}
+    with_items: "{{ DEV_PACKAGES.packages }}"
 
-- name: install dev packages
-  action: >
-    {{ ansible_pkg_mgr }} name={{ item }} state={{ DEV_PACKAGES.state }}
-  with_items: "{{ DEV_PACKAGES.packages }}"
+  - name: run modprobe for the first time
+    modprobe: name={{ item.name }} state=present params={{ item.params }}
+    with_items: "{{ MODPROBE_PACKAGES.packages }}"
 
-- name: run modprobe for the first time
-  modprobe: name={{ item.name }} state=present params={{ item.params }}
-  with_items: "{{ MODPROBE_PACKAGES.packages }}"
+  - name: make sure there is an exit 0 at end of /etc/rc.local
+    lineinfile: dest=/etc/rc.local insertbefore=EOF line="exit 0"
 
-- name: make sure there is an exit 0 at end of /etc/rc.local
-  lineinfile: dest=/etc/rc.local insertbefore=EOF line="exit 0"
-
-- name: add modprobe nbd for imaging to /etc/rc.local for subsequent reboots
-  lineinfile:
-    dest: /etc/rc.local
-    insertbefore: "exit 0"
-    line: "modprobe {{ item.name }} {{ item.params | default(omit) }}"
-    regexp: "modprobe {{ item.name }}"
-  with_items: "{{ MODPROBE_PACKAGES.packages }}"
+  - name: add modprobe nbd for imaging to /etc/rc.local for subsequent reboots
+    lineinfile:
+      dest: /etc/rc.local
+      insertbefore: "exit 0"
+      line: "modprobe {{ item.name }} {{ item.params | default(omit) }}"
+      regexp: "modprobe {{ item.name }}"
+    with_items: "{{ MODPROBE_PACKAGES.packages }}"
+    when: ansible_distribution == "Ubuntu"

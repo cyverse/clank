@@ -5,8 +5,8 @@ yum install -y python-setuptools python-setuptools-devel
 easy_install pip
 yum groupinstall -y "Development tools"
 pip install virtualenv
-virtualenv clank_env
 cd clank/
+virtualenv clank_env
 source clank_env/bin/activate
 pip install -r requirements.txt
 cp dist_files/variables.yml.dist variables.yml

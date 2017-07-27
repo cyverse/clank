@@ -1,0 +1,10 @@
+DEV_PACKAGES:
+  packages:
+    - qemu
+    - qemu-kvm
+    - xfsprogs
+  state: latest
+
+MODPROBE_PACKAGES:
+  packages:
+    - { name: 'nbd', params: 'max_part=16' }
