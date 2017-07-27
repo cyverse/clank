@@ -24,7 +24,7 @@
     - postgres
 
 - block:
-    - name: Check if it needs initialization
+    - name: "CentOS: Check if it needs initialization"
       shell: test -f {{ postgresql_data_directory }}/PG_VERSION
       register: postgresql_needs_init
       changed_when: false
@@ -32,8 +32,8 @@
       tags:
         - postgresql_config
 
-    - name: Initialize the DB with init.d
-      shell: /usr/pgsql-9.6/bin/postgresql-{{ DB_VERSION }}-setup initdb
+    - name: "CentOS: Initialize the DB with init.d"
+      shell: /usr/pgsql-9.6/bin/postgresql96-setup initdb
       environment:
         PGDATA: "{{ postgresql_data_directory }}"
       when: >
@@ -41,13 +41,13 @@
       tags:
         - postgresql_config
 
-    - name: "Explicitly remove database user, to ensure inserting in the right location"
+    - name: "CentOS: Explicitly remove database user, to ensure inserting in the right location"
       lineinfile:
           dest: "{{ postgresql_hba_config_file }}"
           regexp: "^local +all +{{ DBUSER }} +md5"
           state: absent
 
-    - name: "Give database user ({{ DBUSER }}) password authentication on domain sockets"
+    - name: "CentOS: Give database user ({{ DBUSER }}) password authentication on domain sockets"
       lineinfile:
         dest: "{{ postgresql_hba_config_file }}"
         # Note: We must insert 'line' before this more restrictive line, if it exists.
