@@ -22,7 +22,7 @@
     - sudo docker pull centos:centos${OS_VERSION}
 
   script:
-    - sudo bash tests/setup_centos_tests.sh {OS_VERSION}
+    - sudo bash tests/setup_centos_tests.sh
     # Warp YAML into submission to run clank
 #    - >-
 #      clank_env/bin/python ./clank.py
