@@ -1,6 +1,5 @@
 #!/bin/sh -xe
 
-OS_VERSION=$1
 
 ls -l /home
 
