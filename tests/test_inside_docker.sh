@@ -3,6 +3,8 @@
 yum install -y git python python-devel libffi-devel openssl-devel
 yum install -y python-setuptools python-setuptools-devel
 easy_install pip
+yum install -y epel-release
+pip install -U pip
 yum groupinstall -y "Development tools"
 pip install virtualenv
 cd clank/
