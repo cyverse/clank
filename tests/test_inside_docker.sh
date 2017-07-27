@@ -3,6 +3,7 @@
 
 ls -l /home
 pwd
+ls
 yum install -y git python python-devel libffi-devel openssl-devel
 yum install -y python-setuptools python-setuptools-devel
 easy_install pip
@@ -10,6 +11,7 @@ yum groupinstall -y "Development tools"
 pip install virtualenv
 virtualenv clank_env
 source clank_env/bin/activate
+cd clank/
 pip install -r requirements.txt
 cp dist_files/variables.yml.dist variables.yml
 clank_env/bin/python ./clank.py
