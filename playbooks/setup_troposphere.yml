@@ -80,6 +80,13 @@
     - { role: setup-webserver-user-group,
         APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION | default(troposphere_directory_path) }}",
         WEBSERVER_USER: "www-data",
+        when: ansible_distribution == 'Ubuntu',
+        tags: ['troposphere', 'set-permissions'] }
+
+    - { role: setup-webserver-user-group,
+        APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION | default(troposphere_directory_path) }}",
+        WEBSERVER_USER: "nginx",
+        when: ansible_distribution == 'CentOS',
         tags: ['troposphere', 'set-permissions'] }
 
     # The logrotate-files role must come after the setup-webserver-user-group role.                                         # This is because setup-webserver-user-group sets the permissions on all files in that directory the
