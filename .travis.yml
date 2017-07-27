@@ -20,29 +20,21 @@
     - sudo service docker restart
     - sleep 5
     - sudo docker pull centos:centos${OS_VERSION}
-
-
-  before_script:
-    - sudo yum install -y git python python-pip python-devel libffi-devel openssl-devel
-    - sudo yum groupinstall "Development tools"
     - sudo pg_dropcluster --stop 9.2 main
     - sudo pg_dropcluster --stop 9.3 main
     - sudo pg_dropcluster --stop 9.4 main
     - sudo pg_dropcluster --stop 9.5 main
     - sudo pg_lsclusters # For testing purposes
-    - virtualenv clank_env
-    - . clank_env/bin/activate
-    - pip install -r requirements.txt
-    - cp dist_files/variables.yml.dist variables.yml
 
   script:
+    - setup_centos_tests.sh {OS_VERSION}
     # Warp YAML into submission to run clank
-    - >-
-      clank_env/bin/python ./clank.py
-      --env_file variables.yml
-      -x "atmosphere_github_branch=\"${ATMO_GITHUB_BRANCH:-master}\""
-      -x "atmosphere_github_repo=\"${ATMO_GITHUB_REPO:-https://github.com/CyVerse/atmosphere.git}\""
-      -x "troposphere_github_branch=\"${TROPO_GITHUB_BRANCH:-master}\""
-      -x "troposphere_github_repo=\"${TROPO_GITHUB_REPO:-https://github.com/CyVerse/troposphere.git}\""
-      --skip-tags "distro-update,create-nginx-uwsgi,enable-services"
-      -b
+#    - >-
+#      clank_env/bin/python ./clank.py
+#      --env_file variables.yml
+#      -x "atmosphere_github_branch=\"${ATMO_GITHUB_BRANCH:-master}\""
+#      -x "atmosphere_github_repo=\"${ATMO_GITHUB_REPO:-https://github.com/CyVerse/atmosphere.git}\""
+#      -x "troposphere_github_branch=\"${TROPO_GITHUB_BRANCH:-master}\""
+#      -x "troposphere_github_repo=\"${TROPO_GITHUB_REPO:-https://github.com/CyVerse/troposphere.git}\""
+#      --skip-tags "distro-update,create-nginx-uwsgi,enable-services"
+#      -b
