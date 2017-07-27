@@ -1,2 +1,10 @@
+- name: Restart PostgreSQL server
+  service:
+    name: "{{ postgresql_service }}"
+    state: restarted
+  when: >
+    postgresql_service_started is not defined or
+    not postgresql_service_started.changed
+
 - name: restart postgresql
   service: name=postgresql state=started args={{ DB_VERSION }}
