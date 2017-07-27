@@ -3,8 +3,11 @@
 
 ls -l /home
 
-yum install -y git python python-pip python-devel libffi-devel openssl-devel
+yum install -y git python python-devel libffi-devel openssl-devel
+easy_install pip
 yum groupinstall -y "Development tools"
+pip install virtualenv
+pwd
 virtualenv clank_env
 source clank_env/bin/activate
 pip install -r requirements.txt
