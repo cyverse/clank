@@ -40,6 +40,12 @@
   with_items: "{{ INITIAL_PACKAGES.packages }}"
   tags: install, apt-install
 
+- name: add yum packages
+  yum: name={{ item }} state=present
+  with_items: "{{YUM_PACKAGES.packages }}"
+  when: ansible_distribution == "CentOS"
+  tags: yum-install
+
 - name: install dev packages
   action: >
     {{ ansible_pkg_mgr }} name={{ item }} state=latest
