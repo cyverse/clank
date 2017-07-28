@@ -1,6 +1,7 @@
 #!/bin/sh -xe
 
-yum -y install initscripts && yum clean all
+yum install -y initscripts && yum clean all
+yum install -y sudo 
 yum install -y git python python-devel libffi-devel openssl-devel
 yum install -y python-setuptools python-setuptools-devel
 easy_install pip
