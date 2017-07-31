@@ -2,6 +2,8 @@
 
 yum install -y initscripts && yum clean all
 yum install -y sudo mailcap
+yum install -y openssh-server
+mkdir -p /root/.ssh
 yum install -y git python python-devel libffi-devel openssl-devel
 yum install -y python-setuptools python-setuptools-devel
 easy_install pip
