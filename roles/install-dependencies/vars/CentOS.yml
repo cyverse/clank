@@ -9,36 +9,36 @@ INITIAL_PACKAGES:
 
 DEV_PACKAGES:
   packages:
-    - libffi-devel #yum
-    - python #yum
-    - openssl #yum
-    - postgresql96-server #yum
-    - postgresql96-contrib #yum
-    - python-psycopg2 #yum
-    - postgresql96-devel #yum
-    - postgresql96-libs #yum
-    - python-devel #yum
-    - openldap-devel #yum
-    - m2crypto #yum
-    - swig #yum
+    - libffi-devel
+    - python
+    - openssl
+    - postgresql96-server
+    - postgresql96-contrib
+    - postgresql96-devel
+    - postgresql96-libs
+    - python-devel
+    - openldap-devel
+    - m2crypto
+    - swig
     - redis #epel
-    - git #yum
-    - nodejs #yum
-    - python-setuptools #yum
-    - ufw #yum
+    - git
+    - nodejs
+    - python-setuptools
+    - python-psycopg2
+    - ufw
 
 LIB_PACKAGES:
   packages:
-    - libxml2-devel #yum
-    - libxslt-devel #yum
-    - tkinter #yum
-    - tk-devel #yum
-    - zlib-devel #yum
+    - libxml2-devel
+    - libxslt-devel
+    - tkinter
+    - tk-devel
+    - zlib-devel
 
 NGINX_PACKAGES:
   packages:
-    - uwsgi #yum
-    - uwsgi-plugin-python #yum
-    - nginx #yum
+    - uwsgi
+    - uwsgi-plugin-python
+    - nginx
 
 APACHE: httpd
