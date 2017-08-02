@@ -16,7 +16,7 @@
 ###############################
 WORKSPACE: /opt/dev  #NOTE: This is where atmosphere/troposphere directories reside.
 VIRTUAL_ENV_DIR: "/opt/env"  #NOTE: This is where atmosphere/troposphere virtualenv directories reside.
-INSTALLATION_TYPE: "development"  # can be development or production
+INSTALLATION_TYPE: "production"  # can be development or production
 #TODO:-- currently INSTALLATION_TYPE deals only with installing the correct requirements.txt -- but could be used to override DJANGO_JENKINS and/or celeryd
 
 ###

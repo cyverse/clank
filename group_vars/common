@@ -15,6 +15,6 @@ nginx_key_path: "{{nginx_key_dir}}/{{nginx_key_file}}"
 staff_list_usernames: "{{ STAFF_LIST_USERNAMES | default([]) }}"
 maintenance_exempt_usernames: "{{ MAINTENANCE_EXEMPT_USERNAMES | default(staff_list_usernames) }}"
 install_jenkins: "{{ DJANGO_JENKINS | default(False) }}"
-installation_type: "{{ INSTALLATION_TYPE | default('development') }}"
+installation_type: "{{ INSTALLATION_TYPE | default('production') }}"
 faster_dev_rebuild: false
 shallow_clone: true
