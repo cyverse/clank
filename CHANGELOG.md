@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## v?.?.? (2017-09-??)
+## v2.1.0 (2017-09-??)
 
 - Change `INSTALLATION_TYPE` default from `development` to `production`
   ([#198](https://github.com/CyVerse/clank/pull/197))
