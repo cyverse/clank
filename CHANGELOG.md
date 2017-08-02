@@ -3,7 +3,7 @@
 ## v?.?.? (2017-09-??)
 
 - Change `INSTALLATION_TYPE` default from `development` to `production`
-  ([#197](https://github.com/CyVerse/clank/pull/197))
+  ([#198](https://github.com/CyVerse/clank/pull/197))
 
 ## v2.0.0 (2016-08-17)
 - Change logrotate file permissions to 644
