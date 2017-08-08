@@ -8,7 +8,7 @@ troposphere_virtualenv_name: troposphere
 troposphere_theme_name: troposphere_theme
 troposphere_virtualenv_path: "{{virtualenv_dir}}/{{troposphere_virtualenv_name}}"
 troposphere_directory_path: "{{workspace}}/{{troposphere_directory_name}}"
-troposphere_build: development
+troposphere_build_type: "{{ INSTALLATION_TYPE | default('production') }}"
 troposphere_server_name: "{{ server_name }}"
 troposphere_server_url: "https://{{ troposphere_server_name }}"
 troposphere_uwsgi_processes: 12
@@ -31,6 +31,7 @@ TROPO:
         LDAP_SERVER: "{{ LDAP_SERVER | default('') }}"
         LDAP_SERVER_DN: "{{ LDAP_SERVER_DN | default('') }}"
         TOKEN_EXPIRY_TIME_DAYS: 1
+        BUILD_TYPE: troposphere_build_type
     theme:
         USE_THEME_IMAGES: "{{ THEME_IMAGES_PATH is defined }}"
         PRIMARY_ONE_COLOR: "{{ PRIMARY_ONE_COLOR | default('')}}" 
