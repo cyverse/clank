@@ -1,0 +1,32 @@
+---
+
+- name: Download pyenv-installer
+  get_url:
+    url: "https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer"
+    dest: "/tmp/pyenv-installer"
+    mode: "0755"
+
+- name: Install pyenv using pyenv-installer
+  command: "/tmp/pyenv-installer"
+
+- name: Add pyenv to path using ~/.bashrc
+  blockinfile:
+    path: "/root/.bashrc"
+    state: present
+    marker: "# {mark} ANSIBLE MANAGED BLOCK"
+    insertafter: "EOF"
+    block: |
+      export PATH="/root/.pyenv/bin:$PATH"
+      eval "$(pyenv init -)"
+      eval "$(pyenv virtualenv-init -)"
+
+- name: Use pyenv to get python 2.7.9 and change global version
+  command: "{{ item }}"
+  with_items:
+    - "/root/.pyenv/bin/pyenv install --force {{ PYTHON_VERSION }}"
+    - "/root/.pyenv/bin/pyenv global {{ PYTHON_VERSION }}"
+
+- name: pip install virtualenv
+  pip:
+    name: "virtualenv"
+    state: present
