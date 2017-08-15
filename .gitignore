@@ -80,3 +80,4 @@ scratch
 /clank_output_20*
 roles/app-generate-ini-config/files/
 roles/noc-enable-new-relic/files/
+variables.yml@*
