@@ -8,7 +8,6 @@ troposphere_virtualenv_name: troposphere
 troposphere_theme_name: troposphere_theme
 troposphere_virtualenv_path: "{{virtualenv_dir}}/{{troposphere_virtualenv_name}}"
 troposphere_directory_path: "{{workspace}}/{{troposphere_directory_name}}"
-troposphere_build: development
 troposphere_server_name: "{{ server_name }}"
 troposphere_server_url: "https://{{ troposphere_server_name }}"
 troposphere_uwsgi_processes: 12
@@ -55,6 +54,7 @@ TROPO:
         NGINX_TLS_PRIVKEY_DEST: "{{ TLS_PRIVKEY_DEST_DIR }}/{{ TLS_DEST_BASENAME }}.key"
         NGINX_TLS_FULLCHAIN_DEST: "{{ TLS_CERT_DEST_DIR }}/{{ TLS_DEST_BASENAME }}.fullchain.crt"
         VIRTUALENV_PATH: "{{ VIRTUAL_ENV_TROPOSPHERE | default(troposphere_virtualenv_path) }}"
+        ENABLE_WEBPACK_DEV_SERVER: "{{ ENABLE_WEBPACK_DEV_SERVER | default(False) }}"
 
     uwsgi.ini:
         LOCAL_DEV: False
