@@ -117,7 +117,10 @@ ATMO:
         SENTRY_ENABLED: "{{ SENTRY_DICT.ENABLED | default(False) }}"
         SENTRY_DSN: "{{ SENTRY_DICT.ATMOSPHERE_DSN | default('') }}"
         DJANGO_TEMPLATE_DEBUG: "{{ DJANGO_TEMPLATE_DEBUG | default(True) }}"
-        LOG_LIBCLOUD: "{{ LOG_LIBCLOUD | default(True) }}"
+        # LOG_LIBCLOUD:
+        # If True, will log _alL_ requests/responses made through atmosphere.
+        # WARNING: This can take up a lot of disk space.
+        LOG_LIBCLOUD: "{{ LOG_LIBCLOUD | default(False) }}"
         LOGGING_DEP_LEVEL: logging.WARNING
         LOGGING_LEVEL: logging.DEBUG
         LOGSTASH_HOST: "{{ LOGSTASH_HOST | default('') }}"
