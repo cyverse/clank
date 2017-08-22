@@ -1,0 +1,11 @@
+---
+
+- name: Install pyenv and use it to set python version
+  remote_user: root
+  hosts: localhost
+  # vars:
+  #   PYTHON_VERSION: "2.7.9"
+  roles:
+    - setup-pyenv
+
+# Define alternate python version above or use the `-e "PYTHON_VERSION=2.7.12"` in the playbook call.
