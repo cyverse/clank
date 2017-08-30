@@ -1,44 +1,39 @@
 YUM_PACKAGES:
-  packages:
-    - https://rpm.nodesource.com/pub_4.x/el/{{ ansible_distribution_major_version }}/{{ ansible_architecture }}/nodesource-release-el{{ ansible_distribution_major_version }}-1.noarch.rpm
-    - https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpm
+  - https://rpm.nodesource.com/pub_4.x/el/{{ ansible_distribution_major_version }}/{{ ansible_architecture }}/nodesource-release-el{{ ansible_distribution_major_version }}-1.noarch.rpm
+  - https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpm
 
 INITIAL_PACKAGES:
-  packages:
-    - "@Development tools" #gcc, make
+  - "@Development tools" #gcc, make
 
 DEV_PACKAGES:
-  packages:
-    - libffi-devel
-    - python
-    - openssl
-    - postgresql96-server
-    - postgresql96-contrib
-    - postgresql96-devel
-    - postgresql96-libs
-    - python-devel
-    - openldap-devel
-    - m2crypto
-    - swig
-    - redis #epel
-    - git
-    - nodejs
-    - python-setuptools
-    - python-psycopg2
-    - ufw
+  - libffi-devel
+  - python
+  - openssl
+  - postgresql96-server
+  - postgresql96-contrib
+  - postgresql96-devel
+  - postgresql96-libs
+  - python-devel
+  - openldap-devel
+  - m2crypto
+  - swig
+  - redis #epel
+  - git
+  - nodejs
+  - python-setuptools
+  - python-psycopg2
+  - ufw
 
 LIB_PACKAGES:
-  packages:
-    - libxml2-devel
-    - libxslt-devel
-    - tkinter
-    - tk-devel
-    - zlib-devel
+  - libxml2-devel
+  - libxslt-devel
+  - tkinter
+  - tk-devel
+  - zlib-devel
 
 NGINX_PACKAGES:
-  packages:
-    - uwsgi
-    - uwsgi-plugin-python
-    - nginx
+  - uwsgi
+  - uwsgi-plugin-python
+  - nginx
 
 APACHE: httpd

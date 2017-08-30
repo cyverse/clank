@@ -37,31 +37,33 @@
 - name: install initial packages
   action: >
     {{ ansible_pkg_mgr }} name={{ item }} state=latest update_cache=no
-  with_items: "{{ INITIAL_PACKAGES.packages }}"
+  with_items: "{{ INITIAL_PACKAGES }}"
   tags: install, apt-install
 
-- name: add yum packages
-  yum: name={{ item }} state=present
-  with_items: "{{YUM_PACKAGES.packages }}"
+- name: yum packages installed outside of distro vendor repos
+  yum: 
+    name: "{{ item }}" 
+    state: "present"
+  with_items: "{{YUM_PACKAGES }}"
   when: ansible_distribution == "CentOS"
   tags: yum-install
 
 - name: install dev packages
   action: >
     {{ ansible_pkg_mgr }} name={{ item }} state=latest
-  with_items: "{{ DEV_PACKAGES.packages }}"
+  with_items: "{{ DEV_PACKAGES }}"
   tags: install, apt-install
 
 - name: install lib packages
   action: >
     {{ ansible_pkg_mgr }} name={{ item }} state=latest
-  with_items: "{{ LIB_PACKAGES.packages }}"
+  with_items: "{{ LIB_PACKAGES }}"
   tags: install, apt-install
 
 - name: install nginx packages
   action: >
     {{ ansible_pkg_mgr }} name={{ item }} state=latest
-  with_items: "{{ NGINX_PACKAGES.packages }}"
+  with_items: "{{ NGINX_PACKAGES }}"
   tags: install, apt-install
 
 - name: pip install python packages

@@ -1,1 +1,2 @@
+WEBSERVER_USER: "nginx"
 APACHE: httpd
