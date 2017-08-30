@@ -10,7 +10,7 @@ APT_KEYS_TO_ADD:
 APT_REPOSITORIES_TO_ADD:
   packages:
     - ppa:nginx/stable
-    - deb https://deb.nodesource.com/node_4.x {{ ansible_distribution_release }} main
+    - deb https://deb.nodesource.com/node_8.x {{ ansible_distribution_release }} main
     - deb http://apt.postgresql.org/pub/repos/apt/ {{ ansible_distribution_release }}-pgdg main {{ db_version | default('9.6') }}
     - ppa:chris-lea/redis-server
 
