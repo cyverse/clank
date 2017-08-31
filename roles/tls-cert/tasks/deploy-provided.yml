@@ -6,7 +6,8 @@
 - name: Certificate files copied to target
   tags: [certs-copied]
   copy:
-    src: "{{ item.src_path }}"
+    # Note: `\r\n` included to ensure a newline at the end of the file, which ansible will not guarantee and has no options to add..
+    content: "{{ lookup('file', item.src_path)}}\r\n"
     dest: "{{ item.dest_path }}"
   with_items:
     - src_path: "{{ TLS_PRIVKEY_SRC_FILE }}"

@@ -31,7 +31,12 @@ def setup_arguments():
 
     parser.add_argument("--rebuild",
         action='store_true',
-        help="Dramatically speed-up the time it takes to run clank by skipping one-time build steps"),
+        help="Dramatically speed-up the time it takes to run clank by skipping one-time build steps")
+
+    parser.add_argument("--limit",
+        type=str,
+        default="",
+        help="(For remote deployments) tell clank what host to execute on")
 
     parser.add_argument("--tags",
         type=str,
@@ -89,6 +94,7 @@ def execute_ansible_playbook(args, extra_ansible_playbook_args):
     options = ""
     if args.skip_tags:
        options += ' --skip-tags="%s"' % args.skip_tags
+    options += ' --limit "%s"' % args.limit if args.limit else ' -c local --limit localhost'
     if args.tags:
         options += ' --tags "%s"' % args.tags
     if args.rebuild:
@@ -108,7 +114,7 @@ def execute_ansible_playbook(args, extra_ansible_playbook_args):
         for arg in extra_ansible_playbook_args:
             options += ' %s' % arg
 
-    command = '{} "{}" --flush-cache -c local -e "@{}" -i {} {}'.format(
+    command = '{} "{}" --flush-cache -e "@{}" -i {} {}'.format(
         ansible_exec, ansible_play, args.env_file, ansible_hosts, options
     )
     if args.dry_run:

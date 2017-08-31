@@ -9,41 +9,47 @@
     when: MODULE_NAME == ""
 
   - stat: path="{{ TARGET_HOME }}/{{ MODULE_NAME }}/{{ LOCAL_SETTINGS }}"
-    register: local_settings_path
+    register: settings_path
 
   - fail: msg="Wait! {{ TARGET_HOME }}/{{ MODULE_NAME }}/{{ LOCAL_SETTINGS }} should exist"
-    when: local_settings_path.stat.exists == False
+    when: settings_path.stat.exists == False
 
   - name: ensure role has local files directory
     local_action: >
         file path={{ role_path }}/files state=directory mode=0755
 
-  - name: Add New Relic settings to '{{ MODULE_NAME }}/{{ LOCAL_SETTINGS }}'
+  - name: ensure new_relic settings file exists
+    file:
+      path: "{{ TARGET_HOME }}/{{ MODULE_NAME }}/{{ NEW_RELIC_SETTINGS }}"
+      state: touch
+      mode: 0644
+
+  - name: ensure new_relic extras directory exists
+    file:
+      path: "{{ TARGET_HOME }}/{{ NEW_RELIC_EXTRAS }}"
+      state: directory
+      mode: 0755
+
+  - name: Add New Relic settings to '{{ MODULE_NAME }}/{{ NEW_RELIC_SETTINGS }} (if browser is False)'
     blockinfile:
-      dest: "{{ TARGET_HOME }}/{{ MODULE_NAME }}/{{ LOCAL_SETTINGS }}"
+      dest: "{{ TARGET_HOME }}/{{ MODULE_NAME }}/{{ NEW_RELIC_SETTINGS }}"
       block: |
         NEW_RELIC_ENVIRONMENT = '{{ NEW_RELIC.ENVIRONMENT }}'
       marker: "# {mark} ANSIBLE MANAGED BLOCK "
-    when: local_settings_path.stat.exists and new_relic_browser == False
+    when: settings_path.stat.exists and new_relic_browser == False
 
-  - name: Add New Relic settings to '{{ MODULE_NAME }}/{{ LOCAL_SETTINGS }}'
+  - name: Add New Relic settings to '{{ MODULE_NAME }}/{{ NEW_RELIC_SETTINGS }} (if browser is True)'
     blockinfile:
-      dest: "{{ TARGET_HOME }}/{{ MODULE_NAME }}/{{ LOCAL_SETTINGS }}"
+      dest: "{{ TARGET_HOME }}/{{ MODULE_NAME }}/{{ NEW_RELIC_SETTINGS }}"
       block: |
         NEW_RELIC_ENVIRONMENT = '{{ NEW_RELIC.ENVIRONMENT }}'
         NEW_RELIC_BROWSER_SNIPPET = '{{ NEW_RELIC.BROWSER }}'
       marker: "# {mark} ANSIBLE MANAGED BLOCK "
-    when: local_settings_path.stat.exists and new_relic_browser
+    when: settings_path.stat.exists and new_relic_browser
 
-  - name: create local app_newrelic.ini from variables
-    local_action: >
-      template src={{ role_path }}/templates/app_newrelic.ini.j2 dest={{ role_path }}/files/{{ MODULE_NAME }}_newrelic.ini
-
-  - name: ensure newrelic directory exists
-    local_action: >
-        file path={{ TARGET_HOME }}/{{ NEWRELIC_EXTRAS }} state=directory mode=0755
-
-  - name: Copy /files/..._newrelic.ini to TARGET_HOME
-    copy: src={{ role_path }}/files/{{MODULE_NAME}}_newrelic.ini dest={{ TARGET_HOME }}/{{ NEWRELIC_EXTRAS }}/{{MODULE_NAME}}_newrelic.ini
+  - name: Templated app_newrelic.ini to newrelic.ini
+    template:
+      src: "{{ role_path }}/templates/app_newrelic.ini.j2"
+      dest: "{{ TARGET_HOME }}/{{ NEW_RELIC_EXTRAS }}/{{MODULE_NAME}}_newrelic.ini"
 
   when: NEW_RELIC is defined
