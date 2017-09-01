@@ -3,6 +3,9 @@
   hosts: all
   roles:
     - { role: atmosphere-include-startup,
-        tags: ['post-install','atmosphere'] }
+        tags: ['atmosphere'] }
+    - { role: reporting-sql-access,
+        tags: ['reporting-sql-access'],
+        when: SETUP_REPORTING_SQL_ACCESS is defined and SETUP_REPORTING_SQL_ACCESS == true }
   tags:
     - post-install
