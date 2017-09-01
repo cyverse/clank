@@ -4,9 +4,7 @@
 # relative file paths from the working directory of commands run with local_action
 
 - name: Certificate copied to temporary location on target
-  copy:
-    src: "{{ TLS_CERT_SRC_FILE }}"
-    dest: /tmp/ansible_tmp_cert
+  shell: "cp {{ TLS_CERT_SRC_FILE }} /tmp/ansible_tmp_cert"
 
 - name: CN of provided certificate queried to determine TLS_DEST_BASENAME
   # The following local_action may break if TLS_CERT_SRC_FILE is a relative path that is not resolveable from whichever working directory this is run
