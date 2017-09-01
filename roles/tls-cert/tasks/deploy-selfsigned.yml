@@ -37,6 +37,6 @@
 - name: Full certificate chain (same as bare self-signed certificate) created
   tags: [selfsigned-fullchain-created]
   copy:
-    src: "lookup('file', {{ TLS_CERT_DEST_DIR }}/{{ TLS_DEST_BASENAME }}.crt)"
+    src: "{{ TLS_CERT_DEST_DIR }}/{{ TLS_DEST_BASENAME }}.crt"
     dest: "{{ TLS_CERT_DEST_DIR }}/{{ TLS_DEST_BASENAME }}.fullchain.crt"
     remote_src: true
