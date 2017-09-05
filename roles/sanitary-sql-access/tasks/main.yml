@@ -1,0 +1,48 @@
+---
+
+- name: PostgreSQL dependencies installed
+  package:
+    name: 'postgresql-contrib'
+    state: 'installed'
+
+- name: sanitize-dump script deployed
+  template:
+    src: 'sanitize-dump.sh.j2'
+    dest: '/var/lib/postgresql/sanitize-dump.sh'
+    owner: 'postgres'
+    mode: 'u+x'
+
+- name: sanitize-dump script scheduled via cron
+  cron:
+    name: 'sanitize-dump-db'
+    special_time: 'daily'
+    job: '/var/lib/postgresql/sanitize-dump.sh'
+    user: 'postgres'
+
+# Unix user
+
+- name: sanitarysql user created
+  user:
+    name: 'sanitarysql'
+    # CyVerse convention, allows SSH access as user
+    groups: 'users'
+    shell: '/home/sanitarysql/cat-sql-dump.sh'
+
+- name: cat-sql-dump.sh deployed
+  template:
+    src: 'cat-sql-dump.sh.j2'
+    dest: '/home/sanitarysql/cat-sql-dump.sh'
+    owner: 'sanitarysql'
+    mode: 'u+x'
+
+- name: Authorized keys to SSH in and cat the dump
+  authorized_key:
+    user: 'sanitarysql'
+    state: 'present'
+    key: '{{ item }}'
+  with_items: '{{ SANITARY_SQL_SSH_KEYS }}'
+
+- name: MOTD suppressed for reporting user
+  file:
+    path: '/home/sanitarysql/.hushlogin'
+    state: 'touch'

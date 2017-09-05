@@ -42,7 +42,7 @@ Clank provides optional functionality that is used in some, but not all deployme
 
 | **Variable**               | **Purpose**                                                       |
 |----------------------------|-------------------------------------------------------------------|
-| SETUP_REPORTING_SQL_ACCESS | external read-only access to subset of DB for reporting/analytics |
+| SETUP_SANITARY_SQL_ACCESS  | external read-only access to subset of DB without secrets         |
 
 ### Running Portions of Clank
 

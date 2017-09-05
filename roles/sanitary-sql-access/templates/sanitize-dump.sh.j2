@@ -1,0 +1,46 @@
+#!/bin/bash
+
+# Script to dump DB, restore it to different schema, run cleaning queries, and dump cleaned schema to a file
+
+/usr/bin/pg_dump -n public {{ atmosphere_database_name }} > {{ atmosphere_database_name }}.sql
+
+sed -i 's/SET search_path/CREATE SCHEMA IF NOT EXISTS sanitize;\nSET search_path/' {{ atmosphere_database_name }}.sql
+sed -i 's/SET search_path = public/SET search_path = sanitize/' {{ atmosphere_database_name }}.sql
+
+psql {{ atmosphere_database_name }} < {{ atmosphere_database_name }}.sql
+rm {{ atmosphere_database_name }}.sql
+
+# Sanitation queries
+psql {{ atmosphere_database_name }} << EOF
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+UPDATE sanitize.access_token SET key = 'KEY_REDACTED';
+UPDATE sanitize.atmosphere_user SET password = 'PASSWORD_REDACTED';
+UPDATE sanitize.ssh_key SET pub_key = 'PUB_KEY_REDACTED';
+UPDATE sanitize.auth_token SET key = 'KEY_REDACTED_' || uuid_generate_v4();
+UPDATE sanitize.auth_userproxy SET "proxyIOU" = 'proxyIOU_REDACTED', "proxyTicket" = 'proxyTicket_REDACTED';
+UPDATE sanitize.boot_script SET title = 'title_REDACTED', script_text = 'script_text_REDACTED';
+UPDATE sanitize.credential SET key = 'key_REDACTED', value = 'value_REDACTED';
+UPDATE sanitize.django_admin_log SET change_message = 'change_message_REDACTED', object_repr = 'object_repr_REDACTED';
+UPDATE sanitize.django_cyverse_auth_accesstoken SET key = 'KEY_REDACTED';
+UPDATE sanitize.django_cyverse_auth_token SET key = 'KEY_REDACTED_' || uuid_generate_v4();
+UPDATE sanitize.django_cyverse_auth_userproxy SET "proxyIOU" = 'proxyIOU_REDACTED', "proxyTicket" = 'proxyTicket_REDACTED';
+UPDATE sanitize.django_session SET session_key = 'RDD_' || uuid_generate_v4(), session_data = 'session_data_REDACTED';
+UPDATE sanitize.external_link SET title = 'title_REDACTED', link = 'link_REDACTED', description = 'description_REDACTED';
+UPDATE sanitize.iplantauth_accesstoken SET key = 'KEY_REDACTED';
+UPDATE sanitize.iplantauth_token SET key = 'KEY_REDACTED_' || uuid_generate_v4();
+UPDATE sanitize.iplantauth_userproxy SET "proxyIOU" = 'proxyIOU_REDACTED', "proxyTicket" = 'proxyTicket_REDACTED';
+UPDATE sanitize.node_controller SET private_ssh_key = 'private_ssh_key_REDACTED';
+UPDATE sanitize.provider SET cloud_config = NULL;
+UPDATE sanitize.provider_credential SET key = 'key_REDACTED', value = 'value_REDACTED';
+EOF
+
+/usr/bin/pg_dump -n sanitize {{ atmosphere_database_name }} > /tmp/{{ atmosphere_database_name }}-sanitized.sql
+
+sed -i 's/CREATE SCHEMA sanitize;//' /tmp/{{ atmosphere_database_name }}-sanitized.sql
+sed -i 's/ALTER SCHEMA sanitize OWNER TO postgres;//' /tmp/{{ atmosphere_database_name }}-sanitized.sql
+
+
+# Cleanup
+psql {{ atmosphere_database_name }} > /dev/null << EOF
+DROP SCHEMA sanitize CASCADE;
+EOF
