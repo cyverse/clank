@@ -9,6 +9,9 @@
         when: clean_target,
         tags: ['dependencies', 'apt-install', 'install'] }
 
+    - { role: setup-pyenv,
+        tags: ['dependencies', 'setup-virtualenv'] }
+
     - { role: setup-postgres,
         when: clean_target,
         DBUSER: "{{ ATMO_DBUSER | default(atmosphere_database_user) }}",

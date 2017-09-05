@@ -22,8 +22,6 @@ Example Playbook
 - name: Install pyenv
   remote_user: root
   hosts: localhost
-  vars:
-    PYTHON_VERSION: "2.7.9"
   roles:
     - setup-pyenv
 ```
