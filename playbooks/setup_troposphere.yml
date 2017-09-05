@@ -21,6 +21,10 @@
         GLOB: "*.pyc",
         tags: ['troposphere'] }
 
+    - { role: app-install-uwsgi,
+        INSTALL_ENV: "{{ VIRTUAL_ENV_TROPOSPHERE | default(troposphere_virtualenv_path) }}",
+        tags: "uwsgi" }
+
     - { role: app-pip-install-requirements,
         APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION | default(troposphere_directory_path) }}",
         REQUIREMENTS_FILE_NAME: 'requirements.txt',
