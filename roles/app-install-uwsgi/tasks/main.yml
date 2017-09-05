@@ -1,0 +1,48 @@
+---
+
+- name: Install build dependencies
+  package:
+    name: "build-essential"
+    state: present
+
+- name: Download uWSGI source
+  unarchive:
+    src: "https://github.com/unbit/uwsgi/archive/{{ UWSGI_VERSION }}.tar.gz"
+    dest: "/tmp"
+    remote_src: True
+
+- name: Set python version
+  shell: "{{ item }}"
+  with_items:
+    - "/root/.pyenv/bin/pyenv install --skip-existing {{ PYTHON_VERSION }}"
+    - "/root/.pyenv/bin/pyenv global {{ PYTHON_VERSION }}"
+
+- name: Copy over custom build ini
+  blockinfile:
+    path: "/tmp/uwsgi-{{ UWSGI_VERSION }}/buildconf/custom.ini"
+    state: present
+    create: yes
+    block: |
+      [uwsgi]
+      main_plugin = python
+      inherit = base
+
+- name: Build uWSGI and python plugin
+  shell: "{{ item }}"
+  args:
+    chdir: "/tmp/uwsgi-{{ UWSGI_VERSION }}"
+  with_items:
+    - "python uwsgiconfig.py --build custom"
+
+- name: Move uWSGI and plugin to path
+  copy:
+    src: "/tmp/uwsgi-{{ UWSGI_VERSION }}/{{ item.src }}"
+    dest: "{{ item.dest }}"
+    remote_src: yes
+  with_items:
+    - { src: "uwsgi", dest: "{{ INSTALL_ENV }}/bin/uwsgi" }
+
+- name: Remove temporary files
+  file:
+    state: absent
+    path: "/tmp/uwsgi-{{ UWSGI_VERSION }}"

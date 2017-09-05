@@ -54,8 +54,6 @@ LIB_PACKAGES:
 
 NGINX_PACKAGES:
   packages:
-    - uwsgi
-    - uwsgi-plugin-python
     - nginx-full
 
 APACHE: apache2

@@ -23,7 +23,7 @@
 - name: Use pyenv to get python 2.7.9 and change global version
   command: "{{ item }}"
   with_items:
-    - "/root/.pyenv/bin/pyenv install --force {{ PYTHON_VERSION }}"
+    - "/root/.pyenv/bin/pyenv install --skip-existing {{ PYTHON_VERSION }}"
     - "/root/.pyenv/bin/pyenv global {{ PYTHON_VERSION }}"
 
 - name: pip install virtualenv

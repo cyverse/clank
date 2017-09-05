@@ -1,0 +1,5 @@
+---
+
+PYTHON_VERSION: "2.7.9"
+UWSGI_VERSION: "2.0.15"
+INSTALL_ENV: "/usr/local"

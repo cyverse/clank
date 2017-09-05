@@ -25,6 +25,9 @@
         GLOB: "*.pyc",
         tags: ['atmosphere'] }
 
+    - { role: app-install-uwsgi,
+        INSTALL_ENV: "{{ VIRTUAL_ENV_ATMOSPHERE | default(atmosphere_virtualenv_path) }}" }
+
     - { role: app-pip-install-requirements,
         APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}",
         REQUIREMENTS_FILE_NAME: 'requirements.txt',
