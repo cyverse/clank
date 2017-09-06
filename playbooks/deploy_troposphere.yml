@@ -27,6 +27,7 @@
     - { role: setup-virtualenv,
         VIRTUAL_ENV_NAME: "{{ troposphere_virtualenv_name }}",
         VIRTUAL_ENV_BASE_DIR: "{{ virtualenv_dir }}",
+        REINSTALL: "{{ REINSTALL_VENV | default(True) }}",
         tags: [ 'troposphere', 'setup-virtualenv'] }
 
     - { role: clone-repo,

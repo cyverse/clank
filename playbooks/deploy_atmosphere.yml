@@ -36,6 +36,7 @@
     - { role: setup-virtualenv,
         VIRTUAL_ENV_NAME: "{{ atmosphere_virtualenv_name }}",
         VIRTUAL_ENV_BASE_DIR: "{{ virtualenv_dir }}",
+        REINSTALL: "{{ REINSTALL_VENV | default(True) }}",
         tags: [ 'atmosphere', 'setup-virtualenv'] }
 
     - { role: clone-repo,
