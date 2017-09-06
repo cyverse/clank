@@ -2,17 +2,18 @@
 
 # Script to dump DB, restore it to different schema, run cleaning queries, and dump cleaned schema to a file
 
-/usr/bin/pg_dump -n public {{ atmosphere_database_name }} > {{ atmosphere_database_name }}.sql
+set -e
 
-sed -i 's/SET search_path/CREATE SCHEMA IF NOT EXISTS sanitize;\nSET search_path/' {{ atmosphere_database_name }}.sql
-sed -i 's/SET search_path = public/SET search_path = sanitize/' {{ atmosphere_database_name }}.sql
+/usr/bin/pg_dump -n public {{ atmosphere_database_name }} > /var/lib/postgresql/{{ atmosphere_database_name }}.sql
 
-psql {{ atmosphere_database_name }} < {{ atmosphere_database_name }}.sql
-rm {{ atmosphere_database_name }}.sql
+sed -i 's/SET search_path/CREATE SCHEMA IF NOT EXISTS sanitize;\nSET search_path/' /var/lib/postgresql/{{ atmosphere_database_name }}.sql
+sed -i 's/SET search_path = public/SET search_path = sanitize/' /var/lib/postgresql/{{ atmosphere_database_name }}.sql
+
+psql {{ atmosphere_database_name }} < /var/lib/postgresql/{{ atmosphere_database_name }}.sql
+rm /var/lib/postgresql/{{ atmosphere_database_name }}.sql
 
 # Sanitation queries
 psql {{ atmosphere_database_name }} << EOF
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 UPDATE sanitize.access_token SET key = 'KEY_REDACTED';
 UPDATE sanitize.atmosphere_user SET password = 'PASSWORD_REDACTED';
 UPDATE sanitize.ssh_key SET pub_key = 'PUB_KEY_REDACTED';
