@@ -12,15 +12,7 @@ Please refer to the updated [Usage](README.md#usage) section.
 
 Features and improvements are noted in the [CHANGELOG](CHANGELOG.md).
 
-Any problems discover, please log an [Issue](https://github.com/iPlantCollaborativeOpenSource/clank/issues).
-
-### Contributors
-- Andre Mercer
-- Andrew Lenards
-- Connor Osborn
-- Julian Pistorius
-- Lucas H. Xu
-- Logo by Mariah Wall
+Any problems discover, please log an [Issue](https://github.com/CyVerse/clank/issues).
 
 ## v1.0.0
 
