@@ -18,9 +18,17 @@ Any problems discover, please log an [Issue](https://github.com/CyVerse/clank/is
 
 Initial release.
 
-### Contributors
-- Andre Mercer
-- Steve Gregory
+
+### Contributors (Alphebetical by last name)
+- Tharon Carlson
 - Matt DePorter
+- Steve Gregory
 - Andrew Lenards
-- Logo by Mariah Wall
+- Chris Martin
+- Calvin Mclean
+- Andre Mercer
+- Connor Osborn
+- Julian Pistorius
+- Edwin Skidmore
+- Mariah Wall (Logo)
+- Lucas H. Xu
