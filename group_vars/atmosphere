@@ -135,6 +135,8 @@ ATMO:
         TIME_ZONE: "{{ TIME_ZONE | default('') }}"
         ORG_NAME: "{{ ORG_NAME | default('') }}"
         AUTO_CREATE_NEW_ACCOUNTS: True
+        AUTO_CREATE_NEW_PROJECTS: {{ AUTO_CREATE_NEW_PROJECTS | default(False) }}
+        ALLOCATION_SOURCE_COMPUTE_ALLOWED: {{ ALLOCATION_SOURCE_COMPUTE_ALLOWED | default('') }}
         ACCOUNT_CREATION_PLUGINS: "{{ ACCOUNT_CREATION_PLUGINS | default(['atmosphere.plugins.accounts.creation.UserGroup']) }}"
         # CyVerse Specific
         GROUPER_API: "{{ GROUPER_API | default('') }}"
