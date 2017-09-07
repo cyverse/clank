@@ -39,7 +39,7 @@ EOF
 
 sed -i 's/CREATE SCHEMA sanitize;//' /tmp/{{ atmosphere_database_name }}-sanitized.sql
 sed -i 's/ALTER SCHEMA sanitize OWNER TO postgres;//' /tmp/{{ atmosphere_database_name }}-sanitized.sql
-
+sed -i 's/SET search_path = public/SET search_path = sanitize/' /tmp/{{ atmosphere_database_name }}-sanitized.sql
 
 # Cleanup
 psql {{ atmosphere_database_name }} > /dev/null << EOF
