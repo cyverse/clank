@@ -14,6 +14,7 @@ rm /var/lib/postgresql/{{ atmosphere_database_name }}.sql
 
 # Sanitation queries
 psql {{ atmosphere_database_name }} << EOF
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 UPDATE sanitize.access_token SET key = 'KEY_REDACTED';
 UPDATE sanitize.atmosphere_user SET password = 'PASSWORD_REDACTED';
 UPDATE sanitize.ssh_key SET pub_key = 'PUB_KEY_REDACTED';
