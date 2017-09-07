@@ -154,7 +154,7 @@ AUTH_MOCK_USER: "atmosphere_user"
 
 ###
 # THEME_IMAGES_PATH, expects an absolute path to an images directory
-# We recommend making a copy of the themeImagesDefault directory in Troposphere 
+# We recommend making a copy of the themeImagesDefault directory in Troposphere
 # <projectDir>/troposphere/static/theme/themeImagesDefault
 # Place it in an init directory and replace any image with a new image of equal size and name
 # Uncomment the variable below.
@@ -266,6 +266,12 @@ AUTH_MOCK_USER: "atmosphere_user"
 #     TROPO_LABEL: ""
 #     ENVIRONMENT: ""
 #     BROWSER: 'partials/__new_relic_browser.html'
+
+###
+# django-prometheus
+###
+###
+# ATMO_ENABLE_DJANGO_PROMETHEUS: true
 
 ###############################
 #5. App-specific overrides
