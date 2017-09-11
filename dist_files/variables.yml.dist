@@ -16,8 +16,6 @@
 ###############################
 WORKSPACE: /opt/dev  #NOTE: This is where atmosphere/troposphere directories reside.
 VIRTUAL_ENV_DIR: "/opt/env"  #NOTE: This is where atmosphere/troposphere virtualenv directories reside.
-INSTALLATION_TYPE: "production"  # can be development or production
-#TODO:-- currently INSTALLATION_TYPE deals only with installing the correct requirements.txt -- but could be used to override DJANGO_JENKINS and/or celeryd
 
 ###
 # SECRETS_REPO - This repo should contain the SSH Keys, TLS certificates, and an atmosphere-ansible directory (including hosts file and group_vars directory) that you intend to use when installing Atmosphere.
@@ -307,6 +305,7 @@ AUTH_MOCK_USER: "atmosphere_user"
 ###############################
 #Uncomment for faster Clank run (you will not get very latest packages, do not use in production!)
 # faster_dev_rebuild: true
+
 #Uncomment so that virtualenvs stick around after multiple deploys (much faster build time, sometimes causes pip package issues)
 # REINSTALL_VENV: false
 
@@ -316,3 +315,8 @@ AUTH_MOCK_USER: "atmosphere_user"
 
 # Uncomment in a development environment if you want to allow self-signed certs for nginx
 # ENABLE_STRICT_TRANSPORT: false
+
+#
+# Uncomment to install development python packages (this will only add
+# additional packages to the set of production packages)
+# INSTALL_DEV_REQUIREMENTS: true

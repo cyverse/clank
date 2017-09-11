@@ -31,7 +31,7 @@
         VIRTUAL_ENV: "{{ VIRTUAL_ENV_ATMOSPHERE | default(atmosphere_virtualenv_path) }}",
         PIP_EXTRA_ARGS: '{% if faster_dev_rebuild == false %}--no-cache-dir {% endif %}--no-binary pycparser',
         tags: ['atmosphere', 'pip-install-requirements'],
-        when: installation_type is not defined or installation_type != 'development'}
+        when: not (INSTALL_DEV_REQUIREMENTS | default(False)) }
 
     - { role: app-pip-install-requirements,
         APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}",
@@ -40,7 +40,7 @@
         VIRTUAL_ENV: "{{ VIRTUAL_ENV_ATMOSPHERE | default(atmosphere_virtualenv_path) }}",
         PIP_EXTRA_ARGS: '{% if faster_dev_rebuild == false %}--no-cache-dir {% endif %}--no-binary pycparser',
         tags: ['atmosphere', 'pip-install-requirements'],
-        when: installation_type is defined and installation_type == 'development'}
+        when: INSTALL_DEV_REQUIREMENTS | default(False) }
 
     - { role: app-config-logging,
         APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}",
