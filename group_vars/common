@@ -12,7 +12,6 @@ nginx_locations: ["atmo-uwsgi", "tropo-uwsgi", "flower", "tropo-assets-path", "r
 staff_list_usernames: "{{ STAFF_LIST_USERNAMES | default([]) }}"
 maintenance_exempt_usernames: "{{ MAINTENANCE_EXEMPT_USERNAMES | default(staff_list_usernames) }}"
 install_jenkins: "{{ DJANGO_JENKINS | default(False) }}"
-faster_dev_rebuild: false
 shallow_clone: true
 TLS_LETSENCRYPT_TLS_SERVICE: "nginx"
 FLOWER_PORT: 5555
