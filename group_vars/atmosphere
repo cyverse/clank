@@ -47,7 +47,7 @@ ATMO:
         VIRTUALENV_PATH: "{{ atmosphere_virtualenv_path }}"
 
     uwsgi.ini:
-        LOCAL_DEV: False
+        LOCAL_DEV: "{{ LOCAL_DEV | default(False) }}"
         PATH_TO_ATMOSPHERE: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}"
         VIRTUALENV_PATH: "{{ atmosphere_virtualenv_path }}"
         NUM_PROCESSES: "{{ atmosphere_uwsgi_processes }}"

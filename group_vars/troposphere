@@ -57,7 +57,7 @@ TROPO:
         ENABLE_WEBPACK_DEV_SERVER: "{{ ENABLE_WEBPACK_DEV_SERVER | default(False) }}"
 
     uwsgi.ini:
-        LOCAL_DEV: False
+        LOCAL_DEV: "{{ LOCAL_DEV | default(False) }}"
         PATH_TO_TROPOSPHERE: "{{ TROPOSPHERE_LOCATION | default(troposphere_directory_path) }}"
         VIRTUALENV_PATH: "{{ VIRTUAL_ENV_TROPOSPHERE | default(troposphere_virtualenv_path) }}"
         NUM_PROCESSES: "{{ troposphere_uwsgi_processes }}"
