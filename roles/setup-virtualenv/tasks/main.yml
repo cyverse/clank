@@ -1,7 +1,13 @@
 - name: create directory
   file: path={{ VIRTUAL_ENV_BASE_DIR }} state=directory
 
-- name: Manually create the initial virtualenv
+- name: Remove virtualenv
+  file:
+    path: "{{ VIRTUAL_ENV_FULL_PATH }}"
+    state: absent
+  when: REINSTALL | default(False)
+
+- name: Create virtualenv
   command: virtualenv {{ VIRTUAL_ENV_FULL_PATH }} creates="{{ VIRTUAL_ENV_FULL_PATH }}"
   register: output
 
