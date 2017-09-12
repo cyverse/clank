@@ -1,12 +1,14 @@
-- copy:
+- name: "Copy the current theme contents into /theme/other/{{ THEME_IMAGES_PATH | basename}}"
+  copy:
     force: yes
     src: "{{ THEME_IMAGES_PATH }}"
     dest: /opt/dev/troposphere/troposphere/static/theme/other
     owner: www-data
     group: www-data
   when: THEME_IMAGES_PATH is defined
-
-- file:
+  
+- name: "Symlink theme location to point to /theme/themeImages"
+  file: 
      src: "/opt/dev/troposphere/troposphere/static/theme/other/{{ THEME_IMAGES_PATH | basename }}"
      dest: /opt/dev/troposphere/troposphere/static/theme/themeImages
      owner: www-data
