@@ -1,18 +1,7 @@
 ---
-# tasks file for app-load-data-postgres
-
-- debug: var=LOAD_DATABASE
-  when: DEBUG_OR_TEST_ROLE | default(False)
-
-- debug: var=DATABASE_FILE_TO_BE_LOADED
-  when: DEBUG_OR_TEST_ROLE | default(False)
-
 - name: copy over sql script for postgresql to run
   copy: src={{ DATABASE_FILE_TO_BE_LOADED }} dest={{ POSTGRES_SQL_INSTALL_DIRECTORY }}
   when: LOAD_DATABASE
-
-- debug: var={{ TARGET_SQL_LOAD_FILE }}
-  when: DEBUG_OR_TEST_ROLE | default(False)
 
 - name: run sql script for postgresql
   become: yes
