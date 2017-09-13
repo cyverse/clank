@@ -36,6 +36,14 @@ cd clank
 
 An example of the [`$VARIABLES_YML_FILE`](dist_files/variables.yml.dist) can be found in the [dist_files](dist_files) directory.
 
+### Optional Extra Functionality
+
+Clank provides optional functionality that is used in some, but not all deployments. Enable these optional configurations by setting the corresponding variable to `true` (e.g. in your variables.yml).
+
+| **Variable**               | **Purpose**                                                       |
+|----------------------------|-------------------------------------------------------------------|
+| SETUP_SANITARY_SQL_ACCESS  | external read-only access to subset of DB without secrets         |
+
 ### Running Portions of Clank
 
 [WIP] -- All of clank should be re-evaluated to ensure that the 3 'supported tags' listed below cover enough ground. For now, ignore this section. -- [WIP]
@@ -105,7 +113,7 @@ We recomened copying the `defaultThemeImages` folder found in Troposphere
 `<projectRoot>/troposphere/static/theme/themeImagesDefault`
 
 Replace any image in the folder with your new image keeping the same name and file type. It is important that the new image has the same dimensions and uses a transparent background or it may not display correctly. Your image may not be the same ratio as the image you are replacing but the file should be. For example, your logo might be shorter in length given the same height. Without distorting the logo ratio, align it to the left of the file and export the file at the same dimensions of the original file.
- 
+
 
 ```
 File Dimentions
