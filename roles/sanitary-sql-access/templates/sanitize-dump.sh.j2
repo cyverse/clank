@@ -3,14 +3,13 @@
 # Exit if any command fails
 set -e;
 
-# Create temporary db used to create db dump;
+# Create temporary database used to create database dump
 createdb tmp_sanitary_db;
 
-# If we exit for any reason (including end of this script), remove the
-# temporary db
+# If we exit for any reason (including end of this script), remove the temporary database
 trap 'dropdb tmp_sanitary_db' EXIT;
 
-# Make sanitary db a clone of production db
+# Dump production database and load into temporary database
 pg_dump {{ atmosphere_database_name }} | psql tmp_sanitary_db;
 
 # Sanitize db
