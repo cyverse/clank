@@ -4,7 +4,8 @@
     path: "{{ role_path }}/build"
     state: directory
 
-- template:
+- name: Generate ssl configuration file
+  template:
     src: "{{ role_path }}/templates/openssl-req.cnf.j2"
     dest: "{{ role_path }}/build/openssl-req.cnf"
 
@@ -24,6 +25,8 @@
     -days 3650
     -keyout {{ TLS_PRIVKEY_DEST_DIR }}/{{ TLS_DEST_BASENAME }}.key
     -out {{ TLS_CERT_DEST_DIR }}/{{ TLS_DEST_BASENAME }}.crt
+  args:
+    creates: "{{ TLS_CERT_DEST_DIR }}/{{ TLS_DEST_BASENAME }}.crt"
 
 - name: Empty CA chain file created
   tags: [selfsigned-empty-bundle-created]

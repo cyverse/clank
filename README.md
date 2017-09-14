@@ -2,39 +2,61 @@
 
 # Clank  [![Build Status](https://travis-ci.org/cyverse/clank.svg?branch=master)](https://travis-ci.org/cyverse/clank)
 
-Clank is a deployment tool for [Atmosphere](http://www.cyverse.org/atmosphere).
+Clank is a deployment tool for [Atmosphere](http://www.cyverse.org/atmosphere), written in [Ansible](http://ansible.com).
 
+## Supported Operating Systems
 
-## Installation
+At this time, Clank only supports deploying Atmosphere to Ubuntu 14.04. The deployment host which runs Clank can run any operating system which supports Ansible.
 
-Fetch packages required to build dependencies.
-```bash
-apt-get update
-apt-get install -y git python python-pip python-dev libffi-dev libssl-dev python-virtualenv
+## Usage
 
-```
+### Installation
 
-Fetch the repository.
+Clone the repository.
 ```
 git clone https://github.com/cyverse/clank.git
 ```
 
-Prepare an environment for clank.
+Obtain Ansible of the version specified in `requirements.txt`. One way is to use a Python virtual environment, like this:
+
 ```
+# Install Python dependencies if needed
+apt-get update
+apt-get install -y python python-pip python-dev libffi-dev libssl-dev python-virtualenv
+# Create virtual environment, activate it, and install Ansible
 virtualenv clank_env
 . clank_env/bin/activate
 pip install -r clank/requirements.txt
 ```
 
+### Configuring Clank
 
-## Usage
+#### Variables File
 
-```bash
-cd clank
-./clank.py --env_file $VARIABLES_YML_FILE
+Clank is configured using a set of YAML variables which override default settings. See [dist_files/variables.yml.dist](dist_files/variables.yml.dist), which you can copy and customize for your deployment.
+
+#### Target Host
+
+By default, Clank is configured to deploy against localhost. To deploy to a remote target, modify the `hosts` file, replacing `localhost` with the desired target.
+
+### Running Clank
+
 ```
+ansible-playbook playbooks/deploy_stack.yml -e @/path/to/my/clank-variables.yml
+```
+To ensure you pick up the appropriate Ansible configuration, either run Clank from the root of this repository, or set the environment variable `ANSIBLE_CONFIG=/path/to/your/clank-repo/ansible.cfg`.
 
-An example of the [`$VARIABLES_YML_FILE`](dist_files/variables.yml.dist) can be found in the [dist_files](dist_files) directory.
+### Common Options
+
+Skip some steps for a faster rebuild (after Clank has already run at least once):
+
+`--skip-tags "clone-repo,data-load,npm,pip-install-requirements,apt-install"`
+
+Verbose Ansible output for troubleshooting:
+
+`-vvvvv -e "CLANK_VERBOSE=true" --tags print-vars`
+
+All features of `ansible-playbook` are at your disposal, which can be viewed by running `ansible-playbook --help`.
 
 ### Optional Extra Functionality
 
@@ -55,31 +77,23 @@ deployment process, pass a comma separated list to the `--tags` option.
 Supported tags: `dependencies`, `atmosphere`, `troposphere`
 
 ```bash
-./clank.py --env_file $VARIABLES_YML_FILE --tags dependencies,troposphere
+ansible-playbook playbooks/deploy_stack.yml -e @/path/to/my/clank-variables.yml --tags dependencies,troposphere
 ```
 
 You can actually specify any tag you may find in the roles and playbooks. Clank
-is a thin-wrapper over ansible.
+is just Ansible.
 
 ### Running Clank Utilities
 
 Clank comes with several useful [utilities](playbooks/utils/README.md) located
-in `./playbooks/utils/*`.
+in `playbooks/utils/`.
 
-To run a particular utility use the `--playbook` flag:
+You can run a particular utility just like any other playbook:
 ```bash
-./clank.py -env_file $VARIABLES_YML_FILE --playbook playbooks/utils/upgrade_postgres.yml
+ansible-playbook -e @/path/to/my/clank-variables.yml playbooks/utils/upgrade_postgres.yml
 ```
 
-### Passing extra arguments to ansible-playbook
-
-Any arguments that Clank itself doesn't recognize will be passed to the resulting `ansible-playbook` run, which exposes the full capabilities of the `ansible-playbook` command. For example, if you have secrets that are encrypted with Ansible Vault, you can append `--ask-vault-pass` to your Clank command, and Ansible will prompt you for a password interactively.
-
-## List of Files Needed Beforehand
-
-### Completed variables.yml file
-
-* variables.yml (See [variables dist](dist_files/variables.yml.dist) for blank template)
+## Things you may wish to configure in your variables
 
 ### SSL configuration files (Not required)
 
@@ -92,7 +106,7 @@ Any arguments that Clank itself doesn't recognize will be passed to the resultin
 * A private id_rsa file
 * A public id_rsa file
 
-### Atmosphere and Troposphere DB FILES TO BE LOADED (Not required)
+### Atmosphere and Troposphere database dump files (Not required)
 
 * atmosphere.sql
 * troposphere.sql
@@ -100,11 +114,11 @@ Any arguments that Clank itself doesn't recognize will be passed to the resultin
 The location of these files *must* be stated in your _completed_
 [variables.yml](https://github.com/CyVerse/clank/blob/master/dist_files/variables.yml.dist#L52-L63).  # FIXME: bad linked-lines.
 
-## Custom Theme
+### Custom Theme
 
 You can change the images and colors used in [troposphere](https://github.com/cyverse/troposphere) to reflect your own institution's  branding.
 
-### Theme Images
+#### Theme Images
 To change images like the logo or favicon, add the absolute path to your theme images folder to the variable `THEME_IMAGES_PATH` in `variables.yml`.
 ```
 THEME_MAGES_PATH: "/absoulte/path/to/your-images"
@@ -123,7 +137,7 @@ File Dimentions
 +--------------------     +
 +++++++++++++++++++++++++++
 ```
-### Theme Colors
+#### Theme Colors
 To change the theme colors edit the color variable. Colors are used by cyverse-ui and Material-ui for components like buttons, toggles, radios, etc... See [Our Style Guide](https://cyverse.github.io/cyverse-ui/) for more information on how colors are used by components.
 
 ## Contributing to clank
