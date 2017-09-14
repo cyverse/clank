@@ -6,7 +6,7 @@ Clank is a deployment tool for [Atmosphere](http://www.cyverse.org/atmosphere), 
 
 ## Supported Operating Systems
 
-At this time, Clank only supports deploying Atmosphere to Ubuntu 14.04. The deployment host which runs Clank can run operating system which supports Ansible.
+At this time, Clank only supports deploying Atmosphere to Ubuntu 14.04. The deployment host which runs Clank can run any operating system which supports Ansible.
 
 ## Usage
 
