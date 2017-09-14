@@ -29,7 +29,6 @@
     - cp dist_files/variables.yml.dist variables.yml
 
   script:
-    # Warp YAML into submission to run clank
     - >-
       ansible-playbook playbooks/deploy_stack.yml
       -e @variables.yml
