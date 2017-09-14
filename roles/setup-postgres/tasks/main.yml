@@ -19,11 +19,43 @@
         insertbefore: "^local +all +all +peer"
 
         line: "local   all              {{ DBUSER }}                  md5"
-
+  when: ansible_distribution == 'Ubuntu'
   tags:
     - postgres
 
-- name: Restart postgres to reload configuration
-  service: name=postgresql state=restarted args={{ DB_VERSION }}
+- block:
+    - name: "CentOS: Check if it needs initialization"
+      shell: test -f {{ postgresql_data_directory }}/PG_VERSION
+      register: postgresql_needs_init
+      changed_when: false
+      failed_when: false
+      tags:
+        - postgresql_config
+
+    - name: "CentOS: Initialize the DB with init.d"
+      shell: /usr/pgsql-9.6/bin/postgresql96-setup initdb
+      environment:
+        PGDATA: "{{ postgresql_data_directory }}"
+      when: >
+        postgresql_needs_init.rc > 0
+      tags:
+        - postgresql_config
+
+    - name: "CentOS: Explicitly remove database user, to ensure inserting in the right location"
+      lineinfile:
+          dest: "{{ postgresql_hba_config_file }}"
+          regexp: "^local +all +{{ DBUSER }} +md5"
+          state: absent
+
+    - name: "CentOS: Give database user ({{ DBUSER }}) password authentication on domain sockets"
+      lineinfile:
+        dest: "{{ postgresql_hba_config_file }}"
+        # Note: We must insert 'line' before this more restrictive line, if it exists.
+        insertbefore: "^local +all +all +peer"
+
+        line: "local   all              {{ DBUSER }}                  md5"
+      notify:
+        - Restart PostgreSQL server
+  when: ansible_distribution == 'CentOS'
   tags:
     - postgres

@@ -1,2 +1,7 @@
+- name: Restart PostgreSQL server
+  service:
+    name: "{{ postgresql_service }}"
+    state: restarted
+
 - name: restart postgresql
   service: name=postgresql state=started args={{ DB_VERSION }}

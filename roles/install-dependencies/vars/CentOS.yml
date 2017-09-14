@@ -1,0 +1,39 @@
+YUM_PACKAGES:
+  - https://rpm.nodesource.com/pub_4.x/el/{{ ansible_distribution_major_version }}/{{ ansible_architecture }}/nodesource-release-el{{ ansible_distribution_major_version }}-1.noarch.rpm
+  - https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpm
+
+INITIAL_PACKAGES:
+  - "@Development tools" #gcc, make
+
+DEV_PACKAGES:
+  - libffi-devel
+  - python
+  - openssl
+  - postgresql96-server
+  - postgresql96-contrib
+  - postgresql96-devel
+  - postgresql96-libs
+  - python-devel
+  - openldap-devel
+  - m2crypto
+  - swig
+  - redis #epel
+  - git
+  - nodejs
+  - python-setuptools
+  - python-psycopg2
+  - ufw
+
+LIB_PACKAGES:
+  - libxml2-devel
+  - libxslt-devel
+  - tkinter
+  - tk-devel
+  - zlib-devel
+
+NGINX_PACKAGES:
+  - uwsgi
+  - uwsgi-plugin-python
+  - nginx
+
+APACHE: httpd

@@ -79,7 +79,6 @@
 
     - { role: setup-webserver-user-group,
         APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION | default(troposphere_directory_path) }}",
-        WEBSERVER_USER: "www-data",
         tags: ['troposphere', 'set-permissions'] }
 
     # The logrotate-files role must come after the setup-webserver-user-group role.                                         # This is because setup-webserver-user-group sets the permissions on all files in that directory the

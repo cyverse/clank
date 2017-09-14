@@ -25,6 +25,12 @@
   become_user: postgres
   when: LOAD_DATABASE
 
+- name: Start PostgreSQL and enable at boot
+  service:
+    name: postgresql-9.6
+    enabled: yes
+    state: started
+
 - name: database {{ DBNAME | default("") }} is created
   postgresql_db: name={{ DBNAME }} state=present login_user=postgres
   become: yes

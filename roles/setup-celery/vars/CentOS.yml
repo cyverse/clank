@@ -1,0 +1,4 @@
+INIT_LOCATION: /etc/init.d
+SYSD_LOCATION: /etc/systemd/system
+CELERYD: ubuntu.celeryd
+CELERYBEAT: ubuntu.celerybeat

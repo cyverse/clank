@@ -1,41 +1,40 @@
 ---
   # use the new container infrastructure
   sudo: required
-  dist: trusty
 
-  # Use an older version of trusty until quirks are figured out.
-  # https://blog.travis-ci.com/2017-06-21-trusty-updates-2017-Q2-launch
-  group: deprecated-2017Q2
+  services:
+    - docker
 
   cache: pip
 
   language: python
   python: "2.7"
 
+  env:
+    matrix:
+      - OS_TYPE=centos OS_VERSION=7
+
   before_install:
     - sudo apt-get update
-    - sudo apt-get install -y git python python-pip python-dev libffi-dev libssl-dev software-properties-common python-software-properties
-    - sudo apt-get purge --auto-remove redis-server
     - sudo pg_dropcluster --stop 9.2 main
     - sudo pg_dropcluster --stop 9.3 main
     - sudo pg_dropcluster --stop 9.4 main
     - sudo pg_dropcluster --stop 9.5 main
     - sudo pg_lsclusters # For testing purposes
-
-  before_script:
-    - virtualenv clank_env
-    - . clank_env/bin/activate
-    - pip install -r requirements.txt
-    - cp dist_files/variables.yml.dist variables.yml
+    - echo 'DOCKER_OPTS="-H tcp://127.0.0.1:2375 -H unix:///var/run/docker.sock -s devicemapper"' | sudo tee /etc/default/docker > /dev/null
+    - sudo service docker restart
+    - sleep 5
+    - sudo docker pull centos:centos${OS_VERSION}
 
   script:
+    - sudo bash tests/setup_centos_tests.sh
     # Warp YAML into submission to run clank
-    - >-
-      clank_env/bin/python ./clank.py
-      --env_file variables.yml
-      -x "atmosphere_github_branch=\"${ATMO_GITHUB_BRANCH:-master}\""
-      -x "atmosphere_github_repo=\"${ATMO_GITHUB_REPO:-https://github.com/CyVerse/atmosphere.git}\""
-      -x "troposphere_github_branch=\"${TROPO_GITHUB_BRANCH:-master}\""
-      -x "troposphere_github_repo=\"${TROPO_GITHUB_REPO:-https://github.com/CyVerse/troposphere.git}\""
-      --skip-tags "distro-update,create-nginx-uwsgi,enable-services"
-      -b
+#    - >-
+#      clank_env/bin/python ./clank.py
+#      --env_file variables.yml
+#      -x "atmosphere_github_branch=\"${ATMO_GITHUB_BRANCH:-master}\""
+#      -x "atmosphere_github_repo=\"${ATMO_GITHUB_REPO:-https://github.com/CyVerse/atmosphere.git}\""
+#      -x "troposphere_github_branch=\"${TROPO_GITHUB_BRANCH:-master}\""
+#      -x "troposphere_github_repo=\"${TROPO_GITHUB_REPO:-https://github.com/CyVerse/troposphere.git}\""
+#      --skip-tags "distro-update,create-nginx-uwsgi,enable-services"
+#      -b

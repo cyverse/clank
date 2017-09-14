@@ -1,0 +1,3 @@
+postgresql_data_directory: /var/lib/pgsql/{{ db_version | default('9.6') }}/data
+postgresql_hba_config_file: "{{ postgresql_data_directory }}/pg_hba.conf"
+postgresql_service: postgresql-{{ db_version | default('9.6') }}%
