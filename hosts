@@ -1,14 +1,5 @@
-[atmosphere]
-target
-
-[atmosphere_ansible]
-target
-
-[troposphere]
-target
-
-[common]
-target
+[target-host]
+localhost
 
 [full_deploy:children]
 common
@@ -16,5 +7,14 @@ atmosphere
 atmosphere_ansible
 troposphere
 
-[target]
-localhost
+[atmosphere:children]
+target-host
+
+[atmosphere_ansible:children]
+target-host
+
+[troposphere:children]
+target-host
+
+[common:children]
+target-host
