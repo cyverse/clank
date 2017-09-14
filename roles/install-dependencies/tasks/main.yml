@@ -54,7 +54,7 @@
 - name: Dev packages installed
   package:
     name: '{{ item }}'
-    state: '{{ latest }}'
+    state: 'latest'
   with_items: '{{ DEV_PACKAGES }}'
   tags:
     - 'install'
@@ -63,7 +63,7 @@
 - name: Lib packages installed
   package:
     name: '{{ item }}'
-    state: '{{ latest }}'
+    state: 'latest'
   with_items: '{{ LIB_PACKAGES }}'
   tags:
     - 'install'
@@ -72,7 +72,7 @@
 - name: Nginx packages installed
   package:
     name: '{{ item }}'
-    state: '{{ latest }}'
+    state: 'latest'
   with_items: '{{ NGINX_PACKAGES }}'
   tags:
     - 'install'
