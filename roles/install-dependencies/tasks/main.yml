@@ -1,66 +1,87 @@
-# tasks file for atmosphere-install-dependencies
+# tasks file for install-dependencies
 
-- name: gather os specific variables
-  include_vars: "{{ item }}"
+- name: OS-specific variables gathered
+  include_vars: '{{ item }}'
   with_first_found:
-    - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
-    - "{{ ansible_distribution }}.yml"
-    - "{{ ansible_os_family }}.yml"
-    - "defaults.yml"
-  tags: vars
+    - '{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml'
+    - '{{ ansible_distribution }}.yml'
+    - '{{ ansible_os_family }}.yml'
+    - 'defaults.yml'
+  tags: 'vars'
 
-- name: turn off apache
-  service: name={{ APACHE }} state=stopped enabled=no
-  failed_when: False
+- name: Apache service stopped and disabled
+  service:
+    name: '{{ APACHE }}'
+    state: 'stopped'
+    enabled: 'no'
+  failed_when: false
 
-- name: remove old apt repositories
-  apt_repository: repo={{ item }} state=absent
-  with_items: "{{ APT_REPOSITORIES_TO_REMOVE.packages }}"
-  when: ansible_distribution == "Ubuntu"
+- name: Old repositories removed
+  apt_repository:
+    repo: '{{ item }}'
+    state: 'absent'
+  with_items: '{{ APT_REPOSITORIES_TO_REMOVE }}'
+  when: 'ansible_distribution == "Ubuntu"'
 
-- name: add apt keys
-  apt_key: data={{ lookup('file', item) }} state=present
-  with_items: "{{ APT_KEYS_TO_ADD.packages }}"
-  when: ansible_distribution == "Ubuntu"
+- name: APT keys added
+  apt_key:
+    data: '{{ item.value }}'
+    state: 'present'
+  with_items: '{{ APT_KEYS_TO_ADD }}'
+  when: 'ansible_distribution == "Ubuntu"'
 
-- name: add apt repositories
-  apt_repository: repo={{ item }} state=present
-  with_items: "{{ APT_REPOSITORIES_TO_ADD.packages }}"
-  when: ansible_distribution == "Ubuntu"
+- name: Repositories added
+  apt_repository:
+    repo: '{{ item }}'
+    state: 'present'
+  with_items: '{{ APT_REPOSITORIES_TO_ADD }}'
+  when: 'ansible_distribution == "Ubuntu"'
 
-- name: update cache as a separate step
-  apt: update_cache=yes
-  when:
-    - ansible_distribution == "Ubuntu"
+- name: Package cache updated
+  apt:
+    update_cache: true
+  when: 'ansible_distribution == "Ubuntu"'
   tags: apt-install
 
-- name: install initial packages
+- name: Initial packages installed
   action: >
     {{ ansible_pkg_mgr }} name={{ item }} state=latest update_cache=no
-  with_items: "{{ INITIAL_PACKAGES.packages }}"
-  tags: install, apt-install
+  with_items: '{{ INITIAL_PACKAGES }}'
+  tags:
+    - 'install'
+    - 'apt-install'
 
-- name: install dev packages
-  action: >
-    {{ ansible_pkg_mgr }} name={{ item }} state=latest
-  with_items: "{{ DEV_PACKAGES.packages }}"
-  tags: install, apt-install
+- name: Dev packages installed
+  package:
+    name: '{{ item }}'
+    state: '{{ latest }}'
+  with_items: '{{ DEV_PACKAGES }}'
+  tags:
+    - 'install'
+    - 'apt-install'
 
-- name: install lib packages
-  action: >
-    {{ ansible_pkg_mgr }} name={{ item }} state=latest
-  with_items: "{{ LIB_PACKAGES.packages }}"
-  tags: install, apt-install
+- name: Lib packages installed
+  package:
+    name: '{{ item }}'
+    state: '{{ latest }}'
+  with_items: '{{ LIB_PACKAGES }}'
+  tags:
+    - 'install'
+    - 'apt-install'
 
-- name: install nginx packages
-  action: >
-    {{ ansible_pkg_mgr }} name={{ item }} state=latest
-  with_items: "{{ NGINX_PACKAGES.packages }}"
-  tags: install, apt-install
+- name: Nginx packages installed
+  package:
+    name: '{{ item }}'
+    state: '{{ latest }}'
+  with_items: '{{ NGINX_PACKAGES }}'
+  tags:
+    - 'install'
+    - 'apt-install'
 
-- name: pip install python packages
-  pip: name={{ item }}
+- name: Python packages installed via pip
+  pip:
+    name: '{{ item }}'
   with_items:
-    - virtualenv
-    - wheel
-    - setuptools
+    - 'virtualenv'
+    - 'wheel'
+    - 'setuptools'
