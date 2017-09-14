@@ -44,6 +44,7 @@ By default, Clank is configured to deploy against localhost. To deploy to a remo
 ```
 ansible-playbook playbooks/deploy_stack.yml -e @/path/to/my/clank-variables.yml
 ```
+To ensure you pick up the appropriate Ansible configuration, either run Clank from the root of this repository, or set the environment variable `ANSIBLE_CONFIG=/path/to/your/clank-repo/ansible.cfg`.
 
 ### Common Options
 
