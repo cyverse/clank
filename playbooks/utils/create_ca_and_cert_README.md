@@ -20,9 +20,9 @@ After running that playbook you should see a bunch of new `*.pem` files.
 
 Add/update the following variables in your variables file:
 ```yaml
-TLS_PRIVKEY_SRC_FILE: "/path/to/*.server.key.pem"
-TLS_CERT_SRC_FILE:    "/path/to/*.server.cert.pem"
-TLS_CACHAIN_SRC_FILE: "/path/to/*.ca.cert.pem"
+TLS_BYO_PRIVKEY_SRC: "/path/to/*.server.key.pem"
+TLS_BYO_CERT_SRC:    "/path/to/*.server.cert.pem"
+TLS_BYO_CACHAIN_SRC: "/path/to/*.ca.cert.pem"
 ```
 
 At this point you should do a redeploy.
