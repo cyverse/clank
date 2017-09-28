@@ -39,6 +39,7 @@
     src: "/tmp/uwsgi-{{ UWSGI_VERSION }}/{{ item.src }}"
     dest: "{{ item.dest }}"
     remote_src: yes
+    mode: 0755
   with_items:
     - { src: "uwsgi", dest: "{{ INSTALL_ENV }}/bin/uwsgi" }
 
@@ -46,3 +47,19 @@
   file:
     state: absent
     path: "/tmp/uwsgi-{{ UWSGI_VERSION }}"
+
+- name: Create required directories for uwsgi
+  file:
+    state: directory
+    path: "{{ item }}"
+    owner: "www-data"
+    group: "www-data"
+  with_items:
+    - "/usr/share/uwsgi/conf"
+    - "/run/uwsgi/app/troposphere"
+    - "/run/uwsgi/app/atmosphere"
+
+- name: Add default uwsgi ini
+  copy:
+    src: "files/uwsgi_default.ini"
+    dest: "/usr/share/uwsgi/conf/default.ini"
