@@ -32,7 +32,7 @@
   args:
     chdir: "/tmp/uwsgi-{{ UWSGI_VERSION }}"
   with_items:
-    - "python uwsgiconfig.py --build custom"
+    - "/root/.pyenv/shims/python uwsgiconfig.py --build custom"
 
 - name: Move uWSGI and plugin to path
   copy:
