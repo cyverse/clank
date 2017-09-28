@@ -57,7 +57,7 @@ TROPO:
         ENABLE_WEBPACK_DEV_SERVER: "{{ ENABLE_WEBPACK_DEV_SERVER | default(False) }}"
 
     uwsgi.ini:
-        LOCAL_DEV: False
+        LOCAL_DEV: "{{ LOCAL_DEV | default(False) }}"
         PATH_TO_TROPOSPHERE: "{{ TROPOSPHERE_LOCATION | default(troposphere_directory_path) }}"
         VIRTUALENV_PATH: "{{ VIRTUAL_ENV_TROPOSPHERE | default(troposphere_virtualenv_path) }}"
         NUM_PROCESSES: "{{ troposphere_uwsgi_processes }}"
@@ -144,7 +144,7 @@ TROPO:
 
         USE_ALLOCATION_SOURCES: "{{ USE_ALLOCATION_SOURCE | default(False) }}"
         EXTERNAL_ALLOCATION: "{{ EXTERNAL_ALLOCATION | default(True) }}"
-        ALLOCATION_UNIT_NAME: "{{ ALLOCATION_UNIT_NAME | default('Allocation Units') }}"
+        ALLOCATION_UNIT_NAME: "{{ ALLOCATION_UNIT_NAME | default('Allocation Unit') }}"
         ALLOCATION_UNIT_ABBREV: "{{ ALLOCATION_UNIT_ABBREV | default('AU') }}"
         USE_MOCK_DATA: "{{ USE_MOCK_DATA | default(False) }}"
         USE_GATE_ONE_API: "{{ USE_GATE_ONE_API | default(False) }}"

@@ -1,0 +1,5 @@
+# {{ ansible_managed }}
+NEW_RELIC_ENVIRONMENT = '{{ NEW_RELIC.ENVIRONMENT }}'
+{% if new_relic_browser %}
+NEW_RELIC_BROWSER_SNIPPET = '{{ NEW_RELIC.BROWSER }}'
+{% endif %}

@@ -1,11 +1,15 @@
 ---
 
-- name: APT
+- name: APT update cache as separate step
   apt:
     update_cache: yes
+  when: ansible_pkg_mgr == "apt"
+  failed_when: false
+
+- name: APT upgrade packages
+  apt:
     upgrade: dist
   when: ansible_pkg_mgr == "apt"
-  tags: ['apt-install']
 
 - name: Yum
   yum:
@@ -13,4 +17,3 @@
     name: "*"
     state: latest
   when: ansible_pkg_mgr == "yum"
-  tags: ['apt-install']

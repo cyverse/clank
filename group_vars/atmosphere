@@ -47,7 +47,7 @@ ATMO:
         VIRTUALENV_PATH: "{{ atmosphere_virtualenv_path }}"
 
     uwsgi.ini:
-        LOCAL_DEV: False
+        LOCAL_DEV: "{{ LOCAL_DEV | default(False) }}"
         PATH_TO_ATMOSPHERE: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}"
         VIRTUALENV_PATH: "{{ atmosphere_virtualenv_path }}"
         NUM_PROCESSES: "{{ atmosphere_uwsgi_processes }}"
@@ -117,7 +117,10 @@ ATMO:
         SENTRY_ENABLED: "{{ SENTRY_DICT.ENABLED | default(False) }}"
         SENTRY_DSN: "{{ SENTRY_DICT.ATMOSPHERE_DSN | default('') }}"
         DJANGO_TEMPLATE_DEBUG: "{{ DJANGO_TEMPLATE_DEBUG | default(True) }}"
-        LOG_LIBCLOUD: "{{ LOG_LIBCLOUD | default(True) }}"
+        # LOG_LIBCLOUD:
+        # If True, will log _alL_ requests/responses made through atmosphere.
+        # WARNING: This can take up a lot of disk space.
+        LOG_LIBCLOUD: "{{ LOG_LIBCLOUD | default(False) }}"
         LOGGING_DEP_LEVEL: logging.WARNING
         LOGGING_LEVEL: logging.DEBUG
         LOGSTASH_HOST: "{{ LOGSTASH_HOST | default('') }}"
@@ -132,6 +135,8 @@ ATMO:
         TIME_ZONE: "{{ TIME_ZONE | default('') }}"
         ORG_NAME: "{{ ORG_NAME | default('') }}"
         AUTO_CREATE_NEW_ACCOUNTS: True
+        AUTO_CREATE_NEW_PROJECTS: "{{ AUTO_CREATE_NEW_PROJECTS | default(False) }}"
+        ALLOCATION_SOURCE_COMPUTE_ALLOWED: "{{ ALLOCATION_SOURCE_COMPUTE_ALLOWED | default('') }}"
         ACCOUNT_CREATION_PLUGINS: "{{ ACCOUNT_CREATION_PLUGINS | default(['atmosphere.plugins.accounts.creation.UserGroup']) }}"
         # CyVerse Specific
         GROUPER_API: "{{ GROUPER_API | default('') }}"

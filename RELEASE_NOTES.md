@@ -12,23 +12,23 @@ Please refer to the updated [Usage](README.md#usage) section.
 
 Features and improvements are noted in the [CHANGELOG](CHANGELOG.md).
 
-Any problems discover, please log an [Issue](https://github.com/iPlantCollaborativeOpenSource/clank/issues).
-
-### Contributors
-- Andre Mercer
-- Andrew Lenards
-- Connor Osborn
-- Julian Pistorius
-- Lucas H. Xu
-- Logo by Mariah Wall
+Any problems discover, please log an [Issue](https://github.com/CyVerse/clank/issues).
 
 ## v1.0.0
 
 Initial release.
 
-### Contributors
-- Andre Mercer
-- Steve Gregory
+
+### Contributors (Alphebetical by last name)
+- Tharon Carlson
 - Matt DePorter
+- Steve Gregory
 - Andrew Lenards
-- Logo by Mariah Wall
+- Chris Martin
+- Calvin Mclean
+- Andre Mercer
+- Connor Osborn
+- Julian Pistorius
+- Edwin Skidmore
+- Mariah Wall (Logo)
+- Lucas H. Xu

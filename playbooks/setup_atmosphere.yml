@@ -10,12 +10,12 @@
         DBNAME: "{{ ATMO_DBNAME | default(atmosphere_database_name) }}",
         DBUSER: "{{ ATMO_DBUSER | default(atmosphere_database_user) }}",
         DBPASSWORD: "{{ ATMO_DBPASSWORD | default(atmosphere_database_password) }}",
-        LOAD_DATABASE: "{{ ATMO_DATA.LOAD_DATABASE | default(False) }}",
+        LOAD_DATABASE: "ATMO_DATA.LOAD_DATABASE | default(False)",
         tags: ['atmosphere', 'database'] }
 
     - { role: app-load-data-postgres,
         DBNAME: "{{ ATMO_DBNAME | default(atmosphere_database_name) }}",
-        LOAD_DATABASE: "{{ ATMO_DATA.LOAD_DATABASE | default(False) }}",
+        LOAD_DATABASE: "ATMO_DATA.LOAD_DATABASE | default(False)",
         DATABASE_FILE_TO_BE_LOADED: "{{ ATMO_DATA.SQL_DUMP_FILE }}",
         when: ATMO_DATA is defined and ATMO_DATA.SQL_DUMP_FILE is defined and ATMO_DATA.LOAD_DATABASE is defined,
         tags: ['atmosphere', 'data-load'] }
@@ -31,7 +31,7 @@
     - { role: app-pip-install-requirements,
         APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}",
         REQUIREMENTS_FILE_NAME: 'requirements.txt',
-        USE_PIP_TOOLS_SYNC: True,
+        USE_PIP_TOOLS_SYNC: False,
         VIRTUAL_ENV: "{{ VIRTUAL_ENV_ATMOSPHERE | default(atmosphere_virtualenv_path) }}",
         PIP_EXTRA_ARGS: '{% if faster_dev_rebuild == false %}--no-cache-dir {% endif %}--no-binary pycparser',
         tags: ['atmosphere', 'pip-install-requirements'],
@@ -40,7 +40,7 @@
     - { role: app-pip-install-requirements,
         APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}",
         REQUIREMENTS_FILE_NAME: 'dev_requirements.txt',
-        USE_PIP_TOOLS_SYNC: True,
+        USE_PIP_TOOLS_SYNC: False,
         VIRTUAL_ENV: "{{ VIRTUAL_ENV_ATMOSPHERE | default(atmosphere_virtualenv_path) }}",
         PIP_EXTRA_ARGS: '{% if faster_dev_rebuild == false %}--no-cache-dir {% endif %}--no-binary pycparser',
         tags: ['atmosphere', 'pip-install-requirements'],
