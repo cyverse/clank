@@ -1,0 +1,8 @@
+---
+- name: Stat the destination
+  stat: path="{{ path }}"
+  register: existing
+
+- name: Remove the existing path if its a symlink
+  file: path="{{ path }}" state=absent
+  when: existing.stat.islnk is defined and existing.stat.islnk

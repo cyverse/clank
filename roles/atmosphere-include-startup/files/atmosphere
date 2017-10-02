@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# Script must be run as root
+if [ $(id -u) -ne 0 ]; then
+    echo "Error: This program can only be used by the root user";
+    exit 1;
+fi
+
+SERVICES="flower celerybeat uwsgi nginx celeryd";
+
+function usage {
+    local script_name="$(basename "$0")";
+    echo "Usage: /etc/init.d/${script_name} {start|stop|status|restart}";
+}
+
+case "$1" in
+    start | stop | status | restart)
+        for name in $SERVICES; do
+            # Echo command being run
+            echo service "$name" "$1";
+
+            # Perform action
+            service "$name" "$1" &>/dev/null;
+
+            # Fail/exit if action fails
+            if [ $? -ne 0 ]; then
+                echo "Exiting: service $name $1 failed" 2>&1;
+                echo "rerun that command, to see specific errors" 2>&1;
+                exit 1;
+            fi
+
+        done
+        ;;
+    *) usage;
+        ;;
+esac
