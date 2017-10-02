@@ -19,3 +19,4 @@ install_jenkins: "{{ DJANGO_JENKINS | default(False) }}"
 installation_type: "{{ INSTALLATION_TYPE | default('production') }}"
 faster_dev_rebuild: false
 shallow_clone: true
+TLS_LETSENCRYPT_TLS_SERVICE: "nginx"

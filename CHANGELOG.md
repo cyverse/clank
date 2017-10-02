@@ -1,5 +1,8 @@
 # CHANGELOG
 
+- Add support for obtaining and deploying a TLS certificate from [Let's Encrypt](https://letsencrypt.org)
+  ([#224](https://github.com/cyverse/clank/pull/224))
+
 ## v2.1.0 (2017-09-??)
 
 - Change `INSTALLATION_TYPE` default from `development` to `production`

@@ -32,8 +32,8 @@ TROPO:
         TOKEN_EXPIRY_TIME_DAYS: 1
     theme:
         USE_THEME_IMAGES: "{{ THEME_IMAGES_PATH is defined }}"
-        PRIMARY_ONE_COLOR: "{{ PRIMARY_ONE_COLOR | default('')}}" 
-        PRIMARY_TWO_COLOR: "{{ PRIMARY_TWO_COLOR | default('')}}" 
+        PRIMARY_ONE_COLOR: "{{ PRIMARY_ONE_COLOR | default('')}}"
+        PRIMARY_TWO_COLOR: "{{ PRIMARY_TWO_COLOR | default('')}}"
         ACCENT_ONE_COLOR: "{{ ACCENT_ONE_COLOR | default('') }}"
         PICKER_HEADER_COLOR: "{{ PICKER_HEADER_COLOR | default('') }}"
         DANGER_COLOR: "{{ DANGER_COLOR | default('') }}"
@@ -51,8 +51,8 @@ TROPO:
         SITES_AVAILABLE_DIR: /etc/nginx/sites-available
         SITES_ENABLED_DIR: /etc/nginx/sites-enabled
         SERVER_URL: "{{ troposphere_server_name }}"
-        NGINX_TLS_PRIVKEY_DEST: "{{ TLS_PRIVKEY_DEST_DIR }}/{{ TLS_DEST_BASENAME }}.key"
-        NGINX_TLS_FULLCHAIN_DEST: "{{ TLS_CERT_DEST_DIR }}/{{ TLS_DEST_BASENAME }}.fullchain.crt"
+        NGINX_TLS_PRIVKEY_DEST: "{{ TLS_PRIVKEY_PATH }}"
+        NGINX_TLS_FULLCHAIN_DEST: "{{ TLS_FULLCHAIN_PATH }}"
         VIRTUALENV_PATH: "{{ VIRTUAL_ENV_TROPOSPHERE | default(troposphere_virtualenv_path) }}"
         ENABLE_WEBPACK_DEV_SERVER: "{{ ENABLE_WEBPACK_DEV_SERVER | default(False) }}"
 

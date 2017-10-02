@@ -46,10 +46,16 @@ INSTALLATION_TYPE: "production"  # can be development or production
 #ID_RSA: "{{ SECRETS_REPO }}/atmosphere_keypair_1"
 #ID_RSA_PUB: "{{ SECRETS_REPO }}/atmosphere_keypair_1.pub"
 
-# Define these if you are providing your own TLS (SSL) certificates, otherwise a self-signed certificate will be created for you
-# TLS_PRIVKEY_SRC_FILE: "{{ SECRETS_REPO }}/example.com.key"
-# TLS_CERT_SRC_FILE: "{{ SECRETS_REPO }}/example.com.crt"
-# TLS_CACHAIN_SRC_FILE: "{{ SECRETS_REPO }}/example.com.cachain.crt"
+# By default, a self-signed TLS certificate will be deployed. Uncomment and populate one of the following sections to provide your own certificate, or use Let's Encrypt to automatically obtain and deploy a certificate.
+
+# Bring Your Own Certificate
+# TLS_BYO_PRIVKEY_SRC: "{{ SECRETS_REPO }}/example.com.key"
+# TLS_BYO_CERT_SRC: "{{ SECRETS_REPO }}/example.com.crt"
+# TLS_BYO_CACHAIN_SRC: "{{ SECRETS_REPO }}/example.com.cachain.crt"
+
+# Let's Encrypt (will automatically obtain and deploy certificate)
+# TLS_LETSENCRYPT_ENABLE: true
+# TLS_LETSENCRYPT_EMAIL: "{{ ADMINS_EMAIL_TUPLE[0][1] }}"
 
 ###############################
 # 2. Authentication:
@@ -154,7 +160,7 @@ AUTH_MOCK_USER: "atmosphere_user"
 
 ###
 # THEME_IMAGES_PATH, expects an absolute path to an images directory
-# We recommend making a copy of the themeImagesDefault directory in Troposphere 
+# We recommend making a copy of the themeImagesDefault directory in Troposphere
 # <projectDir>/troposphere/static/theme/themeImagesDefault
 # Place it in an init directory and replace any image with a new image of equal size and name
 # Uncomment the variable below.
