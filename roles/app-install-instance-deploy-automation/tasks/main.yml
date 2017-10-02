@@ -3,9 +3,8 @@
 # Installation is *NOT* complete until the app-generate-ini role
 
 - name: If hosts file is missing, create hosts and move to ansible directory
-  local_action:
-    module: template
-    src: "{{ role_path }}/templates/hosts.j2"
+  template:
+    src: hosts.j2
     dest: "{{ INSTANCE_DEPLOY_AUTOMATION_DIR }}/ansible/hosts"
   when: INSTANCE_DEPLOY_AUTOMATION_HOSTS_FILE is undefined or INSTANCE_DEPLOY_AUTOMATION_HOSTS_FILE == ''
 
