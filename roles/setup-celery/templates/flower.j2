@@ -45,8 +45,8 @@ VIRTUALENV="{{ VIRTUAL_ENV_ATMOSPHERE }}"
 
 FLOWER_OPTS="\
 --app=$CELERY_APP \
---certfile={{ FLOWER_TLS_CERT_FILE }} \
---keyfile={{ FLOWER_TLS_KEY_FILE }} \
+--certfile={{ TLS_CERT_PATH }} \
+--keyfile={{ TLS_PRIVKEY_PATH }} \
 --port=8443 \
 --log_file_prefix=$FLOWER_LOG_FILE \
 --logging=warn \
