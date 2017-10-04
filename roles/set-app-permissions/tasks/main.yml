@@ -1,0 +1,7 @@
+- name: "Set group r+w permissions for {{ WEBSERVER_USER }} in {{ APP_BASE_DIR }}"
+  file:
+    path: "{{ APP_BASE_DIR }}"
+    state: directory
+    group: "{{ WEBSERVER_USER }}"
+    mode: "g+rw"
+    recurse: yes
