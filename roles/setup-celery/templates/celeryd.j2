@@ -54,15 +54,14 @@ VIRTUALENV="{{ VIRTUAL_ENV_ATMOSPHERE }}"
 # Abs path to the 'celery' command
 CELERY_BIN="$VIRTUALENV/bin/celery"
 
-# Atmosphere Queues/Workers (unprivileged)
 {% if CELERYD_PRODUCTION_WORKER_SETUP %}
+# Atmosphere Queues/Workers (unprivileged)
 CELERYD_NODES="\
 atmosphere-node_1 atmosphere-node_2 atmosphere-node_3 atmosphere-node_4 \
 atmosphere-fast_1 atmosphere-fast_2 \
-atmosphere-deploy_1 atmosphere-deploy_2 atmosphere-deploy_3 atmosphere-deploy_4 \
-atmosphere-deploy_5 atmosphere-deploy_6 atmosphere-deploy_7 \
 celery_periodic \
-email"
+email \
+"
 CELERYD_WORKER_OPTS="\
 -Q:atmosphere-node_1 default -c:atmosphere-node_1 5 -O:atmosphere-node_1 fair \
 -Q:atmosphere-node_2 default -c:atmosphere-node_2 5 -O:atmosphere-node_2 fair \
@@ -70,6 +69,19 @@ CELERYD_WORKER_OPTS="\
 -Q:atmosphere-node_4 default -c:atmosphere-node_4 5 -O:atmosphere-node_4 fair \
 -Q:atmosphere-fast_1 fast_deploy -c:atmosphere-fast_1 5 -O:atmosphere-fast_1 fair \
 -Q:atmosphere-fast_2 fast_deploy -c:atmosphere-fast_2 5 -O:atmosphere-fast_2 fair \
+-Q:email email -c:email 3  -O:email fair \
+-Q:celery_periodic periodic -c:celery_periodic 3 -O:celery_periodic fair \
+-Q:email email -c:email 1 -O:email fair \
+"
+
+# Atmosphere Queues/Workers (privileged)
+CELERYD_PRIVILEGED_NODES="\
+imaging \
+atmosphere-deploy_1 atmosphere-deploy_2 atmosphere-deploy_3 atmosphere-deploy_4 \
+atmosphere-deploy_5 atmosphere-deploy_6 atmosphere-deploy_7 \
+"
+CELERYD_PRIVILEGED_WORKER_OPTS="\
+-Q:imaging imaging -c:imaging 1 -O:imaging fair \
 -Q:atmosphere-deploy_1 ssh_deploy -c:atmosphere-deploy_1 2 -O:atmosphere-deploy_1 fair \
 -Q:atmosphere-deploy_2 ssh_deploy -c:atmosphere-deploy_2 2 -O:atmosphere-deploy_2 fair \
 -Q:atmosphere-deploy_3 ssh_deploy -c:atmosphere-deploy_3 2 -O:atmosphere-deploy_3 fair \
@@ -77,19 +89,24 @@ CELERYD_WORKER_OPTS="\
 -Q:atmosphere-deploy_5 ssh_deploy -c:atmosphere-deploy_5 2 -O:atmosphere-deploy_5 fair \
 -Q:atmosphere-deploy_6 ssh_deploy -c:atmosphere-deploy_6 2 -O:atmosphere-deploy_6 fair \
 -Q:atmosphere-deploy_7 ssh_deploy -c:atmosphere-deploy_7 2 -O:atmosphere-deploy_7 fair \
--Q:email email -c:email 3  -O:email fair \
--Q:celery_periodic periodic -c:celery_periodic 3 -O:celery_periodic fair \
--Q:email email -c:email 1 -O:email fair"
+"
 {% else %}
-CELERYD_NODES="atmosphere-node_1 atmosphere-deploy_1"
+# Atmosphere Queues/Workers (unprivileged)
+CELERYD_NODES="atmosphere-node"
 CELERYD_WORKER_OPTS="\
--Q:atmosphere-node_1 default,email,celery_periodic -c:atmosphere-node_1 13 -O:atmosphere-node_1 fair \
--Q:atmosphere-deploy_1 fast_deploy,ssh_deploy -c:atmosphere-deploy_1 10 -O:atmosphere-deploy_1 fair"
-{% endif %}
+-Q:atmosphere-node default,email,celery_periodic,fast-deploy -c:atmosphere-node 13 -O:atmosphere-node fair \
+"
 
 # Atmosphere Queues/Workers (privileged)
-CELERYD_PRIVILEGED_NODES="imaging"
-CELERYD_PRIVILEGED_WORKER_OPTS="-Q:imaging imaging -c:imaging 1 -O:imaging fair"
+CELERYD_PRIVILEGED_NODES="\
+imaging \
+atmosphere-deploy \
+"
+CELERYD_PRIVILEGED_WORKER_OPTS="\
+-Q:imaging imaging -c:imaging 1 -O:imaging fair \
+-Q:atmosphere-deploy ssh_deploy -c:atmosphere-deploy 10 -O:atmosphere-deploy fair \
+"
+{% endif %}
 
 CELERYD_OPTS="\
 --app=$CELERY_APP
