@@ -11,6 +11,7 @@ DATA_FIXTURES:
   - "{{APP_BASE_DIR}}/core/fixtures/provider.json"
   - "{{APP_BASE_DIR}}/core/fixtures/quota.json"
   - "{{APP_BASE_DIR}}/core/fixtures/pattern_match.json"
+  - "{{APP_BASE_DIR}}/core/fixtures/boot_script.json"
 
 CACHE_TABLENAMES:
   - "atmosphere_cache_requests"
