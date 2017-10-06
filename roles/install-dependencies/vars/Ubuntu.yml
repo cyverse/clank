@@ -143,8 +143,8 @@ DEV_PACKAGES:
   - g++
   - make
   - build-essential
-  - postgresql
-  - postgresql-contrib
+  - postgresql-9.3
+  - postgresql-contrib-9.3
   - python-psycopg2
   - postgresql-server-dev-all
   - libpq-dev
