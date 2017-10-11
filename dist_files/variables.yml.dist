@@ -273,6 +273,12 @@ AUTH_MOCK_USER: "atmosphere_user"
 #     ENVIRONMENT: ""
 #     BROWSER: 'partials/__new_relic_browser.html'
 
+###
+# django-prometheus
+###
+###
+# ATMO_ENABLE_DJANGO_PROMETHEUS: true
+
 ###############################
 #5. App-specific overrides
 ###############################
