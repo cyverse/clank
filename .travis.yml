@@ -21,11 +21,14 @@
     - sudo pg_dropcluster --stop 9.4 main
     - sudo pg_dropcluster --stop 9.5 main
     - sudo pg_lsclusters # For testing purposes
-
-  before_script:
     - virtualenv clank_env
     - . clank_env/bin/activate
+
+  install:
+    - pip install -U pip setuptools
     - pip install -r requirements.txt
+
+  before_script:
     - cp dist_files/variables.yml.dist variables.yml
 
   script:
