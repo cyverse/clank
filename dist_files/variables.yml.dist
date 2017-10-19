@@ -274,6 +274,16 @@ AUTH_MOCK_USER: "atmosphere_user"
 #     BROWSER: 'partials/__new_relic_browser.html'
 
 ###############################
+#4b. Optional Atmosphere Plugins
+#   These features can enhance or modify existing behavior within
+#   Atmosphere. For most users, the provided defaults will be fine.
+###############################
+
+# Machine validation plugin -- Determines what images are added to the Atmosphere image catalog.
+# Default implementation allows all images into the catalog.
+# MACHINE_VALIDATION_PLUGIN = "atmosphere.plugins.machine_validation.BasicValidation"
+
+###############################
 #5. App-specific overrides
 ###############################
 
