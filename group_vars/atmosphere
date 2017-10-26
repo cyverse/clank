@@ -172,6 +172,7 @@ ATMO:
         USER_EMAIL_LOOKUP_METHOD: "{{ USER_EMAIL_LOOKUP_METHOD | default('django_get_email_info') }}"
         DEPLOYMENT_KEYPAIR_NAME: "{{ DEPLOYMENT_KEYPAIR_NAME | default('') }}"
         CELERYBEAT_SCHEDULE: "{{ CELERYBEAT_SCHEDULE | default('') }}"
+        MACHINE_VALIDATION_PLUGIN: "{{ MACHINE_VALIDATION_PLUGIN | default('') }}"
         VALIDATION_PLUGINS: "{{ VALIDATION_PLUGINS | default('') }}"
         EXPIRATION_PLUGINS: "{{ EXPIRATION_PLUGINS | default('') }}"
         # Guacamole
