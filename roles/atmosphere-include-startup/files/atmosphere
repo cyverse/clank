@@ -6,16 +6,30 @@ if [ $(id -u) -ne 0 ]; then
     exit 1;
 fi
 
-SERVICES="flower celerybeat uwsgi nginx celeryd";
-
 function usage {
     local script_name="$(basename "$0")";
     echo "Usage: /etc/init.d/${script_name} {start|stop|status|restart}";
 }
 
 case "$1" in
-    start | stop | status | restart)
-        for name in $SERVICES; do
+    status)
+        for status_command in \
+            "service flower status" \
+            "service celerybeat status" \
+            "service uwsgi status atmosphere" \
+            "service uwsgi status troposphere" \
+            "service nginx status" \
+            "service celeryd status"; do
+
+            # Echo command being run
+            echo $status_command;
+
+            # Perform command (and indent the output)
+            $status_command 2>&1 | awk '{ print "    " $0 }'
+        done
+        ;;
+    start | stop | restart)
+        for name in flower celerybeat uwsgi nginx celeryd; do
             # Echo command being run
             echo service "$name" "$1";
 
@@ -28,7 +42,6 @@ case "$1" in
                 echo "rerun that command, to see specific errors" 2>&1;
                 exit 1;
             fi
-
         done
         ;;
     *) usage;
