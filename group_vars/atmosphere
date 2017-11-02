@@ -188,6 +188,9 @@ ATMO:
         WEB_DESKTOP_INCLUDE_LINK: "{{ WEB_DESKTOP_INCLUDE_LINK | default(False) }}"
         WEB_DESKTOP_PROXY_URL: "{{ WEB_DESKTOP_PROXY_URL | default('') }}"
         WEB_DESKTOP_PROXY_DOMAIN: "{{ WEB_DESKTOP_PROXY_DOMAIN | default('') }}"
+        BLACKLIST_METADATA_KEY: "{{ BLACKLIST_METADATA_KEY | default('atmo_image_exclude') }}"
+        WHITELIST_METADATA_KEY: "{{ WHITELIST_METADATA_KEY | default('atmo_image_include') }}"
+
     secrets.py:
         IRODS_HOST: "{{ IRODS_HOST | default('') }}"
         IRODS_PORT: "{{ IRODS_PORT | default('') }}"
