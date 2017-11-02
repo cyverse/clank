@@ -34,7 +34,7 @@ ATMO:
 
     nginx:
         ENABLE_HTTP2: True
-        ENABLE_DEV_ENDPOINT: {{ ENABLE_DEV_ENDPOINT | default(True) }}
+        ENABLE_DEV_ENDPOINT: "{{ ENABLE_DEV_ENDPOINT | default(True) }}"
         ATMOSPHERE_PATH: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}"
         DHPARAM: /etc/ssl/certs/dhparam.pem
         DHPARAM_KEY_SIZE: 1024
