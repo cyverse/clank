@@ -214,22 +214,6 @@ ATMO:
         OPENSTACK_ADMIN_ROLE:
         ATMOSPHERE_SUPERUSER:
 
-    celeryd.default:
-        VIRTUALENV_PATH: "{{ atmosphere_virtualenv_path }}"
-        ATMOSPHERE_LOCATION: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}"
-        CELERYD_TLS_PRIVKEY_DEST: "{{ TLS_PRIVKEY_PATH }}"
-        CELERYD_TLS_CERT_DEST: "{{ TLS_FULLCHAIN_PATH }}"
-        USE_PRODUCTION: "{{ celery_use_production }}"
-        FLOWER_AUTH_SCHEME: "{{ FLOWER_AUTH_SCHEME | default('basic') }}"
-        # Required if auth_scheme is 'basic'
-        FLOWER_BASIC_USERNAME: "{{ FLOWER_BASIC_USERNAME | default('flower_user') }}"
-        FLOWER_BASIC_PASSWORD: "{{ FLOWER_BASIC_PASSWORD | default('flower_pass') }}"
-        # Required if auth_scheme is 'google'
-        FLOWER_EMAIL_ACCESS_LIST: "{{ FLOWER_EMAIL_ACCESS_LIST | default('') }}"
-        FLOWER_OAUTH2_CLIENT_ID: "{{ FLOWER_OAUTH2_CLIENT_ID | default('') }}"
-        FLOWER_OAUTH2_CLIENT_SECRET: "{{ FLOWER_OAUTH2_CLIENT_SECRET | default('') }}"
-        FLOWER_OAUTH2_REDIRECT_URI: "{{ FLOWER_OAUTH2_REDIRECT_URI | default('') }}"
-
 ATMO_DATA:
     LOAD_DATABASE:
     SQL_DUMP_FILE:
