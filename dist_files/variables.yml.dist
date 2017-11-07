@@ -319,3 +319,6 @@ AUTH_MOCK_USER: "atmosphere_user"
 # Uncomment to install development python packages (this will only add
 # additional packages to the set of production packages)
 # INSTALL_DEV_REQUIREMENTS: true
+
+# Uncomment so celeryd consumes less resources (fewer workers and processes)
+# CELERYD_PRODUCTION_WORKER_SETUP: false
