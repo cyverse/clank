@@ -33,7 +33,7 @@
 - name: ensure user has access to {{ DBNAME | default("") }} database
   become: yes
   become_user: postgres
-  postgresql_user: db={{ DBNAME }} name={{ DBUSER }} password={{ DBPASSWORD }} priv=ALL
+  postgresql_user: encrypted=yes db={{ DBNAME }} name={{ DBUSER }} password={{ DBPASSWORD }} priv=ALL
 
 - name: add {{ DBUSER | default("") }} user connect privileges
   become: yes
