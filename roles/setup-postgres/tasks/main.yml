@@ -14,20 +14,17 @@
     - name: "Explicitly remove database user, to ensure inserting in the right location"
       lineinfile:
           dest: "/etc/postgresql/{{ DB_VERSION }}/main/pg_hba.conf"
-          regexp: "^local +all +{{ DBUSER }} +md5"
+          regexp: "^local +all +{{ DB_USER }} +md5"
           state: absent
 
-    - name: "Give database user ({{ DBUSER }}) password authentication on domain sockets"
+    - name: "Give database user ({{ DB_USER }}) password authentication on domain sockets"
       lineinfile:
         dest: "/etc/postgresql/{{ DB_VERSION }}/main/pg_hba.conf"
 
         # Note: We must insert 'line' before this more restrictive line, if it exists.
         insertbefore: "^local +all +all +peer"
 
-        line: "local   all              {{ DBUSER }}                  md5"
-
-  tags:
-    - postgres
+        line: "local   all              {{ DB_USER }}                  md5"
 
 # Note: the postgresql service script doesn't reliably stop the service, by
 # providing 'pattern=postgres' ansible verfies the process is stopped by looking in the

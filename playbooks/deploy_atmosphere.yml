@@ -10,8 +10,9 @@
         tags: ['dependencies', 'apt-install', 'install'] }
 
     - { role: setup-postgres,
+        DB_USER: "{{ ATMO_DBUSER | default(atmosphere_database_user) }}",
+        DB_VERSION: "{{ pg_version }}",
         when: clean_target,
-        DBUSER: "{{ ATMO_DBUSER | default(atmosphere_database_user) }}",
         tags: ['dependencies', 'database'] }
 
     - { role: tls-cert,
