@@ -144,9 +144,9 @@ DEV_PACKAGES:
   - make
   - build-essential
   - postgresql-{{ pg_version | default('9.6') }}
-  - postgresql-contrib
+  - postgresql-contrib-{{ pg_version | default('9.6') }}
+  - postgresql-server-dev-{{ pg_version | default('9.6') }}
   - python-psycopg2
-  - postgresql-server-dev-all
   - libpq-dev
   - python-dev
   - libldap2-dev
