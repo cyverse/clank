@@ -1,45 +1,22 @@
 ---
-# tasks file for build-install-troposphere-ui-assets
-
-- name: remove node modules
+- name: Remove node modules
   file: path={{ NPM_APP_DIR }}/node_modules state=absent
   when: NPM_CLEAN_BUILD
 
-- name: disable npm progress bar for speed boost
-  shell: npm set progress=false
-  register: result
-  
-- debug: var=result.stdout_lines
-  when: CLANK_VERBOSE | default(False)
-
 - name: run npm install
-  action: shell npm install
-  args:
-    chdir: "{{ NPM_APP_DIR }}"
-  register: first_run
-  failed_when: false
-
-- name: remove node modules after failed first attempt
-  file: path={{ NPM_APP_DIR }}/node_modules state=absent
-  when: first_run.rc != 0
-
-- name: run npm install after failed first attempt
-  action: shell npm install
+  command: npm install
   args:
     chdir: "{{ NPM_APP_DIR }}"
   register: result
-  until: result.rc == 0
-  retries: 2
-  when: first_run.rc != 0 
 
-- debug: var=result.stdout_lines
-  when: CLANK_VERBOSE | default(False)
+- name: Log output of npm install
+  debug: var=result.stdout_lines
 
-- name: run npm build
+- name: Run npm build
+  command: npm run build --{{ NPM_BUILD_TYPE | default("production")}}
   args:
     chdir: "{{ NPM_APP_DIR }}"
-  shell: npm run build --{{ NPM_BUILD_TYPE | default("production")}}
-  register: output
+  register: result
 
-- debug: var=output.stdout_lines
-  when: CLANK_VERBOSE | default(False)
+- name: Log output of npm build
+  debug: var=result.stdout_lines
