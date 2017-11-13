@@ -94,7 +94,7 @@ CELERYD_PRIVILEGED_WORKER_OPTS="\
 # Atmosphere Queues/Workers (unprivileged)
 CELERYD_NODES="atmosphere-node"
 CELERYD_WORKER_OPTS="\
--Q:atmosphere-node default,email,celery_periodic,fast-deploy -c:atmosphere-node 13 -O:atmosphere-node fair \
+-Q default,email,celery_periodic,fast-deploy -c 13 -O fair \
 "
 
 # Atmosphere Queues/Workers (privileged)
