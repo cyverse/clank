@@ -4,7 +4,7 @@
   when: NPM_CLEAN_BUILD
 
 - name: run npm install
-  command: npm install
+  command: npm install --unsafe-perm
   args:
     chdir: "{{ NPM_APP_DIR }}"
   register: result
