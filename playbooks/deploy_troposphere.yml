@@ -10,8 +10,9 @@
         tags: ['dependencies', 'apt-install', 'install'] }
 
     - { role: setup-postgres,
+        DB_USER: "{{ TROPO_DBUSER | default(troposphere_database_user) }}",
+        DB_VERSION: "{{ pg_version }}",
         when: clean_target,
-        DBUSER: "{{ TROPO_DBUSER | default(troposphere_database_user) }}",
         tags: ['dependencies', 'database'] }
 
     - { role: tls-cert,

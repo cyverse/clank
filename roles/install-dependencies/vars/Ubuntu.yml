@@ -4,7 +4,7 @@ APT_REPOSITORIES_TO_REMOVE:
 APT_REPOSITORIES_TO_ADD:
   - ppa:nginx/stable
   - deb https://deb.nodesource.com/node_8.x {{ ansible_distribution_release }} main
-  - deb http://apt.postgresql.org/pub/repos/apt/ {{ ansible_distribution_release }}-pgdg main {{ db_version | default('9.6') }}
+  - deb http://apt.postgresql.org/pub/repos/apt/ {{ ansible_distribution_release }}-pgdg main {{ pg_version | default('9.6') }}
   - ppa:chris-lea/redis-server
 
 APT_KEYS_TO_ADD:
@@ -143,10 +143,10 @@ DEV_PACKAGES:
   - g++
   - make
   - build-essential
-  - postgresql-{{ db_version | default('9.6') }}
-  - postgresql-contrib
+  - postgresql-{{ pg_version | default('9.6') }}
+  - postgresql-contrib-{{ pg_version | default('9.6') }}
+  - postgresql-server-dev-{{ pg_version | default('9.6') }}
   - python-psycopg2
-  - postgresql-server-dev-all
   - libpq-dev
   - python-dev
   - libldap2-dev

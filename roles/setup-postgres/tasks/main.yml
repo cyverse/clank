@@ -1,3 +1,9 @@
+- name: Configure postgres to run on port {{ DB_PORT }}
+  lineinfile:
+    regexp: "^port = \\d+"
+    dest: "/etc/postgresql/{{ DB_VERSION }}/main/postgresql.conf"
+    line: "port = {{ DB_PORT }}"
+
 # We must remove the line that we want to insert, otherwise ansible will not
 # respect "insertbefore". It's only respected when inserting lines that don't
 # already exist, so if you want to insert a line, you must remove it first.
@@ -8,22 +14,23 @@
     - name: "Explicitly remove database user, to ensure inserting in the right location"
       lineinfile:
           dest: "/etc/postgresql/{{ DB_VERSION }}/main/pg_hba.conf"
-          regexp: "^local +all +{{ DBUSER }} +md5"
+          regexp: "^local +all +{{ DB_USER }} +md5"
           state: absent
 
-    - name: "Give database user ({{ DBUSER }}) password authentication on domain sockets"
+    - name: "Give database user ({{ DB_USER }}) password authentication on domain sockets"
       lineinfile:
         dest: "/etc/postgresql/{{ DB_VERSION }}/main/pg_hba.conf"
 
         # Note: We must insert 'line' before this more restrictive line, if it exists.
         insertbefore: "^local +all +all +peer"
 
-        line: "local   all              {{ DBUSER }}                  md5"
+        line: "local   all              {{ DB_USER }}                  md5"
 
-  tags:
-    - postgres
+# Note: the postgresql service script doesn't reliably stop the service, by
+# providing 'pattern=postgres' ansible verfies the process is stopped by looking in the
+# process table
+- name: Stop all existing postgres services
+  service: name=postgresql state=stopped pattern='postgresql'
 
-- name: Restart postgres to reload configuration
-  service: name=postgresql state=restarted args={{ DB_VERSION }}
-  tags:
-    - postgres
+- name: Starting postgres {{ DB_VERSION }}
+  service: name=postgresql state=started args={{ DB_VERSION }}

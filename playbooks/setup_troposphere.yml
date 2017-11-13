@@ -14,7 +14,7 @@
         LOAD_DATABASE: "{{ TROPO_DATA.LOAD_DATABASE }}",
         DATABASE_FILE_TO_BE_LOADED: "{{ TROPO_DATA.SQL_DUMP_FILE }}",
         when: TROPO_DATA is defined and TROPO_DATA.SQL_DUMP_FILE is defined and TROPO_DATA.LOAD_DATABASE,
-        tags: ['troposphere', 'data-load'] }
+        tags: ['troposphere', 'database', 'data-load'] }
 
     - { role: delete-files,
         LOCATION: "{{ TROPOSPHERE_LOCATION | default(troposphere_directory_path) }}",
