@@ -136,6 +136,8 @@ AUTH_MOCK_USER: "atmosphere_user"
 ###
 # 3a. Site specific configuration
 ###
+#
+# SERVER_NAME: local.atmo.cloud # Domain name used for public services to know which domain they're running on
 # SITE_NAME: Atmosphere
 # SITE_FOOTER: Powered by Clank
 # ORG_NAME: Atmosphere
