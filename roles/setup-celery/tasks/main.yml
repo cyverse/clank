@@ -8,6 +8,24 @@
     name: celery
     policy: allow
 
+- name: Install nginx locations
+  block:
+    - name: Remove symlinks that have been installed in the past
+      include_role:
+         name: remove-symlink
+      vars:
+        path: "/etc/nginx/locations/{{ item }}"
+      with_items:
+        - flower.conf
+
+    - name: "Install {{ item }} nginx location"
+      template:
+        src: "{{ item }}.conf"
+        dest: "/etc/nginx/locations/{{ item }}.conf"
+        mode: 0644
+      with_items:
+        - flower
+
 - name: Install celeryd services
   block:
     - name: Remove symlinks that have been installed in the past
