@@ -17,6 +17,11 @@
         path: "/etc/nginx/locations/{{ item }}"
       with_items:
         - flower.conf
+    - name: create locations directory if it doesn't exist
+      file:
+        path: "/etc/nginx/locations"
+        state: directory
+        mode: 0755
 
     - name: "Install {{ item }} nginx location"
       template:
