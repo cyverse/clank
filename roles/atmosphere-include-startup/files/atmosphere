@@ -34,13 +34,12 @@ case "$1" in
             echo service "$name" "$1";
 
             # Perform action
-            service "$name" "$1" &>/dev/null;
+            service "$name" "$1"
 
             # Fail/exit if action fails
             if [ $? -ne 0 ]; then
-                echo "Exiting: service $name $1 failed" 2>&1;
+                echo "Warning: service $name $1 failed" 2>&1;
                 echo "rerun that command, to see specific errors" 2>&1;
-                exit 1;
             fi
         done
         ;;
