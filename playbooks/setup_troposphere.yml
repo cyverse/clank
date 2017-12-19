@@ -63,12 +63,6 @@
         DJANGO_SETTINGS_MODULE: 'troposphere.settings',
         tags: ['troposphere', 'migrate', 'manage-migrate'] }
 
-    - { role: create-nginx-uwsgi,
-        APP_BASE_DIR: "{{ TROPOSPHERE_LOCATION | default(troposphere_directory_path) }}",
-        UWSGI_APP_NAME: 'troposphere',
-        UWSGI_INI_SRC_NAME: 'extras/troposphere.uwsgi.ini',
-        tags: ['troposphere', 'create-nginx-uwsgi'] }
-
     - { role: install-theme,
         tags: ['troposphere', 'theme'] }
 
