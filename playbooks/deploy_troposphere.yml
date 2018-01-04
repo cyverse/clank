@@ -63,7 +63,6 @@
 
 - name: Enable New Relic agent
   hosts: troposphere
-
   roles:
      - { role: noc-enable-new-relic,
          TARGET_HOME: "{{ TROPOSPHERE_LOCATION | default(troposphere_directory_path) }}",
@@ -72,3 +71,17 @@
          new_relic_app_name: "{{ NEW_RELIC.TROPO_LABEL }}",
          when: NEW_RELIC is defined and NEW_RELIC.TROPO_LABEL | default('') != '' and NEW_RELIC.LICENSE | default('') != '',
          tags: ['troposphere', 'new-relic', 'monitoring'] }
+
+- name: Configure uwsgi
+  hosts: troposphere
+  roles:
+    - { role: configure-uwsgi,
+        APP_NAME: 'troposphere',
+        APP_ENV_VARS: ["DJANGO_SETTINGS_MODULE=troposphere.settings"],
+        APP_MODULE: 'troposphere.wsgi',
+        APP_SRC_DIR: "{{ TROPOSPHERE_LOCATION | default(troposphere_directory_path) }}",
+        APP_VIRTUAL_ENV_DIR : "{{ VIRTUAL_ENV_TROPOSPHERE | default(troposphere_virtualenv_path) }}",
+        APP_WORKER_MAX_CONCURRENT_REQUESTS: 100,
+        NUM_PROCESSES: "{{ troposphere_uwsgi_processes | default(16) }}",
+        AUTORELOAD: "{{ UWSGI_AUTORELOAD | default(false) }}",
+        tags: ['troposphere', 'uwsgi' ] }

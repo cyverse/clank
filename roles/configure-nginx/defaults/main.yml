@@ -1,0 +1,15 @@
+---
+DH_PARAM_PATH: /etc/ssl/certs/dhparam.pem
+DH_PARAM_KEY_SIZE: 1024
+ENABLE_HTTP2: true
+ENABLE_SSL_STAPLING: true
+ENABLE_STRICT_TRANSPORT: true
+LOCATIONS: []
+NAME_OF_SITE: site.conf
+SITES_ENABLED_DIR: /etc/nginx/sites-enabled
+SITES_AVAILABLE_DIR: /etc/nginx/sites-available
+LOCATIONS_DIR: /etc/nginx/locations
+SNIPPETS_DIR: /etc/nginx/snippets
+
+TROPO_UWSGI_SOCK: /tmp/troposphere.sock
+ATMO_UWSGI_SOCK: /tmp/atmosphere.sock

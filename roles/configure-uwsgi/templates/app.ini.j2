@@ -1,0 +1,25 @@
+[uwsgi]
+check-static = {{ APP_SRC_DIR }}
+chdir = {{ APP_SRC_DIR }}
+home = {{ APP_VIRTUAL_ENV_DIR }}
+module = {{ APP_MODULE }}
+{% for VAR_DECL in APP_ENV_VARS | default([]) %}
+env = {{ VAR_DECL }}
+{% endfor %}
+socket = {{ APP_SOCK | default('/tmp/' + APP_NAME + '.sock') }}
+processes = {{ NUM_PROCESSES | default('16') }}
+uid = {{ USER | default('www-data') }}
+gid = {{ GROUP | default('www-data') }}
+buffer-size = 8192
+chmod-socket = 664
+{% if AUTORELOAD | default(false) | bool %}
+python-autoreload = 1
+{% endif %}
+max-requests = {{ APP_WORKER_MAX_CONCURRENT_REQUESTS | default(10) }}
+master = 1
+thunder-lock = 1
+enable-threads = 1
+vacuum = 1
+ignore-sigpipe = 1
+ignore-write-errors = 1
+disable-write-exception = 1

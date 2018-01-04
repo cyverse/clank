@@ -7,12 +7,8 @@ virtualenv_dir: "{{VIRTUAL_ENV_DIR | default('/opt/env')}}"
 github_branch: master
 pg_version: 9.6
 server_name: "{{ SERVER_NAME | default(ansible_fqdn) }}"
-nginx_combined_cert_dir: "/etc/ssl/certs"
-nginx_combined_cert_file: "combined_atmo_ssl_cert.pem"
-nginx_combined_cert_path: "{{nginx_combined_cert_dir}}/{{nginx_combined_cert_file}}"
-nginx_key_dir: /etc/ssl/private
-nginx_key_file: atmo_ssl_cert.key
-nginx_key_path: "{{nginx_key_dir}}/{{nginx_key_file}}"
+nginx_server_url: "https://{{ server_name }}"
+nginx_locations: ["atmo-uwsgi", "tropo-uwsgi", "flower", "tropo-assets-path", "robots"]
 staff_list_usernames: "{{ STAFF_LIST_USERNAMES | default([]) }}"
 maintenance_exempt_usernames: "{{ MAINTENANCE_EXEMPT_USERNAMES | default(staff_list_usernames) }}"
 install_jenkins: "{{ DJANGO_JENKINS | default(False) }}"
