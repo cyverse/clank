@@ -10,47 +10,27 @@
 
 - name: Install nginx locations
   block:
-    - name: Remove symlinks that have been installed in the past
-      include_role:
-         name: remove-symlink
-      vars:
-        path: "/etc/nginx/locations/{{ item }}"
-      with_items:
-        - flower.conf
     - name: create locations directory if it doesn't exist
       file:
         path: "/etc/nginx/locations"
         state: directory
         mode: 0755
 
-    - name: "Install {{ item }} nginx location"
+    - name: "Install flower nginx location"
       template:
-        src: "{{ item }}.conf"
-        dest: "/etc/nginx/locations/{{ item }}.conf"
+        src: "flower.conf"
+        dest: "/etc/nginx/locations/flower.conf"
         mode: 0644
-      with_items:
-        - flower
 
-- name: Install celeryd services
-  block:
-    - name: Remove symlinks that have been installed in the past
-      include_role:
-         name: remove-symlink
-      vars:
-        path: "/etc/init.d/{{ item }}"
-      with_items:
-        - celeryd
-        - celerybeat
-
-    - name: "Install {{ item }} init.d script"
-      template:
-        src: "{{ item }}.j2"
-        dest: "/etc/init.d/{{ item }}"
-        mode: 0755
-      with_items:
-        - flower
-        - celeryd
-        - celerybeat
+- name: "Install {{ item }} init.d script"
+  template:
+    src: "{{ item }}.j2"
+    dest: "/etc/init.d/{{ item }}"
+    mode: 0755
+  with_items:
+    - flower
+    - celeryd
+    - celerybeat
   when: (ansible_distribution == "Ubuntu" and ansible_distribution_major_version < "16") or (ansible_distribution == "CentOS" and ansible_distribution_major_version < "7")
 
 - tags: deploy
