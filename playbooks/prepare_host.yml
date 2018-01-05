@@ -1,8 +1,11 @@
 ---
-- name: Ensure distro is up-to-date
+- name: Prepare host
   hosts: all
   roles:
-    - role: distro-update
-      when: faster_dev_rebuild == False
-  tags:
-    - distro-update
+    - { role: distro-update,
+        tags: ["distro-update"],
+        when: faster_dev_rebuild == False }
+
+    - { role: setup-webserver-user-group,
+        WEBSERVER_USER: "www-data",
+        tags: ['set-permissions'] }

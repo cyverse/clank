@@ -96,14 +96,14 @@
         UWSGI_INI_SRC_NAME: 'extras/uwsgi/atmo.uwsgi.ini',
         tags: ['atmosphere', 'deploy', 'create-nginx-uwsgi', 'nginx-uwsgi'] }
 
-    - { role: setup-webserver-user-group,
+    - { role: set-app-permissions,
         APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}",
         WEBSERVER_USER: "www-data",
         tags: ['atmosphere','set-permissions'] }
 
-    # The logrotate-files role must come after the setup-webserver-user-group role.
-    # This is because setup-webserver-user-group sets the permissions on all files in that directory the
-    # to the WEBSERVER_USER user, while logrotate requires root
+    # The logrotate-files role must come after the set-app-permissions role,
+    # because it sets the permissions on all files in that directory to the to
+    # the WEBSERVER_USER user, while logrotate requires root
     - { role: logrotate-files,
         LOGROTATE_FILES: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}/extras/logrotate.atmosphere",
         tags: ['atmosphere', 'logrotate'] }
