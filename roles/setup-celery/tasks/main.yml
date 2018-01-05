@@ -8,20 +8,6 @@
     name: celery
     policy: allow
 
-- name: Install nginx locations
-  block:
-    - name: create locations directory if it doesn't exist
-      file:
-        path: "/etc/nginx/locations"
-        state: directory
-        mode: 0755
-
-    - name: "Install flower nginx location"
-      template:
-        src: "flower.conf"
-        dest: "/etc/nginx/locations/flower.conf"
-        mode: 0644
-
 - name: "Install {{ item }} init.d script"
   template:
     src: "{{ item }}.j2"
