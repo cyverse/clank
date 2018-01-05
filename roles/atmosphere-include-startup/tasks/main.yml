@@ -1,12 +1,6 @@
 ---
 - name: Include atmosphere in the startup process
   block:
-    - name: Remove symlink when it exists
-      include_role:
-         name: remove-symlink
-      vars:
-        path: /etc/init.d/atmosphere
-
     - name: Install atmosphere init.d script
       copy:
         src: "{{ role_path }}/files/atmosphere"
