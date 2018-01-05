@@ -16,14 +16,11 @@
         state: directory
         mode: 0755
 
-    - name: "Install {{ item }} nginx location"
+    - name: "Install flower nginx location"
       template:
-        src: "{{ item }}.conf"
-        dest: "/etc/nginx/locations/{{ item }}.conf"
+        src: "flower.conf"
+        dest: "/etc/nginx/locations/flower.conf"
         mode: 0644
-      with_items:
-        - flower
-
 - name: Install celeryd services
   block:
     - name: Remove symlinks that have been installed in the past
