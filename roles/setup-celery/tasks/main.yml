@@ -10,13 +10,6 @@
 
 - name: Install nginx locations
   block:
-    - name: Remove symlinks that have been installed in the past
-      include_role:
-         name: remove-symlink
-      vars:
-        path: "/etc/nginx/locations/{{ item }}"
-      with_items:
-        - flower.conf
     - name: create locations directory if it doesn't exist
       file:
         path: "/etc/nginx/locations"
