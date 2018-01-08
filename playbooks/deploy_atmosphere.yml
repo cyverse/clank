@@ -68,7 +68,7 @@
       tags: [ 'atmosphere', 'setup-virtualenv']
 
 - name: Include setup atmosphere
-  include: ./setup_atmosphere.yml
+  import_playbook: ./setup_atmosphere.yml
 
 - name: Setup celery for Atmosphere
   hosts: atmosphere

@@ -59,7 +59,7 @@
       tags: [ 'troposphere', 'setup-virtualenv']
 
 # Setup Trososphere
-- include: ./setup_troposphere.yml
+- import_playbook: ./setup_troposphere.yml
 
 - name: Enable New Relic agent
   hosts: troposphere

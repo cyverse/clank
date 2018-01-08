@@ -7,7 +7,7 @@
         tags: ['print-vars'] }
 
 
-- include: ./prepare_host.yml
-- include: ./deploy_atmosphere.yml
-- include: ./deploy_troposphere.yml
-- include: ./post_deployment.yml
+- import_playbook: ./prepare_host.yml
+- import_playbook: ./deploy_atmosphere.yml
+- import_playbook: ./deploy_troposphere.yml
+- import_playbook: ./post_deployment.yml
