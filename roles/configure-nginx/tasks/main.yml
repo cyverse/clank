@@ -44,7 +44,7 @@
       "atmo-uwsgi", "atmo-dev-server",
       "tropo-uwsgi", "tropo-dev-server",
       "tropo-assets-path", "tropo-assets-server",
-      "flower", "robots" ]
+      "flower", "robots", "jenkins" ]
 
 - name: Validate that nginx locations do not conflict
   fail:

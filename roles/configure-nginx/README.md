@@ -29,6 +29,7 @@ Role Variables
 | TROPO_ASSETS_SERVER_URL | no       |         |         | See below for more info                         |
 | TROPO_DEV_SERVER_URL    | no       |         |         | See below for more info                         |
 | ATMO_DEV_SERVER_URL     | no       |         |         | See below for more info                         |
+| JENKINS_SERVER_URL      | no       |         |         | See below for more info                         |
 
 
 `ENABLE_STRICT_TRANSPORT` instructs browsers to only accept valid HTTPS (see
@@ -53,6 +54,8 @@ useful if you want to drop debugger statements in the python application.
 `ATMO_DEV_SERVER_URL` is a URL which should identify an atmopshere api dev
 server, namely a `./manage.py runserver` in /opt/dev/atmosphere. This is
 useful if you want to drop debugger statements in the python application.
+
+`JENKINS_SERVER_URL` is a URL which should identify a jenkins server.
 
 `LOCATIONS` is a list of predefined nginx locations to include. You can use
 this list to create an Nginx that serves troposphere assets from a dev server

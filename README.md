@@ -172,7 +172,15 @@ ATMO_DEV_SERVER_URL: "http://local.atmo.cloud:8000"
 ```
 
 Note, that `ATMO_DEV_SERVER_URL` must be defined, and you will be responsible
-for running the server at that location.
+
+In order to serve jenkins, `nginx_locations` would include `"jenkins"`.
+```
+LOCATIONS: ["jenkins", ...]
+JENKINS_SERVER_URL: "http://127.0.0.1:8080"
+```
+
+Note, that `JENKINS_SERVER_URL` must be defined, and you will be
+responsible for running the server at that location.
 
 For further examples read the documentation of configure-nginx located
 [here](./roles/configure-nginx/README.md).
