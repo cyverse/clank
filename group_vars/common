@@ -16,3 +16,4 @@ installation_type: "{{ INSTALLATION_TYPE | default('production') }}"
 faster_dev_rebuild: false
 shallow_clone: true
 TLS_LETSENCRYPT_TLS_SERVICE: "nginx"
+FLOWER_PORT: 5555

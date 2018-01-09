@@ -30,6 +30,7 @@ Role Variables
 | TROPO_DEV_SERVER_URL    | no       |         |         | See below for more info                         |
 | ATMO_DEV_SERVER_URL     | no       |         |         | See below for more info                         |
 | JENKINS_SERVER_URL      | no       |         |         | See below for more info                         |
+| FLOWER_SERVER_URL       | no       |         |         | See below for more info                         |
 
 
 `ENABLE_STRICT_TRANSPORT` instructs browsers to only accept valid HTTPS (see
@@ -56,6 +57,8 @@ server, namely a `./manage.py runserver` in /opt/dev/atmosphere. This is
 useful if you want to drop debugger statements in the python application.
 
 `JENKINS_SERVER_URL` is a URL which should identify a jenkins server.
+
+`FLOWER_SERVER_URL` is a URL which should identify a flower server.
 
 `LOCATIONS` is a list of predefined nginx locations to include. You can use
 this list to create an Nginx that serves troposphere assets from a dev server
@@ -116,6 +119,7 @@ Example Playbook(s)
         SSL_KEY: "/etc/ssl/private/local.atmo.cloud.key",
         SSL_CERT: "/etc/ssl/certs/local.atmo.cloud.fullchain.crt",
         SSL_CACHAIN_CERT: "/etc/ssl/certs/local.atmo.cloud.cachain.crt",
+        FLOWER_SERVER_URL: "http://127.0.0.1:5555",
         TROPO_ASSETS_PATH: "/opt/dev/troposphere/troposphere/assets" }
 
 - name: Configure nginx for development

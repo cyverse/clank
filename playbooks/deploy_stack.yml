@@ -22,6 +22,7 @@
         SSL_CERT: "{{ TLS_FULLCHAIN_PATH }}",
         SSL_CACHAIN_CERT: "{{ TLS_CACHAIN_PATH }}",
         TROPO_ASSETS_PATH: "{{ TROPO.COMMON.ASSETS_PATH }}",
+        FLOWER_SERVER_URL: "http://127.0.0.1:{{ FLOWER_PORT }}",
         tags: ['nginx'] }
 
 - import_playbook: ./post_deployment.yml
