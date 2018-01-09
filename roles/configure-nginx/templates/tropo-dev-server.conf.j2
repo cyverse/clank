@@ -1,0 +1,10 @@
+location ~^/(application|maintenance|login|globus_login|oauth2.0/callbackAuthorize|logout|forbidden|version|cf2|tropo-admin|tropo-api|web_shell|web_desktop|allocations|guacamole) {
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_pass {{ TROPO_DEV_SERVER_URL }};
+}
+
+location ~^/cas/(oauth2.0|service) {
+   proxy_set_header Host $host;
+   proxy_pass {{ TROPO_DEV_SERVER_URL }};
+}

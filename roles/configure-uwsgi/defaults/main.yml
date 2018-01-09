@@ -1,0 +1,3 @@
+---
+APPS_ENABLED_DIR: /etc/uwsgi/apps-enabled
+APPS_AVAILABLE_DIR: /etc/uwsgi/apps-available

@@ -26,7 +26,8 @@
 
   install:
     - pip install -U pip setuptools
-    - pip install -r requirements.txt
+    - pip install pip-tools==1.11.0
+    - pip-sync requirements.txt
 
   before_script:
     - cp dist_files/variables.yml.dist variables.yml
@@ -39,5 +40,5 @@
       -e "atmosphere_github_repo=\"${ATMO_GITHUB_REPO:-https://github.com/CyVerse/atmosphere.git}\""
       -e "troposphere_github_branch=\"${TROPO_GITHUB_BRANCH:-master}\""
       -e "troposphere_github_repo=\"${TROPO_GITHUB_REPO:-https://github.com/CyVerse/troposphere.git}\""
-      --skip-tags "distro-update,create-nginx-uwsgi,enable-services"
+      --skip-tags "distro-update,enable-services"
       --become

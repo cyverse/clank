@@ -32,30 +32,6 @@ ATMO:
         TOKEN_EXPIRY_TIME_DAYS: 1
         DJANGO_SERVER_URL: "{{ atmosphere_server_url }}"
 
-    nginx:
-        ENABLE_HTTP2: True
-        ENABLE_DEV_ENDPOINT: "{{ ENABLE_DEV_ENDPOINT | default(True) }}"
-        ATMOSPHERE_PATH: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}"
-        DHPARAM: /etc/ssl/certs/dhparam.pem
-        DHPARAM_KEY_SIZE: 1024
-        LOCATIONS_DIR:  /etc/nginx/locations
-        SITES_AVAILABLE_DIR: /etc/nginx/sites-available
-        SITES_ENABLED_DIR: /etc/nginx/sites-enabled
-        SERVER_URL: "{{ atmosphere_server_name }}"
-        LEADERBOARD_URL:
-        NGINX_TLS_PRIVKEY_DEST: "{{ TLS_PRIVKEY_PATH }}"
-        NGINX_TLS_FULLCHAIN_DEST: "{{ TLS_FULLCHAIN_PATH }}"
-        VIRTUALENV_PATH: "{{ atmosphere_virtualenv_path }}"
-
-    uwsgi.ini:
-        LOCAL_DEV: "{{ LOCAL_DEV | default(False) }}"
-        PATH_TO_ATMOSPHERE: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}"
-        VIRTUALENV_PATH: "{{ atmosphere_virtualenv_path }}"
-        NUM_PROCESSES: "{{ atmosphere_uwsgi_processes }}"
-        UWSGI_USER: www-data
-        UWSGI_GROUP: www-data
-        UWSGI_LOG_PATH: /var/log/uwsgi/atmosphere-uwsgi.log
-
     local.py:
         ANSIBLE_ROOT: "{{ ANSIBLE_DEPLOY_LOCATION | default(atmosphere_ansible_directory_path) }}"
         #Authorization and Authentication

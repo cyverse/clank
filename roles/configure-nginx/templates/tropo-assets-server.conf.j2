@@ -1,0 +1,5 @@
+location ~ ^/(assets|sockjs-node) {
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+    proxy_pass {{ TROPO_ASSETS_SERVER_URL }};
+}

@@ -292,10 +292,12 @@ AUTH_MOCK_USER: "atmosphere_user"
 #Specific overrides of group_vars/atmosphere go here:
 # atmosphere_database_name: local_atmosphere
 # atmosphere_github_branch: "master"
+# atmosphere_uwsgi_processes: 4  # Strongly recommended for development
 
 #Specific overrides of group_vars/troposphere go here:
 # troposphere_theme_name: troposphere_theme
 # troposphere_github_branch: "master"
+# troposphere_uwsgi_processes: 2 # Strongly recommended for development
 
 #Specific overrides of group_vars/atmosphere-ansible go here:
 # atmosphere_ansible_github_repo: https://github.com/cyverse/atmosphere-ansible.git
@@ -307,3 +309,10 @@ AUTH_MOCK_USER: "atmosphere_user"
 # faster_dev_rebuild: true
 #Uncomment so that virtualenvs stick around after multiple deploys (much faster build time, sometimes causes pip package issues)
 # REINSTALL_VENV: false
+
+# Uncomment so that uwsgi automatically reloads when atmosphere/troposphere
+# python code changes
+# UWSGI_AUTORELOAD: true
+
+# Uncomment in a development environment if you want to allow self-signed certs for nginx
+# ENABLE_STRICT_TRANSPORT: false

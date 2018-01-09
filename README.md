@@ -140,6 +140,51 @@ File Dimentions
 #### Theme Colors
 To change the theme colors edit the color variable. Colors are used by cyverse-ui and Material-ui for components like buttons, toggles, radios, etc... See [Our Style Guide](https://cyverse.github.io/cyverse-ui/) for more information on how colors are used by components.
 
+### Custom Nginx configuration
+A developer of atmosphere/troposphere are going to be serving the app in unique ways. Often it's desired to serve assets that are generated whenever the source changes, so that developers can see changes as they're made. Sometimes it's useful to put interactive debuggers in the services. However the production nginx setup serves JS assets from a static folder, and daemonized python services via uwsgi.
+
+Clank supports predefined nginx templates for common development workflows, which is configured via `nginx_locations`.
+
+By default, the production value is:
+```
+nginx_locations: ["atmo-uwsgi", "tropo-uwsgi", "flower", "tropo-assets-path", "robots"]
+```
+
+This serves troposphere and the atmosphere api over uwsgi, includes an endpoint for
+flower, serves troposphere assets from an asset directory on disk, and includes
+an endpoint for robots.txt.
+
+In order to serve troposphere assets from a webpack-dev-server instead of a
+directory on disk, `nginx_locations` would include `"tropo-assets-server"`
+instead of `"tropo-assets-path"`.
+```
+nginx_locations: ["tropo-assets-server", ...]
+TROPO_ASSETS_SERVER_URL: "http://local.atmo.cloud:8080"
+```
+
+Note, that `TROPO_ASSETS_SERVER_URL` must be defined, and you will be
+responsible for running the server at that location.
+
+In order to serve the atmosphere api from a `./manage.py runserver` instance, `nginx_locations` would include `"atmo-dev-server"` instead of `"atmo-uwsgi"`.
+```
+LOCATIONS: ["atmo-dev-server", ...]
+ATMO_DEV_SERVER_URL: "http://local.atmo.cloud:8000"
+```
+
+Note, that `ATMO_DEV_SERVER_URL` must be defined, and you will be responsible
+
+In order to serve jenkins, `nginx_locations` would include `"jenkins"`.
+```
+LOCATIONS: ["jenkins", ...]
+JENKINS_SERVER_URL: "http://127.0.0.1:8080"
+```
+
+Note, that `JENKINS_SERVER_URL` must be defined, and you will be
+responsible for running the server at that location.
+
+For further examples read the documentation of configure-nginx located
+[here](./roles/configure-nginx/README.md).
+
 ## Contributing to clank
 
 See [HACKING.md](./HACKING.md)

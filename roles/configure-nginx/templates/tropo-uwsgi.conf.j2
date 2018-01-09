@@ -1,0 +1,10 @@
+location ~^/(application|maintenance|login|globus_login|oauth2.0/callbackAuthorize|logout|forbidden|version|cf2|tropo-admin|tropo-api|web_shell|web_desktop|allocations|guacamole) {
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    include {{ SNIPPETS_DIR }}/uwsgi_params;
+    uwsgi_pass unix://{{ TROPO_UWSGI_SOCK }};
+}
+
+location ~^/cas/(oauth2.0|service) {
+    uwsgi_pass unix://{{ TROPO_UWSGI_SOCK }};
+}

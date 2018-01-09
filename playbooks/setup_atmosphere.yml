@@ -90,12 +90,6 @@
         DJANGO_SETTINGS_MODULE: 'atmosphere.settings',
         tags: ['atmosphere','manage-load-tables'] }
 
-    - { role: create-nginx-uwsgi,
-        APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}",
-        UWSGI_APP_NAME: 'atmosphere',
-        UWSGI_INI_SRC_NAME: 'extras/uwsgi/atmo.uwsgi.ini',
-        tags: ['atmosphere', 'deploy', 'create-nginx-uwsgi', 'nginx-uwsgi'] }
-
     - { role: setup-webserver-user-group,
         APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}",
         WEBSERVER_USER: "www-data",

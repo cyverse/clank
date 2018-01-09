@@ -68,7 +68,7 @@
       tags: [ 'atmosphere', 'setup-virtualenv']
 
 - name: Include setup atmosphere
-  include: ./setup_atmosphere.yml
+  import_playbook: ./setup_atmosphere.yml
 
 - name: Setup celery for Atmosphere
   hosts: atmosphere
@@ -83,11 +83,23 @@
 
 - name: Enable New Relic agent
   hosts: atmosphere
-
   roles:
-     - { role: noc-enable-new-relic,
-         TARGET_HOME: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}",
-         MODULE_NAME: 'atmosphere',
-         new_relic_app_name: "{{ NEW_RELIC.ATMO_LABEL }}",
-         when: NEW_RELIC is defined and NEW_RELIC.ATMO_LABEL | default('') != '' and NEW_RELIC.LICENSE | default('') != '',
-         tags: ['atmosphere', 'new-relic', 'monitoring'] }
+    - { role: noc-enable-new-relic,
+        TARGET_HOME: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}",
+        MODULE_NAME: 'atmosphere',
+        new_relic_app_name: "{{ NEW_RELIC.ATMO_LABEL }}",
+        when: NEW_RELIC is defined and NEW_RELIC.ATMO_LABEL | default('') != '' and NEW_RELIC.LICENSE | default('') != '',
+        tags: ['atmosphere', 'new-relic', 'monitoring'] }
+
+- name: Configure uwsgi
+  hosts: atmosphere
+  roles:
+    - { role: configure-uwsgi,
+        APP_NAME: 'atmosphere',
+        APP_ENV_VARS: ["DJANGO_SETTINGS_MODULE=atmosphere.settings"],
+        APP_SRC_DIR: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}",
+        APP_VIRTUAL_ENV_DIR : "{{ VIRTUAL_ENV_ATMOSPHERE | default(atmosphere_virtualenv_path) }}",
+        APP_MODULE: "atmosphere.wsgi",
+        NUM_PROCESSES: "{{ atmosphere_uwsgi_processes | default(16) }}",
+        AUTORELOAD: "{{ UWSGI_AUTORELOAD | default(false) }}",
+        tags: ['atmosphere', 'uwsgi'] }

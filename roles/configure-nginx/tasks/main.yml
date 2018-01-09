@@ -1,0 +1,65 @@
+---
+- name: Create expected nginx directory structure
+  file:
+      path: "{{ item }}"
+      state: directory
+  with_items:
+      - "{{ SITES_ENABLED_DIR }}"
+      - "{{ SITES_AVAILABLE_DIR }}"
+      - "{{ LOCATIONS_DIR }}"
+      - "{{ SNIPPETS_DIR }}"
+
+- name: Create snippets used by nginx locations
+  copy:
+    src: "{{ role_path }}/files/{{ item }}"
+    dest: "{{ SNIPPETS_DIR }}/{{ item }}"
+  with_items:
+      - 'uwsgi_params'
+      - 'robots.txt'
+
+- name: Create Diffie-Hellman parameters
+  command: openssl dhparam -out {{ DH_PARAM_PATH }} {{ DH_PARAM_KEY_SIZE }}
+  args:
+    creates: "{{ DH_PARAM_PATH }}"
+
+- name: "Template nginx site: {{ SITES_AVAILABLE_DIR }}/{{ NAME_OF_SITE  }}"
+  template:
+    src: site.conf.j2
+    dest: "{{ SITES_AVAILABLE_DIR }}/{{ NAME_OF_SITE }}"
+
+- name: "Enable nginx site: {{ SITES_ENABLED_DIR }}/{{ NAME_OF_SITE  }}"
+  file:
+    src: "{{ SITES_AVAILABLE_DIR }}/{{ NAME_OF_SITE  }}"
+    dest: "{{ SITES_ENABLED_DIR }}/{{ NAME_OF_SITE  }}"
+    state: link
+    force: true
+
+- name: Validate support for the nginx locations passed as LOCATIONS
+  fail:
+      msg: "Error! {{ item }} is not in supported Nginx locations: {{ SUPPORTED_LOCATIONS }}"
+  when: item not in SUPPORTED_LOCATIONS
+  with_items: "{{ LOCATIONS }}"
+  vars:
+    SUPPORTED_LOCATIONS: [
+      "atmo-uwsgi", "atmo-dev-server",
+      "tropo-uwsgi", "tropo-dev-server",
+      "tropo-assets-path", "tropo-assets-server",
+      "flower", "robots", "jenkins" ]
+
+- name: Validate that nginx locations do not conflict
+  fail:
+      msg: "Error! {{ item[0] }} and {{ item[1] }} conflict, choose one or the other in LOCATIONS"
+  when: item[0] in LOCATIONS and item[1] in LOCATIONS
+  with_items: CONFLICTING_LOCATIONS
+  vars:
+    CONFLICTING_LOCATIONS: [
+      ["tropo-runserver", "tropo-uwsgi"],
+      ["atmo-runserver", "atmo-uwsgi"],
+      ["tropo-assets-path", "tropo-assets-server"],
+    ]
+
+- name: Include locations
+  template:
+    src: "{{ item }}.conf.j2"
+    dest: "{{ LOCATIONS_DIR }}/{{ item }}.conf"
+  with_items: "{{ LOCATIONS }}"

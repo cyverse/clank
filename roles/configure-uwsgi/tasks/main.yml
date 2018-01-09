@@ -1,0 +1,20 @@
+---
+- name: Create expected uwsgi directory structure
+  file:
+      path: "{{ item }}"
+      state: directory
+  with_items:
+      - "{{ APPS_ENABLED_DIR }}"
+      - "{{ APPS_AVAILABLE_DIR }}"
+
+- name: "Template uwsgi site: {{ APPS_AVAILABLE_DIR }}/{{ APP_NAME }}.ini"
+  template:
+    src: app.ini.j2
+    dest: "{{ APPS_AVAILABLE_DIR }}/{{ APP_NAME }}.ini"
+
+- name: "Enable uwsgi site: {{ APPS_ENABLED_DIR }}/{{ APP_NAME }}.ini"
+  file:
+    src: "{{ APPS_AVAILABLE_DIR }}/{{ APP_NAME }}.ini"
+    dest: "{{ APPS_ENABLED_DIR }}/{{ APP_NAME }}.ini"
+    state: link
+    force: true

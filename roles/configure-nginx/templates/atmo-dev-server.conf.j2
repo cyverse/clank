@@ -1,0 +1,8 @@
+location / {
+   # Redirect to home page
+   if ($request_uri ~ "^/$") {
+      return 301 https://$host/application;
+   }
+   proxy_set_header Host $host;
+   proxy_pass {{ ATMO_DEV_SERVER_URL }};
+}

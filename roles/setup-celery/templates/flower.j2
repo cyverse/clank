@@ -29,10 +29,8 @@ fi
 # App instance to use
 CELERY_APP="atmosphere"
 
-# Flower runs as root so that it can serve https traffic with a root owned
-# key, this could be changed by proxying through nginx
-FLOWER_USER="root"
-FLOWER_GROUP="root"
+FLOWER_USER="www-data"
+FLOWER_GROUP="www-data"
 
 # The module that defines your Celery app instance
 CELERY_APP_DIR="{{ ATMOSPHERE_LOCATION }}"
@@ -45,9 +43,7 @@ VIRTUALENV="{{ VIRTUAL_ENV_ATMOSPHERE }}"
 
 FLOWER_OPTS="\
 --app=$CELERY_APP \
---certfile={{ TLS_CERT_PATH }} \
---keyfile={{ TLS_PRIVKEY_PATH }} \
---port=8443 \
+--port={{ FLOWER_PORT }}  \
 --log_file_prefix=$FLOWER_LOG_FILE \
 --logging=warn \
 --url_prefix=flower"
