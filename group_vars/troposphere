@@ -42,28 +42,6 @@ TROPO:
         HEADER_BORDER_COLOR: "{{ HEADER_BORDER_COLOR | default('') }}"
         HEADER_LINK_COLOR: "{{ HEADER_LINK_COLOR | default('') }}"
         LINK_COLOR: "{{ LINK_COLOR | default('') }}"
-    nginx:
-        ENABLE_HTTP2: True
-        TROPOSPHERE_PATH: "{{ TROPOSPHERE_LOCATION | default(troposphere_directory_path) }}"
-        DHPARAM: /etc/ssl/certs/dhparam.pem
-        DHPARAM_KEY_SIZE: 1024
-        LOCATIONS_DIR: /etc/nginx/locations
-        SITES_AVAILABLE_DIR: /etc/nginx/sites-available
-        SITES_ENABLED_DIR: /etc/nginx/sites-enabled
-        SERVER_URL: "{{ troposphere_server_name }}"
-        NGINX_TLS_PRIVKEY_DEST: "{{ TLS_PRIVKEY_PATH }}"
-        NGINX_TLS_FULLCHAIN_DEST: "{{ TLS_FULLCHAIN_PATH }}"
-        VIRTUALENV_PATH: "{{ VIRTUAL_ENV_TROPOSPHERE | default(troposphere_virtualenv_path) }}"
-        ENABLE_WEBPACK_DEV_SERVER: "{{ ENABLE_WEBPACK_DEV_SERVER | default(False) }}"
-
-    uwsgi.ini:
-        LOCAL_DEV: "{{ LOCAL_DEV | default(False) }}"
-        PATH_TO_TROPOSPHERE: "{{ TROPOSPHERE_LOCATION | default(troposphere_directory_path) }}"
-        VIRTUALENV_PATH: "{{ VIRTUAL_ENV_TROPOSPHERE | default(troposphere_virtualenv_path) }}"
-        NUM_PROCESSES: "{{ troposphere_uwsgi_processes }}"
-        UWSGI_USER: www-data
-        UWSGI_GROUP: www-data
-        UWSGI_LOG_PATH: /var/log/uwsgi/troposphere-uwsgi.log
 
     local.py:
         DEBUG: "{{ DEBUG | default(False) }}"
