@@ -307,3 +307,6 @@ AUTH_MOCK_USER: "atmosphere_user"
 # faster_dev_rebuild: true
 #Uncomment so that virtualenvs stick around after multiple deploys (much faster build time, sometimes causes pip package issues)
 # REINSTALL_VENV: false
+
+# Uncomment so celeryd consumes less resources (fewer workers and processes)
+# CELERYD_PRODUCTION_WORKER_SETUP: false
