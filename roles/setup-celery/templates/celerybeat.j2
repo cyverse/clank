@@ -125,7 +125,7 @@ stop() {
     fi;
 
     # Force shutdown
-    kill -KILL $process;
+    kill -KILL "$pid";
     echo "$SCRIPT_NAME was forcefully stopped" >&2;
 }
 
