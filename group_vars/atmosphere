@@ -2,7 +2,6 @@ atmosphere_database_name: atmosphere
 atmosphere_database_password: atmosphere
 atmosphere_database_user: atmo_app
 atmosphere_directory_name: atmosphere
-celery_use_production: False
 # line below can be removed soon
 atmosphere_ansible_directory_path: "{{workspace}}/atmosphere-ansible"
 atmosphere_github_repo: https://github.com/CyVerse/atmosphere.git
