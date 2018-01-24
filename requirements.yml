@@ -6,6 +6,8 @@
 
 - src: CyVerse-Ansible.distro-update
   name: distro-update
+  version: v1.0.0
 
 - src: CyVerse-Ansible.tls-cert
   name: tls-cert
+  version: v1.0.0
