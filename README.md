@@ -29,6 +29,11 @@ virtualenv clank_env
 pip install -r clank/requirements.txt
 ```
 
+Install Ansible dependencies
+```
+ansible-galaxy install -f -r requirements.yml -p roles/
+```
+
 ### Configuring Clank
 
 #### Variables File
