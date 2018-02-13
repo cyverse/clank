@@ -6,5 +6,6 @@ location ~^/(application|maintenance|login|globus_login|oauth2.0/callbackAuthori
 }
 
 location ~^/cas/(oauth2.0|service) {
+    include {{ SNIPPETS_DIR }}/uwsgi_params;
     uwsgi_pass unix://{{ TROPO_UWSGI_SOCK }};
 }
