@@ -164,6 +164,31 @@ start() {
         $CELERYD_OPTS;
 }
 
+# `celeryd restart` sends a TERM signal, which will wait for running tasks to stop on
+# workers and restart them, if run a second time workers will forcefully restart
+restart() {
+
+    # Restart unprivileged workers
+    sudo -u "$CELERYD_USER" \
+        PATH="$CELERY_CHDIR:$VIRTUALENV/bin:$VIRTUALENV/lib/python2.7/site-packages:$PATH" \
+        PYTHONPATH="$CELERY_CHDIR:$PYTHONPATH" \
+        DJANGO_SETTINGS_MODULE="atmosphere.settings" \
+        "$CELERY_BIN" multi restart \
+            $CELERYD_NODES \
+            $CELERYD_WORKER_OPTS \
+            $CELERYD_OPTS;
+
+    # Start privileged (root) workers
+    C_FORCE_ROOT=1 \
+    PATH="$CELERY_CHDIR:$VIRTUALENV/bin:$VIRTUALENV/lib/python2.7/site-packages:$PATH" \
+    PYTHONPATH="$CELERY_CHDIR:$PYTHONPATH" \
+    DJANGO_SETTINGS_MODULE="atmosphere.settings" \
+    "$CELERY_BIN" multi restart \
+        $CELERYD_PRIVILEGED_NODES \
+        $CELERYD_PRIVILEGED_WORKER_OPTS \
+        $CELERYD_OPTS;
+}
+
 stop() {
 
     local nodes="$CELERYD_NODES $CELERYD_PRIVILEGED_NODES" \
@@ -251,7 +276,7 @@ case "$1" in
 
     status) status; ;;
 
-    restart) stop; start; ;;
+    restart) restart; ;;
 
     *) usage; ;;
 esac
