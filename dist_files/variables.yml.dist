@@ -18,22 +18,54 @@ WORKSPACE: /opt/dev  #NOTE: This is where atmosphere/troposphere directories res
 VIRTUAL_ENV_DIR: "/opt/env"  #NOTE: This is where atmosphere/troposphere virtualenv directories reside.
 
 ###
-# SECRETS_REPO - This repo should contain the SSH Keys, TLS certificates, and an atmosphere-ansible directory (including hosts file and group_vars directory) that you intend to use when installing Atmosphere.
+# SECRETS_REPO - This repo should contain the SSH Keys and TLS certificates
+# that you intend to use when installing Atmosphere.
 ###
 # SECRETS_REPO: "/path/to/secrets_repo/clank_init"
 
+###
+# * ATMOSPHERE_ANSIBLE_HOSTS_CONTENTS
+# This variable is necessary if you intend on deploying instances with Atmosphere.
+#
+# This variable is a dictionary that is used to construct the ansible hosts
+# file for atmosphere-ansible. Each key should be a group, and each value
+# should be the contents of that group.
+###
+# ATMOSPHERE_ANSIBLE_HOSTS_CONTENTS:
+#
+#     cloud1: |
+#         vm-[2:255] ansible_port=22
+#         10.0.0.[2:255] ansible_port=22
+#
+#     cloud2: |
+#         10.0.0.1 ansible_port=22
 
 ###
-# ANSIBLE_HOSTS_FILE and ANSIBLE_GROUP_VARS_FOLDER are required if you intend on properly
-# deploying to instances with Atmosphere.
+# * ATMOSPHERE_ANSIBLE_GROUP_VARS_CONTENT
+# This variable is necessary if you intend on deploying instances with Atmosphere.
 #
-# Don't have a hosts or group_vars file handy? We will generate one for you as part of the process.
-# Before launching an instance, you will want to confirm:
-# * The IP Address given to new instances is inside the range listed in the `hosts` file.
-# * The group_vars for each group that matches the IP address range is valid for your cloud.
+# This variable is a dictionary that is used to construct the ansible
+# group_vars for each atmosphere-ansible host group. Each key should be a
+# group, and each value should be the contents of that group_vars/{{ key }}
+# file.
 ###
-#ANSIBLE_HOSTS_FILE: "{{ SECRETS_REPO }}/atmosphere-ansible/hosts"
-#ANSIBLE_GROUP_VARS_FOLDER: "{{ SECRETS_REPO }}/atmosphere-ansible/group_vars"
+# ATMOSPHERE_ANSIBLE_GROUP_VARS_CONTENT:
+#
+#     cloud1: |
+#
+#        NTP_SERVERS:
+#          - 0.us.pool.ntp.org
+#
+#        F2B_IGNOREIP:
+#          - 127.0.0.1/8
+#
+#     cloud2: |
+#
+#        NTP_SERVERS:
+#          - 0.us.pool.ntp.org
+#
+#        F2B_IGNOREIP:
+#          - 127.0.0.1/8
 
 ###
 # SSH KEYPAIR - This public key will be used by Atmosphere to take over the deployment process once an instance has been launched and networked appropriately. After the key is injected in the instance and Atmosphere has run the instance deployment playbook in atmosphere-ansible, the instance will be made available to the user.

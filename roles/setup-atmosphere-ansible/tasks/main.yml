@@ -1,0 +1,18 @@
+---
+- name: Template atmosphere-ansible hosts file
+  template:
+      src: hosts.j2
+      dest: "{{ BASE_DIR }}/ansible/hosts"
+
+- name: Template atmosphere-ansible group_vars
+  template:
+      src: group_vars.j2
+      dest: "{{ BASE_DIR }}/ansible/group_vars/{{ item }}"
+  vars:
+      group: "{{ item }}"
+  with_items: "{{ GROUP_VARS.keys() }}"
+
+- name: Template atmosphere-ansible ansible.cfg
+  template:
+      src: ansible.cfg.j2
+      dest: "{{ BASE_DIR }}/ansible/ansible.cfg"

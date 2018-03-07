@@ -192,22 +192,3 @@ ATMO:
 ATMO_DATA:
     LOAD_DATABASE:
     SQL_DUMP_FILE:
-
-###################################
-#
-# ATMOSPHERE ANSIBLE VARIABLES
-#
-###################################
-ATMOSPHERE_ANSIBLE:
-    COMMON:
-        ATMOSPHERE_ANSIBLE_DIR: "{{ atmosphere_ansible_directory_path }}"
-        ATMOSPHERE_ANSIBLE_LOG_DIR: "{{ atmosphere_directory_path }}/logs"
-    ansible.cfg:
-        ANSIBLE_FACT_CACHE_BACKEND: redis
-        ANSIBLE_FACT_CACHE_TIMEOUT: 14400
-        ANSIBLE_MANAGED_STR: "Ansible managed: {file} modified on %Y-%m-%d %H:%M:%S by {uid} on {host}"
-        ANSIBLE_SSH_TIMEOUT: 10
-        SUBSPACE_PLUGINS_DIR: "{{ atmosphere_virtualenv_path }}/lib/python2.7/site-packages/subspace/plugins"
-        SUBSPACE_CALLBACK_WHITELIST: play_logger
-        SUBSPACE_COW_SELECTION: random
-        SUBSPACE_NO_COWS: 1

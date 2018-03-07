@@ -1,0 +1,16 @@
+{% for group in HOSTS|sort %}
+[{{ group }}]
+{{ HOSTS[group] }}
+
+{% endfor %}
+
+[atmosphere:children]
+{% for group in HOSTS|sort %}
+{{ group }}
+{% endfor %}
+
+[gateone-hosts]
+shell ansible_host={{ WEBSHELL_SERVER_IP | default("0.0.0.0") }} ansible_port=1657
+{% if GUACAMOLE_ENABLED  %}
+guac_server ansible_host={{ GUACAMOLE_SERVER_IP }} ansible_port=1657
+{% endif %}
