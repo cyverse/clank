@@ -74,7 +74,9 @@ Clank's install process is separated into three parts: installation of
 dependencies, atmosphere, and troposphere. To run specific parts of the
 deployment process, pass a comma separated list to the `--tags` option.
 
-Supported tags: `dependencies`, `atmosphere`, `troposphere`
+Supported tags: `dependencies`, `atmosphere`, `troposphere`, `kernel`
+
+Note: `kernel` tag is only attached to the `app-alter-kernel-for-imaging` role in the `setup_atmosphere.yml` playbook so that it can be skipped in Docker build environments.
 
 ```bash
 ansible-playbook playbooks/deploy_stack.yml -e @/path/to/my/clank-variables.yml --tags dependencies,troposphere

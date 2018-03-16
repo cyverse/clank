@@ -3,7 +3,7 @@
   hosts: atmosphere
   roles:
     - { role: app-alter-kernel-for-imaging,
-        tags: ['atmosphere'] }
+        tags: ['atmosphere', 'kernel'] }
 
     - { role: app-config-postgres,
         DBNAME: "{{ ATMO_DBNAME | default(atmosphere_database_name) }}",
