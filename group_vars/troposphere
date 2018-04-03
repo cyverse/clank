@@ -27,6 +27,7 @@ TROPO:
         ASSETS_PATH: "{{ TROPOSPHERE_LOCATION | default(troposphere_directory_path) }}/troposphere/assets"
         DJANGO_SERVER_URL: "{{ troposphere_server_url }}"
         SERVER_URL: "{{ troposphere_server_url }}"
+        ADDITIONAL_ALLOWED_HOSTNAMES: "{{ ADDITIONAL_ALLOWED_HOSTNAMES | default([]) }}"
         LDAP_SERVER: "{{ LDAP_SERVER | default('') }}"
         LDAP_SERVER_DN: "{{ LDAP_SERVER_DN | default('') }}"
         TOKEN_EXPIRY_TIME_DAYS: 1
