@@ -55,6 +55,10 @@ VIRTUAL_ENV_DIR: "/opt/env"  #NOTE: This is where atmosphere/troposphere virtual
 # TLS_LETSENCRYPT_ENABLE: true
 # TLS_LETSENCRYPT_EMAIL: "{{ ADMINS_EMAIL_TUPLE[0][1] }}"
 
+# Optional hostnames that django will whitelist. It is used so that django will
+# accept requests from a staging domain name and a production domain name
+# ADDITIONAL_ALLOWED_HOSTNAMES: ['your.domain.org', 'your-staging.domain.org']
+
 ###############################
 # 2. Authentication:
 # LDAP, JWT, and SAML are additional protocols that support Atmosphere API Only.
