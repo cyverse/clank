@@ -6,7 +6,7 @@ server {
 server {
     listen   443 {{ "ssl" if ENABLE_HTTP2 }};
 
-    server_name {{ SITE_SERVER_NAME }};
+    server_name {{ SITE_SERVER_NAME }} {{ ALTERNATE_SERVER_NAMES | join(' ') }};
     charset utf-8;
 
     ssl    on;
@@ -60,15 +60,6 @@ server {
         image/x-icon
         text/css
         text/plain;
-
-    # Deny illegal Host headers
-    if ($host !~* ^({{ SITE_SERVER_NAME }})$ ) {
-        return 444;
-        # 444 == No Response (Nginx):
-        # returns no information to the client
-        # and closes the connection
-        # (useful as a deterrent for malware)
-    }
 
 {% for name in LOCATIONS %}
     include {{ LOCATIONS_DIR }}/{{ name }}.conf;
