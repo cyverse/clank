@@ -1,47 +1,62 @@
-# CHANGELOG
+# Changelog
+All notable changes to this project will be documented in this file.
 
-- Add support for obtaining and deploying a TLS certificate from [Let's Encrypt](https://letsencrypt.org)
-  ([#224](https://github.com/cyverse/clank/pull/224))
+The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
-## v2.1.0 (2017-09-??)
+<!--
+## [<exact release including patch>](<github compare url>) - <release date in YYYY-MM-DD>
+### Added
+  - <summary of new features>
 
-- Change `INSTALLATION_TYPE` default from `development` to `production`
-  ([#198](https://github.com/CyVerse/clank/pull/197))
+### Changed
+  - <for changes in existing functionality>
 
-## v2.0.0 (2016-08-17)
-- Change logrotate file permissions to 644
-  ([#109](https://github.com/CyVerse/clank/pull/109))
-- Defines playbook for install/config of `nginx_novnc_auth` within atmosphere
-  ([#104](https://github.com/CyVerse/clank/pull/104))
-- Added conditional combined certification generation
-  ([#102](https://github.com/CyVerse/clank/pull/102))
-- Lograte conf file permissions
-  ([#100](https://github.com/CyVerse/clank/pull/100))
-- Added playbook to upgrade to new postgres
-  ([#98](https://github.com/CyVerse/clank/pull/98))
-- Changed `_format_output()` to always return a str
-  ([#97](https://github.com/CyVerse/clank/pull/97))
-- Removed roles no longer used by playbooks
-  ([#96](https://github.com/CyVerse/clank/pull/96))
-- Fixed issue with ssh system key generation on each execution
-  ([#95](https://github.com/CyVerse/clank/pull/95))
-- Fixed issue with ssl generation on each execution
-  ([#94](https://github.com/CyVerse/clank/pull/94))
-- Add official postgresql apt repository
-  ([#92](https://github.com/CyVerse/clank/pull/92))
-- Enable new relic
-  ([#91](https://github.com/CyVerse/clank/pull/91))
-- Fix pip install requirements
-  ([#86](https://github.com/CyVerse/clank/pull/86))
-- [v2.0] removed unused openstack_* settings
-  ([#85](https://github.com/CyVerse/clank/pull/85))
-- Removed unused openstack_* settings
-  ([#84](https://github.com/CyVerse/clank/pull/84))
-- Update readme.md
-  ([#78](https://github.com/CyVerse/clank/pull/78))
-- Add role call to change permissions
-  ([#77](https://github.com/CyVerse/clank/pull/77))
-- Add callback plugin for human readable error output
-  ([#72](https://github.com/CyVerse/clank/pull/72))
-- Propose different clank interface
-  ([#71](https://github.com/CyVerse/clank/pull/71))
+### Deprecated
+  - <for soon-to-be removed features>
+
+### Removed
+  - <for now removed features>
+
+### Fixed
+  - <for any bug fixes>
+
+### Security
+  - <in case of vulnerabilities>
+-->
+
+## [Unreleased](https://github.com/cyverse/atmosphere/compare/v31-0...HEAD)
+### Added
+  - Add 'kernel' tag, so that in a Docker context that tag can be skipped
+  - Support multiple hostnames for Atmosphere(1) server ((#257)[https://github.com/cyverse/clank/pull/257])
+
+### Changed
+  - Updated changelog format, i.e. to adopt process to update changelog per pull request
+
+## [v31-0](https://github.com/cyverse/atmosphere/compare/v30-2...v31-0) - 2018-03-19
+### Added
+  - Configure nginx for different environments. Easily switch between uwsgi
+    and dev servers
+
+### Changed
+  - Change service celery restart to gracefully wait for tasks to be finished,
+    a second restart will trigger the workers to be forceful
+  - Make the git clone task print which directories its cloning, when it fails
+    because modifications exist you know which directory to inspect
+  - Renamed several broad variables to be narrow and easier to configure
+    properly
+  - Upgraded to ansible 2.4
+
+### Fixed
+  - In the nginx config, uwsgi_params were not included, which broke the CAS
+    callback
+  - Fix broken `service celerybeat stop` command referred to undefined
+    variable
+  - Fixed incorrect queue names in the development celeryd config
+
+## [v30-2](https://github.com/cyverse/atmosphere/compare/v29-1...v30-2) - 2017-12-22
+### Changed
+  - Make atmosphere startup script less likely to bail
+
+### Fixed
+  - Create nginx/locations if they don't already exist
+  - Include flower in nginx/locations
