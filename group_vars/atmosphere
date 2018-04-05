@@ -30,6 +30,7 @@ ATMO:
         SERVER_URL: "{{ atmosphere_server_url }}"
         TOKEN_EXPIRY_TIME_DAYS: 1
         DJANGO_SERVER_URL: "{{ atmosphere_server_url }}"
+        ADDITIONAL_ALLOWED_HOSTNAMES: "{{ ADDITIONAL_ALLOWED_HOSTNAMES | default([]) }}"
 
     local.py:
         ANSIBLE_ROOT: "{{ ANSIBLE_DEPLOY_LOCATION | default(atmosphere_ansible_directory_path) }}"

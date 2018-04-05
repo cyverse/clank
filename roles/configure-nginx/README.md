@@ -19,6 +19,8 @@ Role Variables
 |-------------------------|----------|---------|---------|-------------------------------------------------|
 | LOCATIONS               | yes      | []      |         | See below for more info                         |
 | SERVER_URL              | yes      |         |         | Ex. https://local.atmo.cloud                    |
+| SITE_SERVER_NAME        | yes      |         |         | Principal hostname for this server              |
+| ALTERNATE_SERVER_NAMES  | no       | []      |         | See below for more info                         |
 | SSL_KEY                 | yes      |         |         | Path to the key for certificate                 |
 | SSL_CERT                | yes      |         |         | Path to the full certificate chain              |
 | SSL_CACHAIN_CERT        | no       |         |         | See below for more info                         |
@@ -32,6 +34,11 @@ Role Variables
 | JENKINS_SERVER_URL      | no       |         |         | See below for more info                         |
 | FLOWER_SERVER_URL       | no       |         |         | See below for more info                         |
 
+`SITE_SERVER_NAME` a server name that nginx will use to identify if the nginx
+server definition should handle the request.
+
+`ALTERNATE_SERVER_NAMES` an optional list of alternate server names. See
+`SITE_SERVER_NAME`.
 
 `ENABLE_STRICT_TRANSPORT` instructs browsers to only accept valid HTTPS (see
 [HSTS](https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security)). If

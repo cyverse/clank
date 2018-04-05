@@ -17,6 +17,7 @@
     - { role: configure-nginx,
         SERVER_URL: "{{ nginx_server_url }}",
         SITE_SERVER_NAME: "{{ server_name }}",
+        ALTERNATE_SERVER_NAMES: "{{ ADDITIONAL_ALLOWED_HOSTNAMES|default([]) }}",
         LOCATIONS: "{{ nginx_locations }}",
         SSL_KEY: "{{ TLS_PRIVKEY_PATH }}",
         SSL_CERT: "{{ TLS_FULLCHAIN_PATH }}",
