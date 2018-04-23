@@ -23,3 +23,6 @@
   with_items: "{{ database_names }}"
   shell: >
     sudo -u postgres pg_dump {{ item }} > "{{ ansible_hostname }}-{{ item }}-backup-{{ ansible_date_time.date }}-{{ ansible_date_time.epoch }}.sql"
+
+- debug:
+    msg: "Table backups stored in {{ BACKUP_PATH }}/{{ ansible_date_time.date }}"
