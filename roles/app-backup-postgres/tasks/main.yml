@@ -1,6 +1,4 @@
 ---
-# tasks file for app-backup-postgres
-
 - name: Create "backups" directory
   file:
     path: "{{ BACKUP_PATH }}/{{ ansible_date_time.date }}"
