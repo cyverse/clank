@@ -32,6 +32,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 ### Changed
   - Updated changelog format, i.e. to adopt process to update changelog per pull request ([#256](https://github.com/cyverse/clank/pull/256))
+  - Database and configuration backups are stored in the same folder ([#258](https://github.com/cyverse/clank/pull/258))
 
 ### Fixed
   - Broken build resulting from lack of support for pip 10 ([#259](https://github.com/cyverse/clank/pull/259))
