@@ -24,15 +24,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
   - <in case of vulnerabilities>
 -->
 
-## [Unreleased](https://github.com/cyverse/atmosphere/compare/v31-0...HEAD)
+## [Unreleased](https://github.com/cyverse/clank/compare/v32-0...HEAD)
+## [v32-0](https://github.com/cyverse/clank/compare/v31-0...v32-0) - 2018-04-23
 ### Added
-  - Add 'kernel' tag, so that in a Docker context that tag can be skipped
-  - Support multiple hostnames for Atmosphere(1) server ((#257)[https://github.com/cyverse/clank/pull/257])
+  - Add 'kernel' tag, so that in a Docker context that tag can be skipped ([#255](https://github.com/cyverse/clank/pull/255))
+  - Support multiple hostnames for Atmosphere(1) server ([#257](https://github.com/cyverse/clank/pull/257))
 
 ### Changed
-  - Updated changelog format, i.e. to adopt process to update changelog per pull request
+  - Updated changelog format, i.e. to adopt process to update changelog per pull request ([#256](https://github.com/cyverse/clank/pull/256))
 
-## [v31-0](https://github.com/cyverse/atmosphere/compare/v30-2...v31-0) - 2018-03-19
+### Fixed
+  - Broken build resulting from lack of support for pip 10 ([#259](https://github.com/cyverse/clank/pull/259))
+
+## [v31-0](https://github.com/cyverse/clank/compare/v30-2...v31-0) - 2018-03-19
 ### Added
   - Configure nginx for different environments. Easily switch between uwsgi
     and dev servers
@@ -53,7 +57,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
     variable
   - Fixed incorrect queue names in the development celeryd config
 
-## [v30-2](https://github.com/cyverse/atmosphere/compare/v29-1...v30-2) - 2017-12-22
+## [v30-2](https://github.com/cyverse/clank/compare/v29-1...v30-2) - 2017-12-22
 ### Changed
   - Make atmosphere startup script less likely to bail
 
