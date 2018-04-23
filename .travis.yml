@@ -25,7 +25,7 @@
     - . clank_env/bin/activate
 
   install:
-    - pip install -U pip setuptools
+    - pip install -U pip==9.0.3 setuptools
     - pip install pip-tools==1.11.0
     - pip-sync requirements.txt
 
