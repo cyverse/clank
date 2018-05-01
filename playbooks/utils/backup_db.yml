@@ -1,13 +1,9 @@
 ---
 - name: Checking for necessary --extra_vars
   hosts: all
-  vars:
-    example:
-      - "-e \"{database_names: ['atmosphere', 'troposphere']}\""
-      - "-e \"BACKUP_PATH=/var/lib/postgresql/backups\""
   tasks:
-
-    - debug: msg="Consider passing in `database_names`"
+    - fail:
+        msg: "Variable `database_names` is required, try -e \"{database_names: ['atmo_prod', 'troposphere']}\""
       when: database_names is undefined or database_names == []
 
 - name: Ensure PostgreSQL service available

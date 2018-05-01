@@ -1,6 +1,4 @@
 ---
-# tasks file for app-backup-postgres
-
 - name: Create "backups" directory
   file:
     path: "{{ BACKUP_PATH }}/{{ ansible_date_time.date }}"
@@ -10,23 +8,19 @@
     mode: 0770
 
 - name: Backup all tables (including system tables)
-  become: yes
-  become_user: postgres
   args:
     chdir: "{{ BACKUP_PATH }}/{{ ansible_date_time.date }}"
-  command: >
-    pg_dumpall -f "{{ ansible_hostname }}-all-backup-{{ ansible_date_time.date }}-{{ ansible_date_time.epoch }}.sql"
+    warn: no
+  shell: >
+    sudo -u postgres pg_dumpall > "{{ ansible_hostname }}-all-backup-{{ ansible_date_time.date }}-{{ ansible_date_time.epoch }}.sql"
 
 - name: Backup specific tables ({{ database_names }})
-  become: yes
-  become_user: postgres
   args:
     chdir: "{{ BACKUP_PATH }}/{{ ansible_date_time.date }}"
+    warn: no
   with_items: "{{ database_names }}"
-  command: >
-    pg_dump {{ item }} -f "{{ ansible_hostname }}-{{ item }}-backup-{{ ansible_date_time.date }}-{{ ansible_date_time.epoch }}.sql"
+  shell: >
+    sudo -u postgres pg_dump {{ item }} > "{{ ansible_hostname }}-{{ item }}-backup-{{ ansible_date_time.date }}-{{ ansible_date_time.epoch }}.sql"
 
-# The following task is helpful for copying the backup directory to a location that the postgresql user normally can't copy to
-- name: Copy backup to specific location when NEW_BACKUP_LOCATION var is defined
-  command: mv "{{ BACKUP_PATH }}/{{ ansible_date_time.date }}" {{ NEW_BACKUP_LOCATION }}
-  when: NEW_BACKUP_LOCATION is defined
+- debug:
+    msg: "Table backups stored in {{ BACKUP_PATH }}/{{ ansible_date_time.date }}"

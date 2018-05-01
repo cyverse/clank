@@ -2,4 +2,4 @@
 # defaults file for app-backup-postgres
 
 database_names: []
-BACKUP_PATH: /var/lib/postgresql/backups
+BACKUP_PATH: /root/atmo_backups
