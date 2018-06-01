@@ -25,6 +25,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 -->
 
 ## [Unreleased](https://github.com/cyverse/clank/compare/v32-0...HEAD)
+### Fixed
+- Tweaks for `sanitary-sql-access` role to work on all production deployments ([#261](https://github.com/cyverse/clank/pull/261))
+
 ## [v32-0](https://github.com/cyverse/clank/compare/v31-0...v32-0) - 2018-04-23
 ### Added
   - Add 'kernel' tag, so that in a Docker context that tag can be skipped ([#255](https://github.com/cyverse/clank/pull/255))
