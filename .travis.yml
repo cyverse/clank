@@ -38,6 +38,8 @@
       -e @variables.yml
       -e "atmosphere_github_branch=\"${ATMO_GITHUB_BRANCH:-master}\""
       -e "atmosphere_github_repo=\"${ATMO_GITHUB_REPO:-https://github.com/CyVerse/atmosphere.git}\""
+      -e "atmosphere_ansible_github_branch=\"${ANSIBLE_GITHUB_BRANCH:-master}\""
+      -e "atmosphere_ansible_github_repo=\"${ANSIBLE_GITHUB_REPO:-https://github.com/CyVerse/atmosphere-ansible.git}\""
       -e "troposphere_github_branch=\"${TROPO_GITHUB_BRANCH:-master}\""
       -e "troposphere_github_repo=\"${TROPO_GITHUB_REPO:-https://github.com/CyVerse/troposphere.git}\""
       --skip-tags "distro-update,enable-services"

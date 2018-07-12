@@ -25,6 +25,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 -->
 
 ## [Unreleased](https://github.com/cyverse/clank/compare/v32-0...HEAD)
+### Changed
+- Names of `group_vars` changed to use `ANSIBLE` in place of `SUBSPACE` ([#262](https://github.com/cyverse/clank/pull/262))
+
 ### Fixed
 - Tweaks for `sanitary-sql-access` role to work on all production deployments ([#261](https://github.com/cyverse/clank/pull/261))
 
