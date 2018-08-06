@@ -5,11 +5,15 @@
   file: path={{ APP_BASE_DIR }}/extras/ssh/ state=directory
 
 - name: Test the id_rsa_path exists
-  stat: path={{ SSH_PRIV_KEY }}
+  local_action:
+    module: stat
+    path: "{{ SSH_PRIV_KEY }}"
   register: id_rsa_path
 
 - name: Test the id_rsa_pub_path exists
-  stat: path={{ SSH_PUB_KEY }}
+  local_action:
+    module: stat
+    path: "{{ SSH_PUB_KEY }}"
   register: id_rsa_pub_path
 
 - name: Set CREATE_SSH True if either id_rsa_path/id_rsa_pub_path *do not exist*
