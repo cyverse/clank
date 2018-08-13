@@ -15,7 +15,7 @@
   hosts: full_deploy
   roles:
     - { role: configure-nginx,
-        SERVER_URL: "{{ nginx_server_url }}",
+        SERVER_URL: "https://{{ server_name }}",
         SITE_SERVER_NAME: "{{ server_name }}",
         ALTERNATE_SERVER_NAMES: "{{ ADDITIONAL_ALLOWED_HOSTNAMES|default([]) }}",
         LOCATIONS: "{{ nginx_locations }}",

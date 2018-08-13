@@ -7,7 +7,6 @@ virtualenv_dir: "{{VIRTUAL_ENV_DIR | default('/opt/env')}}"
 github_branch: master
 pg_version: 9.6
 server_name: "{{ SERVER_NAME | default(ansible_fqdn) }}"
-nginx_server_url: "https://{{ server_name }}"
 nginx_locations: ["atmo-uwsgi", "tropo-uwsgi", "flower", "tropo-assets-path", "robots"]
 staff_list_usernames: "{{ STAFF_LIST_USERNAMES | default([]) }}"
 maintenance_exempt_usernames: "{{ MAINTENANCE_EXEMPT_USERNAMES | default(staff_list_usernames) }}"
