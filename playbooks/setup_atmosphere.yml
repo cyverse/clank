@@ -14,9 +14,8 @@
 
     - { role: app-load-data-postgres,
         DBNAME: "{{ ATMO_DBNAME | default(atmosphere_database_name) }}",
-        LOAD_DATABASE: "ATMO_DATA.LOAD_DATABASE | default(False)",
         DATABASE_FILE_TO_BE_LOADED: "{{ ATMO_DATA.SQL_DUMP_FILE }}",
-        when: ATMO_DATA is defined and ATMO_DATA.SQL_DUMP_FILE is defined and ATMO_DATA.LOAD_DATABASE is defined,
+        when: ATMO_DATA is defined and ATMO_DATA.SQL_DUMP_FILE is defined and (ATMO_DATA.LOAD_DATABASE|default(false)),
         tags: ['atmosphere', 'database', 'data-load'] }
 
     - { role: delete-files,
