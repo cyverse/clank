@@ -25,6 +25,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 -->
 
 ## [Unreleased](https://github.com/cyverse/clank/compare/v33-0...HEAD) - YYYY-MM-DD
+### Added
+  - Add ability to configure allocation overrides
+    ([#270](https://github.com/cyverse/clank/pull/270))
+
 ### Fixed
   - Fix the global http to https redirect in nginx
     ([#267](https://github.com/cyverse/clank/pull/267))
