@@ -29,6 +29,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
   - Fix the global http to https redirect in nginx
     ([#267](https://github.com/cyverse/clank/pull/267))
 
+### Changed
+  - Variable changes to DJANGO_DEBUG and SEND_EMAILS
+    ([#271](https://github.com/cyverse/clank/pull/271))
+
 ## [v33-0](https://github.com/cyverse/clank/compare/v32-0...v33-0) - 2018-08-08
 ### Changed
   - Names of `group_vars` changed to use `ANSIBLE` in place of `SUBSPACE`
