@@ -28,6 +28,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 ### Fixed
   - Fix the global http to https redirect in nginx
     ([#267](https://github.com/cyverse/clank/pull/267))
+  - Fixed database loading ([#269](https://github.com/cyverse/clank/pull/269))
 
 ### Changed
   - Variable changes to DJANGO_DEBUG and SEND_EMAILS

@@ -7,13 +7,13 @@
         DBNAME: "{{ TROPO_DBNAME | default(troposphere_database_name) }}",
         DBUSER: "{{ TROPO_DBUSER | default(troposphere_database_user) }}",
         DBPASSWORD: "{{ TROPO_DBPASSWORD | default(troposphere_database_password) }}",
+        LOAD_DATABASE: "{{ TROPO_DATA.LOAD_DATABASE | default(false) }}",
         tags: ['troposphere', 'database'] }
 
     - { role: app-load-data-postgres,
         DBNAME: "{{ TROPO_DBNAME | default(troposphere_database_name) }}",
-        LOAD_DATABASE: "{{ TROPO_DATA.LOAD_DATABASE }}",
         DATABASE_FILE_TO_BE_LOADED: "{{ TROPO_DATA.SQL_DUMP_FILE }}",
-        when: TROPO_DATA is defined and TROPO_DATA.SQL_DUMP_FILE is defined and TROPO_DATA.LOAD_DATABASE,
+        when: TROPO_DATA is defined and TROPO_DATA.SQL_DUMP_FILE is defined and (TROPO_DATA.LOAD_DATABASE | default(false)),
         tags: ['troposphere', 'database', 'data-load'] }
 
     - { role: delete-files,
