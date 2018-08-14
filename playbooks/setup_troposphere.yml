@@ -7,6 +7,7 @@
         DBNAME: "{{ TROPO_DBNAME | default(troposphere_database_name) }}",
         DBUSER: "{{ TROPO_DBUSER | default(troposphere_database_user) }}",
         DBPASSWORD: "{{ TROPO_DBPASSWORD | default(troposphere_database_password) }}",
+        LOAD_DATABASE: "{{ TROPO_DATA.LOAD_DATABASE | default(false) }}",
         tags: ['troposphere', 'database'] }
 
     - { role: app-load-data-postgres,
