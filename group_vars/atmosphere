@@ -74,6 +74,8 @@ ATMO:
         DEBUG: "{{ DEBUG | default(False)}}"
         DJANGO_DEBUG_TOOLBAR: "{{ DJANGO_DEBUG_TOOLBAR | default(False)}}"
         ENFORCING: "{{ ENFORCING | default(False) }}"
+        ALLOCATION_OVERRIDES_NEVER_ENFORCE: "{{ ALLOCATION_OVERRIDES_NEVER_ENFORCE | default([]) }}"
+        ALLOCATION_OVERRIDES_ALWAYS_ENFORCE: "{{ ALLOCATION_OVERRIDES_ALWAYS_ENFORCE | default([]) }}"
         DJANGO_JENKINS: "{{ install_jenkins }}"
         SEND_EMAILS: "{{ SEND_EMAILS | default(False) }}"
         SESSION_COOKIE_AGE:
