@@ -9,7 +9,7 @@
         DBNAME: "{{ ATMO_DBNAME | default(atmosphere_database_name) }}",
         DBUSER: "{{ ATMO_DBUSER | default(atmosphere_database_user) }}",
         DBPASSWORD: "{{ ATMO_DBPASSWORD | default(atmosphere_database_password) }}",
-        LOAD_DATABASE: "{{ ATMO_DATA.LOAD_DATABASE | default(false) }}"
+        LOAD_DATABASE: "{{ ATMO_DATA.LOAD_DATABASE | default(false) }}",
         tags: ['atmosphere', 'database'] }
 
     - { role: app-load-data-postgres,
