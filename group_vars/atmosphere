@@ -193,9 +193,8 @@ ATMO:
         OPENSTACK_ADMIN_ROLE:
         ATMOSPHERE_SUPERUSER:
 
-ATMO_DATA:
-    LOAD_DATABASE:
-    SQL_DUMP_FILE:
+ATMO_LOAD_DATABASE: false
+ATMO_SQL_DUMP_FILE:
 
 ###################################
 #

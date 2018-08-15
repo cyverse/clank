@@ -9,13 +9,13 @@
         DBNAME: "{{ ATMO_DBNAME | default(atmosphere_database_name) }}",
         DBUSER: "{{ ATMO_DBUSER | default(atmosphere_database_user) }}",
         DBPASSWORD: "{{ ATMO_DBPASSWORD | default(atmosphere_database_password) }}",
-        LOAD_DATABASE: "{{ ATMO_DATA.LOAD_DATABASE | default(false) }}",
+        LOAD_DATABASE: "{{ ATMO_LOAD_DATABASE }}",
         tags: ['atmosphere', 'database'] }
 
     - { role: app-load-data-postgres,
         DBNAME: "{{ ATMO_DBNAME | default(atmosphere_database_name) }}",
-        DATABASE_FILE_TO_BE_LOADED: "{{ ATMO_DATA.SQL_DUMP_FILE }}",
-        when: ATMO_DATA is defined and ATMO_DATA.SQL_DUMP_FILE is defined and (ATMO_DATA.LOAD_DATABASE|default(false)),
+        DATABASE_FILE_TO_BE_LOADED: "{{ ATMO_SQL_DUMP_FILE }}",
+        when: ATMO_LOAD_DATABASE,
         tags: ['atmosphere', 'database', 'data-load'] }
 
     - { role: delete-files,
