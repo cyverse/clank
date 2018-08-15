@@ -136,3 +136,6 @@ TROPO:
         # Enable/Disable Web Desktop and Guacamole for VNC/Shell functionality
         WEB_DESKTOP_ENABLED: "{{ WEB_DESKTOP_ENABLED | default(False) }}"
         GUACAMOLE_ENABLED: "{{ GUACAMOLE_ENABLED | default(False) }}"
+
+TROPO_LOAD_DATABASE: false
+TROPO_SQL_DUMP_FILE:
