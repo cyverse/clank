@@ -23,12 +23,9 @@
 
 - name: Setup virtualenv and clone Troposphere
   hosts: troposphere
-  vars:
-      RELEASE: "{{ RELEASE_INITIALS | default(troposphere_github_branch) }}"
-
   roles:
     - { role: setup-virtualenv,
-        VIRTUAL_ENV_NAME: "{{ troposphere_virtualenv_name }}_{{ RELEASE }}",
+        VIRTUAL_ENV_NAME: "{{ troposphere_virtualenv_name }}_{{ troposphere_github_branch }}",
         VIRTUAL_ENV_BASE_DIR: "{{ virtualenv_dir }}",
         REINSTALL: "{{ REINSTALL_VENV | default(True) }}",
         tags: [ 'troposphere', 'setup-virtualenv'] }
@@ -41,8 +38,7 @@
         tags: [ 'troposphere', 'clone-repo'] }
 
   tasks:
-    - name: Create link {{ troposphere_virtualenv_path }} to troposphere {{ troposphere_virtualenv_name }}_{{ RELEASE }} env
-      block:
+    - block:
         # Ansible will not create a symlink where a non-empty folder exists,
         # to work around this, you must delete the symlink destination
         # prior.
@@ -50,12 +46,14 @@
         - file:
             path: "{{ LINK_DEST }}"
             state: absent
-        - file:
-            src: "{{ virtualenv_dir }}/{{ troposphere_virtualenv_name }}_{{ RELEASE }}"
+        - name: Create link {{ LINK_DEST }} -> {{ LINK_SOURCE }}
+          file:
+            src: "{{ LINK_SOURCE }}"
             dest: "{{ LINK_DEST }}"
             state: link
       vars:
           LINK_DEST: "{{ troposphere_virtualenv_path }}"
+          LINK_SOURCE: "{{ virtualenv_dir }}/{{ troposphere_virtualenv_name }}_{{ troposphere_github_branch }}"
       tags: [ 'troposphere', 'setup-virtualenv']
 
 # Setup Trososphere
