@@ -37,6 +37,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 ### Changed
   - Variable changes to DJANGO_DEBUG and SEND_EMAILS
     ([#271](https://github.com/cyverse/clank/pull/271))
+  - Flattened TROPO_DATA and ATMO_DATA variables
+    ([#273](https://github.com/cyverse/clank/pull/273))
 
 ## [v33-0](https://github.com/cyverse/clank/compare/v32-0...v33-0) - 2018-08-08
 ### Changed
