@@ -60,6 +60,11 @@
     - 'install'
     - 'apt-install'
 
+- name: Ensure outgoing smtp server is running
+  service:
+    name: sendmail
+    state: started
+
 - name: Lib packages installed
   package:
     name: '{{ item }}'
