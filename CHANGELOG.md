@@ -28,6 +28,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 ### Added
   - Add ability to configure allocation overrides
     ([#270](https://github.com/cyverse/clank/pull/270))
+  - Setup atmosphere to send mail
+    ([#274](https://github.com/cyverse/clank/pull/274))
 
 ### Changed
   - Variable changes to DJANGO_DEBUG and SEND_EMAILS

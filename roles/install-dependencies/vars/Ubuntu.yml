@@ -160,6 +160,7 @@ DEV_PACKAGES:
   - python-pip
   - python-setuptools
   - ufw
+  - sendmail
 
 LIB_PACKAGES:
   - libxml2-dev

@@ -6,3 +6,12 @@
       when: UPDATE_DISTRO | default(True)
   tags:
     - distro-update
+
+  tasks:
+    - name: "Set hostname to persist across reboots"
+      copy:
+        content: "{{ SERVER_NAME }}"
+        dest: "/etc/hostname"
+
+    - name: "Set hostname"
+      hostname: name="{{ SERVER_NAME }}"
