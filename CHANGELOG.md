@@ -40,6 +40,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 ### Removed
   - Remove RELEASE and RELEASE_INITIALS variables
     ([#265](https://github.com/cyverse/clank/pull/265))
+  - Remove unused USE_ALLOCATION_SOURCE(S) variables
+    ([#275](https://github.com/cyverse/clank/pull/275))
   - Remove DEFAULT_ALLOCATION_{THRESHOLD,DELTA} variables
     ([#276](https://github.com/cyverse/clank/pull/276))
 
