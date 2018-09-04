@@ -123,7 +123,6 @@ ATMO:
         GROUPER_SEARCH_USER: "{{ GROUPER_SEARCH_USER | default('') }}"
         # Jetstream specific
         USE_JETSTREAM_PLUGIN: "{{ USE_JETSTREAM_PLUGIN | default(False) }}"
-        USE_ALLOCATION_SOURCE: "{{ USE_ALLOCATION_SOURCES | default(False) }}"
         TACC_API_USER: "{{ TACC_API_USER | default('') }}"
         TACC_API_PASS: "{{ TACC_API_PASS | default('') }}"
         TACC_API_URL: "{{ TACC_API_URL | default('') }}"
