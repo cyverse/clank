@@ -126,6 +126,7 @@ ATMO:
         TACC_API_USER: "{{ TACC_API_USER | default('') }}"
         TACC_API_PASS: "{{ TACC_API_PASS | default('') }}"
         TACC_API_URL: "{{ TACC_API_URL | default('') }}"
+        TACC_API_TIMEOUT: 5
         # Marked for deletion POST "Per-Provider defaults"
         DEFAULT_EMAIL_DOMAIN: "{{ DEFAULT_EMAIL_DOMAIN | default('') }}"
         DEFAULT_QUOTA: "{{ DEFAULT_QUOTA | default('') }}"
