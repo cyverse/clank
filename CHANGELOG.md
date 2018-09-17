@@ -24,7 +24,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
   - <in case of vulnerabilities>
 -->
 
-## [Unreleased](https://github.com/cyverse/clank/compare/v33-0...HEAD) - YYYY-MM-DD
+## [Unreleased](https://github.com/cyverse/clank/compare/v34-0...HEAD) - YYYY-MM-DD
+## [v34-0](https://github.com/cyverse/clank/compare/v33-0...v34-0) - 2018-09-17
 ### Added
   - Add ability to configure allocation overrides
     ([#270](https://github.com/cyverse/clank/pull/270))
