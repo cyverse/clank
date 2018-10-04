@@ -138,7 +138,7 @@ ATMO:
         INSTANCE_HOSTNAMING_FORMAT: "{{ INSTANCE_HOSTNAMING_FORMAT | default('vm%(three)s-%(four)s.%(domain)s') }}"
         # Support and Admin
         ADMINS_EMAIL_TUPLE: "{{ ADMINS_EMAIL_TUPLE | default('') }}"
-        ATMO_SUPPORT_EMAIL_TUPLE: "{{ ATMO_SUPPORT_EMAIL_TUPLE | default('') }}"
+        ATMO_SUPPORT_EMAIL: "{{ SUPPORT_EMAIL | default('') }}"
         SUPPORT_EMAIL: "{{ SUPPORT_EMAIL | default('') }}"
         SUPPORT_EMAIL_SIGNATURE: "{{ SUPPORT_EMAIL_SIGNATURE | default('') }}"
         SUPPORT_LINKS: "{{ SUPPORT_LINKS | default('') }}"

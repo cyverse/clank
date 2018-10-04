@@ -152,8 +152,7 @@ AUTH_MOCK_USER: "atmosphere_user"
 ###
 # 3b: Support
 # Looking to separate support email from the Sys.Admin error emails?
-# ATMO_SUPPORT_EMAIL_TUPLE: [['Support Team', 'valid-email@required'], ] # can have more than one
-# SUPPORT_EMAIL: support-email@required
+# SUPPORT_EMAIL: ['Support Team', 'valid-email@required']
 # SUPPORT_EMAIL_SIGNATURE: Support Team
 # SUPPORT_LINKS: {'getting_started': "https://google.com/",'new_provider': "https://google.com"}
 
