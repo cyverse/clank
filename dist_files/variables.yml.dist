@@ -153,8 +153,6 @@ AUTH_MOCK_USER: "atmosphere_user"
 # 3b: Support
 # Looking to separate support email from the Sys.Admin error emails?
 # SUPPORT_EMAIL: ['Support Team', 'valid-email@required']
-# SUPPORT_EMAIL_SIGNATURE: Support Team
-# SUPPORT_LINKS: {'getting_started': "https://google.com/",'new_provider': "https://google.com"}
 
 ###
 # 3c: Theme configuration
