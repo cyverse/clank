@@ -28,6 +28,7 @@
     - pip install -U pip==9.0.3 setuptools
     - pip install pip-tools==1.11.0
     - pip-sync requirements.txt
+    - ansible-galaxy install -f -r requirements.yml -p roles/
 
   before_script:
     - cp dist_files/variables.yml.dist variables.yml
