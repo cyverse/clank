@@ -99,7 +99,7 @@
         APP_NAME: 'atmosphere',
         APP_ENV_VARS: ["DJANGO_SETTINGS_MODULE=atmosphere.settings"],
         APP_SRC_DIR: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}",
-        APP_VIRTUAL_ENV_DIR : "{{ VIRTUAL_ENV_ATMOSPHERE | default(atmosphere_virtualenv_path) }}",
+        APP_VIRTUAL_ENV_DIR : "{{ atmosphere_virtualenv_path }}",
         APP_MODULE: "atmosphere.wsgi",
         NUM_PROCESSES: "{{ atmosphere_uwsgi_processes | default(16) }}",
         AUTORELOAD: "{{ UWSGI_AUTORELOAD | default(false) }}",
