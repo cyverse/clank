@@ -15,7 +15,6 @@
 #1. Required configuration
 ###############################
 WORKSPACE: /opt/dev  #NOTE: This is where atmosphere/troposphere directories reside.
-VIRTUAL_ENV_DIR: "/opt/env"  #NOTE: This is where atmosphere/troposphere virtualenv directories reside.
 
 ###
 # SECRETS_REPO - This repo should contain the SSH Keys, TLS certificates, and an atmosphere-ansible directory (including hosts file and group_vars directory) that you intend to use when installing Atmosphere.
