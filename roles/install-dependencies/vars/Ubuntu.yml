@@ -168,7 +168,4 @@ LIB_PACKAGES:
   - python-tk
   - zlib1g-dev
 
-NGINX_PACKAGES:
-  - nginx-full
-
 APACHE: apache2
