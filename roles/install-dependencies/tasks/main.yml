@@ -76,9 +76,8 @@
 
 - name: Nginx packages installed
   package:
-    name: '{{ item }}'
+    name: 'nginx-full'
     state: 'latest'
-  with_items: '{{ NGINX_PACKAGES }}'
   tags:
     - 'install'
     - 'apt-install'
