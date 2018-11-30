@@ -187,6 +187,18 @@ ATMO:
         OPENSTACK_ADMIN_ROLE:
         ATMOSPHERE_SUPERUSER:
 
+    celeryd.default:
+        USE_PRODUCTION: "{{ not DEBUG | default(True)}}"
+        ATMOSPHERE_LOCATION: "{{ atmosphere_directory_path }}"
+        VIRTUALENV_PATH: "{{ atmosphere_virtualenv_path }}"
+        FLOWER_AUTH_SCHEME: "basic"
+        FLOWER_BASIC_USERNAME: "{{ FLOWER_BASIC_USERNAME | default('admin') }}"
+        FLOWER_BASIC_PASSWORD: "{{ FLOWER_BASIC_PASSWORD | default('password') }}"
+        FLOWER_EMAIL_ACCESS_LIST: ""
+        FLOWER_OAUTH2_CLIENT_ID: ""
+        FLOWER_OAUTH2_CLIENT_SECRET: ""
+        FLOWER_OAUTH2_REDIRECT_URI: ""
+
 ATMO_LOAD_DATABASE: false
 ATMO_SQL_DUMP_FILE:
 
