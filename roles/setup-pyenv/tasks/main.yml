@@ -1,4 +1,21 @@
 ---
+
+- name: OS-specific variables gathered
+  include_vars: '{{ item }}'
+  with_first_found:
+    - files:
+        - '{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml'
+        - '{{ ansible_distribution }}.yml'
+        - '{{ ansible_os_family }}.yml'
+      skip: true
+  tags: 'vars'
+
+- name: Install pyenv dependencies
+  package:
+    name: "{{ PYENV_DEPENDENCIES }}"
+    state: present
+  when: PYENV_DEPENDENCIES is defined
+
 - name: Clone pyenv
   git:
     repo: https://github.com/pyenv/pyenv.git
