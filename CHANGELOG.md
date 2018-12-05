@@ -30,6 +30,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
     ([#278](https://github.com/cyverse/clank/pull/278))
   - Cleanup email variables, remove unused, change SUPPORT_EMAIL
     ([#280](https://github.com/cyverse/clank/pull/280))
+  - Install pyenv for python version management ([#282](https://github.com/cyverse/clank/pull/282))
 
 ## [v34-0](https://github.com/cyverse/clank/compare/v33-0...v34-0) - 2018-09-17
 ### Added
