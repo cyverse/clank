@@ -199,6 +199,9 @@ ATMO:
         FLOWER_OAUTH2_CLIENT_SECRET: ""
         FLOWER_OAUTH2_REDIRECT_URI: ""
 
+    uwsgi.service:
+        UWSGI_BIN: "{{ atmosphere_virtualenv_path }}/bin/uwsgi"
+
 ATMO_LOAD_DATABASE: false
 ATMO_SQL_DUMP_FILE:
 
