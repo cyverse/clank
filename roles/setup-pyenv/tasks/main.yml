@@ -1,0 +1,55 @@
+---
+
+- name: OS-specific variables gathered
+  include_vars: '{{ item }}'
+  with_first_found:
+    - files:
+        - '{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml'
+        - '{{ ansible_distribution }}.yml'
+        - '{{ ansible_os_family }}.yml'
+      skip: true
+  tags: 'vars'
+
+- name: Install pyenv dependencies
+  package:
+    name: "{{ PYENV_DEPENDENCIES }}"
+    state: present
+  when: PYENV_DEPENDENCIES is defined
+
+- name: Clone pyenv
+  git:
+    repo: https://github.com/pyenv/pyenv.git
+    dest: "{{ PYENV_ROOT }}"
+    clone: yes
+    depth: 1
+    update: yes
+
+- name: Add pyenv to path using ~/.bashrc
+  blockinfile:
+    path: "/root/.bashrc"
+    state: present
+    marker: "# {mark} ANSIBLE MANAGED BLOCK"
+    insertafter: "EOF"
+    block: |
+      export PYENV_ROOT={{ PYENV_ROOT }}
+      export PATH="{{ PYENV_ROOT }}/bin:$PATH"
+      eval "$(pyenv init -)"
+
+# It's not clear to me why we need the PIC compilation flag, if it's
+# absent then we're unable to build the shared object python version
+# used by uwsgi in roles/app-install-uwsgi. Exact error and solution
+# found here: https://stackoverflow.com/a/38863007/1213041
+- name: Build python {{ PYTHON_VERSION }} with support for linking
+  shell: |
+    export PYENV_ROOT={{ PYENV_ROOT }} \
+           PATH="{{ PYENV_ROOT }}/bin:$PATH" \
+           PYTHON_CFLAGS=-fPIC
+    eval "$(pyenv init -)"
+    pyenv install --skip-existing {{ PYTHON_VERSION }}
+
+- name: Set pyenv global python version to {{ PYTHON_VERSION }}
+  shell: |
+    export PYENV_ROOT={{ PYENV_ROOT }}
+    export PATH="{{ PYENV_ROOT }}/bin:$PATH"
+    eval "$(pyenv init -)"
+    pyenv global {{ PYTHON_VERSION }}

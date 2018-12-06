@@ -1,0 +1,54 @@
+---
+# We are installing the official uwsgi package to get its init scripts and
+# canonical file structure
+- name: Install uwsgi package
+  package:
+    name: 'uwsgi'
+    state: 'latest'
+
+- name: Install build dependencies
+  package:
+    name: "build-essential"
+    state: present
+
+- name: Download uWSGI source
+  unarchive:
+    src: "https://github.com/unbit/uwsgi/archive/{{ UWSGI_VERSION }}.tar.gz"
+    dest: "/tmp"
+    remote_src: True
+
+- name: Build uWSGI core (python version agnostic)
+  shell: |
+    export PYENV_ROOT={{ PYENV_ROOT }} \
+           PATH="{{ PYENV_ROOT }}/bin:$PATH"
+    eval "$({{ PYENV_ROOT }}/bin/pyenv init -)"
+    python uwsgiconfig.py --build nolang
+  args:
+    chdir: /tmp/uwsgi-{{ UWSGI_VERSION }}
+
+- name: Build uWSGI python plugin for python {{ PYTHON_VERSION }}
+  shell: |
+    export PYENV_ROOT={{ PYENV_ROOT }} \
+           PATH="{{ PYENV_ROOT }}/bin:$PATH" \
+           PYTHON_CFLAGS=-fPIC \
+           PYTHON=python
+    eval "$({{ PYENV_ROOT }}/bin/pyenv init -)"
+    ./uwsgi --build-plugin 'plugins/python python{{ PYTHON_VERSION | replace(".", "")}}'
+  args:
+    chdir: "/tmp/uwsgi-{{ UWSGI_VERSION }}"
+
+- name: Reinstall uWSGI to support custom python version
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "{{ item.mode }}"
+    remote_src: yes
+  with_items:
+    # Instal python-less uWSGI binary
+    - src: "/tmp/uwsgi-{{ UWSGI_VERSION }}/uwsgi"
+      dest: "/usr/bin"
+      mode: "0755"
+    # Install uWSGI plugin containing python version
+    - src: "/tmp/uwsgi-{{ UWSGI_VERSION }}/python{{ PYTHON_VERSION | replace(\".\", \"\")}}_plugin.so"
+      dest: "/usr/lib/uwsgi/plugins"
+      mode: "0644"

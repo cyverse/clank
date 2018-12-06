@@ -168,9 +168,4 @@ LIB_PACKAGES:
   - python-tk
   - zlib1g-dev
 
-NGINX_PACKAGES:
-  - uwsgi
-  - uwsgi-plugin-python
-  - nginx-full
-
 APACHE: apache2

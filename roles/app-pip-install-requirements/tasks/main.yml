@@ -31,7 +31,7 @@
     - pip
 
 - name: wheel install requirements
-  command: "{{ VIRTUAL_ENV_ATMOSPHERE }}/bin/wheel install-scripts {{ item }}"
+  command: "{{ VIRTUAL_ENV }}/bin/wheel install-scripts {{ item }}"
   with_items: "{{ WHEEL_INSTALL_SCRIPT_PACKAGES }}"
   when: RUN_WHEEL_SCRIPTS
   register: output

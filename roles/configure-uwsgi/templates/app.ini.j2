@@ -1,4 +1,6 @@
 [uwsgi]
+plugins-dir = /usr/lib/uwsgi/plugins
+plugin = python{{ PYTHON_VERSION | replace(".", "")}}
 check-static = {{ APP_SRC_DIR }}
 chdir = {{ APP_SRC_DIR }}
 home = {{ APP_VIRTUAL_ENV_DIR }}
