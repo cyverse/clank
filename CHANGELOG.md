@@ -25,6 +25,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 -->
 
 ## [Unreleased](https://github.com/cyverse/clank/compare/v34-0...HEAD) - YYYY-MM-DD
+### Added
+  - Add variables and roles to be compatible with Ubuntu 16+
+    ([#283](https://github.com/cyverse/clank/pull/283))
+
 ### Changed
   - Rename TACC_API_TIMEOUT to TACC_READ_API_TIMEOUT
     ([#278](https://github.com/cyverse/clank/pull/278))
