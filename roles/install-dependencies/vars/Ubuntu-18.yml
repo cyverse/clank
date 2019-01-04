@@ -134,7 +134,7 @@ APT_KEYS_TO_ADD:
 
 INITIAL_PACKAGES:
   - software-properties-common
-  - python-software-properties
+  - python3-software-properties
 
 DEV_PACKAGES:
   - libffi-dev

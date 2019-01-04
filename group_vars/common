@@ -3,7 +3,7 @@ database_engine: django.db.backends.postgresql_psycopg2
 conn_max_age: 60
 workspace: "{{WORKSPACE | default('/opt/dev')}}"
 secrets_repo: "{{ SECRETS_REPO | default('/opt/dev/clank_workspace/atmo-extras')}}"
-virtualenv_dir: "{{VIRTUAL_ENV_DIR | default('/opt/env')}}"
+virtualenv_dir: '/opt/env'
 github_branch: master
 pg_version: 9.6
 server_name: "{{ SERVER_NAME | default(ansible_fqdn) }}"
@@ -14,3 +14,5 @@ install_jenkins: "{{ DJANGO_JENKINS | default(False) }}"
 shallow_clone: true
 TLS_LETSENCRYPT_TLS_SERVICE: "nginx"
 FLOWER_PORT: 5555
+PYENV_ROOT: /opt/dev/pyenv
+PYTHON_VERSION: 2.7.9

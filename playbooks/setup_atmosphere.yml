@@ -23,11 +23,15 @@
         GLOB: "*.pyc",
         tags: ['atmosphere'] }
 
+    - { role: app-install-uwsgi,
+        INSTALL_ENV: "{{ atmosphere_virtualenv_path }}",
+        tags: "uwsgi" }
+
     - { role: app-pip-install-requirements,
         APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}",
         REQUIREMENTS_FILE_NAME: 'requirements.txt',
         USE_PIP_TOOLS_SYNC: False,
-        VIRTUAL_ENV: "{{ VIRTUAL_ENV_ATMOSPHERE | default(atmosphere_virtualenv_path) }}",
+        VIRTUAL_ENV: "{{ atmosphere_virtualenv_path }}",
         PIP_EXTRA_ARGS: '--no-binary pycparser',
         tags: ['atmosphere', 'pip-install-requirements'],
         when: not (INSTALL_DEV_REQUIREMENTS | default(False)) }
@@ -36,7 +40,7 @@
         APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}",
         REQUIREMENTS_FILE_NAME: 'dev_requirements.txt',
         USE_PIP_TOOLS_SYNC: False,
-        VIRTUAL_ENV: "{{ VIRTUAL_ENV_ATMOSPHERE | default(atmosphere_virtualenv_path) }}",
+        VIRTUAL_ENV: "{{ atmosphere_virtualenv_path }}",
         PIP_EXTRA_ARGS: '--no-binary pycparser',
         tags: ['atmosphere', 'pip-install-requirements'],
         when: INSTALL_DEV_REQUIREMENTS | default(False) }
@@ -49,7 +53,7 @@
     - { role: app-generate-ini-config,
         template_vars: "{{ ATMO }}",
         APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}",
-        VIRTUAL_ENV: "{{ VIRTUAL_ENV_ATMOSPHERE | default(atmosphere_virtualenv_path) }}",
+        VIRTUAL_ENV: "{{ atmosphere_virtualenv_path }}",
         tags: ['atmosphere', 'generate-config'] }
 
     - { role: app-setup-ssh-keys,
@@ -68,24 +72,24 @@
     - { role: app-generate-ini-config,
         template_vars: "{{ ATMOSPHERE_ANSIBLE }}",
         APP_BASE_DIR: "{{ ANSIBLE_DEPLOY_LOCATION | default(atmosphere_ansible_directory_path) }}",
-        VIRTUAL_ENV: "{{ VIRTUAL_ENV_ATMOSPHERE | default(atmosphere_ansible_virtualenv_path) }}",
+        VIRTUAL_ENV: "{{ atmosphere_virtualenv_path }}",
         tags: ['atmosphere', 'ansible-deploy'] }
 
     - { role: app-django-manage-collectstatic,
         APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}",
-        VIRTUAL_ENV: "{{ VIRTUAL_ENV_ATMOSPHERE | default(atmosphere_virtualenv_path) }}",
+        VIRTUAL_ENV: "{{ atmosphere_virtualenv_path }}",
         DJANGO_SETTINGS_MODULE: 'atmosphere.settings',
         tags: ['atmosphere', 'manage-collectstatic'] }
 
     - { role: app-django-manage-migrate,
         APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}",
-        VIRTUAL_ENV: "{{ VIRTUAL_ENV_ATMOSPHERE | default(atmosphere_virtualenv_path) }}",
+        VIRTUAL_ENV: "{{ atmosphere_virtualenv_path }}",
         DJANGO_SETTINGS_MODULE: 'atmosphere.settings',
         tags: ['atmosphere', 'manage-migrate'] }
 
     - { role: app-django-manage-load-tables,
         APP_BASE_DIR: "{{ ATMOSPHERE_LOCATION | default(atmosphere_directory_path) }}",
-        VIRTUAL_ENV: "{{ VIRTUAL_ENV_ATMOSPHERE | default(atmosphere_virtualenv_path) }}",
+        VIRTUAL_ENV: "{{ atmosphere_virtualenv_path }}",
         DJANGO_SETTINGS_MODULE: 'atmosphere.settings',
         tags: ['atmosphere','manage-load-tables'] }
 

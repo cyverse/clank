@@ -8,7 +8,7 @@ atmosphere_github_repo: https://github.com/CyVerse/atmosphere.git
 atmosphere_github_branch: master
 atmosphere_virtualenv_name: atmo
 atmosphere_directory_path: "{{workspace}}/{{atmosphere_directory_name}}"
-atmosphere_virtualenv_path: "{{ VIRTUAL_ENV_ATMOSPHERE | default(virtualenv_dir+'/'+atmosphere_virtualenv_name) }}"
+atmosphere_virtualenv_path: "{{virtualenv_dir}}/{{atmosphere_virtualenv_name}}"
 atmosphere_server_name: "{{ server_name }}"
 atmosphere_server_url: "https://{{ atmosphere_server_name }}"
 atmosphere_uwsgi_processes: 24
@@ -186,6 +186,21 @@ ATMO:
         OPENSTACK_USER_ROLE:
         OPENSTACK_ADMIN_ROLE:
         ATMOSPHERE_SUPERUSER:
+
+    celeryd.default:
+        USE_PRODUCTION: "{{ not DEBUG | default(True)}}"
+        ATMOSPHERE_LOCATION: "{{ atmosphere_directory_path }}"
+        VIRTUALENV_PATH: "{{ atmosphere_virtualenv_path }}"
+        FLOWER_AUTH_SCHEME: "basic"
+        FLOWER_BASIC_USERNAME: "{{ FLOWER_BASIC_USERNAME | default('admin') }}"
+        FLOWER_BASIC_PASSWORD: "{{ FLOWER_BASIC_PASSWORD | default('password') }}"
+        FLOWER_EMAIL_ACCESS_LIST: ""
+        FLOWER_OAUTH2_CLIENT_ID: ""
+        FLOWER_OAUTH2_CLIENT_SECRET: ""
+        FLOWER_OAUTH2_REDIRECT_URI: ""
+
+    uwsgi.service:
+        UWSGI_BIN: "{{ atmosphere_virtualenv_path }}/bin/uwsgi"
 
 ATMO_LOAD_DATABASE: false
 ATMO_SQL_DUMP_FILE:

@@ -20,7 +20,7 @@
   with_items: "{{ MODPROBE_PACKAGES.packages }}"
 
 - name: make sure there is an exit 0 at end of /etc/rc.local
-  lineinfile: dest=/etc/rc.local insertbefore=EOF line="exit 0"
+  lineinfile: dest=/etc/rc.local insertbefore=EOF line="exit 0" create=yes
 
 - name: add modprobe nbd for imaging to /etc/rc.local for subsequent reboots
   lineinfile:

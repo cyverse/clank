@@ -25,11 +25,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 -->
 
 ## [Unreleased](https://github.com/cyverse/clank/compare/v34-0...HEAD) - YYYY-MM-DD
+### Added
+  - Add variables and roles to be compatible with Ubuntu 16+
+    ([#283](https://github.com/cyverse/clank/pull/283))
+
 ### Changed
   - Rename TACC_API_TIMEOUT to TACC_READ_API_TIMEOUT
     ([#278](https://github.com/cyverse/clank/pull/278))
   - Cleanup email variables, remove unused, change SUPPORT_EMAIL
     ([#280](https://github.com/cyverse/clank/pull/280))
+  - Install pyenv for python version management ([#282](https://github.com/cyverse/clank/pull/282))
 
 ## [v34-0](https://github.com/cyverse/clank/compare/v33-0...v34-0) - 2018-09-17
 ### Added
