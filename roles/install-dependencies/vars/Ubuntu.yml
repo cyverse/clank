@@ -147,6 +147,7 @@ DEV_PACKAGES:
   - postgresql-contrib-{{ pg_version | default('9.6') }}
   - postgresql-server-dev-{{ pg_version | default('9.6') }}
   - python-psycopg2
+  - libguestfs-tools
   - libpq-dev
   - python-dev
   - libldap2-dev
