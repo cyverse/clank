@@ -2,10 +2,10 @@ location ~^/(application|maintenance|login|globus_login|oauth2.0/callbackAuthori
     proxy_set_header Host $host;
     proxy_set_header X-Real-IP $remote_addr;
     include {{ SNIPPETS_DIR }}/uwsgi_params;
-    uwsgi_pass unix://{{ TROPO_UWSGI_SOCK }};
+    uwsgi_pass {{ TROPO_UWSGI_SOCK }};
 }
 
 location ~^/cas/(oauth2.0|service) {
     include {{ SNIPPETS_DIR }}/uwsgi_params;
-    uwsgi_pass unix://{{ TROPO_UWSGI_SOCK }};
+    uwsgi_pass {{ TROPO_UWSGI_SOCK }};
 }

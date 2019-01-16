@@ -12,5 +12,5 @@ LOCATIONS_DIR: /etc/nginx/locations
 SNIPPETS_DIR: /etc/nginx/snippets
 ALTERNATE_SERVER_NAMES: []
 
-TROPO_UWSGI_SOCK: /tmp/troposphere.sock
-ATMO_UWSGI_SOCK: /tmp/atmosphere.sock
+TROPO_UWSGI_SOCK: unix:///tmp/troposphere.sock
+ATMO_UWSGI_SOCK: unix:///tmp/atmosphere.sock
