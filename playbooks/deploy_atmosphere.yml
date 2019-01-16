@@ -100,4 +100,5 @@
         APP_MODULE: "atmosphere.wsgi",
         NUM_PROCESSES: "{{ atmosphere_uwsgi_processes | default(16) }}",
         AUTORELOAD: "{{ UWSGI_AUTORELOAD | default(false) }}",
+        APP_SOCK: "{{ ATMO_APP_SOCK | default('/tmp/' + APP_NAME + '.sock') }}",
         tags: ['atmosphere', 'uwsgi'] }

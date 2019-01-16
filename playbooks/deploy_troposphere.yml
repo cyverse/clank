@@ -82,4 +82,5 @@
         APP_WORKER_MAX_CONCURRENT_REQUESTS: 100,
         NUM_PROCESSES: "{{ troposphere_uwsgi_processes | default(16) }}",
         AUTORELOAD: "{{ UWSGI_AUTORELOAD | default(false) }}",
+        APP_SOCK: "{{ TROPO_APP_SOCK | default('/tmp/' + APP_NAME + '.sock') }}",
         tags: ['troposphere', 'uwsgi' ] }

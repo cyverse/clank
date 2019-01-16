@@ -6,7 +6,7 @@ module = {{ APP_MODULE }}
 {% for VAR_DECL in APP_ENV_VARS | default([]) %}
 env = {{ VAR_DECL }}
 {% endfor %}
-socket = {{ APP_SOCK | default('/tmp/' + APP_NAME + '.sock') }}
+socket = {{ APP_SOCK }}
 processes = {{ NUM_PROCESSES | default('16') }}
 uid = {{ USER | default('www-data') }}
 gid = {{ GROUP | default('www-data') }}
