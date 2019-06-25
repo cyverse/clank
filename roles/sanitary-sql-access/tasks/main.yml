@@ -1,26 +1,5 @@
 ---
 
-- name: sanitize-dump script deployed
-  template:
-    src: 'sanitize-dump.sh.j2'
-    dest: '/var/lib/postgresql/sanitize-dump.sh'
-    owner: 'postgres'
-    mode: 'u+x'
-
-- name: sanitize-dump script scheduled via cron
-  cron:
-    name: 'sanitize-dump-db'
-    special_time: 'daily'
-    job: '/var/lib/postgresql/sanitize-dump.sh'
-    user: 'postgres'
-
-- name: sanitize-dump script ran once
-  shell: '/var/lib/postgresql/sanitize-dump.sh'
-  become: true
-  become_user: 'postgres'
-  register: command_result
-  failed_when: 'command_result.rc != 0'
-
 # Unix user
 
 - name: sanitarysql user created
@@ -48,3 +27,24 @@
   file:
     path: '/home/sanitarysql/.hushlogin'
     state: 'touch'
+
+# Scripts
+
+- name: sanitize-dump script deployed
+  template:
+    src: 'sanitize-dump.sh.j2'
+    dest: '/home/sanitarysql/sanitize-dump.sh'
+    owner: 'sanitarysql'
+    mode: 'u+x'
+
+- name: sanitize-dump script scheduled via cron
+  cron:
+    name: 'sanitize-dump-db'
+    special_time: 'daily'
+    job: '/home/sanitarysql/sanitize-dump.sh'
+    user: 'root'
+
+- name: sanitize-dump script ran once
+  shell: '/home/sanitarysql/sanitize-dump.sh'
+  register: command_result
+  failed_when: 'command_result.rc != 0'

@@ -3,17 +3,19 @@
 # Exit if any command fails
 set -e;
 
+exec='docker-compose -f /opt/dev/atmosphere-docker/docker-compose.prod.yml exec -T postgres'
+
 # Create temporary database used to create database dump
-createdb tmp_sanitary_db;
+$exec createdb -U atmo_app tmp_sanitary_db;
 
 # If we exit for any reason (including end of this script), remove the temporary database
-trap 'dropdb tmp_sanitary_db' EXIT;
+trap '$exec dropdb -U atmo_app tmp_sanitary_db' EXIT;
 
 # Dump production database and load into temporary database
-pg_dump {{ atmosphere_database_name }} | psql tmp_sanitary_db;
+$exec pg_dump -U atmo_app {{ atmosphere_database_name }} | $exec psql -U atmo_app tmp_sanitary_db;
 
 # Sanitize db
-psql tmp_sanitary_db <<'EOF'
+$exec psql -U atmo_app tmp_sanitary_db <<'EOF'
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 UPDATE atmosphere_user SET password = 'PASSWORD_REDACTED';
 UPDATE ssh_key SET pub_key = 'PUB_KEY_REDACTED';
@@ -41,7 +43,8 @@ UPDATE auth_token SET key = 'KEY_REDACTED_' || uuid_generate_v4();
 UPDATE auth_userproxy SET "proxyIOU" = 'proxyIOU_REDACTED', "proxyTicket" = 'proxyTicket_REDACTED';
 EOF
 `
-psql tmp_sanitary_db "$QUERYMAYFAIL" 2>/dev/null | true
+
+echo $QUERYMAYFAIL | $exec psql -U atmo_app tmp_sanitary_db || true
 
 # Create sanitary dump
-pg_dump tmp_sanitary_db > /tmp/{{ atmosphere_database_name }}-sanitized.sql;
+$exec pg_dump -U atmo_app tmp_sanitary_db > /tmp/{{ atmosphere_database_name }}-sanitized.sql;
