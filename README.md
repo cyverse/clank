@@ -1,3 +1,5 @@
+# THIS REPOSITORY IS READONLY AND NO LONGER ACTIVE
+
 ![clanklogo](media/logoClank-01.png)
 
 # Clank  [![Build Status](https://travis-ci.org/cyverse/clank.svg?branch=master)](https://travis-ci.org/cyverse/clank)
